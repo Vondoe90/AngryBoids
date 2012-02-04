@@ -1,0 +1,18 @@
+<AGTemplate name="TentacleAlienMovement">
+   <Param name="animation" type="string"/>
+   <Param name="physics_blending" type="float"/>
+   <Param name="physics_jointLimit" type="float"/>
+   <Param name="speed_slow" type="float"/>
+   <Param name="speed_fast" type="float"/>
+   <Param name="TransitionTime" type="float"/>
+   <Param name="playback_speed" type="float"/>
+   <Param name="land_preDelay" type="float"/>
+ 	 <MovementControlMethod horizontal="Entity" vertical="Entity" /> 
+	 <ColliderMode mode="Pushable" /> 
+   <SelectWhen>
+      <Speed min="$speed_slow" max="$speed_fast"/>
+   </SelectWhen>
+   <ParamsLayer1 BlendInTime="-1" BlendOutTime="-1" TransitionTime="$TransitionTime" KeyTime="-1" LockInterpolation="0" LoopAnimation="1" RepeatLastKey="0" PhaseSynching="0" VtimeWarping="0" IgnoreFootplants="0" Recursive="1" Aligned="0" NoDefaultIdle="0"/>
+   <AnimationLayer1 animation1="$animation" animation2="" ensureInStack="0" stickyOutTime="-1" forceLeaveWhenFinished="0" speedMultiplier="$playback_speed"/>
+   <TentacleParams animBlend="$physics_blending" bones="rope1;rope2;rope3;rope4;rope5;rope6;rope7;rope8;rope9" jointLimit="$physics_jointLimit"/>
+</AGTemplate>

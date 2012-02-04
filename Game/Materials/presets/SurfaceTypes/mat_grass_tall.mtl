@@ -1,0 +1,9 @@
+<Material Diffuse="0.83921576,0.83921576,0.83921576" Emissive="0,0,0" GenMask="1" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0.043137256,0.043137256,0.043137256" SurfaceType="mat_grass_tall" >
+ <Textures>
+  <Texture File="objects/natural/plants/jungle_grass/jungle_grass_small_ground.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" DebugUVScale="64" />
+ <MaterialLayers />
+</Material>

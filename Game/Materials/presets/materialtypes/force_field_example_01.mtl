@@ -1,0 +1,14 @@
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="5" MtlFlags="2048" Opacity="1" Shader="FX_EnergyField" Shininess="10" Specular="0,0,0" SurfaceType="" >
+ <Textures>
+  <Texture File="materials/presets/materialtypes/textures/sparks_test.tif" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture Amount="50" File="materials/presets/materialtypes/textures/crystal_ddn.tif" Map="Normalmap" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/fringe_map.dds" Map="Environment" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpTillingX="1" BumpTillingY="1" ReflBumpScale="0.5" ReflectionAmount="0.1" RefrBumpScale="0.5" ShieldAnimSpeedScale="1" ShieldColor="1,0.89999998,0.89999998" SparksAnimSpeedScale="2" SparksColor="0.24705884,0.49803925,1" SparksMul="1" SparksTillingX="1" SparksTillingY="1" />
+</Material>

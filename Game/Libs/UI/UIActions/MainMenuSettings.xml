@@ -1,0 +1,72 @@
+<Graph Description="" Group="" enabled="1" MultiPlayer="ClientServer">
+ <Nodes>
+  <Node Id="20" Name="Set_Settings" Class="_commentbox" pos="-841.77301,534.04694,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="722" Height="185.36269"/>
+   <NodeSize Width="722" Height="212.75331"/>
+  </Node>
+  <Node Id="32" Class="UI:Events:MainMenu:OnSettingsChange" pos="-820,580,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="64" Class="UI:Functions:MainMenu:SetupSettings" pos="-530,370,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="65" Name="Get_Settings" Class="_commentbox" pos="-840.74811,208.93608,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="720.21912" Height="276.57001"/>
+   <NodeSize Width="720.21912" Height="303.96063"/>
+  </Node>
+  <Node Id="66" Class="UI:Events:Settings:OnResChanged" pos="-820,340,0" flags="0"/>
+  <Node Id="67" Class="UI:Events:Settings:OnSoundChanged" pos="-820,430,0" flags="0"/>
+  <Node Id="68" Class="Logic:Any" pos="-530,290,0" flags="0" InHideMask="63" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="69" Class="UI:Functions:Settings:SetResolution" pos="-550,580,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="71" Class="UI:Functions:Settings:SetSound" pos="-550,660,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="74" Class="UI:Functions:Settings:GetResolutionList" pos="-620,30,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="76" Name="Setup_the_MainMenu_on_display_with_current_engine_settings" Class="_commentbox" pos="-840,-4.1941528,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="717.14117" Height="177.28572"/>
+   <NodeSize Width="717.14117" Height="204.67635"/>
+  </Node>
+  <Node Id="77" Class="UI:Events:Settings:OnResolutions" pos="-620,70,0" flags="0"/>
+  <Node Id="79" Class="UI:Functions:MainMenu:SetupResolutions" pos="-380,130,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="80" Class="UI:Variable:Array" pos="-380,30,0" flags="0">
+   <Inputs Array="MainMenu:Resolutions" instanceID="0" Value=""/>
+  </Node>
+  <Node Id="127" Class="UI:Display:UIElementListener" pos="-830,30,0" flags="0">
+   <Inputs Element="MainMenu" instanceID="-1"/>
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="69" nodeOut="32" portIn="FullScreen" portOut="FullScreen" enabled="1"/>
+  <Edge nodeIn="69" nodeOut="32" portIn="ResX" portOut="ResX" enabled="1"/>
+  <Edge nodeIn="69" nodeOut="32" portIn="ResY" portOut="ResY" enabled="1"/>
+  <Edge nodeIn="69" nodeOut="32" portIn="send" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="71" nodeOut="32" portIn="Music" portOut="MusicVolume" enabled="1"/>
+  <Edge nodeIn="71" nodeOut="32" portIn="Video" portOut="MusicVolume" enabled="1"/>
+  <Edge nodeIn="71" nodeOut="32" portIn="SFx" portOut="SoundVolume" enabled="1"/>
+  <Edge nodeIn="71" nodeOut="32" portIn="send" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="64" nodeOut="66" portIn="FullScreen" portOut="FullScreen" enabled="1"/>
+  <Edge nodeIn="64" nodeOut="66" portIn="ResX" portOut="ResX" enabled="1"/>
+  <Edge nodeIn="64" nodeOut="66" portIn="ResY" portOut="ResY" enabled="1"/>
+  <Edge nodeIn="68" nodeOut="66" portIn="in2" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="64" nodeOut="67" portIn="MusicVolume" portOut="Music" enabled="1"/>
+  <Edge nodeIn="64" nodeOut="67" portIn="SoundVolume" portOut="SFx" enabled="1"/>
+  <Edge nodeIn="68" nodeOut="67" portIn="in3" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="64" nodeOut="68" portIn="Call" portOut="out" enabled="1"/>
+  <Edge nodeIn="80" nodeOut="77" portIn="Value" portOut="Array" enabled="1"/>
+  <Edge nodeIn="80" nodeOut="77" portIn="Set" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="68" nodeOut="79" portIn="in1" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="79" nodeOut="80" portIn="Call" portOut="OnSet" enabled="1"/>
+  <Edge nodeIn="74" nodeOut="127" portIn="send" portOut="onInit" enabled="1"/>
+ </Edges>
+</Graph>

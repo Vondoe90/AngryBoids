@@ -1,0 +1,17 @@
+<Material Diffuse="0.627451,0.627451,0.627451" Emissive="0,0,0" GenMask="1053331" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="8" Specular="0.37647063,0.37647063,0.37647063" SurfaceType="mat_concrete" >
+ <Textures>
+  <Texture File="materials/presets/materialtypes/textures/concrete/concrete2_diff.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/concrete/concrete2_diff.dds" Map="Specular" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/organic_ddn.dds" Map="Normalmap" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/env_maps/probe_env00.dds" Map="Environment" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" EnvMapAmount="0.69999999" FresnelBias="0.2" FresnelPow="5" FresnelScale="1" Reflect="0.5" />
+</Material>

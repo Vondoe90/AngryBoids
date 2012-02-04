@@ -1,0 +1,115 @@
+<FXLib>
+
+<Effect name="default">
+	<Sound>
+		<Name>sounds/physics:footsteps/npc:default</Name>
+	</Sound>
+</Effect>
+
+<Effect name="sand" >
+	<Sound>
+		<Name>sounds/physics:footsteps/npc:sand_dry</Name>
+	</Sound>
+	<Particle>
+		<Name minscale="0.9" maxscale="0.9" maxscaledist="100">collisions.footsteps.sand</Name>
+	</Particle>
+	<RandEffect>
+		<Decal minscale="0.14" maxscale="0.14">
+			<Material>materials/decals/footstep_sand</Material>
+		</Decal>
+	</RandEffect>
+</Effect>
+
+<Effect name="concrete">
+	<Sound><Name>sounds/physics:footsteps/npc:concrete</Name></Sound>
+</Effect>	
+
+<Effect name="wood_hollow">
+	<Sound><Name>sounds/physics:footsteps/npc:wood_hollow</Name></Sound>
+</Effect>
+
+<Effect name="grass">
+	<Sound><Name>sounds/physics:footsteps/npc:grass</Name></Sound>
+</Effect>
+
+<Effect name="dirt">
+	<Sound><Name>sounds/physics:footsteps/npc:dirt</Name></Sound>
+	<Particle>
+		<Name minscale="0.9" maxscale="0.9" maxscaledist="100">collisions.footsteps.dirt</Name>
+	</Particle>
+</Effect>
+
+<Effect name="wood_solid">
+	<Sound><Name>sounds/physics:footsteps/npc:wood_solid</Name></Sound>
+</Effect>
+
+<Effect name="grass_tall">
+	<Sound><Name>sounds/physics:footsteps/npc:grass_tall</Name></Sound>
+</Effect>
+
+<Effect name="gravel">
+	<Sound><Name>sounds/physics:footsteps/npc:gravel</Name></Sound>
+</Effect>
+
+<Effect name="leaves">
+	<Sound><Name>sounds/physics:footsteps/npc:leaves</Name></Sound>
+</Effect>
+
+<Effect name="metal_thick">
+	<Sound><Name>sounds/physics:footsteps/npc:metal_thick</Name></Sound>
+</Effect>
+
+<Effect name="metal_chainlink">
+	<Sound><Name>sounds/physics:footsteps/npc:metal_chainlink</Name></Sound>
+</Effect>
+
+<Effect name="metal_grate">
+	<Sound><Name>sounds/physics:footsteps/npc:metal_grate</Name></Sound>
+</Effect>
+
+<Effect name="metal_thin">
+	<Sound><Name>sounds/physics:footsteps/npc:metal_thin</Name></Sound>
+</Effect>
+
+<Effect name="pebble">
+	<Sound><Name>sounds/physics:footsteps/npc:pebble</Name></Sound>
+</Effect>
+
+<Effect name="vegetation">
+	<Sound><Name>sounds/physics:footsteps/npc:vegetation</Name></Sound>
+</Effect>
+
+<Effect name="rock">
+	<Sound><Name>sounds/physics:footsteps/npc:concrete</Name></Sound>
+</Effect>
+
+<Effect name="water_deep">
+	<Sound><Name>sounds/physics:footsteps/npc:water_deep</Name></Sound>
+	<Particle>
+		<Name minscale="0.5" maxscale="0.5" maxscaledist="1">collisions.footsteps.water_shallow</Name>
+	</Particle>
+</Effect>
+<Effect name="water_shallow" parent="water" >
+	<Sound><Name>sounds/physics:footsteps/npc:water_shallow</Name></Sound>
+	<Particle>
+		<Name minscale="0.5" maxscale="0.5" maxscaledist="1">collisions.footsteps.water_shallow</Name>
+	</Particle>
+</Effect>
+
+<Effect name="mud">
+	<Sound><Name>sounds/physics:footsteps/npc:mud</Name></Sound>
+	<Particle>
+		<Name minscale="0.9" maxscale="0.9" maxscaledist="100">collisions.footsteps.mud</Name>
+	</Particle>
+</Effect>
+
+<!-- to remove since Animation based Foley and Footstep System take over
+<Effect name="gear">
+	<Sound><Name>sounds/physics:footsteps/npc:gear</Name></Sound>
+</Effect>
+<Effect name="gear_search">
+	<Sound><Name>sounds/physics:footsteps/npc:gear_search</Name></Sound>
+</Effect>
+-->
+
+</FXLib>

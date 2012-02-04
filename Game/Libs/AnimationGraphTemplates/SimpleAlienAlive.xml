@@ -1,0 +1,33 @@
+<AGTemplate name="SimpleAlienAlive">
+	<SelectWhen>
+		<Health max="100" min="1" />
+	</SelectWhen>
+
+	<MotionMixer
+		source0="LAYER00"
+		source1="NULL"
+		destination="FINALREL"
+		logic="Always"
+		command="COPYLAYER"
+		input="ZDelta"
+		offset="0"
+		multiplier="1.5"
+		/>
+
+	<ParamsLayer1
+		BlendInTime="-1"
+		BlendOutTime="-1"
+		TransitionTime="0.15"
+		KeyTime="-1"
+		LockInterpolation="0"
+		LoopAnimation="0"
+		RepeatLastKey="0"
+		PhaseSynching="0"
+		VtimeWarping="0"
+		IgnoreFootplants="0"
+		Recursive="1"
+		Aligned="0"
+		NoDefaultIdle="0"
+		/>
+</AGTemplate>
+

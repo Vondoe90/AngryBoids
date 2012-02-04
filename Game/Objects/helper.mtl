@@ -1,0 +1,17 @@
+<Material MtlFlags="256">
+ <SubMaterials>
+  <Material Name="SubMtl1" MtlFlags="128" Shader="Illum" GenMask="268435456" SurfaceType="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/editor/suithelper/gradf.dds">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <MaterialLayers />
+  </Material>
+  <Material Name="SubMtl2" MtlFlags="1152" Shader="Nodraw" GenMask="0" SurfaceType="mat_nodraw" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+   <Textures />
+   <MaterialLayers />
+  </Material>
+ </SubMaterials>
+ <MaterialLayers />
+</Material>

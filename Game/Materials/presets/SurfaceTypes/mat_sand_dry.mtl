@@ -1,0 +1,9 @@
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="1" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0.043137256,0.043137256,0.043137256" SurfaceType="mat_sand_dry" >
+ <Textures>
+  <Texture File="textures/terrain/detail/beach_sand_coarse.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" DebugUVScale="64" />
+ <MaterialLayers />
+</Material>

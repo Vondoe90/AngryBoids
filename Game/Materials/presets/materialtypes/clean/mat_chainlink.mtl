@@ -1,0 +1,12 @@
+<Material AlphaTest="0.5" Diffuse="0.50196081,0.50196081,0.50196081" Emissive="0,0,0" GenMask="1" MtlFlags="32" Opacity="1" Shader="Metal" Shininess="10" Specular="0.19607845,0.19607845,0.19607845" SurfaceType="mat_nodraw" >
+ <Textures>
+  <Texture File="objects/library/barriers/fence/wirefence_version2/wirefence_b.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture Amount="50" File="objects/library/barriers/fence/wirefence_version2/wirefence_b_ddn.tif" Map="Normalmap" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams Glossiness="0.75" SpecularMultiplier="0.31400001" />
+ <MaterialLayers />
+</Material>

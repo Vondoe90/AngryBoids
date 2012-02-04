@@ -1,0 +1,8 @@
+<Material Diffuse="0.3921569,0.3921569,0.3921569" Emissive="0,0,0" GenMask="1" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0.043137256,0.043137256,0.043137256" SurfaceType="mat_rubble_mixed" >
+ <Textures>
+  <Texture File="textures/terrain/detail/road_concrete_grey.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" DebugUVScale="64" />
+</Material>

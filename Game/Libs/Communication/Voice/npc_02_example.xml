@@ -1,0 +1,300 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>kirill</Author>
+  <LastAuthor>saschahoba</LastAuthor>
+  <LastPrinted>2007-02-23T10:35:12Z</LastPrinted>
+  <Created>2006-06-28T14:43:22Z</Created>
+  <LastSaved>2010-05-04T16:50:42Z</LastSaved>
+  <Version>12.00</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>11700</WindowHeight>
+  <WindowWidth>17280</WindowWidth>
+  <WindowTopX>660</WindowTopX>
+  <WindowTopY>1425</WindowTopY>
+  <RefModeR1C1/>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Arial"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s62" ss:Name="Normal 2">
+   <Alignment ss:Vertical="Bottom"/>
+   <Font ss:FontName="SimSun" x:Family="Swiss"/>
+   <Protection ss:Protected="0"/>
+  </Style>
+  <Style ss:ID="m65757408">
+   <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Courier New" x:Family="Modern" ss:Size="9"/>
+   <Interior/>
+  </Style>
+  <Style ss:ID="m65757428">
+   <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Courier New" x:Family="Modern" ss:Size="9"/>
+   <Interior/>
+  </Style>
+  <Style ss:ID="s63">
+   <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
+   <Borders/>
+   <Font ss:FontName="Courier New" x:Family="Modern" ss:Size="9"/>
+   <Interior/>
+  </Style>
+  <Style ss:ID="s64">
+   <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Courier New" x:Family="Modern" ss:Size="9" ss:Bold="1"/>
+   <Interior ss:Color="#99CCFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s73">
+   <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Courier New" x:Family="Modern" ss:Size="9"/>
+   <Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s75" ss:Parent="s62">
+   <Alignment ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders/>
+   <Font ss:FontName="Courier New" x:Family="Modern" ss:Size="9"/>
+   <Interior/>
+   <NumberFormat/>
+  </Style>
+  <Style ss:ID="s76">
+   <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
+   <Borders/>
+   <Font ss:FontName="Courier New" x:Family="Modern" ss:Size="9" ss:Bold="1"/>
+   <Interior/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Names>
+   <NamedRange ss:Name="_FilterDatabase" ss:RefersTo="=Sheet1!R2C1:R2C2"
+    ss:Hidden="1"/>
+   <NamedRange ss:Name="Print_Area" ss:RefersTo="=Sheet1!R2C1:R2C2"/>
+  </Names>
+  <Table ss:ExpandedColumnCount="4" ss:ExpandedRowCount="25" x:FullColumns="1"
+   x:FullRows="1" ss:StyleID="s63" ss:DefaultRowHeight="11.25">
+   <Column ss:StyleID="s63" ss:Width="219"/>
+   <Column ss:StyleID="s63" ss:Width="237.75"/>
+   <Column ss:StyleID="s63" ss:AutoFitWidth="0" ss:Width="333.75"/>
+   <Column ss:StyleID="s63" ss:AutoFitWidth="0" ss:Width="234.75"/>
+   <Row ss:AutoFitHeight="0" ss:Height="12.75">
+    <Cell ss:StyleID="s64"><Data ss:Type="String">Language</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m65757408"><Data ss:Type="String">American English</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="12.75">
+    <Cell ss:StyleID="s64"><Data ss:Type="String">File Path</Data><NamedCell
+      ss:Name="Print_Area"/><NamedCell ss:Name="_FilterDatabase"/></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m65757428"><Data ss:Type="String">languages/dialog/ai_npc_02/</Data><NamedCell
+      ss:Name="Print_Area"/><NamedCell ss:Name="_FilterDatabase"/></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="12.75">
+    <Cell ss:StyleID="s64"><Data ss:Type="String">Signal</Data></Cell>
+    <Cell ss:StyleID="s64"><Data ss:Type="String">Sound File</Data></Cell>
+    <Cell ss:StyleID="s64"><Data ss:Type="String">SDK NPC 02 Example</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s75"/>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"><Data ss:Type="String">see</Data></Cell>
+    <Cell><Data ss:Type="String">see_player_00</Data></Cell>
+    <Cell><Data ss:Type="String">i see you</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"/>
+    <Cell><Data ss:Type="String">see_player_01</Data></Cell>
+    <Cell><Data ss:Type="String">hey there you are</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"/>
+    <Cell><Data ss:Type="String">see_player_02</Data></Cell>
+    <Cell><Data ss:Type="String">hey i have been looking for you</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s75"/>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"><Data ss:Type="String">pain</Data></Cell>
+    <Cell><Data ss:Type="String">pain_01</Data></Cell>
+    <Cell><Data ss:Type="String">ouch</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"/>
+    <Cell><Data ss:Type="String">pain_02</Data></Cell>
+    <Cell><Data ss:Type="String">ouch</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="2"><Data ss:Type="String">pain_03</Data></Cell>
+    <Cell><Data ss:Type="String">ouch</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="12">
+    <Cell ss:Index="2"><Data ss:Type="String">pain_04</Data></Cell>
+    <Cell><Data ss:Type="String">ouch</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="12">
+    <Cell ss:Index="2"><Data ss:Type="String">pain_05</Data></Cell>
+    <Cell><Data ss:Type="String">ouch</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s75"/>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"><Data ss:Type="String">death</Data></Cell>
+    <Cell><Data ss:Type="String">death_01</Data></Cell>
+    <Cell><Data ss:Type="String">arrrhh</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"/>
+    <Cell><Data ss:Type="String">death_02</Data></Cell>
+    <Cell><Data ss:Type="String">arrrhh</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"/>
+    <Cell><Data ss:Type="String">death_03</Data></Cell>
+    <Cell><Data ss:Type="String">arrrhh</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"/>
+    <Cell><Data ss:Type="String">death_04</Data></Cell>
+    <Cell><Data ss:Type="String">arrrhh</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"/>
+    <Cell><Data ss:Type="String">death_05</Data></Cell>
+    <Cell><Data ss:Type="String">arrrhh</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s75"/>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"><Data ss:Type="String">alerted</Data></Cell>
+    <Cell><Data ss:Type="String">alerted_00</Data></Cell>
+    <Cell><Data ss:Type="String">watch out</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"/>
+    <Cell><Data ss:Type="String">alerted_01</Data></Cell>
+    <Cell><Data ss:Type="String">be careful</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"/>
+    <Cell><Data ss:Type="String">alerted_02</Data></Cell>
+    <Cell><Data ss:Type="String">something there</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"/>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s76"/>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <PageMargins x:Bottom="0.72" x:Top="0.52"/>
+   </PageSetup>
+   <Unsynced/>
+   <FitToPage/>
+   <Print>
+    <FitHeight>6</FitHeight>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <Scale>66</Scale>
+    <HorizontalResolution>300</HorizontalResolution>
+    <VerticalResolution>300</VerticalResolution>
+   </Print>
+   <Zoom>90</Zoom>
+   <Selected/>
+   <FreezePanes/>
+   <FrozenNoSplit/>
+   <SplitHorizontal>3</SplitHorizontal>
+   <TopRowBottomPane>3</TopRowBottomPane>
+   <ActivePane>2</ActivePane>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+    <Pane>
+     <Number>2</Number>
+     <ActiveRow>2</ActiveRow>
+     <ActiveCol>2</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+   <EnableSelection>NoSelection</EnableSelection>
+  </WorksheetOptions>
+  <Sorting xmlns="urn:schemas-microsoft-com:office:excel">
+   <Sort>sound file</Sort>
+  </Sorting>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet2">
+  <Table ss:ExpandedColumnCount="1" ss:ExpandedRowCount="1" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultRowHeight="13.3125">
+   <Row ss:AutoFitHeight="0"/>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Unsynced/>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet3">
+  <Table ss:ExpandedColumnCount="1" ss:ExpandedRowCount="1" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultRowHeight="13.3125">
+   <Row ss:AutoFitHeight="0"/>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Unsynced/>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

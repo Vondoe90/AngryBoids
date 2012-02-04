@@ -1,0 +1,12 @@
+<AGTemplate name="MusicMood">
+	<Param name="mood" type="string"/>
+	<Param name="delay_start" type="float"/>
+	<Param name="delay_finish" type="float"/>
+	<Param name="speedupthreshold" type="float"/>
+	<Param name="StartFromBeginning" type="bool"/>
+
+	<MusicMood name="$mood" startfrombeginning="$StartFromBeginning"/>
+	<MusicDelayEntering time="$delay_start"/>
+	<MusicDelayLeaving time="$delay_finish" speedupthreshold="$speedupthreshold"/>
+</AGTemplate>
+

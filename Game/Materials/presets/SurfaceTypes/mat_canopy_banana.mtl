@@ -1,0 +1,9 @@
+<Material Diffuse="0.780392,0.780392,0.780392" Emissive="0,0,0" GenMask="1" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0.0431373,0.0431373,0.0431373" SurfaceType="mat_canopy" >
+ <Textures>
+  <Texture File="objects/natural/trees/jungle_tree_large/jungle_tree_large_leaves2.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.04" DebugUVScale="64" />
+ <MaterialLayers />
+</Material>

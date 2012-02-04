@@ -1,0 +1,15 @@
+<AGTemplate name="HumanDead">
+	<SelectWhen>
+		<Health value="0"/>
+		<Vehicle value="none"/>
+	</SelectWhen>
+
+	<Event onEnter="TurnRagdoll"/>
+
+	<!--ColliderMode mode="Disabled"/-->
+	<MovementControlMethod horizontal="Entity" vertical="Entity"/>
+
+	<MusicDelayEntering time="0.0"/>
+
+</AGTemplate>
+

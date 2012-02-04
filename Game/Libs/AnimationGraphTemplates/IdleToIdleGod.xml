@@ -1,0 +1,5 @@
+<AGTemplate name="IdleToIdleGod" extend="IdleToIdle">
+	<MovementControlMethod horizontal="ClampedEntity" vertical="Entity"/>
+	<ColliderMode mode="NonPushable"/>
+</AGTemplate>
+

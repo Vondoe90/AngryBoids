@@ -1,0 +1,5 @@
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="0" MtlFlags="2048" Opacity="1" Shader="FX_GravityBeamParticles" Shininess="10" Specular="0,0,0" SurfaceType="" >
+ <Textures />
+ <PublicParams AnimSpeedX="0.60000002" AnimSpeedY="0" AnimSpeedZ="0" EndBeamsSharpness="4" EndColor="1,0.50196081,0" StartBeamsSharpness="32" StartColor="0.49411768,0.49411768,0.49411768" VariationTileU="0.1" VariationTileV="0.1" VariationTileW="0.1" />
+ <MaterialLayers />
+</Material>

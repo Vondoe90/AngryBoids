@@ -1,0 +1,35 @@
+<AGTemplate name="IdleOneShot_FreeForm">
+	<Param name="animation" type="string"/>
+  <Param name="transition_time" type="float"/>
+  <Param name="stayInState" type="float"/>
+  <Param name="speedScale" type="float"/>
+
+	<MovementControlMethod horizontal="DecoupledCatchUp" vertical="SmoothedEntity" angle="90"/>
+	<ColliderMode mode="Pushable"/>
+
+  <SelectWhen>
+    <PseudoSpeed min="0.0" max="1.5"/>
+  </SelectWhen>
+
+  <TransitionParamsLayer1
+		Structure=""
+		TransitionTime="iff( $transition_time == 0, 0.2, $transition_time )"
+		KeyTime="-1"
+		LoopAnimation="0"
+		RepeatLastKey="1"
+		VTimeWarping="0"
+		WaitForAnimation="1"
+		AllowAnimRestart="1"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose=""
+		ensureInStack="0"
+		stickyOutTime="-1"
+    stayInStateUntil="iff( $stayInState == 0, 0.98, $stayInState )" 
+    forceInStateUntil="0.0" 
+		forceLeaveWhenFinished="1"
+		speedMultiplier="iff( $speedScale == 0, 1.0, $speedScale )" 
+		/>
+</AGTemplate>

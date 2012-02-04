@@ -1,0 +1,11 @@
+<AGTemplate name="AlienIdleAnimationControlled">
+   <Param name="animation" type="string"/>
+   <Param name="TransitionTime" type="float"/>
+   <Param name="playback_speed" type="float"/>
+
+	 <MovementControlMethod horizontal="Animation" vertical="Animation"/>
+	 <ColliderMode mode="Disabled"/>
+	   <ParamsLayer1 BlendInTime="-1" BlendOutTime="-1" TransitionTime="$TransitionTime" KeyTime="-1" 		LockInterpolation="0" LoopAnimation="1" RepeatLastKey="0" PhaseSynching="0" VtimeWarping="0" IgnoreFootplants="0" Recursive="1" Aligned="0" NoDefaultIdle="0"/>
+
+   <AnimationLayer1 animation1="$animation" animation2="" ensureInStack="0" stickyOutTime="-1"  forceLeaveWhenFinished="0" speedMultiplier="$playback_speed"/>
+</AGTemplate>

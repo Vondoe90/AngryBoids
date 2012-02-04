@@ -1,0 +1,49 @@
+<AGTemplate name="VehicleTransitionRange">
+	<Param name="animation" type="string"/>
+	<Param name="playback_speed" type="float"/>
+	<Param name="structure" type="string"/>
+	<Param name="seat_Min" type="int"/>
+	<Param name="seat_max" type="int"/>
+
+	<Guard>
+		<VehicleSeat min="$seat_Min" max="$seat_max"/>
+	</Guard>
+
+  <ColliderMode mode="Disabled"/>
+	<MovementControlMethod horizontal="Animation" vertical="Animation"/>
+
+	<Param name="aim_pose" type="string"/>
+	<Output
+		name="AimPose" 
+		value="$aim_pose"
+		/>
+		
+	<Param name="vehicle_animation" type="string"/>
+	<Output
+		name="VehicleAnimation" 
+		value="$vehicle_animation"
+		/>
+
+	<TransitionParamsLayer1
+		Structure="$structure"
+		TransitionTime="0.3"
+		KeyTime="-1"
+		LoopAnimation="0"
+		RepeatLastKey="1"
+		VTimeWarping="0"
+		WaitForAnimation="1"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		ensureInStack="0"
+		stickyOutTime="-1"
+		stayInStateUntil="0.95"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		/>
+
+				
+	<Event onEnter="VehicleTransitionEnter" onExit="VehicleTransitionExit" matchAnimation="1"/>
+</AGTemplate>
+

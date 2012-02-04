@@ -1,0 +1,31 @@
+<AGTemplate name="HunterOneShot">
+
+	<Param name="animation" type="string"/>
+	<Param name="transition_time" type="float"/>
+	<Param name="interrupt_current_animation" type="integer"/>
+
+	<MovementControlMethod horizontal="Entity" vertical="Entity"/>
+
+	<TransitionParamsLayer1
+		Structure=""
+		TransitionTime="iff( $transition_time == 0, 0.2, $transition_time )"
+		KeyTime="-1"
+		LoopAnimation="0"
+		RepeatLastKey="1"
+		VTimeWarping="0"
+		WaitForAnimation="1"
+		AllowAnimRestart="1"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose=""
+		ensureInStack="1"
+		stickyOutTime="-1"
+		forceLeaveWhenFinished="0"		
+		interruptCurrAnim="$interrupt_current_animation"
+		stayInStateUntil="0.98"
+		forceStayInStateUntil="0.98"
+		/>
+</AGTemplate>
+

@@ -1,0 +1,11 @@
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="4099" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0.57647061,0.57647061,0.57647061" SurfaceType="mat_canvas" >
+ <Textures>
+  <Texture File="Objects/Vehicles/chenyan/chenyan_canvas.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture Amount="50" File="Objects/Vehicles/chenyan/chenyan_canvas_ddn.dds" Map="Bumpmap" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" EnvMapAmount="0.25" FresnelBias="0" FresnelPow="5" FresnelScale="1" Reflect="0.5" />
+</Material>

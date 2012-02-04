@@ -1,0 +1,16 @@
+<Material MtlFlags="524288" Shader="Illum" GenMask="0" StringGenMask="" SurfaceType="mat_default" MatTemplate="" Diffuse="0.50196099,0.50196099,0.50196099" Specular="0.50196099,0.50196099,0.50196099" Emissive="0,0,0" Shininess="10" Opacity="1">
+ <Textures>
+  <Texture Map="Diffuse" File="textures/defaults/defaultnouvs.dds"/>
+  <Texture Map="[1] Custom" File="textures/cubemaps/camera_river_cubemap_bright.dds"/>
+ </Textures>
+ <PublicParams FresnelPower="4" GlossFromDiffuseContrast="1" FresnelScale="1" GlossFromDiffuseOffset="0" FresnelBias="1" GlossFromDiffuseAmount="0" GlossFromDiffuseBrightness="0.333" IndirectColor="0.25,0.25,0.25"/>
+ <MaterialLayers>
+  <Layer Name="FrozenLayerWip" NoDraw="0">
+   <PublicParams VariationTilling="1" TillingV="1" TintColor="1,1,1" ReflectionAmount="0.23999999" TillingU="1" TopSnowAmount="1" IndirectColor="0.25,0.25,0.25"/>
+  </Layer>
+  <Layer Name="Dummy" NoDraw="0"/>
+  <Layer Name="CloakLayer" NoDraw="0">
+   <PublicParams DetailBumpTillingU="1" RefrBumpScale="1" DetailBumpScale="0" SparksTilling="1" DetailBumpTillingV="1"/>
+  </Layer>
+ </MaterialLayers>
+</Material>

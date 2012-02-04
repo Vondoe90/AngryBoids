@@ -1,0 +1,9 @@
+<Material Diffuse="0.3921569,0.3921569,0.3921569" Emissive="0,0,0" GenMask="3" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0.45098042,0.45098042,0.45098042" SurfaceType="mat_rubble_metal" >
+ <Textures>
+  <Texture File="objects/library/architecture/barriers/fence/wirefence.tif" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" DebugUVScale="64" />
+ <MaterialLayers />
+</Material>

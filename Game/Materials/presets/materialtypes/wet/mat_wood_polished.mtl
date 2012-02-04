@@ -1,0 +1,14 @@
+<Material Diffuse="0.55686277,0.55686277,0.55686277" Emissive="0,0,0" GenMask="4739" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="8" Specular="0.37647063,0.37647063,0.37647063" SurfaceType="mat_wood" >
+ <Textures>
+  <Texture File="materials/presets/materialtypes/textures/generic_wood.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/generic2_ddn.dds" Map="Normalmap" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/env_maps/probe_env00.dds" Map="Environment" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" EnvMapAmount="0.25" FresnelBias="0.2" FresnelPow="3" FresnelScale="1" Reflect="0.5" />
+</Material>

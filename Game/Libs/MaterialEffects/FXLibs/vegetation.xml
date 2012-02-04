@@ -1,0 +1,450 @@
+<FXLib>
+
+<Effect name="dry_leaves_type">
+	<Sound name="mainsnd">
+		<Name>sounds/physics:player_foley:bush_movement_dry_leaves</Name>
+	</Sound>
+</Effect>
+
+<Effect name="big_leave_plant_med_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="big_leave_plant_med_flower_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="big_leave_plant_small_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="cabbage_pattern_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="cabbage_pattern_b" parent="dry_leaves_type">
+</Effect>
+<Effect name="cabbage_pattern_c" parent="dry_leaves_type">
+</Effect>
+<Effect name="cabbage_single_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="cabbage_single_b" parent="dry_leaves_type">
+</Effect>
+<Effect name="cabbage_single_c" parent="dry_leaves_type">
+</Effect>
+<Effect name="rl_big_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="rl_big_b" parent="dry_leaves_type">
+</Effect>
+<Effect name="rl_big_c" parent="dry_leaves_type">
+</Effect>
+<Effect name="rl_big_d" parent="dry_leaves_type">
+</Effect>
+<Effect name="rl_big_e" parent="dry_leaves_type">
+</Effect>
+<Effect name="rl_bush_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="rl_bush_b" parent="dry_leaves_type">
+</Effect>
+<Effect name="tl_big_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="tl_big_b" parent="dry_leaves_type">
+</Effect>
+<Effect name="tl_big_c" parent="dry_leaves_type">
+</Effect>
+<Effect name="tl_bush_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="tl_bush_b" parent="dry_leaves_type">
+</Effect>
+<Effect name="flower_fern_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="flower_fern_b" parent="dry_leaves_type">
+</Effect>
+<Effect name="flower_fern_c" parent="dry_leaves_type">
+</Effect>
+<Effect name="small_leaves_yellow_bunch_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="small_leaves_yellow_bunch_b" parent="dry_leaves_type">
+</Effect>
+<Effect name="small_leaves_yellow_bunch_big_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="small_leaves_yellow_bunch_big_b" parent="dry_leaves_type">
+</Effect>
+<Effect name="marshgrass_med_a" parent="dry_leaves_type">
+</Effect>
+<Effect name="marshgrass_med_b" parent="dry_leaves_type">
+</Effect>
+
+<Effect name="dry_leaves_big_type">
+	<Sound name="mainsnd">
+		<Name>sounds/physics:player_foley:bush_movement_dry_leaves_big</Name>
+	</Sound>
+</Effect>
+
+<Effect name="beach_bush_big_expl_a" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="beach_bush_big_expl_b" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="beach_bush_big_expl_c" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="beach_bush_big_expl_d" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="beach_bush_big_expl_e" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="tl_big_d" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="tl_big_e" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="tomato_bush_big_a" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="tomato_bush_big_b" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="tomato_bush_small_a" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="palm_tree_short_a" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="palm_tree_short_b" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="palm_tree_short_c" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="marshgrass_big_a" parent="dry_leaves_big_type">
+</Effect>
+<Effect name="marshgrass_big_b" parent="dry_leaves_big_type">
+</Effect>
+
+<Effect name="banana_type">
+	<Sound name="mainsnd">
+		<Name>sounds/physics:player_foley:bush_movement_banana</Name>
+	</Sound>
+</Effect>
+
+<Effect name="green_fern_bush_a" parent="banana_type">
+</Effect>
+<Effect name="green_fern_bush_b" parent="banana_type">
+</Effect>
+<Effect name="green_fern_bush_c" parent="banana_type">
+</Effect>
+<Effect name="green_fern_bush_d" parent="banana_type">
+</Effect>
+<Effect name="ground_fern_bush_big_a" parent="banana_type">
+</Effect>
+<Effect name="ground_fern_bush_big_b" parent="banana_type">
+</Effect>
+<Effect name="ground_fern_bush_med_a" parent="banana_type">
+</Effect>
+<Effect name="ground_fern_bush_small_a" parent="banana_type">
+</Effect>
+<Effect name="beach_bush_small_a" parent="banana_type">
+</Effect>
+<Effect name="beach_bush_small_b" parent="banana_type">
+</Effect>
+<Effect name="beach_bush_small_c" parent="banana_type">
+</Effect>
+<Effect name="beach_bush_small_d" parent="banana_type">
+</Effect>
+<Effect name="beach_bush_small_e" parent="banana_type">
+</Effect>
+<Effect name="beach_bush_small_f" parent="banana_type">
+</Effect>
+<Effect name="junglebush_deko_a" parent="banana_type">
+</Effect>
+<Effect name="junglebush_deko_b" parent="banana_type">
+</Effect>
+<Effect name="junglebush_deko_fl_red_a" parent="banana_type">
+</Effect>
+<Effect name="junglebush_deko_fl_red_b" parent="banana_type">
+</Effect>
+<Effect name="junglebush_deko_fl_yellow_a" parent="banana_type">
+</Effect>
+<Effect name="junglebush_deko_fl_yellow_b" parent="banana_type">
+</Effect>
+<Effect name="junglebush_small_a" parent="banana_type">
+</Effect>
+<Effect name="junglebush_small_b" parent="banana_type">
+</Effect>
+<Effect name="junglebush_small_fl_white_a" parent="banana_type">
+</Effect>
+<Effect name="junglebush_small_fl_white_b" parent="banana_type">
+</Effect>
+<Effect name="round_leaf_bush_med_bright_green" parent="banana_type">
+</Effect>
+<Effect name="round_leaf_bush_med_grey_green" parent="banana_type">
+</Effect>
+<Effect name="round_leaf_bush_med_yellow" parent="banana_type">
+</Effect>
+<Effect name="round_leaf_bush_small_bright_green" parent="banana_type">
+</Effect>
+<Effect name="round_leaf_bush_small_grey_green" parent="banana_type">
+</Effect>
+<Effect name="round_leaf_bush_small_yellow" parent="banana_type">
+</Effect>
+<Effect name="tall_fern_bush_med_a" parent="banana_type">
+</Effect>
+<Effect name="tall_fern_bush_med_b" parent="banana_type">
+</Effect>
+<Effect name="tall_fern_bush_pattern_med_a" parent="banana_type">
+</Effect>
+<Effect name="tall_fern_bush_pattern_med_b" parent="banana_type">
+</Effect>
+<Effect name="tall_fern_bush_dry_a" parent="banana_type">
+</Effect>
+<Effect name="tall_fern_bush_dry_b" parent="banana_type">
+</Effect>
+<Effect name="rice_1m" parent="banana_type">
+</Effect>
+<Effect name="rice_3m" parent="banana_type">
+</Effect>
+<Effect name="rice_med_a" parent="banana_type">
+</Effect>
+<Effect name="rice_med_b" parent="banana_type">
+</Effect>
+<Effect name="rice_med_c" parent="banana_type">
+</Effect>
+<Effect name="rice_med_d" parent="banana_type">
+</Effect>
+<Effect name="rice_med_e" parent="banana_type">
+</Effect>
+<Effect name="bananatree_babay_a" parent="banana_type">
+</Effect>
+<Effect name="bananatree_babay_b" parent="banana_type">
+</Effect>
+<Effect name="bananatree_small_a" parent="banana_type">
+</Effect>
+<Effect name="bananatree_small_b" parent="banana_type">
+</Effect>
+
+
+<Effect name="palm_type">
+	<Sound name="mainsnd">
+		<Name>sounds/physics:player_foley:bush_movement_palm</Name>
+	</Sound>
+</Effect>
+<Effect name="tall_bush_a" parent="palm_type">
+</Effect>
+<Effect name="tall_bush_b" parent="palm_type">
+</Effect>
+<Effect name="tall_bush_c" parent="palm_type">
+</Effect>
+<Effect name="tall_bush_d" parent="palm_type">
+</Effect>
+<Effect name="beach_bush_big_a" parent="palm_type">
+</Effect>
+<Effect name="beach_bush_big_b" parent="palm_type">
+</Effect>
+<Effect name="beach_bush_big_c" parent="palm_type">
+</Effect>
+<Effect name="junglebush_big_a" parent="palm_type">
+</Effect>
+<Effect name="junglebush_big_b" parent="palm_type">
+</Effect>
+<Effect name="junglebush_big_c" parent="palm_type">
+</Effect>
+<Effect name="junglebush_big_fl_pink_a" parent="palm_type">
+</Effect>
+<Effect name="junglebush_big_fl_red_a" parent="palm_type">
+</Effect>
+<Effect name="round_leaf_bush_big_bright_green" parent="palm_type">
+</Effect>
+<Effect name="round_leaf_bush_big_grey_green" parent="palm_type">
+</Effect>
+<Effect name="round_leaf_bush_big_yellow" parent="palm_type">
+</Effect>
+<Effect name="tall_fern_bush_pattern_small_a" parent="palm_type">
+</Effect>
+<Effect name="tall_fern_bush_pattern_small_b" parent="palm_type">
+</Effect>
+<Effect name="tall_fern_bush_small_a" parent="palm_type">
+</Effect>
+<Effect name="tall_fern_bush_small_b" parent="palm_type">
+</Effect>
+<Effect name="tall_fern_bush_small_c" parent="palm_type">
+</Effect>
+<Effect name="thin_leaves_bush_big_a" parent="palm_type">
+</Effect>
+<Effect name="thin_leaves_bush_big_b" parent="palm_type">
+</Effect>
+<Effect name="thin_leaves_bush_big_c" parent="palm_type">
+</Effect>
+<Effect name="thin_leaves_bush_big_d" parent="palm_type">
+</Effect>
+<Effect name="thin_leaves_bush_big_e" parent="palm_type">
+</Effect>
+<Effect name="thin_leaves_bush_small_a" parent="palm_type">
+</Effect>
+<Effect name="thin_leaves_bush_small_b" parent="palm_type">
+</Effect>
+<Effect name="thin_leaves_bush_small_c" parent="palm_type">
+</Effect>
+<Effect name="thin_leaves_bush_small_d" parent="palm_type">
+</Effect>
+<Effect name="thin_leaves_bush_small_e" parent="palm_type">
+</Effect>
+<Effect name="palmbush_small_a" parent="palm_type">
+</Effect>
+<Effect name="palmbush_small_b" parent="palm_type">
+</Effect>
+<Effect name="palmbush_med_a" parent="palm_type">
+</Effect>
+<Effect name="palmbush_med_b" parent="palm_type">
+</Effect>
+<Effect name="small_leaves_bunch_a" parent="palm_type">
+</Effect>
+<Effect name="small_leaves_bunch_b" parent="palm_type">
+</Effect>
+<Effect name="small_leaves_yellow_flat_a" parent="palm_type">
+</Effect>
+<Effect name="small_leaves_yellow_flat_b" parent="palm_type">
+</Effect>
+<Effect name="small_leaves_yellow_flat_c" parent="palm_type">
+</Effect>
+<Effect name="cliff_bush_yellow_small" parent="palm_type">
+</Effect>
+<Effect name="cliff_bush_yellow_mini" parent="palm_type">
+</Effect>
+<Effect name="cliff_bush_yellow_big" parent="palm_type">
+</Effect>
+<Effect name="cliff_bush_grey_small" parent="palm_type">
+</Effect>
+<Effect name="cliff_bush_grey_mini" parent="palm_type">
+</Effect>
+<Effect name="cliff_bush_grey_big" parent="palm_type">
+</Effect>
+<Effect name="cliff_bush_green_small" parent="palm_type">
+</Effect>
+<Effect name="cliff_bush_green_mini" parent="palm_type">
+</Effect>
+<Effect name="cliff_bush_green_big" parent="palm_type">
+</Effect>
+<Effect name="junglegrass_big_a" parent="palm_type">
+</Effect>
+<Effect name="junglegrass_big_b" parent="palm_type">
+</Effect>
+<Effect name="junglegrass_med_a" parent="palm_type">
+</Effect>
+<Effect name="junglegrass_med_b" parent="palm_type">
+</Effect>
+<Effect name="junglegrass_small_a" parent="palm_type">
+</Effect>
+<Effect name="junglegrass_small_b" parent="palm_type">
+</Effect>
+<Effect name="palm_tree_large_a" parent="palm_type">
+</Effect>
+<Effect name="palm_tree_large_b" parent="palm_type">
+</Effect>
+<Effect name="palm_tree_massiv_a" parent="palm_type">
+</Effect>
+<Effect name="palm_tree_massiv_b" parent="palm_type">
+</Effect>
+<Effect name="grpl_fern_flat_big_a" parent="palm_type">
+</Effect>
+<Effect name="grpl_fern_flat_big_b" parent="palm_type">
+</Effect>
+<Effect name="grpl_fern_flat_big_c" parent="palm_type">
+</Effect>
+<Effect name="grpl_fern_flat_med_a" parent="palm_type">
+</Effect>
+<Effect name="grpl_fern_flat_med_b" parent="palm_type">
+</Effect>
+<Effect name="grpl_fern_flat_med_c" parent="palm_type">
+</Effect>
+<Effect name="grpl_fern_flat_med_d" parent="palm_type">
+</Effect>
+<Effect name="grpl_fern_flat_small_a" parent="palm_type">
+</Effect>
+<Effect name="grpl_fern_flat_small_b" parent="palm_type">
+</Effect>
+<Effect name="grpl_fern_flat_small_c" parent="palm_type">
+</Effect>
+<Effect name="grpl_fern_flat_small_d" parent="palm_type">
+</Effect>
+
+<Effect name="tree_type">
+	<Sound name="mainsnd">
+		<Name>sounds/physics:player_foley:bush_movement_leave_long</Name>
+	</Sound>
+</Effect>
+
+<Effect name="tall_fern_bush_big_a" parent="tree_type">
+</Effect>
+<Effect name="tall_fern_bush_big_b" parent="tree_type">
+</Effect>
+<Effect name="tall_fern_bush_big_c" parent="tree_type">
+</Effect>
+<Effect name="tall_fern_bush_pattern_big_a" parent="tree_type">
+</Effect>
+<Effect name="tall_fern_bush_pattern_big_b" parent="tree_type">
+</Effect>
+<Effect name="round_leaf_bush_tree" parent="tree_type">
+</Effect>
+<Effect name="palmbush_big_a" parent="tree_type">
+</Effect>
+<Effect name="palmbush_big_b" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_big_30_e" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_big_30_n" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_big_30_s" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_big_30_w" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_big_70_e" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_big_70_n" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_big_70_s" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_big_70_w" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_big_70_w_roots_a" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_big_70_w_roots_b" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_bunch_big_a" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_bunch_big_b" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_bunch_big_c" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_flat_a" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_flat_b" parent="tree_type">
+</Effect>
+<Effect name="small_leaves_flat_c" parent="tree_type">
+</Effect>
+<Effect name="river_tree_a_broken" parent="tree_type">
+</Effect>
+<Effect name="river_tree_b_broken" parent="tree_type">
+</Effect>
+<Effect name="river_tree_c_broken" parent="tree_type">
+</Effect>
+<Effect name="thin_leave_tree_big_grey_green_120_deg" parent="tree_type">
+</Effect>
+<Effect name="thin_leave_tree_big_grey_green_240_deg" parent="tree_type">
+</Effect>
+<Effect name="thin_leave_tree_big_grey_green_360_deg" parent="tree_type">
+</Effect>
+<Effect name="jungle_tree_large_big_bright_green_fallen_a" parent="tree_type">
+</Effect>
+<Effect name="jungle_tree_large_big_bright_green_fallen_b" parent="tree_type">
+</Effect>
+<Effect name="jungle_tree_large_big_bright_green_fallen_c" parent="tree_type">
+</Effect>
+<Effect name="jungle_tree_large_big_bright_green_fallen_d" parent="tree_type">
+</Effect>
+
+
+<Effect name="tree_impact">
+	<Sound>
+		<Name>sounds/physics:mat_canopy:mat_canopy</Name>
+	</Sound>
+</Effect>
+
+<Effect name="tree_falling">
+	<Sound>
+		<Name>sounds/physics:destructibles:tree_falling</Name>
+	</Sound>
+</Effect>
+
+<Effect name="tree_break">
+	<Sound>
+		<Name>sounds/physics:destructibles:tree_falling</Name>
+	</Sound>
+	<Particle>
+		<Name>breakable_objects.tree_break.small</Name>
+	</Particle>
+</Effect>
+
+</FXLib>

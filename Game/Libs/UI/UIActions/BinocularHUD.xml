@@ -1,0 +1,372 @@
+<Graph Description="" Group="" enabled="1" MultiPlayer="ClientServer">
+ <Nodes>
+  <Node Id="3" Class="UI:Functions:HUDMain:BinocularHUDVisibility" pos="410,110,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="6" Class="Math:ToBoolean" pos="240,160,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="102" Class="Input:Action" pos="-770,-520,0" flags="0">
+   <Inputs Action="firemode" ActionMap="default" NonDevMode="1"/>
+  </Node>
+  <Node Id="107" Class="System:ConsoleVariable" pos="370,-80,0" flags="0">
+   <Inputs CVar="g_tpview_enable" Value="0"/>
+  </Node>
+  <Node Id="108" Class="System:ConsoleVariable" pos="-20,-140,0" flags="0">
+   <Inputs CVar="g_tpview_enable" Value="0"/>
+  </Node>
+  <Node Id="109" Class="System:ConsoleVariable" pos="380,-220,0" flags="0">
+   <Inputs CVar="g_tpview_enable" Value="0"/>
+  </Node>
+  <Node Id="111" Class="Math:SetNumber" pos="230,-180,0" flags="0">
+   <Inputs in="0"/>
+  </Node>
+  <Node Id="114" Class="UI:Functions:HUDMain:setBinocularZoom" pos="-300,-370,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="124" Class="UI:Functions:HUDMain:setBinocularDistance" pos="1290,370,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="128" Name="Set_player_view_to_FP_when_using_Binoculars_and_restore_previous_player_view_on_exit_binoculars" Class="_commentbox" pos="-308.38373,-267.2023,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="925.60535" Height="258.41714"/>
+   <NodeSize Width="925.60535" Height="285.80777"/>
+  </Node>
+  <Node Id="132" Name="Update_Distance_Text_and_slider" Class="_commentbox" pos="968.81641,299.83267,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="644.99042" Height="150.74384"/>
+   <NodeSize Width="644.99042" Height="178.13446"/>
+  </Node>
+  <Node Id="136" Class="Game:WeaponSensor" pos="-610,-340,0" flags="0" InHideMask="15" OutHideMask="262143">
+   <Inputs entityId="0"/>
+  </Node>
+  <Node Id="140" Class="Game:LocalPlayer" pos="-770,-320,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="145" Class="String:Compare" pos="60,220,0" flags="0">
+   <Inputs A="" B="Binoculars" IgnoreCase="1"/>
+  </Node>
+  <Node Id="167" Class="Physics:RayCastCamera" pos="720,420,0" flags="0">
+   <Inputs offset="0,0,0" maxLength="201"/>
+  </Node>
+  <Node Id="168" Class="Time:Timer" pos="550,430,0" flags="0">
+   <Inputs period="0.2" min="0" max="0" paused="1"/>
+  </Node>
+  <Node Id="171" Class="Math:SetNumber" pos="1010,370,0" flags="0">
+   <Inputs in="201"/>
+  </Node>
+  <Node Id="172" Class="Logic:Any" pos="1160,370,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="174" Class="UI:Display:ScreenPos" pos="3270,600,0" flags="0">
+   <Inputs Element="HUDMain" instanceID="0" PX="0" PY="0" StageScaleMode="1"/>
+  </Node>
+  <Node Id="175" Class="UI:MovieClip:PosRotScale" pos="3680,600,0" flags="0">
+   <Inputs MovieClips="HUDMain:EntityTag" instanceID="0" Pos="1,1,1" Rot="0,0,0" Scale="1,1,1"/>
+  </Node>
+  <Node Id="176" Class="UI:MovieClip:Visible" pos="3230,1070,0" flags="0">
+   <Inputs MovieClips="HUDMain:EntityTag" instanceID="0" Visible="1" Alpha="1"/>
+  </Node>
+  <Node Id="178" Class="Vec3:ToVec3" pos="3510,620,0" flags="0">
+   <Inputs x="0" y="0" z="0"/>
+  </Node>
+  <Node Id="182" Class="Entity:EntityInfo" pos="980,640,0" flags="0">
+   <Inputs entityId="0"/>
+  </Node>
+  <Node Id="187" Class="Logic:Condition" pos="-90,160,0" flags="0">
+   <Inputs Condition="0"/>
+  </Node>
+  <Node Id="188" Class="Logic:Any" pos="-210,160,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="190" Class="Logic:Condition" pos="1640,770,0" flags="0">
+   <Inputs Condition="0"/>
+  </Node>
+  <Node Id="194" Class="Entity:EntityScreenPos" pos="3070,710,0" flags="0">
+   <Inputs entityId="0"/>
+  </Node>
+  <Node Id="212" Class="Time:Delay" pos="210,-90,0" flags="0">
+   <Inputs delay="0.1"/>
+  </Node>
+  <Node Id="216" Class="Math:FromBoolean" pos="-150,-170,0" flags="0">
+   <Inputs Value="0"/>
+  </Node>
+  <Node Id="218" Class="Logic:OnChange" pos="-270,-170,0" flags="0">
+   <Inputs in="0"/>
+  </Node>
+  <Node Id="246" Class="Math:ToBoolean" pos="3060,1080,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="249" Class="Logic:AND" pos="3380,790,0" flags="0">
+   <Inputs A="0" B="0" Always="0"/>
+  </Node>
+  <Node Id="251" Class="Math:Equal" pos="3270,760,0" flags="0">
+   <Inputs A="0" B="0"/>
+  </Node>
+  <Node Id="252" Class="Math:Equal" pos="3270,830,0" flags="0">
+   <Inputs A="0" B="0"/>
+  </Node>
+  <Node Id="253" Class="UI:MovieClip:Visible" pos="3690,800,0" flags="0">
+   <Inputs MovieClips="HUDMain:EntityTag" instanceID="0" Visible="0" Alpha="1"/>
+  </Node>
+  <Node Id="256" Class="Math:ToBoolean" pos="3540,810,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="257" Class="UI:Functions:HUDMain:setBinocularsMode" pos="-340,-520,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="261" Class="System:ConsoleVariable" pos="-550,-520,0" flags="0">
+   <Inputs CVar="r_NightVision" Value=""/>
+  </Node>
+  <Node Id="262" Name="Night_Vision_Toggle" Class="_commentbox" pos="-775.26263,-557.13403,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="674" Height="106"/>
+   <NodeSize Width="674" Height="133.39063"/>
+  </Node>
+  <Node Id="263" Name="Zoom_Update" Class="_commentbox" pos="-311.00449,-418.04117,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="261.97223" Height="107.87091"/>
+   <NodeSize Width="261.97223" Height="135.26154"/>
+  </Node>
+  <Node Id="264" Name="Turn_Binocular_HUD_On/Off" Class="_commentbox" pos="-222.05359,56.346634,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="907.10925" Height="214.34363"/>
+   <NodeSize Width="907.10925" Height="241.73425"/>
+  </Node>
+  <Node Id="266" Class="Logic:NOT" pos="450,440,0" flags="0">
+   <Inputs in="0"/>
+  </Node>
+  <Node Id="267" Name="Raycast_When_using_binoculars" Class="_commentbox" pos="440,382.60904,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="455" Height="134"/>
+   <NodeSize Width="455" Height="161.39063"/>
+  </Node>
+  <Node Id="270" Class="Game:ActorSensor" pos="2010,830,0" flags="0" InHideMask="15" OutHideMask="262143">
+   <Inputs entityId="0"/>
+  </Node>
+  <Node Id="275" Class="Game:LocalPlayer" pos="1850,1070,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="283" Class="Math:Less" pos="2680,1000,0" flags="0">
+   <Inputs A="0" B="200"/>
+  </Node>
+  <Node Id="285" Class="Logic:Any" pos="2940,1100,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="287" Class="Vec3:SubVec3" pos="2200,1070,0" flags="0">
+   <Inputs A="0,0,0" B="0,0,0"/>
+  </Node>
+  <Node Id="288" Class="Vec3:MagnitudeVec3" pos="2320,1070,0" flags="0">
+   <Inputs vector="0,0,0"/>
+  </Node>
+  <Node Id="289" Class="Entity:EntityPos" pos="2000,980,0" flags="0">
+   <Inputs entityId="0" pos="0,0,0" rotate="0,0,0" scale="0,0,0"/>
+  </Node>
+  <Node Id="290" Class="Entity:EntityPos" pos="2000,1110,0" flags="0">
+   <Inputs entityId="0" pos="0,0,0" rotate="0,0,0" scale="0,0,0"/>
+  </Node>
+  <Node Id="291" Class="Logic:Any" pos="2940,970,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="292" Class="Logic:Any" pos="2940,670,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="296" Class="Logic:Gate" pos="2530,1050,0" flags="0">
+   <Inputs Closed="1"/>
+  </Node>
+  <Node Id="297" Class="Logic:Any" pos="2940,780,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="299" Class="Game:ActorCheckHealth" pos="1310,630,0" flags="0">
+   <Inputs entityId="0" MinHealth="1" MaxHealth="1000"/>
+  </Node>
+  <Node Id="302" Class="Time:Delay" pos="1160,790,0" flags="0">
+   <Inputs delay="0.1"/>
+  </Node>
+  <Node Id="303" Name="Check_if_Raycast_hits_AI_Entity_and_if_AI_entity_is_alive" Class="_commentbox" pos="965.81384,590.77759,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="838.90625" Height="240.45636"/>
+   <NodeSize Width="838.90625" Height="267.84698"/>
+  </Node>
+  <Node Id="323" Name="Update_Tag_marker_position,_Stop_update_and_rendering_on_AI_death,_Disaplay_rendering_if_AI_is_Offscreen" Class="_commentbox" pos="2918.7092,561.80969,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="1026.4194" Height="323.086"/>
+   <NodeSize Width="1026.4194" Height="350.47662"/>
+  </Node>
+  <Node Id="324" Name="Don&apos;t_render_or_update_tag_marker_if_AI_is_too_far_away_(200m)" Class="_commentbox" pos="1838.3651,930.8634,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="1639" Height="274"/>
+   <NodeSize Width="1639" Height="301.39063"/>
+  </Node>
+  <Node Id="325" Class="Logic:Any" pos="2420,1130,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="327" Class="Math:FromBoolean" pos="1160,710,0" flags="0">
+   <Inputs Value="0"/>
+  </Node>
+  <Node Id="331" Class="Math:ToBoolean" pos="1310,730,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="333" Class="Logic:Any" pos="1520,700,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="342" Class="UI:MovieClip:Visible" pos="770,160,0" flags="0">
+   <Inputs MovieClips="HUDMain:EntityTag" instanceID="0" Visible="0" Alpha="1"/>
+  </Node>
+  <Node Id="350" Class="Math:FromBoolean" pos="1030,170,0" flags="0">
+   <Inputs Value="0"/>
+  </Node>
+  <Node Id="356" Class="Math:FromBoolean" pos="1030,90,0" flags="0">
+   <Inputs Value="0"/>
+  </Node>
+  <Node Id="358" Class="Logic:AND" pos="1300,120,0" flags="0">
+   <Inputs A="0" B="0" Always="0"/>
+  </Node>
+  <Node Id="362" Class="Math:ToBoolean" pos="1170,100,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="380" Class="Time:MeasureTime" pos="1620,180,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="381" Class="Math:Equal" pos="1910,210,0" flags="0">
+   <Inputs A="0" B="10"/>
+  </Node>
+  <Node Id="382" Class="UI:MovieClip:Visible" pos="2040,160,0" flags="0">
+   <Inputs MovieClips="HUDMain:EntityTag" instanceID="0" Visible="0" Alpha="1"/>
+  </Node>
+  <Node Id="387" Class="Time:Delay" pos="1770,150,0" flags="0">
+   <Inputs delay="20"/>
+  </Node>
+  <Node Id="389" Class="Logic:Any" pos="1470,110,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="390" Class="Math:Round" pos="1770,210,0" flags="0">
+   <Inputs In="0"/>
+  </Node>
+  <Node Id="391" Name="When_out_of_binoculars_View,_Hide_Tag_Marker_after_20secs" Class="_commentbox" pos="760,52.609749,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="1529" Height="197"/>
+   <NodeSize Width="1529" Height="224.39063"/>
+  </Node>
+  <Node Id="392" Class="UI:Display:UIElementListener" pos="-1100,-520,0" flags="0">
+   <Inputs Element="HUDMain" instanceID="0"/>
+  </Node>
+  <Node Id="393" Class="Start" pos="-1100,-430,0" flags="1">
+   <Inputs InGame="1" InEditor="1"/>
+  </Node>
+  <Node Id="394" Class="Logic:Any" pos="-870,-520,0" flags="0" InHideMask="63" OutHideMask="1">
+   <Inputs />
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="3" nodeOut="6" portIn="Call" portOut="out" enabled="1"/>
+  <Edge nodeIn="3" nodeOut="6" portIn="Visible" portOut="out" enabled="1"/>
+  <Edge nodeIn="266" nodeOut="6" portIn="in" portOut="out" enabled="1"/>
+  <Edge nodeIn="342" nodeOut="6" portIn="Get" portOut="out" enabled="1"/>
+  <Edge nodeIn="356" nodeOut="6" portIn="Value" portOut="out" enabled="1"/>
+  <Edge nodeIn="261" nodeOut="102" portIn="Get" portOut="Pressed" enabled="1"/>
+  <Edge nodeIn="111" nodeOut="108" portIn="in" portOut="CurValue" enabled="1"/>
+  <Edge nodeIn="111" nodeOut="108" portIn="set" portOut="CurValue" enabled="1"/>
+  <Edge nodeIn="212" nodeOut="108" portIn="in" portOut="CurValue" enabled="1"/>
+  <Edge nodeIn="109" nodeOut="111" portIn="Value" portOut="out" enabled="1"/>
+  <Edge nodeIn="114" nodeOut="136" portIn="Call" portOut="CurrZoomStep" enabled="1"/>
+  <Edge nodeIn="114" nodeOut="136" portIn="Zoomlevel" portOut="CurrZoomStep" enabled="1"/>
+  <Edge nodeIn="145" nodeOut="136" portIn="A" portOut="WeaponName" enabled="1"/>
+  <Edge nodeIn="187" nodeOut="136" portIn="Condition" portOut="Zoomed" enabled="1"/>
+  <Edge nodeIn="188" nodeOut="136" portIn="in1" portOut="OnWeaponChange" enabled="1"/>
+  <Edge nodeIn="188" nodeOut="136" portIn="in2" portOut="OnZoom" enabled="1"/>
+  <Edge nodeIn="218" nodeOut="136" portIn="in" portOut="Zoomed" enabled="1"/>
+  <Edge nodeIn="136" nodeOut="140" portIn="Enable" portOut="entityId" enabled="1"/>
+  <Edge nodeIn="136" nodeOut="140" portIn="entityId" portOut="entityId" enabled="1"/>
+  <Edge nodeIn="6" nodeOut="145" portIn="true" portOut="True" enabled="1"/>
+  <Edge nodeIn="171" nodeOut="167" portIn="set" portOut="nohit" enabled="1"/>
+  <Edge nodeIn="172" nodeOut="167" portIn="in2" portOut="distance" enabled="1"/>
+  <Edge nodeIn="182" nodeOut="167" portIn="Get" portOut="entity" enabled="1"/>
+  <Edge nodeIn="182" nodeOut="167" portIn="entityId" portOut="entity" enabled="1"/>
+  <Edge nodeIn="167" nodeOut="168" portIn="go" portOut="out" enabled="1"/>
+  <Edge nodeIn="172" nodeOut="171" portIn="in1" portOut="out" enabled="1"/>
+  <Edge nodeIn="124" nodeOut="172" portIn="Call" portOut="out" enabled="1"/>
+  <Edge nodeIn="124" nodeOut="172" portIn="Distance" portOut="out" enabled="1"/>
+  <Edge nodeIn="178" nodeOut="174" portIn="x" portOut="PX" enabled="1"/>
+  <Edge nodeIn="178" nodeOut="174" portIn="y" portOut="PY" enabled="1"/>
+  <Edge nodeIn="175" nodeOut="178" portIn="Pos" portOut="vec3" enabled="1"/>
+  <Edge nodeIn="175" nodeOut="178" portIn="Set" portOut="vec3" enabled="1"/>
+  <Edge nodeIn="299" nodeOut="182" portIn="entityId" portOut="Id" enabled="1"/>
+  <Edge nodeIn="302" nodeOut="182" portIn="in" portOut="Id" enabled="1"/>
+  <Edge nodeIn="327" nodeOut="182" portIn="Value" portOut="IsAI" enabled="1"/>
+  <Edge nodeIn="6" nodeOut="187" portIn="false" portOut="OnFalse" enabled="1"/>
+  <Edge nodeIn="145" nodeOut="187" portIn="Compare" portOut="OnTrue" enabled="1"/>
+  <Edge nodeIn="187" nodeOut="188" portIn="In" portOut="out" enabled="1"/>
+  <Edge nodeIn="194" nodeOut="190" portIn="entityId" portOut="OnTrue" enabled="1"/>
+  <Edge nodeIn="270" nodeOut="190" portIn="Enable" portOut="OnTrue" enabled="1"/>
+  <Edge nodeIn="270" nodeOut="190" portIn="entityId" portOut="OnTrue" enabled="1"/>
+  <Edge nodeIn="275" nodeOut="190" portIn="update" portOut="OnTrue" enabled="1"/>
+  <Edge nodeIn="289" nodeOut="190" portIn="entityId" portOut="OnTrue" enabled="1"/>
+  <Edge nodeIn="291" nodeOut="190" portIn="in1" portOut="OnTrue" enabled="1"/>
+  <Edge nodeIn="292" nodeOut="190" portIn="in2" portOut="OnTrue" enabled="1"/>
+  <Edge nodeIn="296" nodeOut="190" portIn="Open" portOut="OnTrue" enabled="1"/>
+  <Edge nodeIn="174" nodeOut="194" portIn="Get" portOut="Px" enabled="1"/>
+  <Edge nodeIn="174" nodeOut="194" portIn="PX" portOut="Px" enabled="1"/>
+  <Edge nodeIn="174" nodeOut="194" portIn="PY" portOut="Py" enabled="1"/>
+  <Edge nodeIn="251" nodeOut="194" portIn="A" portOut="FalloffX" enabled="1"/>
+  <Edge nodeIn="252" nodeOut="194" portIn="A" portOut="FalloffY" enabled="1"/>
+  <Edge nodeIn="107" nodeOut="212" portIn="Set" portOut="out" enabled="1"/>
+  <Edge nodeIn="108" nodeOut="216" portIn="Get" portOut="True" enabled="1"/>
+  <Edge nodeIn="109" nodeOut="216" portIn="Set" portOut="False" enabled="1"/>
+  <Edge nodeIn="216" nodeOut="218" portIn="Value" portOut="out" enabled="1"/>
+  <Edge nodeIn="176" nodeOut="246" portIn="Set" portOut="out" enabled="1"/>
+  <Edge nodeIn="176" nodeOut="246" portIn="Visible" portOut="out" enabled="1"/>
+  <Edge nodeIn="256" nodeOut="249" portIn="false" portOut="false" enabled="1"/>
+  <Edge nodeIn="256" nodeOut="249" portIn="true" portOut="true" enabled="1"/>
+  <Edge nodeIn="325" nodeOut="249" portIn="in2" portOut="false" enabled="1"/>
+  <Edge nodeIn="249" nodeOut="251" portIn="A" portOut="out" enabled="1"/>
+  <Edge nodeIn="249" nodeOut="252" portIn="B" portOut="out" enabled="1"/>
+  <Edge nodeIn="253" nodeOut="256" portIn="Set" portOut="out" enabled="1"/>
+  <Edge nodeIn="253" nodeOut="256" portIn="Visible" portOut="out" enabled="1"/>
+  <Edge nodeIn="257" nodeOut="261" portIn="Call" portOut="CurValue" enabled="1"/>
+  <Edge nodeIn="257" nodeOut="261" portIn="intViewmode" portOut="CurValue" enabled="1"/>
+  <Edge nodeIn="168" nodeOut="266" portIn="paused" portOut="out" enabled="1"/>
+  <Edge nodeIn="285" nodeOut="270" portIn="in1" portOut="OnDeath" enabled="1"/>
+  <Edge nodeIn="297" nodeOut="270" portIn="in1" portOut="OnDeath" enabled="1"/>
+  <Edge nodeIn="325" nodeOut="270" portIn="in1" portOut="OnDeath" enabled="1"/>
+  <Edge nodeIn="290" nodeOut="275" portIn="entityId" portOut="entityId" enabled="1"/>
+  <Edge nodeIn="285" nodeOut="283" portIn="in2" portOut="false" enabled="1"/>
+  <Edge nodeIn="291" nodeOut="283" portIn="in2" portOut="true" enabled="1"/>
+  <Edge nodeIn="292" nodeOut="283" portIn="in1" portOut="true" enabled="1"/>
+  <Edge nodeIn="297" nodeOut="283" portIn="in2" portOut="false" enabled="1"/>
+  <Edge nodeIn="246" nodeOut="285" portIn="false" portOut="out" enabled="1"/>
+  <Edge nodeIn="288" nodeOut="287" portIn="vector" portOut="out" enabled="1"/>
+  <Edge nodeIn="296" nodeOut="288" portIn="In" portOut="length" enabled="1"/>
+  <Edge nodeIn="287" nodeOut="289" portIn="A" portOut="pos" enabled="1"/>
+  <Edge nodeIn="287" nodeOut="290" portIn="B" portOut="pos" enabled="1"/>
+  <Edge nodeIn="246" nodeOut="291" portIn="true" portOut="out" enabled="1"/>
+  <Edge nodeIn="194" nodeOut="292" portIn="Enable" portOut="out" enabled="1"/>
+  <Edge nodeIn="283" nodeOut="296" portIn="A" portOut="Out" enabled="1"/>
+  <Edge nodeIn="194" nodeOut="297" portIn="Disable" portOut="out" enabled="1"/>
+  <Edge nodeIn="333" nodeOut="299" portIn="in1" portOut="InRange" enabled="1"/>
+  <Edge nodeIn="190" nodeOut="302" portIn="In" portOut="out" enabled="1"/>
+  <Edge nodeIn="296" nodeOut="325" portIn="Close" portOut="out" enabled="1"/>
+  <Edge nodeIn="299" nodeOut="327" portIn="Trigger" portOut="True" enabled="1"/>
+  <Edge nodeIn="331" nodeOut="327" portIn="false" portOut="False" enabled="1"/>
+  <Edge nodeIn="333" nodeOut="331" portIn="in2" portOut="out" enabled="1"/>
+  <Edge nodeIn="190" nodeOut="333" portIn="Condition" portOut="out" enabled="1"/>
+  <Edge nodeIn="350" nodeOut="342" portIn="Value" portOut="IsVisible" enabled="1"/>
+  <Edge nodeIn="358" nodeOut="350" portIn="B" portOut="True" enabled="1"/>
+  <Edge nodeIn="362" nodeOut="356" portIn="true" portOut="False" enabled="1"/>
+  <Edge nodeIn="362" nodeOut="356" portIn="false" portOut="True" enabled="1"/>
+  <Edge nodeIn="380" nodeOut="358" portIn="Start" portOut="true" enabled="1"/>
+  <Edge nodeIn="389" nodeOut="358" portIn="in1" portOut="false" enabled="1"/>
+  <Edge nodeIn="358" nodeOut="362" portIn="A" portOut="out" enabled="1"/>
+  <Edge nodeIn="387" nodeOut="380" portIn="in" portOut="Started" enabled="1"/>
+  <Edge nodeIn="390" nodeOut="380" portIn="In" portOut="Elapsed" enabled="1"/>
+  <Edge nodeIn="382" nodeOut="381" portIn="Set" portOut="true" enabled="1"/>
+  <Edge nodeIn="325" nodeOut="382" portIn="in3" portOut="OnSet" enabled="1"/>
+  <Edge nodeIn="389" nodeOut="387" portIn="in2" portOut="out" enabled="1"/>
+  <Edge nodeIn="380" nodeOut="389" portIn="Stop" portOut="out" enabled="1"/>
+  <Edge nodeIn="381" nodeOut="390" portIn="A" portOut="outRounded" enabled="1"/>
+  <Edge nodeIn="394" nodeOut="392" portIn="in1" portOut="onInit" enabled="1"/>
+  <Edge nodeIn="394" nodeOut="393" portIn="in2" portOut="output" enabled="1"/>
+  <Edge nodeIn="102" nodeOut="394" portIn="Enable" portOut="out" enabled="1"/>
+  <Edge nodeIn="140" nodeOut="394" portIn="update" portOut="out" enabled="1"/>
+ </Edges>
+</Graph>

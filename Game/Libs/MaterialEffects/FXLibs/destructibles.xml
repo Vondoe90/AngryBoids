@@ -1,0 +1,63 @@
+<FXLib>
+	
+	<Effect name="body_shatter">
+		<Sound>
+			<Name>sounds/physics:destructibles:body_shatter</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="glass_shatter">
+		<Sound>
+			<Name>sounds/physics:destructibles:glass_shatter</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="tree_falling">
+		<Sound>
+			<Name>sounds/physics:destructibles:tree_falling</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="vehicle_shatter">
+		<Sound>
+			<Name>sounds/physics:destructibles:vehicle_shatter</Name>
+		</Sound>
+	</Effect>
+	
+	<Effect name="vehicle_window">
+		<Sound>
+			<Name>sounds/physics:destructibles:vehicle_window</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="wood_shatter">
+		<Sound>
+			<Name>sounds/physics:destructibles:wood_shatter</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="metal_shatter">
+		<Sound>
+			<Name>sounds/physics:destructibles:metal_shatter</Name>
+		</Sound>
+	</Effect>
+	
+	<Effect name="stone_shatter">
+		<Sound>
+			<Name>sounds/physics:destructibles:stone_shatter</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="ice_shatter">
+		<Sound>
+			<Name>sounds/physics:destructibles:ice_shatter</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="flesh_shatter">
+		<Sound>
+			<Name>sounds/physics:destructibles:flesh_shatter</Name>
+		</Sound>
+	</Effect>
+
+</FXLib>

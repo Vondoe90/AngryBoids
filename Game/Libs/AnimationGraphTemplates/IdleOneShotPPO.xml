@@ -1,0 +1,4 @@
+<AGTemplate name="IdleOneShotPPO" extend="IdleOneShot">
+	<MovementControlMethod horizontal="Animation" vertical="Animation"/>
+	<ColliderMode mode="PushesPlayersOnly"/>
+</AGTemplate>

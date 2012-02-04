@@ -1,0 +1,207 @@
+<Graph Description="" Group="" enabled="1" MultiPlayer="ClientServer">
+ <Nodes>
+  <Node Id="4" Class="Logic:Any" pos="-340,-710,0" flags="0" InHideMask="56" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="5" Class="UI:Events:System:OnGamePause" pos="-560,-760,0" flags="0"/>
+  <Node Id="6" Class="UI:Events:System:OnGameResume" pos="-570,-470,0" flags="0"/>
+  <Node Id="13" Class="UI:Events:System:OnLevelStart" pos="-560,-710,0" flags="0"/>
+  <Node Id="17" Class="UI:Events:System:OnLevelEnd" pos="-560,-820,0" flags="0"/>
+  <Node Id="18" Name="Show_/_hide_HUD" Class="_commentbox" pos="-586.12396,-867.14642,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="832.04755" Height="319.45114"/>
+   <NodeSize Width="832.04755" Height="346.84177"/>
+  </Node>
+  <Node Id="21" Class="Minimap:MapInfo" pos="-410,210,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="22" Class="UI:Events:IngameMenu:OnRestart" pos="-570,-370,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="33" Class="Start" pos="-560,-620,0" flags="0">
+   <Inputs InGame="1" InEditor="1"/>
+  </Node>
+  <Node Id="62" Class="UI:Functions:HUDMain:SetupMap" pos="-200,210,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="69" Class="UI:Functions:HUDMain:SetPlayerPos" pos="-200,320,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="70" Class="UI:Functions:HUDMain:SetWeapon" pos="-90,460,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="71" Class="UI:Functions:HUDMain:SetAmmo" pos="-90,570,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="75" Name="HUD_Changes" Class="_commentbox" pos="-583.41901,40.219299,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="875.6087" Height="1111.3942"/>
+   <NodeSize Width="875.6087" Height="1138.7848"/>
+  </Node>
+  <Node Id="76" Class="UI:Functions:HUDMain:SetThirdPerson" pos="-160,1080,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="78" Class="Logic:Any" pos="-200,570,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="80" Class="UI:Functions:HUDMain:SetZoom" pos="-200,740,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="84" Class="UI:Functions:HUDMain:OnShoot" pos="-200,680,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="85" Class="UI:Functions:HUDMain:SetHealth" pos="-160,1010,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="87" Class="Minimap:PlayerPos" pos="-410,320,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="96" Class="UI:Functions:UIObjectives:RequestObjectives" pos="-200,80,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="103" Class="UI:Events:System:OnResChanged" pos="-560,-110,0" flags="1"/>
+  <Node Id="104" Class="UI:Display:Display" pos="-130,-820,0" flags="0">
+   <Inputs Element="HUDMain" instanceID="0"/>
+  </Node>
+  <Node Id="105" Name="Resolution_Changed" Class="_commentbox" pos="-584.27167,-186.31764,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="838.30286" Height="161.44841"/>
+   <NodeSize Width="838.30286" Height="188.83904"/>
+  </Node>
+  <Node Id="107" Class="Logic:Condition" pos="-350,-470,0" flags="0">
+   <Inputs Condition="0"/>
+  </Node>
+  <Node Id="108" Class="UI:Events:System:OnLevelStart" pos="-570,-420,0" flags="0"/>
+  <Node Id="109" Class="UI:Events:MainMenu:OnLevel" pos="-570,-330,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="110" Class="Math:ToBoolean" pos="-350,-420,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="111" Class="Logic:Any" pos="-350,-370,0" flags="0" InHideMask="63" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="112" Name="Show_on_resume_if_level_is_started" Class="_commentbox" pos="-582.30945,-508.84604,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="530.28046" Height="292.56314"/>
+   <NodeSize Width="530.28046" Height="319.95377"/>
+  </Node>
+  <Node Id="113" Class="UI:Events:System:OnLoadingStart" pos="-570,-280,0" flags="0"/>
+  <Node Id="116" Class="Game:ActorSensor" pos="-420,840,0" flags="0">
+   <Inputs entityId="0"/>
+  </Node>
+  <Node Id="117" Class="Game:LocalPlayer" pos="-570,840,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="118" Class="UI:Functions:HUDMain:SetSpecator" pos="-40,940,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="119" Class="Math:ToBoolean" pos="-160,940,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="120" Class="UI:Functions:HUDMain:SetDeath" pos="80,850,0" flags="0">
+   <Inputs instanceID="0"/>
+  </Node>
+  <Node Id="121" Class="Math:ToBoolean" pos="-40,850,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="122" Class="Game:WeaponSensor" pos="-420,480,0" flags="0">
+   <Inputs entityId="0"/>
+  </Node>
+  <Node Id="123" Class="Game:LocalPlayer" pos="-580,480,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="124" Class="Logic:Any" pos="-200,460,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="125" Class="Logic:Any" pos="-240,-710,0" flags="0" InHideMask="63" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="126" Class="Logic:Condition" pos="-190,850,0" flags="0">
+   <Inputs Condition="0"/>
+  </Node>
+  <Node Id="127" Class="UI:Display:Display" pos="-260,-150,0" flags="0">
+   <Inputs Element="HUDMain" instanceID="0"/>
+  </Node>
+  <Node Id="392" Class="UI:Display:UIElementListener" pos="-570,80,0" flags="0">
+   <Inputs Element="HUDMain" instanceID="0"/>
+  </Node>
+  <Node Id="393" Class="UI:Events:System:OnGameResume" pos="-560,-660,0" flags="0"/>
+  <Node Id="394" Class="Start" pos="-570,160,0" flags="0">
+   <Inputs InGame="1" InEditor="1"/>
+  </Node>
+  <Node Id="395" Class="Logic:Any" pos="-570,220,0" flags="0" InHideMask="63" OutHideMask="1">
+   <Inputs />
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="125" nodeOut="4" portIn="in1" portOut="out" enabled="1"/>
+  <Edge nodeIn="104" nodeOut="5" portIn="hide" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="107" nodeOut="6" portIn="In" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="4" nodeOut="13" portIn="in1" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="104" nodeOut="17" portIn="unload" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="62" nodeOut="21" portIn="Height" portOut="Height" enabled="1"/>
+  <Edge nodeIn="62" nodeOut="21" portIn="MapFile" portOut="MapFile" enabled="1"/>
+  <Edge nodeIn="62" nodeOut="21" portIn="Call" portOut="OnGet" enabled="1"/>
+  <Edge nodeIn="62" nodeOut="21" portIn="Width" portOut="Width" enabled="1"/>
+  <Edge nodeIn="111" nodeOut="22" portIn="in1" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="4" nodeOut="33" portIn="in3" portOut="output" enabled="1"/>
+  <Edge nodeIn="87" nodeOut="62" portIn="Get" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="71" nodeOut="78" portIn="Call" portOut="out" enabled="1"/>
+  <Edge nodeIn="69" nodeOut="87" portIn="Call" portOut="OnPosChange" enabled="1"/>
+  <Edge nodeIn="69" nodeOut="87" portIn="X" portOut="PosX" enabled="1"/>
+  <Edge nodeIn="69" nodeOut="87" portIn="Y" portOut="PosY" enabled="1"/>
+  <Edge nodeIn="69" nodeOut="87" portIn="Rot" portOut="Rotation" enabled="1"/>
+  <Edge nodeIn="127" nodeOut="103" portIn="reload" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="125" nodeOut="107" portIn="in2" portOut="OnTrue" enabled="1"/>
+  <Edge nodeIn="110" nodeOut="108" portIn="true" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="111" nodeOut="109" portIn="in2" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="107" nodeOut="110" portIn="Condition" portOut="out" enabled="1"/>
+  <Edge nodeIn="110" nodeOut="111" portIn="false" portOut="out" enabled="1"/>
+  <Edge nodeIn="111" nodeOut="113" portIn="in3" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="76" nodeOut="116" portIn="Call" portOut="OnToggleThirdPerson" enabled="1"/>
+  <Edge nodeIn="76" nodeOut="116" portIn="IsThirdPerson" portOut="OnToggleThirdPerson" enabled="1"/>
+  <Edge nodeIn="85" nodeOut="116" portIn="Call" portOut="OnHealthChange" enabled="1"/>
+  <Edge nodeIn="85" nodeOut="116" portIn="Health" portOut="OnHealthChange" enabled="1"/>
+  <Edge nodeIn="119" nodeOut="116" portIn="true" portOut="OnEnterSpecator" enabled="1"/>
+  <Edge nodeIn="119" nodeOut="116" portIn="false" portOut="OnLeaveSpecator" enabled="1"/>
+  <Edge nodeIn="121" nodeOut="116" portIn="false" portOut="OnRevive" enabled="1"/>
+  <Edge nodeIn="126" nodeOut="116" portIn="Condition" portOut="OnDeath" enabled="1"/>
+  <Edge nodeIn="126" nodeOut="116" portIn="In" portOut="OnDeath" enabled="1"/>
+  <Edge nodeIn="116" nodeOut="117" portIn="entityId" portOut="entityId" enabled="1"/>
+  <Edge nodeIn="116" nodeOut="117" portIn="Enable" portOut="onChange" enabled="1"/>
+  <Edge nodeIn="116" nodeOut="117" portIn="Get" portOut="onChange" enabled="1"/>
+  <Edge nodeIn="118" nodeOut="119" portIn="Call" portOut="out" enabled="1"/>
+  <Edge nodeIn="118" nodeOut="119" portIn="IsSpecator" portOut="out" enabled="1"/>
+  <Edge nodeIn="120" nodeOut="121" portIn="Call" portOut="out" enabled="1"/>
+  <Edge nodeIn="120" nodeOut="121" portIn="IsDeath" portOut="out" enabled="1"/>
+  <Edge nodeIn="70" nodeOut="122" portIn="AmmoTypeName" portOut="AmmoName" enabled="1"/>
+  <Edge nodeIn="70" nodeOut="122" portIn="IsMelee" portOut="IsMelee" enabled="1"/>
+  <Edge nodeIn="70" nodeOut="122" portIn="MaxAmmo" portOut="MaxAmmo" enabled="1"/>
+  <Edge nodeIn="70" nodeOut="122" portIn="WeaponName" portOut="WeaponName" enabled="1"/>
+  <Edge nodeIn="71" nodeOut="122" portIn="Ammo" portOut="Ammo" enabled="1"/>
+  <Edge nodeIn="78" nodeOut="122" portIn="in2" portOut="OnFiremodeChange" enabled="1"/>
+  <Edge nodeIn="78" nodeOut="122" portIn="in4" portOut="OnReloaded" enabled="1"/>
+  <Edge nodeIn="78" nodeOut="122" portIn="in3" portOut="OnShoot" enabled="1"/>
+  <Edge nodeIn="78" nodeOut="122" portIn="in1" portOut="OnWeaponChange" enabled="1"/>
+  <Edge nodeIn="80" nodeOut="122" portIn="Call" portOut="OnZoom" enabled="1"/>
+  <Edge nodeIn="80" nodeOut="122" portIn="Zoomed" portOut="Zoomed" enabled="1"/>
+  <Edge nodeIn="84" nodeOut="122" portIn="Call" portOut="OnShoot" enabled="1"/>
+  <Edge nodeIn="124" nodeOut="122" portIn="in2" portOut="OnFiremodeChange" enabled="1"/>
+  <Edge nodeIn="124" nodeOut="122" portIn="in1" portOut="OnWeaponChange" enabled="1"/>
+  <Edge nodeIn="122" nodeOut="123" portIn="entityId" portOut="entityId" enabled="1"/>
+  <Edge nodeIn="122" nodeOut="123" portIn="Enable" portOut="onChange" enabled="1"/>
+  <Edge nodeIn="122" nodeOut="123" portIn="Get" portOut="onChange" enabled="1"/>
+  <Edge nodeIn="70" nodeOut="124" portIn="Call" portOut="out" enabled="1"/>
+  <Edge nodeIn="104" nodeOut="125" portIn="show" portOut="out" enabled="1"/>
+  <Edge nodeIn="121" nodeOut="126" portIn="true" portOut="OnFalse" enabled="1"/>
+  <Edge nodeIn="395" nodeOut="392" portIn="in1" portOut="onInit" enabled="1"/>
+  <Edge nodeIn="4" nodeOut="393" portIn="in2" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="395" nodeOut="394" portIn="in2" portOut="output" enabled="1"/>
+  <Edge nodeIn="21" nodeOut="395" portIn="Get" portOut="out" enabled="1"/>
+  <Edge nodeIn="87" nodeOut="395" portIn="Enable" portOut="out" enabled="1"/>
+  <Edge nodeIn="96" nodeOut="395" portIn="send" portOut="out" enabled="1"/>
+  <Edge nodeIn="117" nodeOut="395" portIn="update" portOut="out" enabled="1"/>
+  <Edge nodeIn="123" nodeOut="395" portIn="update" portOut="out" enabled="1"/>
+ </Edges>
+</Graph>

@@ -1,0 +1,5 @@
+<Material MtlFlags="0" Shader="Illum" GenMask="268435456" SurfaceType="mat_wood_vehicleonly" Diffuse="0,0,0" Specular="0,0,0" Emissive="0,0,0" Shininess="10">
+ <Textures />
+ <PublicParams Displacement="0.025"/>
+ <MaterialLayers />
+</Material>

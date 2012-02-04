@@ -1,0 +1,5 @@
+<ParticleLibrary Name="rain" SandboxVersion="3.1.0.1631" ParticleVersion="20">
+ <Particles Name="rain.space_loop" Id="{2C4C416C-ABE2-4D71-9B15-40921EA13679}" Library="rain">
+  <Params Continuous="true" Count="600,0.25" ParticleLifeTime="1.5" PositionOffset=",8,4" RandomOffset="12,8,6" FocusGravityDir="true" EmitAngle=",1" OrientToVelocity="true" BlendType="Additive" Texture="textures/sprites/rain_drop_a.dds" Alpha=",,,(;0.14,1)" DiffuseLighting="0" EmissiveLighting="1" Size="0.5,0.5" Stretch="0.01" Speed="-75,0.25" AirResistance="2.1982" GravityScale="1" PhysicsType="SimpleCollision" CollideStaticObjects="true" Bounciness="-1" BindEmitterToCamera="true" SpaceLoop="true" CameraMaxDistance="20" VisibleIndoors="If_False" VisibleUnderwater="If_False"/>
+ </Particles>
+</ParticleLibrary>

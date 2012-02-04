@@ -1,0 +1,35 @@
+<AGTemplate name="InVehicleGameUpdate">
+	<Param name="animation" type="string"/>
+	<Param name="playback_speed" type="float"/>
+	<Param name="vehicle_seat_action" type="string"/>
+	
+	<SelectWhen>
+		<PseudoSpeed min="0" max="0.2"/>
+		<!--		<PseudoTurnAngleZ min="-0.3" max="0.3"/> -->
+	</SelectWhen>
+
+  <ColliderMode mode="Disabled"/>
+	<MovementControlMethod horizontal="Entity" vertical="Entity"/>
+
+	<ParamsLayer1
+		ManualUpdate="1"
+		TransitionTime="0.3"
+		KeyTime="0.5"
+		LoopAnimation="1"
+		RepeatLastKey="1"
+		VTimeWarping="0"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		ensureInStack="0"
+		stickyOutTime="0.3"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		/>
+		
+	<Output
+		name="VehicleSeatAction" 
+		value="$vehicle_seat_action"
+		/>
+</AGTemplate>

@@ -1,0 +1,6 @@
+<AGTemplate name="MusicStinger">
+  <Param name="delay_finish" type="float"/>
+  <MusicStinger/>
+  <MusicDelayLeaving time="$delay_finish"/>
+</AGTemplate>
+

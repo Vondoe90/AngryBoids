@@ -1,0 +1,9 @@
+<Material Diffuse="0.74901962,0.74901962,0.74901962" Emissive="0,0,0" GenMask="3" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0.53333336,0.53333336,0.53333336" SurfaceType="mat_metal_pipe" >
+ <Textures>
+  <Texture File="objects/library/architecture/aircraftcarrier/textures/trims/genericyellowmetal1.tif" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" DebugUVScale="64" />
+ <MaterialLayers />
+</Material>

@@ -1,0 +1,4 @@
+<AGTemplate name="IdleToMovementClamped" extend="IdleToMovement">
+	<MovementControlMethod horizontal="ClampedEntity" vertical="SmoothedEntity"/>
+</AGTemplate>
+

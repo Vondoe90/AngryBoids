@@ -1,0 +1,8 @@
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="0" MtlFlags="2048" Opacity="1" Shader="Fireparticles" Shininess="10" Specular="0,0,0" SurfaceType="" >
+ <Textures>
+  <Texture File="textures/sprites/smoke_massive18.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams AnimSpeed="2" BaseDarkening="1" BurnAmount="1" BurnOffset="42.509998" DetailTile="0.090000004" EndColor="0.60000002,0.32156864,0.11764707" StartColor="0.64313728,0.34509805,0.14901961" VariationTileU="0.30000001" VariationTileV="0.30000001" VariationTileW="0.5" />
+</Material>

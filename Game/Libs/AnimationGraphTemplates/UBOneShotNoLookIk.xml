@@ -1,0 +1,4 @@
+<AGTemplate name="UBOneShotNoLookIk" extend="UpperBodyOneShot">
+	<LookIk override="1"/>
+</AGTemplate>
+

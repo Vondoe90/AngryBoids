@@ -1,0 +1,36 @@
+<Substitutions>
+  <!-- Basically you can change and old node class to a new class
+       and also reconnect edges to new ports, by remapping old ports to new ones
+       optionally you can also remap the value of an old input port to an new one,
+       when the port name has changed
+       also, you can set the input port values of the new node to reasonable/appropriate values-->
+  <!--
+	<Node OldClass="HUD:DisplayInstructionMessage" NewClass="HUD:DisplayInfoMessage" />
+	<Node OldClass="HUD:DisplayInstructionMessage" NewClass="HUD:DisplayPDAMessage">
+		<InputPort OldName="display" NewName="display" />
+		<InputPort OldName="message" NewName="objective" RemapValue="1" />
+		<InputPort  OldName="Enable" NewName="__discard__" />
+	</Node>		
+	<Node OldClass="HUD:DisplayTimedDebugMessage" NewClass="HUD:DisplayTimedDebugMessage"> 
+		<Inputs DisplayTime="11.0" />
+	</Node>
+	-->
+
+  <Node OldClass="Animations:IK Target EntityPos" NewClass="Animations:IK Targets: EntityPos Target" />
+  <Node OldClass="Animations:IK Target AttachedHelper" NewClass="Animations:IK Targets: AttachedHelper Target" />
+  <Node OldClass="Animations:IK Target Attachment" NewClass="Animations:IK Targets: Attachment Target" />
+  <Node OldClass="Animations:IK Target Bone" NewClass="Animations:IK Targets: Bone Target" />
+  <Node OldClass="Animations:IK Target StopAll" NewClass="Animations:IK Targets: StopAll Targets" />
+
+  <Node OldClass="Animations:AnimGraphControl" NewClass="Animations:AnimationGraph:Pause" />
+  <Node OldClass="Animations:AnimGraphSetInput" NewClass="Animations:AnimationGraph:SetInput" />
+  <Node OldClass="Animations:AnimGraphLockInput" NewClass="Animations:AnimationGraph:LockInput" />
+  <Node OldClass="Animations:AnimGraphWatchOutput" NewClass="Animations:AnimationGraph:WatchOutput" />
+  <Node OldClass="Animations:AnimGraphCheckOutput" NewClass="Animations:AnimationGraph:CheckOutput" />
+  <Node OldClass="Animations:AnimGraphReset" NewClass="Animations:AnimationGraph:Reset" />
+
+<!--  <Node OldClass="" NewClass="" /> -->
+
+
+	
+</Substitutions> 

@@ -1,0 +1,13 @@
+<ParticleLibrary Name="environment_insects" SandboxVersion="3.3.7.2482" ParticleVersion="22">
+ <Particles Name="environment.flies" Id="{799EA84D-C248-4F11-AD7A-338506440CB1}" Library="environment_insects">
+  <Params Continuous="true" Count="2" ParticleLifeTime="34" DiffuseLighting="0" ForceGeneration="Target"/>
+  <Childs>
+   <Particles Name="insects_flies_highQ">
+    <Params Continuous="true" Count="45" SecondGeneration="true" EmitterLifeTime="30" ParticleLifeTime="4" PosRandomOffset="1" EmitAngle="180,1" OrientToVelocity="true" Texture="textures/sprites/fly_a.tif" DiffuseLighting="0.2" DiffuseBacklighting="0.3" SoundFXParam="0" Size="0.02,0.267,,(,,32;0.08035714,1;0.92410713,1;1,,4)" MinPixels="1" AirResistance="0.5" Turbulence3DSpeed="1" TurbulenceSize="2" TurbulenceSpeed="5" TargetAttraction=",true,,true,(1.5,0.4,,(,1;0.99553573,0.545,4))" PhysicsType="SimpleCollision" CollideTerrain="true" CollideStaticObjects="true" Bounciness="0.35" DynamicFriction="20" CameraMaxDistance="20" ConfigMin="High"/>
+   </Particles>
+   <Particles Name="insects_flies_lowQ">
+    <Params Continuous="true" Count="35" SecondGeneration="true" EmitterLifeTime="30" ParticleLifeTime="4" PosRandomOffset="1" EmitAngle="180,1" OrientToVelocity="true" Texture="textures/sprites/fly_a.tif" DiffuseLighting="0" EmissiveLighting="0.1" SoundFXParam="0" Size="0.02,0.267,,(,,32;0.08035714,1;0.92410713,1;1,,4)" AirResistance="0.5" Turbulence3DSpeed="1" TurbulenceSize="2" TurbulenceSpeed="5" TargetAttraction=",true,,true,(1.5,0.4,,(,1;0.99553573,0.545,4))" CameraMaxDistance="8" ConfigMax="Medium"/>
+   </Particles>
+  </Childs>
+ </Particles>
+</ParticleLibrary>

@@ -1,0 +1,33 @@
+<AGTemplate name="SwimIdle">
+	<Param name="animation" type="string"/>
+	<Param name="playback_speed" type="float"/>
+
+	<OverrideAttrs additionalTurnMultiplier="0"/>
+
+	<MovementControlMethod horizontal="Entity" vertical="Entity"/>
+  <ColliderMode mode="Pushable"/>
+
+  <Guard>
+    <Stance min="swim" max="swim" />
+  </Guard>
+
+  <ParamsLayer1
+		Structure=""
+		TransitionTime="0.5"
+		KeyTime="-1"
+		LoopAnimation="1"
+		RepeatLastKey="0"
+		VTimeWarping="0"
+		RetainDirection="1"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose=""
+		ensureInStack="0"
+		stickyOutTime="0.3"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		/>
+</AGTemplate>
+

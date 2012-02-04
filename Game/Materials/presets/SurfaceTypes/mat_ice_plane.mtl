@@ -1,0 +1,22 @@
+<Material MtlFlags="256" >
+ <SubMaterials>
+  <Material Diffuse="0.60784316,0.70980394,0.74117649" Emissive="0.26666668,0.26666668,0.26666668" GenMask="4099" MtlFlags="128" Name="top" Opacity="0.62" Shader="Illum" Shininess="12.45" Specular="0.74117649,0.75686282,0.81568635" SurfaceType="" >
+   <Textures>
+    <Texture File="Textures/Cubemaps/frozen_land.dds" Map="Diffuse" >
+     <TexMod />
+    </Texture>
+    <Texture File="Textures/normal/superrust_b_ddn.dds" Map="Bumpmap" >
+     <TexMod />
+    </Texture>
+    <Texture File="Textures/Cubemaps/frozen_land.dds" Map="Environment" >
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams BumpOffset="0.039999999" EnvMapAmount="0.25" FresnelBias="0" FresnelPow="5" FresnelScale="1" Reflect="0.5" />
+  </Material>
+  <Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="0" MtlFlags="1152" Name="side" Shader="Nodraw" Shininess="10" Specular="0,0,0" SurfaceType="" >
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams BumpOffset="0.039999999" EnvMapAmount="0.25" FresnelBias="0" FresnelPow="5" FresnelScale="1" Reflect="0.5" />
+</Material>

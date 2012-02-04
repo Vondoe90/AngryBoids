@@ -1,0 +1,506 @@
+<profile version="0">
+
+
+	<actionmap name="debug" version="21">
+	<!-- debug keys - move to debug when we can switch devmode-->
+		<action name="godmode" onPress="1" noModifiers="1">
+			<key name="f4"/>
+		</action>
+		<action name="ulammo" onPress="1" noModifiers="1">
+			<key name="np_2"/>
+		</action>
+		<action name="flymode" onPress="1" noModifiers="1">
+			<key name="f3"/>
+		</action>
+		<action name="debug" onPress="1">
+			<key name="7"/>
+		</action>
+		<action name="thirdperson" onPress="1" noModifiers="1">
+			<key name="f1"/>			
+			<key name="pad_up"/>
+		</action>
+		<action name="debug_ag_step" onPress="1">
+			<key name="backslash"/>
+		</action>
+		<action name="tweak_enable" onPress="1">
+			<key name="np_enter"/>
+		</action>
+		<action name="tweak_up" onPress="1">
+			<key name="up"/>
+			<key name="np_8"/>
+		</action>
+		<action name="tweak_down" onPress="1">
+			<key name="down"/>
+			<key name="np_2"/>
+		</action>
+		<action name="tweak_left" onPress="1">
+			<key name="left"/>
+			<key name="np_4"/>
+		</action>
+		<action name="tweak_right" onPress="1">
+			<key name="right"/>
+			<key name="np_6"/>
+		</action>
+		<action name="tweak_inc" onPress="1">
+			<key name="np_add"/>
+		</action>
+		<action name="tweak_dec" onPress="1">
+			<key name="np_subtract"/>
+		</action>
+	 <!-- debug keys - end -->
+	</actionmap>
+	
+	
+	
+	<actionmap name="multiplayer" version="20">
+	<!-- multiplayer specific keys -->
+		<action name="radio_group_0" onPress="1">
+			 <key name="f5"/>
+		</action>
+		<action name="radio_group_1" onPress="1">
+			 <key name="f6"/>
+		</action>
+		<action name="radio_group_2" onPress="1">
+			 <key name="f7"/>
+		</action>
+		<action name="radio_group_3" onPress="1">
+		 	<key name="f8"/>
+		</action>
+	</actionmap>
+	
+	
+	
+	<actionmap name="singleplayer" version="20">
+	<!-- singleplayer specific keys -->
+		<action name="save" onPress="1" consoleCmd="1">
+			<key name="f5"/>
+		</action>
+		<action name="loadLastSave" onPress="1" consoleCmd="1">
+			<key name="f9"/>
+		</action>
+		<action name="load" onPress="1" consoleCmd="1">
+			<key name="f8"/>
+		</action>
+	</actionmap>
+	
+	
+	
+	<actionmap name="default" version="21">
+	<!-- default keys -->
+   <action name="screenshot" onPress="1">
+      <key name="F12" />
+    </action>
+		<action name="skip_cutscene" onPress="1" noModifiers="1">
+			<key name="space"/>
+		</action>
+		<action name="xi_disconnect" onPress="1" onRelease="1">
+			<key name="disconnect"/>
+		</action>
+		<action name="objectives" onPress="1" onRelease="1" noModifiers="0">
+			<key name="o"/>
+		</action>
+		<action name="use" onPress="1" onRelease="1">
+	   		<!-- also former v_exit -->
+			<key name="f"/>			
+		</action>
+		<action name="xi_use" onPress="1" onRelease="1">	
+			<key name="pad_triangle"/>
+		</action>
+		<action name="attack1" onPress="1" onRelease="1">
+	  		<!-- also former v_attack1 -->
+			<key name="mouse1"/>			
+			<key name="pad_r2"/>
+		</action>
+		<action name="zoom" onPress="1" onRelease="1">
+			<!-- also former v_attack2 -->
+			<key name="mouse2"/>
+		</action>
+		<action name="xi_zoom" onPress="1" onRelease="1">			
+			<key name="pad_l2"/>     
+		</action>
+		<action name="firemode" onPress="1">
+		   	<!-- also former v_firemode -->
+			<key name="x"/>			
+			<key name="pad_down"/>
+		</action>
+		<action name="buyammo" onPress="1" consoleCmd="1" >
+			<key name="period"/>
+		</action>
+		<action name="voice_chat_talk" onPress="1" onRelease="1">
+			<key name="lalt"/>
+		</action>
+		<action name="cycle_spectator_mode" onPress="1">
+			<key name="space"/>
+		</action>
+		<action name="prev_spectator_target" onPress="1">
+			<key name="left"/>
+		</action>
+		<action name="next_spectator_target" onPress="1">
+			<key name="right"/>
+      <key name="mouse2"/>
+		</action>
+		<action name="revive" onPress="1">
+			<key name="mouse1"/>
+			<key name="pad_r2"/>
+		</action>
+		<!-- UI keys -->
+		<action name="ui_toggle_pause" onPress="1" onRelease="1" >
+			<key name="escape"/>
+			<key name="pad_start"/>
+		</action>
+		<action name="ui_up" onPress="1" onRelease="1" >
+			<key name="pad_up"/>
+		</action>
+		<action name="ui_down" onPress="1" onRelease="1" >
+			<key name="pad_down"/>
+		</action>
+		<action name="ui_left" onPress="1" onRelease="1" >
+			<key name="pad_left"/>
+		</action>
+		<action name="ui_right" onPress="1" onRelease="1" >
+			<key name="pad_right"/>
+		</action>
+		<action name="ui_click" onPress="1" onRelease="1" >
+			<key name="pad_cross"/>
+		</action>
+		<action name="ui_back" onPress="1" onRelease="1" >
+			<key name="pad_circle"/>
+		</action>
+	</actionmap>
+
+
+
+	<actionmap name="player" version="21">
+	<!-- player keys -->
+		<action name="moveleft" onPress="1" onRelease="1" retriggerable="1">
+			<key name="a"/>
+		</action>
+		<action name="moveright" onPress="1" onRelease="1" retriggerable="1">
+			<key name="d"/>
+		</action>
+		<action name="moveforward" onPress="1" onRelease="1" retriggerable="1">
+			<key name="w"/>
+		</action>
+		<action name="moveback" onPress="1" onRelease="1" retriggerable="1">
+			<key name="s"/>
+		</action>
+		<action name="jump" onPress="1" onRelease="1">
+			<key name="space"/>			
+			<key name="pad_cross"/>
+		</action>
+		<action name="crouch" onPress="1" onRelease="0" retriggerable="1">
+			<key name="lctrl"/>			
+			<key name="pad_circle"/>
+		</action>
+		<action name="prone" onPress="1" onHold="1">
+			<key name="z"/>
+		</action>
+		<action name="sprint" onPress="1" onRelease="1" retriggerable="1">
+			<key name="lshift"/>			
+			<key name="pad_l1"/>
+		</action>
+		<action name="special" onPress="1" onRelease="1">
+			<key name="t"/>			
+		</action>  
+		<action name="leanleft" onPress="1" onRelease="1" onHold="1">
+			<key name="q"/>
+		</action>
+		<action name="leanright" onPress="1" onRelease="1" onHold="1">
+			<key name="e"/>
+		</action>
+		<action name="reload" onPress="1">
+			<key name="r"/>			
+			<key name="pad_square"/>
+		</action>
+		<action name="drop" onPress="1" onRelease="1">
+			<key name="j"/>
+		</action>
+		<action name="nextitem" onPress="1">
+			<key name="mwheel_up"/>			
+		</action>
+		<action name="previtem" onPress="1">
+			<key name="mwheel_down"/>
+      <key name="pad_right"/>
+		</action>
+		<action name="small" onPress="1">
+			<key name="1"/>
+		</action>
+		<action name="medium" onPress="1">
+			<key name="2"/>
+		</action>
+		<action name="explosive" onPress="1">
+			<key name="3"/>
+		</action>
+		<action name="suitmode" onPress="1">
+			<key name="4"/>
+		</action>
+		<action name="utility" onPress="1">
+			<key name="5"/>
+		</action>
+		<action name="handgrenade" onPress="1">
+			<key name="h"/>			
+			<key name="pad_left"/>
+		</action>
+		<!-- GDCdemo DISABLED toggle grenades dir.right
+			<action name="xi_handgrenade" onPress="1" onRelease="1">		
+			<key name="pad_triangle"/>
+		</action> -->
+		<action name="binoculars" onPress="1">
+			<key name="b"/>			
+		</action>
+		<action name="grenade" onPress="1" onRelease="1">
+			<key name="g"/>			
+			<key name="pad_r1"/>
+		</action>
+		<!-- GDCdemo DISABLED / grenade ENABLED
+			<action name="xi_grenade" onPress="1" onRelease="1">			
+			<key name="pad_triangle"/>
+		</action> -->
+		<action name="gboots" onPress="1">
+			<key name="n"/>
+		</action>
+		<action name="rotateyaw">
+			<key name="maxis_x"/>
+		</action>
+		<action name="rotatepitch">
+			<key name="maxis_y"/>
+		</action>
+		<action name="zoom_in" onPress="1">
+			<key name="mwheel_up"/>			
+			<key name="pad_l1"/>        
+		</action>
+		<action name="zoom_out" onPress="1">
+			<key name="mwheel_down"/>			
+			<key name="pad_l2"/>
+		</action>
+		 <!-- XBOX 360 SPECIFIC CONTROLS START -->
+		<action name="xi_movey">			
+			<key name="pad_stickly"/>
+		</action>
+		<action name="xi_movex">			
+			 <key name="pad_sticklx"/>
+		</action>
+		<action name="xi_rotateyaw">			
+			<key name="pad_stickrx"/>
+		</action>
+		<action name="xi_rotatepitch">			
+			<key name="pad_stickry"/>
+		</action>
+		<action name="xi_binoculars" onPress="1" onRelease="1">
+		</action>
+		 <!-- XBOX 360 SPECIFIC CONTROLS END -->
+		 <!-- NOT NEEDED ANYMORE? START -->
+		<action name="horn" onPress="1" onRelease="1">
+			<key name="h"/>
+		</action>
+		<action name="lights" onPress="1">
+			<key name="l"/>
+		</action>
+		 <!-- NOT NEEDED ANYMORE? END -->
+	</actionmap>
+	
+	
+	
+	<actionmap name="vehicle" version="21">
+	<!-- vehicle keys -->
+		<action name="use" onPress="1" onRelease="1">	   					
+			<key name="pad_triangle"/>
+		</action>	   
+		<action name="v_horn" onPress="1" onRelease="1">
+			<key name="h"/>			
+		</action>
+		<action name="v_lights" onPress="1" onRelease="1">
+			<key name="l"/>			
+		</action>
+		<action name="v_changeseat1" onPress="1">
+			<key name="1"/>
+		</action>
+		<action name="v_changeseat2" onPress="1">
+			<key name="2"/>
+		</action>
+		<action name="v_changeseat3" onPress="1">
+			<key name="3"/>
+		</action>
+		<action name="v_changeseat4" onPress="1">
+			<key name="4"/>
+		</action>
+		<action name="v_changeseat5" onPress="1">
+			<key name="5"/>
+		</action>
+		<action name="v_changeseat" onPress="1">			
+			<key name="pad_circle"/>
+		</action>
+		<action name="v_changeview" onPress="1">
+			<key name="f1"/>			
+			<key name="pad_up"/>
+		</action>
+		<action name="v_zoom_in" onPress="1">
+			<key name="mwheel_up"/>
+		</action>
+		<action name="v_zoom_out" onPress="1">
+			<key name="mwheel_down"/>
+		</action>
+		<action name="v_rotateyaw">
+			<key name="maxis_x"/>
+		</action>
+		<action name="v_rotatepitch">
+			<key name="maxis_y"/>
+		</action>
+		<action name="binoculars" onPress="1">
+			<key name="b"/>
+		</action>
+		 <!-- XBOX 360 SPECIFIC CONTROLS START -->
+		<action name="xi_movey">			
+			<key name="pad_stickly"/>
+		</action>
+		<action name="xi_movex">			
+			 <key name="pad_sticklx"/>
+		</action>
+		<action name="xi_rotateyaw">			
+			<key name="pad_stickrx"/>
+		</action>
+		<action name="xi_rotatepitch">			
+			<key name="pad_stickry"/>
+		</action>
+		 <!-- XBOX 360 SPECIFIC CONTROLS END -->
+	</actionmap>
+	
+	
+	
+	<actionmap name="landvehicle" version="21">
+	<!-- landvehicle keys -->
+		<action name="v_turnleft" onPress="1" onRelease="1" retriggerable="1">
+			<key name="a"/>
+		</action>
+		<action name="v_turnright" onPress="1" onRelease="1" retriggerable="1">
+			<key name="d"/>
+		</action>
+		<action name="v_moveforward" onPress="1" onRelease="1" retriggerable="1">
+			<key name="w"/>
+		</action>
+		<action name="v_moveback" onPress="1" onRelease="1" retriggerable="1">
+			<key name="s"/>
+		</action>
+		<action name="v_brake" onPress="1" onRelease="1">
+			<key name="space"/>			
+			<key name="pad_cross"/>
+		</action>
+		<action name="v_boost" onPress="1" onRelease="1" retriggerable="1">
+			<key name="lshift"/>
+      <key name="pad_l1"/>
+		</action>
+		<action name="v_rollleft" onPress="1" onRelease="1">
+			<key name="q"/>
+		</action>
+		<action name="v_rollright" onPress="1" onRelease="1">
+			<key name="e"/>
+		</action>
+	</actionmap>
+	
+	
+	
+	<actionmap name="seavehicle" version="21">
+	<!-- seavehicle keys -->
+		<action name="v_turnleft" onPress="1" onRelease="1" retriggerable="1">
+			<key name="a"/>
+		</action>
+		<action name="v_turnright" onPress="1" onRelease="1" retriggerable="1">
+			<key name="d"/>
+		</action>
+		<action name="v_moveforward" onPress="1" onRelease="1" retriggerable="1">
+			<key name="w"/>
+		</action>
+		<action name="v_moveback" onPress="1" onRelease="1" retriggerable="1">
+			<key name="s"/>
+		</action>
+		<action name="v_brake" onPress="1" onRelease="1">
+			<key name="space"/>			
+			<key name="pad_cross"/>
+		</action>
+		<action name="v_boost" onPress="1" onRelease="1" onHold="1" retriggerable="1">
+			<key name="lshift"/>
+      <key name="pad_l1"/>
+		</action>
+	</actionmap>
+	
+	
+	
+	<actionmap name="helicopter" version="21">
+	<!-- helicopter keys -->
+		<action name="v_moveup" onPress="1" onRelease="1" retriggerable="1">
+			<key name="w"/>
+		</action>
+		<action name="v_movedown" onPress="1" onRelease="1" retriggerable="1">
+			<key name="s"/>
+		</action>
+		<action name="v_pitchup" onPress="1" onRelease="1">
+			<key name="r"/>
+		</action>
+		<action name="v_pitchdown" onPress="1" onRelease="1">
+			<key name="c"/>
+		</action>
+		<action name="v_boost" onPress="1" onRelease="1" retriggerable="1">
+			<key name="lshift"/>
+      <key name="pad_l1"/>
+		</action>
+		<action name="v_brake" onPress="1" onRelease="1">
+			<key name="key"/>
+		</action>
+		<action name="v_rotatedir" always="1">
+			<key name="maxis_x"/>
+		</action>
+		<action name="v_rotatepitch" always="1">
+			<key name="maxis_y"/>
+		</action>
+		<action name="v_rollleft" onPress="1" onRelease="1" onHold="1">
+			<key name="a"/>
+		</action>
+		<action name="v_rollright" onPress="1" onRelease="1" onHold="1">
+			<key name="d"/>
+		</action>
+	</actionmap>
+	
+	
+	
+	<actionmap name="vtol" version="21">
+	<!-- vtol keys -->
+		<action name="v_moveforward" onPress="1" onRelease="1" retriggerable="1">
+			<key name="w"/>
+		</action>
+		<action name="v_moveback" onPress="1" onRelease="1" retriggerable="1">
+			<key name="s"/>
+		</action>
+		<action name="v_moveup" onPress="1" onRelease="1">
+			<key name="space"/>			
+			<key name="pad_up"/>
+		</action>
+		<action name="v_movedown" onPress="1" onRelease="1">
+			<key name="lctrl"/>			
+			<key name="pad_down"/>
+		</action>
+		<action name="v_rollleft" onPress="1" onRelease="1" onHold="1">
+			<key name="q"/>
+		</action>
+		<action name="v_rollright" onPress="1" onRelease="1" onHold="1">
+			<key name="e"/>
+		</action>
+		<action name="v_strafeleft" onPress="1" onRelease="1" onHold="1">
+			<key name="a"/>
+		</action>
+		<action name="v_straferight" onPress="1" onRelease="1" onHold="1">
+			<key name="d"/>
+		</action>
+		<action name="v_boost" onPress="1" onRelease="1" retriggerable="1">
+			<key name="lshift"/>
+      <key name="pad_l1"/>			
+		</action>
+		<action name="v_rotatedir" always="1">
+			<key name="maxis_x"/>
+		</action>
+		<action name="v_rotatepitch" always="1">
+			<key name="maxis_y"/>
+		</action>
+	</actionmap>
+	
+	
+</profile>

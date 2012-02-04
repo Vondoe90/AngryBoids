@@ -1,0 +1,15 @@
+<Material MtlFlags="2048" Shader="Cloak" GenMask="1" SurfaceType="mat_glass" Diffuse="1,1,1" Specular="0.627451,0.627451,0.627451" Emissive="0,0,0" Shininess="64" Opacity="1">
+ <Textures>
+  <Texture Map="Diffuse" File="textures/defaults/white.dds">
+   <TexMod />
+  </Texture>
+  <Texture Map="Normalmap" File="materials/presets/materialtypes/textures/organic_ddn.dds">
+   <TexMod />
+  </Texture>
+  <Texture Map="Environment" File="textures/defaults/white.dds">
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams RefrBumpScale="0.40000001" VertexDeformScale="0.30000001" InterferenceSpeedScale="1" DifractionAmount="1" DifractionWrap="1" InterferenceSizeScale="0.89999998"/>
+ <MaterialLayers />
+</Material>

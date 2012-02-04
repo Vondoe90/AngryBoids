@@ -1,0 +1,32 @@
+<AGTemplate name="HunterMovement">
+
+	<Param name="animation" type="string"/>
+  <Param name="transition_time" type="float"/>
+  <Param name="playback_speed" type="float"/>
+
+	<MovementControlMethod horizontal="Entity" vertical="Entity"/>
+
+	<ParamsLayer1
+		Structure=""
+		TransitionTime="iff( $transition_time == 0, 0.2, $transition_time )"
+		KeyTime="-1"
+		LoopAnimation="1"
+		RepeatLastKey="0"
+		VTimeWarping="0"
+		WaitForAnimation="0"		
+		AllowAnimRestart="1"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose=""
+		ensureInStack="0"
+		stickyOutTime="-1"
+		forceLeaveWhenFinished="0"
+		stayInStateUntil="0"
+		forceStayInStateUntil="0"
+		speedMultiplier="$playback_speed"
+		/>
+
+</AGTemplate>
+

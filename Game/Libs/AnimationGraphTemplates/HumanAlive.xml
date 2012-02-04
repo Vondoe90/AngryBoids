@@ -1,0 +1,12 @@
+<AGTemplate name="HumanAlive">
+	<SelectWhen>
+		<Health max="100" min="1" />
+		<Vehicle value="none" />
+		<Signal value="none"/>
+	</SelectWhen>
+
+  <ColliderMode mode="Undefined"/>
+	<MovementControlMethod horizontal="Entity" vertical="Entity"/>
+
+</AGTemplate>
+

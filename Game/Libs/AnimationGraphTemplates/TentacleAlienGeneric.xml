@@ -1,0 +1,28 @@
+<AGTemplate name="TentacleAlienGeneric">
+   <Param name="animation" type="string"/>
+   <Param name="physics_blending" type="float"/>
+   <Param name="physics_jointLimit" type="float"/>
+   <Param name="TransitionTime" type="float"/>
+   <Param name="playback_speed" type="float"/>
+   <Param name="Loop" type="bool"/>
+   
+   <ParamsLayer1 
+		BlendInTime="-1" 
+		BlendOutTime="-1" 
+		TransitionTime="$TransitionTime" 
+		KeyTime="-1" 
+		LockInterpolation="0" 
+		LoopAnimation="$Loop" 
+		RepeatLastKey="0" 
+		PhaseSynching="0" 
+		VtimeWarping="0" 
+		IgnoreFootplants="0" 
+		Recursive="1" 
+		Aligned="0" 
+		NoDefaultIdle="0"
+   />
+   	
+   <AnimationLayer1 animation1="$animation" animation2="" ensureInStack="1" stickyOutTime="0.3" forceLeaveWhenFinished="0" speedMultiplier="$playback_speed"/>
+   
+   <TentacleParams animBlend="$physics_blending" bones="all" jointLimit="$physics_jointLimit"/>
+</AGTemplate>

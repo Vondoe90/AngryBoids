@@ -1,0 +1,8 @@
+<Material MtlFlags="0" Shader="Illum" GenMask="268435456" SurfaceType="" Diffuse="0.63137257,0.63137257,0.63137257" Specular="0,0,0" Emissive="0,0,0" Shininess="9" Opacity="1">
+ <Textures>
+  <Texture Map="Diffuse" File="objects/default/gridb.tif">
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

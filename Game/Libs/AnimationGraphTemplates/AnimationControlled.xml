@@ -1,0 +1,30 @@
+<AGTemplate name="AnimationControlled">
+	<Param name="animation" type="string"/>
+		
+	<Event onEnter="AnimationControlled" onExit="GameControlled" matchAnimation="1"/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		ensureInStack="0" 
+		stickyOutTime="0" 
+		forceLeaveWhenFinished="0" 
+		speedMultiplier="1"
+		stopCurrentAnimation="1"
+		/>
+	
+	<TransitionParamsLayer1
+		Structure="" 
+		TransitionTime="-1" 
+		KeyTime="-1" 
+		LoopAnimation="0" 
+		RepeatLastKey="1" 
+		VTimeWarping="0" 
+		WaitForAnimation="1"
+		/> 
+	<!--		
+   	<AnimationNew aligned="0" ensureInStack="1" ignoreFootplants="1" layer="0" loopAnimation="0" mixerInput="" mixerMult="1" phaseSyncing="1" play="$animation" play2="" recursive="1" repeatLastKey="0" skipIfSameAnimation="0" startAfter="0" stopCurrentAnimation="1" transitionTime="-1" vtimeWarping="1" weightInput="" weightMult="1" weightOffset="0" />
+   	<AnimationNew aligned="0" ensureInStack="1" ignoreFootplants="1" layer="1" loopAnimation="0" mixerInput="" mixerMult="1" phaseSyncing="1" play="$animation" play2="" recursive="1" repeatLastKey="0" skipIfSameAnimation="0" startAfter="0" stopCurrentAnimation="1" transitionTime="-1" vtimeWarping="1" weightInput="" weightMult="1" weightOffset="0" />
+	<AnimationNew aligned="0" ensureInStack="1" ignoreFootplants="1" layer="2" loopAnimation="0" mixerInput="" mixerMult="1" phaseSyncing="1" play="$animation" play2="" recursive="1" repeatLastKey="0" skipIfSameAnimation="0" startAfter="0" stopCurrentAnimation="1" transitionTime="-1" vtimeWarping="1" weightInput="" weightMult="1" weightOffset="0" />
+	-->
+</AGTemplate>
+

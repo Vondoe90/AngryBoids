@@ -1,0 +1,5 @@
+<Material MtlFlags="2048" Shader="FX_VelocityBeamParticles" GenMask="0" SurfaceType="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+ <Textures />
+ <PublicParams VariationTileU="0.1" VariationTileV="0.1" VariationTileW="0.1" StartColor="1,1,1" EndColor="0,0,0" StartBeamsSharpness="32" EndBeamsSharpness="4"/>
+ <MaterialLayers />
+</Material>

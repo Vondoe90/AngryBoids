@@ -1,0 +1,9 @@
+<Material Diffuse="0.58039218,0.72549021,0.73725492" Emissive="0,0,0" GenMask="1" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0,0,0" SurfaceType="mat_water" >
+ <Textures>
+  <Texture File="objects/library/architecture/aircraftcarrier/128gray.tif" Filter="4" Map="Diffuse" >
+   <TexMod TileU="20" TileV="20" />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" DebugUVScale="64" />
+ <MaterialLayers />
+</Material>

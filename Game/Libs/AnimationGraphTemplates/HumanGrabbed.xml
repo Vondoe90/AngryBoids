@@ -1,0 +1,27 @@
+<AGTemplate name="HumanGrabbed">
+	<Param name="animation" type="string"/>
+
+	<MovementControlMethod horizontal="Entity" vertical="Entity"/>
+	<ColliderMode mode="Disabled"/>
+
+	<ParamsLayer1
+		Structure=""
+		TransitionTime="0"
+		KeyTime="-1"
+		LoopAnimation="1"
+		RepeatLastKey="0"
+		VTimeWarping="0"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose=""
+		ensureInStack="0"
+		stickyOutTime="-1"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="1"
+		stopCurrentAnimation="1"
+		interruptCurrAnim="1"
+		/>
+</AGTemplate>
+

@@ -1,0 +1,94 @@
+<UIElements name="Menus">
+
+  <UIElement name="MainMenu" mouseevents="1" keyevents="1" cursor="1" console_mouse="0" console_cursor="0" controller_input="1">
+
+    <GFx file="MainMenu.gfx" layer="3">
+      <Constraints>
+        <Align mode="fullscreen" />
+      </Constraints>
+    </GFx>
+  
+    <functions>
+      <function name="SetLevelList" funcname="updateLevelList" />
+      <function name="EnableResume" funcname="enableResume">
+        <param name="Enable" desc="is enabled"/>
+      </function>
+	  <function name="SetupResolutions" funcname="setUpRes" />
+      <function name="SetupSettings" funcname="setUpSettings">
+        <param name="ResX" desc=""/>
+        <param name="ResY" desc=""/>
+        <param name="FullScreen" desc=""/>
+        <param name="MusicVolume" desc=""/>
+        <param name="SoundVolume" desc=""/>
+      </function>
+    </functions>
+        
+    <arrays>
+      <array name="Levels" varname="m_levellist" />
+      <array name="Resolutions" varname="m_resolutions" />
+    </arrays>
+    
+    <events>
+      <event name="OnExit" fscommand="exitGame" />
+      <event name="OnResume" fscommand="resumeGame" />
+	  <event name="OnChangeLang" fscommand="languageButton" desc="" />
+      <event name="OnLevel" fscommand="loadLevel" desc="">
+        <param name="LevelName" desc="LevelName"/>
+      </event>    
+      <event name="OnSettingsChange" fscommand="setSettings" desc="">    
+        <param name="ResX" desc=""/>
+        <param name="ResY" desc=""/>
+        <param name="FullScreen" desc=""/>
+        <param name="MusicVolume" desc=""/>
+        <param name="SoundVolume" desc=""/>
+      </event>    
+    </events>    
+    
+  </UIElement>
+  
+  <UIElement name="LoadingScreen">
+
+    <GFx file="LoadingScreen.gfx" layer="2" alpha="1" >
+      <Constraints>
+        <Align mode="fullscreen" />
+      </Constraints>
+    </GFx>
+  
+    <functions>
+      <function name="SetupLevel" funcname="setupLevel">
+        <param name="Video" desc="Preview video of the level"/>
+        <param name="Image" desc="Preview image of the level"/>
+      </function>
+    </functions>
+  
+    <variables>
+      <variable name="Percent" varname="LoadingPanel.TextLayer.Percent.text"/>
+      <variable name="LevelName" varname="LoadingPanel.TextLayer.Level.text"/>
+    </variables>
+    
+  </UIElement>
+  
+  <UIElement name="IngameMenu" mouseevents="1" keyevents="1" cursor="1" console_mouse="0" console_cursor="0" controller_input="1">
+
+    <GFx file="IngameMenu.gfx" layer="2" alpha="0.8">
+      <Constraints>
+        <Align mode="dynamic" valign="center" halign="center" scale="1" max="1" />
+      </Constraints>
+    </GFx>
+  
+    <variables>
+      <variable name="LevelName" varname="labelLevel.text"/>
+    </variables>
+
+    <events>
+      <event name="OnResume" fscommand="onBtnResume" desc="" />
+      <event name="OnRestart" fscommand="onBtnRestart" desc="" />
+      <event name="OnSave" fscommand="onBtnSave" desc="" />
+      <event name="OnLoad" fscommand="onBtnLoad" desc="" />
+      <event name="OnMainMenu" fscommand="onBtnMenu" desc="" />
+      <event name="OnExit" fscommand="onBtnExit" desc="" />
+    </events> 
+       
+  </UIElement>
+  
+</UIElements>

@@ -1,0 +1,14 @@
+<AGTemplate name="FallAndPlay">
+	<Event 
+		onEnter="EnableFallAndPlay" 
+		matchAnimation="0"
+		/>
+
+	<MovementControlMethod horizontal="Entity" vertical="Entity"/>
+
+	<FallAndPlay/>
+
+	<FacialEffector idle="" alerted="" combat="" all="closed_eyes_01"/>
+
+</AGTemplate>
+

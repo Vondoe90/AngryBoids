@@ -1,0 +1,36 @@
+<AGTemplate name="Movement">
+	<Param name="animation" type="string"/>
+  <!--Param name="select_speed_slow" type="float"/-->
+  <!--Param name="select_speed_fast" type="float"/-->
+	<Param name="key_time" type="float"/>
+	<Param name="playback_speed" type="float"/>
+	<Param name="structure" type="string"/>
+  <Param name="transition_time" type="float"/>
+  <Param name="aim_pose" type="string"/>
+
+  <!--SelectWhen>
+		<PseudoSpeed min="$select_speed_slow" max="$select_speed_fast"/>
+	</SelectWhen-->
+
+	<MovementControlMethod horizontal="Entity" vertical="Entity"/>
+
+	<ParamsLayer1
+		Structure="$structure"
+		TransitionTime="iff( $transition_time == 0, 0.6, $transition_time )"
+		KeyTime="$key_time"
+		LoopAnimation="1"
+		RepeatLastKey="0"
+		VTimeWarping="1"
+		Idle2Move="1"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose="$aim_pose"
+		ensureInStack="0"
+		stickyOutTime="-1"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		/>
+</AGTemplate>
+

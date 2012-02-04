@@ -1,0 +1,87 @@
+<FXLib>
+
+	<Effect name="crouch_on">
+		<Sound>
+			<Name>Sounds/physics:foleys/npc:crouch_on</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="crouch_off">
+		<Sound>
+			<Name>Sounds/physics:foleys/npc:crouch_off</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="jump_on">
+		<Sound>
+			<Name>Sounds/physics:foleys/npc:jump_on</Name>
+		</Sound>
+	</Effect>
+	
+	<Effect name="jump_off">
+		<Sound>
+			<Name>Sounds/physics:foleys/npc:jump_off</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="gear">
+		<Sound>
+			<Name>Sounds/physics:foleys/npc:gear</Name>
+		</Sound>
+	</Effect>
+	
+	<Effect name="gear_slow">
+		<Sound>
+			<Name>Soundsphysics:foleys/npc:gear_slow</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="gear_medium">
+		<Sound>
+			<Name>Soundsphysics:foleys/npc:gear_medium</Name>
+		</Sound>
+	</Effect>
+	
+	<Effect name="gear_fast">
+		<Sound>
+			<Name>Soundsphysics:foleys/npc:gear_fast</Name>
+		</Sound>
+	</Effect>
+	
+	<Effect name="turn">
+		<Sound>
+			<Name>Sounds/physics:foleys/npc:turn</Name>
+		</Sound>
+	</Effect>
+	
+	<Effect name="bodyhit">
+		<Sound>
+			<Name>Sounds/physics:foleys/npc:bodyhit</Name>
+		</Sound>
+	</Effect>
+	
+	<Effect name="throw">
+		<Sound>
+			<Name>Sounds/physics:foleys/npc:throw_generic</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="grab">
+		<Sound>
+			<Name>Sounds/physics:foleys/npc:grab_generic</Name>
+		</Sound>
+	</Effect>
+
+	<Effect name="bag_movement">
+		<Sound>
+			<Name>Sounds/physics:foleys/npc:bag_movement</Name>
+		</Sound>
+	</Effect>
+	
+	<Effect name="default">
+		<Sound>
+			<Name>Sounds/physics:foleys/npc:gear</Name>
+		</Sound>
+	</Effect>
+
+</FXLib>

@@ -1,0 +1,9 @@
+<AGTemplate name="EndMusic">
+	<Param name="forcelimit" type="float"/>
+	<Param name="fadetype" type="int"/>
+	<Param name="delay_finish" type="float"/>
+
+	<EndMusic forcelimit="$forcelimit" fadetype="$fadetype" />
+	<MusicDelayLeaving time="$delay_finish"/>
+</AGTemplate>
+

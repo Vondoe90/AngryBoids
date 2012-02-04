@@ -1,0 +1,21 @@
+<AGTemplate name="AlienIdleToIdleNoForceStay">
+   <Param name="animation" type="string"/>
+   <Param name="TransitionTime" type="float"/>
+   <Param name="playback_speed" type="float"/>
+   <Param name="stay_in_state_until" type="float"/>
+   <TransitionParamsLayer1
+   	TransitionTime="$TransitionTime" 
+   	KeyTime="-1" 
+   	LoopAnimation="0" 
+   	RepeatLastKey="1" 
+   	VtimeWarping="0" 
+   	WaitForAnimation="1"/>
+   <AnimationLayer1 
+   	animation1="$animation" 
+   	ensureInStack="0"
+   	stickyOutTime="-1" 
+   	stayInStateUntil="$stay_in_state_until" 
+   	forceStayInStateUntil="0" 
+   	forceLeaveWhenFinished="0" 
+   	speedMultiplier="$playback_speed"/>
+</AGTemplate>

@@ -1,0 +1,53 @@
+<AGTemplate name="StanceTransIdleToMove">
+	<Param name="animation" type="string"/>
+	<Param name="playback_speed" type="float"/>
+	<Param name="mp_playback_speed" type="float"/>
+	<Param name="structure" type="string"/>
+  <Param name="TimeAlign_StartPhase" type="float"/>
+  <Param name="TimeAlign_MatchPhaseMin" type="float"/>
+  <Param name="TimeAlign_MatchPhaseMax" type="float"/>
+  <Param name="transition_time" type="float"/>
+  <Param name="aim_pose" type="string"/>
+  <Param name="end_aim_pose" type="string"/>
+  <Param name="stance" type="string"/>
+
+  <Param name="MoveDirLH" type="string"/>
+  <Param name="MoveSpeedLHMin" type="float"/>
+  <Param name="MoveSpeedLHMax" type="float"/>
+
+  <MovementControlMethod horizontal="DecoupledCatchUp" vertical="SmoothedEntity"/>
+  <ColliderMode mode="Pushable"/>
+
+  <Guard>
+    <AnimPhase min="$TimeAlign_MatchPhaseMin" max="$TimeAlign_MatchPhaseMax" />
+    <Stance min="$stance" max="$stance" />
+    <RequestedMoveDir4LH min="$MoveDirLH" max="$MoveDirLH"/>
+    <RequestedMoveSpeedLH min="$MoveSpeedLHMin" max="$MoveSpeedLHMax"/>
+  </Guard>
+
+	<TransitionParamsLayer1
+		Structure="$structure"
+		TransitionTime="iff( $transition_time == 0, 0.2, $transition_time )"
+		KeyTime="iff( $TimeAlign_StartPhase == 0, -1, $TimeAlign_StartPhase )"
+		LoopAnimation="0"
+		RepeatLastKey="1"
+		VTimeWarping="0"
+		WaitForAnimation="0"
+		/>
+
+  <!--forceInStateUntil="0"-->
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose="$aim_pose"
+		aimPose2="$end_aim_pose"
+		ensureInStack="0"
+		stickyOutTime="-1"
+		forceLeaveWhenFinished="0"
+		stayInStateUntil="0.85"
+		forceInStateUntil="0.0"
+		speedMultiplier="$playback_speed"
+		MPSpeedMultiplier="$mp_playback_speed"
+		interruptCurrAnim="1"
+		/>
+</AGTemplate>
+

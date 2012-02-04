@@ -1,0 +1,11 @@
+<Material Diffuse="0.50196081,0.50196081,0.50196081" Emissive="0,0,0" GenMask="257" MtlFlags="0" Opacity="1" Shader="Cloth" Shininess="1" Specular="0.55686277,0.55686277,0.55686277" SurfaceType="mat_canvas" >
+ <Textures>
+  <Texture File="materials/presets/materialtypes/textures/generic_brown_leather2.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/generic_leatherbump_ddn.tif" Map="Normalmap" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams AnisotropicShape="0.40000001" DiffuseExponent="0.75" FuzzynessSaturation="1" FuzzynessSmoothness="2" FuzzynessSpread="2" FuzzynessStrength="1.2" SpecularMultiplier="0.1" />
+</Material>

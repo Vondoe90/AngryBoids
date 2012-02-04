@@ -1,0 +1,11 @@
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="19" MtlFlags="0" Opacity="0.47999999" Shader="Illum" Shininess="10" Specular="0.45882356,0.45882356,0.45882356" SurfaceType="mat_glass" >
+ <Textures>
+  <Texture File="Objects/Vehicles/chenyan/windshield.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture File="Objects/Vehicles/chenyan/windshield_gloss.dds" Map="Specular" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" EnvMapAmount="0.25" FresnelBias="0" FresnelPow="5" FresnelScale="1" Reflect="0.5" />
+</Material>

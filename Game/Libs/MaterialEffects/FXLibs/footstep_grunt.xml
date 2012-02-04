@@ -1,0 +1,101 @@
+<FXLib>
+
+<Effect name="default">
+	<Sound>
+		<Name>sounds/physics:footsteps/npc:default</Name>
+	</Sound>
+</Effect>
+
+<Effect name="concrete">
+	<Sound><Name>sounds/physics:footsteps/npc:concrete</Name></Sound>
+</Effect>
+
+<Effect name="rock">
+	<Sound><Name>sounds/physics:footsteps/npc:concrete</Name></Sound>
+</Effect>
+
+<Effect name="fabric">
+	<Sound><Name>sounds/physics:footsteps/npc:fabric</Name></Sound>
+</Effect>
+
+<Effect name="plastic">
+	<Sound><Name>sounds/physics:footsteps/npc:plastic</Name></Sound>
+</Effect>
+
+<Effect name="grass">
+	<Sound><Name>sounds/physics:footsteps/npc:grass</Name></Sound>
+</Effect>
+
+<Effect name="grass_tall">
+	<Sound><Name>sounds/physics:footsteps/npc:grass_tall</Name></Sound>
+</Effect>
+
+<Effect name="leaves">
+	<Sound><Name>sounds/physics:footsteps/npc:leaves</Name></Sound>
+</Effect>
+
+<Effect name="vegetation">
+	<Sound><Name>sounds/physics:footsteps/npc:vegetation</Name></Sound>
+</Effect>
+
+<Effect name="mud">
+	<Sound><Name>sounds/physics:footsteps/npc:mud</Name></Sound>
+	<Particle>
+		<Name minscale="0.9" maxscale="0.9" maxscaledist="100">collisions.footsteps.mud</Name>
+	</Particle>
+</Effect>
+
+<Effect name="dirt">
+	<Sound><Name>sounds/physics:footsteps/npc:dirt</Name></Sound>
+	<Particle>
+		<Name minscale="0.9" maxscale="0.9" maxscaledist="100">collisions.footsteps.dirt</Name>
+	</Particle>
+</Effect>
+
+<Effect name="gravel">
+	<Sound><Name>sounds/physics:footsteps/npc:gravel</Name></Sound>
+</Effect>
+
+<Effect name="pebble">
+	<Sound><Name>sounds/physics:footsteps/npc:pebble</Name></Sound>
+</Effect>
+
+<Effect name="wood_solid">
+	<Sound><Name>sounds/physics:footsteps/npc:wood_solid</Name></Sound>
+</Effect>
+
+<Effect name="wood_hollow">
+	<Sound><Name>sounds/physics:footsteps/npc:wood_hollow</Name></Sound>
+</Effect>
+
+<Effect name="metal_thick">
+	<Sound><Name>sounds/physics:footsteps/npc:metal_thick</Name></Sound>
+</Effect>
+
+<Effect name="metal_chainlink">
+	<Sound><Name>sounds/physics:footsteps/npc:metal_chainlink</Name></Sound>
+</Effect>
+
+<Effect name="metal_grate">
+	<Sound><Name>sounds/physics:footsteps/npc:metal_grate</Name></Sound>
+</Effect>
+
+<Effect name="metal_thin">
+	<Sound><Name>sounds/physics:footsteps/npc:metal_thin</Name></Sound>
+</Effect>
+
+<Effect name="water_shallow">
+	<Sound><Name>sounds/physics:footsteps/npc:water_shallow</Name></Sound>
+	<Particle>
+		<Name minscale="0.5" maxscale="0.5" maxscaledist="1">collisions.footsteps.water_shallow</Name>
+	</Particle>
+</Effect>
+
+<Effect name="water_deep">
+	<Sound><Name>sounds/physics:footsteps/npc:water_deep</Name></Sound>
+	<Particle>
+		<Name minscale="0.5" maxscale="0.5" maxscaledist="1">collisions.footsteps.water_shallow</Name>
+	</Particle>
+</Effect>
+
+</FXLib>

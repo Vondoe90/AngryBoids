@@ -1,0 +1,14 @@
+<Material Diffuse="0.54901963,0.54901963,0.54901963" Emissive="0,0,0" GenMask="4739" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="16" Specular="0.50196081,0.50196081,0.50196081" SurfaceType="mat_plastic" >
+ <Textures>
+  <Texture File="materials/presets/materialtypes/textures/generic_diff2.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/generic2_ddn.dds" Map="Normalmap" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/env_maps/probe_env00.dds" Map="Environment" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" EnvMapAmount="0.5" FresnelBias="0.2" FresnelPow="5" FresnelScale="1" Reflect="1" />
+</Material>

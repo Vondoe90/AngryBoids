@@ -1,0 +1,7 @@
+<Material MtlFlags="525312" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="" MatTemplate="" Diffuse="0.70588237,0.73725492,0.87843144" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+ <Textures>
+  <Texture Map="Diffuse" File="textures/atrium/flare_aleks.tif">
+   <TexMod />
+  </Texture>
+ </Textures>
+</Material>

@@ -1,0 +1,21 @@
+<AGTemplate name="ManualUpdateIdle">
+	<Param name="animation" type="string"/>
+	
+	<ParamsLayer1
+		Structure=""
+		TransitionTime="0.4"
+		KeyTime="-1"
+		LoopAnimation="1"
+		RepeatLastKey="0"
+		VTimeWarping="0"
+		ManualUpdate="1"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		ensureInStack="0"
+		stickyOutTime="0.3"
+		forceLeaveWhenFinished="0"
+		/>
+</AGTemplate>
+

@@ -1,0 +1,28 @@
+<AGTemplate name="OneShot">
+	<Param name="animation" type="string"/>
+  <Param name="transition_time" type="float"/>
+  <Param name="aim_pose" type="string"/>
+
+	<MovementControlMethod horizontal="DecoupledCatchUp" vertical="SmoothedEntity" angle="90"/>
+	<ColliderMode mode="Pushable"/>
+
+	<TransitionParamsLayer1
+		Structure=""
+		TransitionTime="iff( $transition_time == 0, 0.2, $transition_time )"
+		KeyTime="-1"
+		LoopAnimation="0"
+		RepeatLastKey="1"
+		VTimeWarping="0"
+		WaitForAnimation="0"
+		AllowAnimRestart="1"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose="$aim_pose"
+		ensureInStack="0"
+		stickyOutTime="iff( $transition_time == 0, 0.2, $transition_time )"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="1"
+		/>
+</AGTemplate>

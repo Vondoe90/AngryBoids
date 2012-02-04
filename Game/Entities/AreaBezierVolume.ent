@@ -1,0 +1,4 @@
+<Entity
+ Name="AreaBezierVolume"
+ Script="Scripts/Entities/Physics/AreaBezierVolume.lua" 
+/>

@@ -1,0 +1,15 @@
+<Material MtlFlags="0" Shader="HumanSkin" GenMask="268435712" SurfaceType="mat_canvas" Diffuse="0.36862746,0.34509805,0.31764707" Specular="0.50196081,0.50196081,0.50196081" Emissive="0,0,0" Shininess="16" Opacity="1" AlphaTest="0.0099999998">
+ <Textures>
+  <Texture Map="Diffuse" File="materials/presets/materialtypes/textures/test.dds">
+   <TexMod />
+  </Texture>
+  <Texture Map="Environment" File="materials/presets/materialtypes/textures/env_maps/probe_env00.dds">
+   <TexMod />
+  </Texture>
+  <Texture Map="SubSurface" File="materials/presets/materialtypes/textures/red.dds">
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams SubsurfaceStrenght="0.5" RimStrenght="0.075000003" SpecularStrenght="0.259" DiffusionAmount="0.75" RimPow="0.5" Melanin="0"/>
+ <MaterialLayers />
+</Material>

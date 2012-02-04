@@ -1,0 +1,112 @@
+<ParticleLibrary Name="remnant" SandboxVersion="3.3.5.2447" ParticleVersion="22">
+ <Particles Name="sparks" Id="{76F25AB6-DD1A-4506-836F-3007DC67A139}" Library="remnant">
+  <Params Enabled="false" Count="6,1" ParticleLifeTime="0.3,0.5" FocusGravityDir="true" EmitAngle="34.7" OrientToVelocity="true" BlendType="Additive" Texture="textures/sprites/spark_stretched1.tif" SoftParticle="true" Alpha=",,,(0.8035714,1;1)" Color=",,,(,(1,1,1);1,(0.81,0.525,0.24))" DiffuseLighting="0" EmissiveLighting="1" Size="0.18" Stretch="0.02" TailLength=",0.327014" Speed="90,0.222749" AirResistance=",0.255924" GravityScale="1" PhysicsType="SimpleCollision" CollideTerrain="true" Bounciness="1.31" DrawLast="6"/>
+  <Childs>
+   <Particles Name="zap">
+    <Params Continuous="true" Count="1" EmitterLifeTime="1,0.663" ParticleLifeTime="0.18,0.345972" EmitAngle="180,1" BlendType="Additive" Texture="textures/lightning/electric_radial1.tif" SoftParticle="true" Alpha=",,,(0.5,1;1)" Color=",,,(0.004385965,(1,1,1);0.9780702,(0.753,0.204,0.02))" DiffuseLighting="0" DiffuseBacklighting="1" EmissiveLighting="3" EmissiveHDRDynamic="2" LightSource="6,20,2" Sound="Sounds/environment:city:neon_light_spark" Size=",0.691943,(0.3973214,1;1,0.773),(,0.365;1,1)" Speed="3" RandomAngles=",359" DrawLast="6"/>
+   </Particles>
+   <Particles Name="glow">
+    <Params Continuous="true" Count="1" EmitterLifeTime="1" ParticleLifeTime="0.09,0.297" EmitAngle="180,1" BlendType="Additive" Texture="textures/sprites/glow1.tif" SoftParticle="true" Alpha="0.386,1,,(0.1517857,1;1)" Color="(0.39,0.427,0.937),,,(,(1,1,1);1,(0.847,0.54,0.24))" DiffuseLighting="0" DiffuseBacklighting="1" EmissiveLighting="3" EmissiveHDRDynamic="2" Size="1.5,0.267" Speed="1"/>
+   </Particles>
+   <Particles Name="shower">
+    <Params Count="3,0.485" ParticleLifeTime="2.5,0.287" FocusAngle=",1" FocusAzimuth="360,1" EmitAngle="50,0.96" OrientToVelocity="true" BlendType="Additive" Texture="textures/sprites/spark_stretched1.tif" DiffuseLighting="0" DiffuseBacklighting="1" EmissiveLighting="5" EmissiveHDRDynamic="2" Size="0.1,0.663,,(,1;1)" Stretch="0.02,,,(0.4598214;1,0.09)" Speed="10,0.347" AirResistance="1.23" GravityScale="1" Bounciness="-1" DrawLast="6"/>
+    <Childs>
+     <Particles Name="spark">
+      <Params Continuous="true" Count="50" SecondGeneration="true" EmitterLifeTime="2" ParticleLifeTime="0.79,0.525" FocusAngle=",1" FocusAzimuth="360,1" EmitAngle="83.2,0.624" OrientToVelocity="true" BlendType="Additive" Texture="textures/sprites/spark_stretched1.tif" Alpha=",,,(,0.725;0.1026786,1)" DiffuseLighting="0" DiffuseBacklighting="1" EmissiveLighting="5" EmissiveHDRDynamic="2" Size="0.1,0.663,(0.5446429,1;1),(0.2455357,1;1)" Stretch="0.02,,,(0.4598214;1,0.09)" Speed="4.1,0.525" GravityScale="1" Bounciness="0.188" DrawLast="6"/>
+     </Particles>
+     <Particles Name="smoke">
+      <Params Continuous="true" Count="30" SecondGeneration="true" SpawnDelay="0.5" EmitterLifeTime="1.5" ParticleLifeTime="1.5,0.525" FocusAngle=",1" FocusAzimuth="360,1" OrientToVelocity="true" Texture="textures/sprites/smoke_white_tiled2.tif" TextureTiling="2,2,,4" Alpha="0.3,,(,0.953,36;1),(0.004464286;0.1339286,1;1)" DiffuseBacklighting="1" EmissiveLighting="0.1" EmissiveHDRDynamic="2" Size="0.6,0.297,,(,0.39;1,1)" Stretch="0.02,,,(0.4598214;1,0.09)" RandomAngles=",359" Bounciness="0.188" DrawLast="6"/>
+     </Particles>
+    </Childs>
+   </Particles>
+   <Particles Name="whitesparks">
+    <Params Enabled="false" Continuous="true" Count="80" EmitterLifeTime="1,0.564" ParticleLifeTime="1,0.525" FocusAngle=",1" FocusAzimuth="360,1" EmitAngle="97.9,0.96" OrientToVelocity="true" BlendType="Additive" Texture="textures/sprites/spark_stretched1_desat.dds" Alpha=",,,(,0.725;0.1026786,1)" Color="(0.67,0.71,0.953)" DiffuseLighting="0" DiffuseBacklighting="1" EmissiveLighting="5" EmissiveHDRDynamic="2" Size="0.05,0.277,,(0.15625,1;1)" Stretch="0.02,,,(,0.545;1,0.09)" Speed="10,0.881" AirResistance="0.64" GravityScale="2,0.455" Bounciness="-1" MaxCollisionEvents="1" DrawLast="6"/>
+    <Childs>
+     <Particles Name="phys_sparks">
+      <Params Continuous="true" Count="20" EmitterLifeTime="1,0.564" ParticleLifeTime="4,0.525" FocusAngle=",1" FocusAzimuth="360,1" EmitAngle="97.9,0.96" OrientToVelocity="true" BlendType="Additive" Texture="textures/sprites/spark_stretched1_desat.dds" Alpha=",,,(,0.52;0.1026786,1)" Color="(0.67,0.71,0.953)" DiffuseLighting="0" DiffuseBacklighting="1" EmissiveLighting="5" EmissiveHDRDynamic="2" LightSource="0.2,8,3" Size="0.03,0.277,,(0.15625,1;0.84375,1;0.9910714,0.047,36)" Stretch="0.03,,,(,0.545;1,0.09)" Speed="8,0.881" AirResistance="0.64" GravityScale="2,0.455" PhysicsType="SimpleCollision" CollideTerrain="true" CollideStaticObjects="true" CollideDynamicObjects="true" Bounciness="0.3" DynamicFriction="0.1" MaxCollisionEvents="2" DrawLast="6"/>
+     </Particles>
+    </Childs>
+   </Particles>
+  </Childs>
+ </Particles>
+ <Particles Name="sparks_notrail" Id="{1754FE7B-5BD7-44AE-88FC-A7BFA4B0FFCA}" Library="remnant">
+  <Params Enabled="false" Count="6,1" ParticleLifeTime="0.3,0.5" FocusGravityDir="true" EmitAngle="34.7" OrientToVelocity="true" BlendType="Additive" Texture="textures/sprites/spark_stretched1.tif" SoftParticle="true" Alpha=",,,(0.8035714,1;1)" Color=",,,(,(1,1,1);1,(0.81,0.525,0.24))" DiffuseLighting="0" EmissiveLighting="1" Size="0.18" Stretch="0.02" TailLength=",0.327014" Speed="90,0.222749" AirResistance=",0.255924" GravityScale="1" PhysicsType="SimpleCollision" CollideTerrain="true" Bounciness="1.31" DrawLast="6"/>
+  <Childs>
+   <Particles Name="zap">
+    <Params Continuous="true" Count="1" EmitterLifeTime="0.1,0.663" ParticleLifeTime="0.18,0.345972" EmitAngle="180,1" BlendType="Additive" Texture="textures/lightning/electric_radial1.tif" SoftParticle="true" Alpha=",,,(0.5,1;1)" DiffuseLighting="0" DiffuseBacklighting="1" EmissiveLighting="2" EmissiveHDRDynamic="2" Size=",0.691943,(0.3973214,1;1,0.773),(,0.365;1,1)" RandomAngles=",359" DrawLast="6"/>
+   </Particles>
+   <Particles Name="glow">
+    <Params Continuous="true" Count="1" EmitterLifeTime="1" ParticleLifeTime="0.09,0.297" EmitAngle="180,1" BlendType="Additive" Texture="textures/sprites/glow1.tif" SoftParticle="true" Alpha="0.386,1,,(0.1517857,1;1)" Color="(0.39,0.427,0.937),,,(,(1,1,1);1,(0.847,0.54,0.24))" DiffuseLighting="0" DiffuseBacklighting="1" EmissiveLighting="3" EmissiveHDRDynamic="2" LightSource="6,3,1.8" Size="5,0.267" Speed="1"/>
+   </Particles>
+   <Particles Name="whitesparks">
+    <Params Continuous="true" Count="40" EmitterLifeTime="0.3,0.564" ParticleLifeTime="1.5,0.525" FocusAngle=",1" FocusAzimuth="360,1" EmitAngle="97.9,0.96" OrientToVelocity="true" BlendType="Additive" Texture="textures/sprites/spark_stretched1_desat.dds" Alpha=",,,(,0.725;0.1026786,1)" Color="(0.67,0.71,0.953)" DiffuseLighting="0" DiffuseBacklighting="1" EmissiveLighting="5" EmissiveHDRDynamic="2" Size="0.05,0.277,,(0.15625,1;1)" Stretch="0.02,,,(,0.545;1,0.09)" Speed="10,0.881" AirResistance="0.64" GravityScale="2,0.455" Bounciness="-1" MaxCollisionEvents="1" DrawLast="6"/>
+   </Particles>
+  </Childs>
+ </Particles>
+ <Particles Name="fire_small" Id="{79A87545-C779-4564-87B4-B816559B6756}" Library="remnant">
+  <Params Count="1" ParticleLifeTime="1" Speed="1"/>
+  <Childs>
+   <Particles Name="fire1">
+    <Params Continuous="true" Count="15" ParticleLifeTime="1" FocusGravityDir="true" EmitAngle=",0.02" BlendType="Additive" Texture="textures/sprites/fire_and_smoke/anim_flametest.dds" TextureTiling="10,8,,,80,30" SoftParticle="true" Alpha=",1,,(,,36;0.1785714,1;0.4464286,0.204,36;1,,36)" DiffuseLighting="0" EmissiveLighting="1" Size="0.08" Stretch="0.3,,,(,0.48;1,1)" Speed="0.2,0.3" AirResistance=",,,(,1;1)" GravityScale=",,,(0.3169643,1;1,0.52)" RandomRotationRate=",80" MoveRelEmitter="true" MotionBlurScale="0.249"/>
+   </Particles>
+   <Particles Name="smoke1">
+    <Params Continuous="true" Count="10" ParticleLifeTime="1.3" FocusGravityDir="true" EmitAngle=",0.02" Texture="textures/sprites/fire_and_smoke/smoke_white_tiled2.dds" TextureTiling="2,2,,4" SoftParticle="true" Alpha=",,,(,,36;0.5,1;1,,36)" Color="(0.082,0.082,0.082)" DiffuseLighting="0.129" DiffuseBacklighting="1" EmissiveLighting="1" Size="0.1" Speed="0.3" Turbulence3DSpeed="0.015" RotationRate=",20" RandomRotationRate=",80" MoveRelEmitter="true" DrawLast="1" MotionBlurScale="0.249"/>
+   </Particles>
+   <Particles Name="sparks">
+    <Params Continuous="true" Count="20" ParticleLifeTime="1" PositionOffset=",0.035" RandomOffset=",0.1" EmitAngle="15.8" OrientToVelocity="true" BlendType="Additive" Texture="textures/sprites/fire_and_smoke/spark.dds" Alpha="0.376,,,(,,36;0.2276786,1;1,,36)" Size="0.0065,0.832" Stretch="0.02" Speed="0.3,0.673" GravityScale="0.015" Turbulence3DSpeed="0.09,0.564"/>
+   </Particles>
+  </Childs>
+ </Particles>
+ <Particles Name="fire_large" Id="{03E06BA8-EAC8-4628-86AF-A7386634980F}" Library="remnant">
+  <Params Enabled="false" Count="1" ParticleLifeTime="1" Speed="1"/>
+  <Childs>
+   <Particles Name="explosion">
+    <Params Count="2" SpawnDelay=",0.195021" EmitterLifeTime="0.5" ParticleLifeTime="1.5,0.257" RandomOffset="1,,1" FocusAngle="30" EmitAngle="90" BlendType="Additive" Texture="textures/sprites/fire/fireball_animated1.dds" TextureTiling="8,8,,,64" Alpha=",,,(;0.2901786,1;0.7410714,1;1)" Color=",,,(0.01315789,(1,1,1);0.9692982,(1,0.5,0.26))" DiffuseLighting="0" EmissiveLighting="1" EmissiveHDRDynamic="2" Sound="sounds/physics:particles/explosions:car" Size="4" Speed="0.2" RandomAngles=",180" RandomRotationRate=",17" DrawLast="2"/>
+    <Childs>
+     <Particles Name="anim_smoke">
+      <Params Count="1" SpawnDelay="0.1" EmitterLifeTime="0.5" ParticleLifeTime="2.2,0.139" PositionOffset=",1.5" EmitAngle="10" Texture="textures/sprites/smoke_animated_2.tif" TextureTiling="8,4,,,32,,true" Alpha=",,,(0.2232143,1;1)" Color="(0.576,0.576,0.576)" DiffuseLighting="0.3" DiffuseBacklighting="0.2" EmissiveHDRDynamic="2" NotAffectedByFog="true" Size="6,,,(,,36;0.3258929,0.52;0.9776786,1;1,1)" Speed="1.8,,(,1;1,0.408)" DrawLast="5"/>
+     </Particles>
+     <Particles Name="explosion91">
+      <Params Count="28" SpawnDelay="0.13" ParticleLifeTime="0.8,0.653" RandomOffset="0.5,0.5,0.5" FocusGravityDir="true" EmitAngle="76.8,1" BlendType="Additive" Texture="textures/sprites/fire_and_smoke/spark.dds" Alpha=",0.248" DiffuseLighting="0" EmissiveLighting="3" EmissiveHDRDynamic="-2" Size="0.29,0.614,,(,1;0.21875,1;1)" TailLength="0.2,0.911,,(,0.976;0.1785714,0.5;1),8" Speed="9,0.614" AirResistance="0.94" GravityScale="-0.2" TurbulenceSize="0.1066667" TurbulenceSpeed="343.7747" RotationRate="104,17,120" DrawLast="5" VisibleUnderwater="If_False"/>
+     </Particles>
+    </Childs>
+   </Particles>
+   <Particles Name="burn">
+    <Params Count="1" ParticleLifeTime="1" Facing="Free" Speed="1"/>
+    <Childs>
+     <Particles Name="fire">
+      <Params Enabled="false" EmitAngle="22.61986,1" Facing="Free" DiffuseBacklighting="0.5" NotAffectedByFog="true" Size="5.321804,0.3243243,,(,0.557;0.25,0.694;1,1)" Speed="4" RandomRotationRate=",,20" DrawLast="4"/>
+      <Childs>
+       <Particles Name="animated">
+        <Params Continuous="true" Count="10" EmitterLifeTime="60" ParticleLifeTime="2.7,0.277" PositionOffset=",0.4,1.2" RandomOffset="0.6,,0.6" FocusGravityDir="true" EmitAngle="8.4,0.02" OrientToVelocity="true" BlendType="Additive" Texture="textures/sprites/fire/large_animated1.tif" TextureTiling="8,16,,,105" SoftParticle="true" Alpha=",,(0.7723214,1;1),(;0.2767857,1;0.7410714,1;1)" Color=",0.325,,(,(0.91,0.792,0.25);0.4649123,(0.957,0.455,0.184))" DiffuseLighting="0" EmissiveLighting="3" EmissiveHDRDynamic="2" LightSource="(10,0.624,,(;0.2410714,1;0.7633929,1;1)),(,0.347,,(;0.07589286,1;0.6607143,0.976;1))" Sound="sounds/physics:particles/fire:vehicle" SoundFXParam=",,(,1;0.25,0.48;0.9553571,0.455;1)" Speed="0.01" DrawLast="2" VisibleUnderwater="If_False"/>
+       </Particles>
+       <Particles Name="cinders">
+        <Params Continuous="true" Count="15" SpawnDelay="1" EmitterLifeTime="65" ParticleLifeTime="1.8,0.653" RandomOffset="1,0.5,1" FocusGravityDir="true" EmitAngle="29.0483,1" OrientToVelocity="true" BlendType="Additive" Texture="textures/sprites/31.tif" Material="Materials/particle/fire_embers" Alpha=",,,(0.7544643,1;1)" Color=",,,(,(0.98,1,1);1,(1,0.992,0.843))" DiffuseLighting="0" EmissiveLighting="1" Size="0.05,1,,(,1;0.21875,1;1)" TailLength="0.2,0.911,,(,0.976;0.1785714,0.5;1),8" Speed="5.4,0.614" AirResistance="0.88" GravityScale="-0.2" TurbulenceSize="0.1066667" TurbulenceSpeed="343.7747" RotationRate="104,17,120" DrawLast="3" VisibleUnderwater="If_False" MotionBlurScale="0"/>
+        <Childs>
+         <Particles Name="cinders1">
+          <Params Continuous="true" Count="28" SpawnDelay="1" EmitterLifeTime="75" ParticleLifeTime="1.2,0.653" PositionOffset=",2" RandomOffset="0.5,0.5,0.5" FocusGravityDir="true" EmitAngle="29.0483,1" Texture="textures/sprites/fireball1_tiled_flames.tif" TextureTiling="2,4,,8" Alpha=",0.248,(0.6116071,1;1)" Color="(,0.467,0.467)" DiffuseLighting="0" EmissiveLighting="3" EmissiveHDRDynamic="2" Size="0.05,1,,(,1;0.3392857,1;1)" TailLength=",0.911,,(,0.976;0.1785714,0.5;1),8" Speed="5.4,0.614" AirResistance="0.94" GravityScale="-0.2" TurbulenceSize="0.1066667" TurbulenceSpeed="343.7747" RotationRate="104,17,120" DrawLast="1" VisibleUnderwater="If_False"/>
+         </Particles>
+         <Particles Name="cinders2">
+          <Params Continuous="true" Count="28" SpawnDelay="1" EmitterLifeTime="75" ParticleLifeTime="4,0.653" RandomOffset="0.5,0.5,0.5" EmitAngle="29.0483,1" Texture="textures/sprites/fire_and_smoke/ember.tif" TextureTiling="2,2,,4" Alpha=",0.248,(0.6116071,1;1),(;0.04017857,1;0.8482143,1;1)" Color="(0.024,0.024,0.024)" DiffuseLighting="0" EmissiveHDRDynamic="-2" Size="0.06,1,,(,1;0.21875,1;1)" TailLength=",0.911,,(,0.976;0.1785714,0.5;1),8" Speed="5.4,0.614" AirResistance="0.94" GravityScale="-0.2" TurbulenceSize="0.1066667" TurbulenceSpeed="343.7747" RotationRate="104,17,120" DrawLast="5" VisibleUnderwater="If_False"/>
+         </Particles>
+        </Childs>
+       </Particles>
+       <Particles Name="fireballs">
+        <Params Continuous="true" Count="5" EmitterLifeTime="80" ParticleLifeTime="1.35,0.099" FocusGravityDir="true" EmitAngle=",1" BlendType="Additive" Texture="textures/sprites/fire/fireball_animated1.tif" TextureTiling="8,8,,,64" Alpha=",,(0.6294643,1;1),(0.6026786,1;1)" Color=",,,(0.06140351,(0.937,0.86,0.294);0.8903509,(0.667,0.3,0.3))" DiffuseLighting="0" EmissiveLighting="3" EmissiveHDRDynamic="2" LightSource="(,0.624,,(;0.2410714,1;0.7633929,1;1)),(,0.347,,(;0.07589286,1;0.6607143,0.976;1))" Size="1.87,0.139,(0.4375,1;1,0.39)" Stretch="0.09" Speed="2,0.188" AirResistance="0.76,0.208" GravityScale="-0.15,,(0.875,1;1)" RandomAngles=",359" DrawLast="3" VisibleUnderwater="If_False" FillRateCost="0.21" ConfigMin="Medium"/>
+       </Particles>
+       <Particles Name="new_smoke2">
+        <Params Continuous="true" Count="7" EmitterLifeTime="80" ParticleLifeTime="3.5,0.099" PositionOffset=",1" RandomOffset="1,,1" FocusGravityDir="true" EmitAngle="8.4,1" Texture="textures/sprites/smoke_white_tiled2.tif" TextureTiling="2,2,,4" SoftParticle="true" Alpha=",,(0.6071429,1;1),(;0.1875,1;0.6696429,1;1)" Color="(0.525,0.525,0.525),0.345,,(0.004385965,(0.85,0.37,0.157);0.4342105,(1,1,1))" DiffuseLighting="0.3" DiffuseBacklighting="0.2" EmissiveHDRDynamic="2" Sound="sounds/physics:particles/fire:vehicle" SoundFXParam=",,(,1;0.25,0.48;0.5758929,0.275;0.7857143)" Size="3,0.158,,(,0.34;1,1)" Speed=",0.277" AirResistance="0.47,0.307" GravityScale="-0.2,0.347" RandomAngles=",359" RandomRotationRate=",31" DrawLast="2" VisibleUnderwater="If_False"/>
+       </Particles>
+       <Particles Name="refraction">
+        <Params Continuous="true" Count="4" EmitterLifeTime="60" ParticleLifeTime="1" PositionOffset=",0.5" FocusGravityDir="true" EmitAngle=",1" Texture="textures/sprites/singularity_01_acc.tif" Material="materials/particle/refraction2" SoftParticle="true" Alpha=",,,(;0.1294643,1;0.8616071,1;1)" Color="(0.99,0.99,0.99)" DiffuseLighting="0" NotAffectedByFog="true" Size="5,,,(,0.545;0.5446429,1;1,0.82)" Speed="0.5,0.277" AirResistance="1.7" GravityScale="-1" RandomRotationRate=",12" DrawLast="1" VisibleUnderwater="If_False" FillRateCost="0" MotionBlurScale="0"/>
+       </Particles>
+      </Childs>
+     </Particles>
+     <Particles Name="light_dummy">
+      <Params Continuous="true" Count="2" EmitterLifeTime="75" ParticleLifeTime="1.35,0.327" PosRandomOffset="0.5" FocusGravityDir="true" EmitAngle=",1" BlendType="Additive" TextureTiling="8,8,,,64" SoftParticle="true" Alpha=",,(0.6294643,1;1),(0.6026786,1;1)" Color=",,,(0.06140351,(0.937,0.86,0.294);0.8991228,(0.957,0.2,0.008))" DiffuseLighting="0" DiffuseBacklighting="1" EmissiveLighting="0.733" EmissiveHDRDynamic="2" LightSource="(15,0.624,,(;0.2410714,1;0.7633929,1;1)),(4,0.347,,(;0.07589286,1;0.6607143,0.976;1)),2" Sound="sounds/physics:particles/fire:car" Size="1.87,0.139,(0.4375,1;1,0.39)" Stretch="0.09" Speed="2.2,0.188" AirResistance="0.76,0.208" GravityScale="-0.15" RandomAngles=",359" DrawLast="3" VisibleUnderwater="If_False" FillRateCost="0.21" ConfigMin="Medium"/>
+     </Particles>
+    </Childs>
+   </Particles>
+  </Childs>
+ </Particles>
+</ParticleLibrary>

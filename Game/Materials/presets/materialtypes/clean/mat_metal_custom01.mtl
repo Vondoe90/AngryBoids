@@ -1,0 +1,12 @@
+<Material MtlFlags="0" Shader="Metal" GenMask="16" SurfaceType="mat_metal" Diffuse="0.376471,0.376471,0.376471" Specular="0.12549,0.12549,0.12549" Emissive="0,0,0" Shininess="10" Opacity="1">
+ <Textures>
+  <Texture Map="Diffuse" File="materials/presets/materialtypes/textures/real_grey.dds">
+   <TexMod />
+  </Texture>
+  <Texture Map="Environment" File="materials/presets/materialtypes/textures/env_maps/probe_env00.dds">
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams SpecularMultiplier="0.05" Glossiness="0.98" IndirLightMultiplier="1" ReflectionAmount="1" FresnelBias="0.9"/>
+ <MaterialLayers />
+</Material>

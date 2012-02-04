@@ -1,0 +1,9 @@
+<AGTemplate name="HunterDead">
+	<SelectWhen>
+		<Health value="0"/>
+		<Action value="idle"/>
+	</SelectWhen>
+
+	<Event onEnter="TurnRagdoll"/>
+</AGTemplate>
+

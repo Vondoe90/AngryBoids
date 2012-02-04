@@ -1,0 +1,9 @@
+<Material Diffuse="0.4039216,0.4039216,0.4039216" Emissive="0,0,0" GenMask="1" MtlFlags="2048" Opacity="0.99000001" Shader="Water" Shininess="99.989998" Specular="1,1,1" SurfaceType="mat_water" >
+ <Textures>
+  <Texture Amount="50" File="textures/defaults/oceanwaves_ddn.dds" Map="Normalmap" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BigWavesScale="2" BumpScale="1" FresnelBias="0" FresnelPow="5" SmallWavesScale="1" WavesSpeed="2" />
+ <MaterialLayers />
+</Material>

@@ -1,0 +1,14 @@
+<AGTemplate name="SimpleAlienAnimation">
+	<Param name="animation" type="string"/>
+	<Param name="playback_speed" type="float"/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		animation2=""
+		ensureInStack="1"
+		stickyOutTime="-1"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		/>
+</AGTemplate>
+

@@ -1,0 +1,35 @@
+<AGTemplate name="IdleActionGod">
+	<Param name="animation" type="string"/>
+	<Param name="playback_speed" type="float"/>
+	<Param name="structure" type="string"/>
+	<Param name="transition_time" type="float"/>
+	<Param name="aim_pose" type="string"/>
+
+	<MovementControlMethod horizontal="Entity" vertical="Entity"/>
+	<ColliderMode mode="NonPushable"/>
+
+	<ParamsLayer1
+		Structure="$structure"
+		TransitionTime="iff( $transition_time == 0, 0.2, $transition_time )"
+		KeyTime="-1"
+		LoopAnimation="1"
+		RepeatLastKey="0"
+		VTimeWarping="0"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose="$aim_pose"
+		ensureInStack="0"
+		stickyOutTime="0.3"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		/>
+
+	<!--SelectWhen>
+		<PseudoSpeed min="0" max="0.2"/>
+		<DesiredTurnAngleZ min="-0.3" max="0.3"/>
+	</SelectWhen-->
+
+</AGTemplate>
+

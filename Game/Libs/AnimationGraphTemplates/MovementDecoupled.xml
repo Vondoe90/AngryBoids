@@ -1,0 +1,34 @@
+<AGTemplate name="MovementDecoupled">
+	<Param name="animation" type="string"/>
+	<Param name="key_time" type="float"/>
+	<Param name="playback_speed" type="float"/>
+	<Param name="structure" type="string"/>
+  <Param name="transition_time" type="float"/>
+  <Param name="aim_pose" type="string"/>
+
+	<SelectWhen>
+		<PseudoSpeed min="0.0" max="1.5"/>
+	</SelectWhen>
+
+	<MovementControlMethod horizontal="DecoupledCatchUp" vertical="SmoothedEntity"/>
+
+	<ParamsLayer1
+		Structure="$structure"
+		TransitionTime="iff( $transition_time == 0, 0.2, $transition_time )"
+		KeyTime="$key_time"
+		LoopAnimation="1"
+		RepeatLastKey="0"
+		VTimeWarping="1"
+		Idle2Move="1"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose="$aim_pose"
+		ensureInStack="0"
+		stickyOutTime="-1"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		/>
+</AGTemplate>
+

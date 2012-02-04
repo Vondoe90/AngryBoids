@@ -1,0 +1,50 @@
+<AGTemplate name="FreeForm">
+	<Param name="animation" type="string"/>
+  <Param name="transition_time" type="float"/>
+	<Param name="horizontalMCM" type="string" value="Entity"/>
+	<Param name="verticalMCM" type="string" value="SmoothedEntity"/>
+  <Param name="stayInState" type="float"/>
+  <Param name="forceInState" type="float"/>
+  <Param name="stopCurrentAnim" type="float"/>
+	<Param name="playback_speed" type="float"/>
+	<Param name="loopAnim" type="float"/>
+	<Param name="repeatLastKey" type="float"/>
+	<Param name="useTimeAignment" type="float"/>
+	<Param name="structure" type="string"/>
+	<Param name="allowAnimRestart" type="string"/>
+	<Param name="ensureInStack" type="string"/>
+	<Param name="distance" type="string"/>
+	<Param name="angle" type="string"/>
+
+	<MovementControlMethod 
+		horizontal="iff( $horizontalMCM == 0, Entity, $horizontalMCM )" 
+		vertical="iff( $verticalMCM == 0, SmoothedEntity, $verticalMCM )" 
+		angle="iff( $angle == 0, -1, $angle )" 
+		distance="iff( $distance == 0, -1, $distance )" 
+	/>
+	
+	<ColliderMode mode="Pushable"/>
+
+  <TransitionParamsLayer1
+		Structure="$structure"
+		TransitionTime="iff( $transition_time == 0, 0.2, $transition_time )"
+		KeyTime="-1"
+		LoopAnimation="iff( $loopAnim == 0, 0, $loopAnim )"
+		RepeatLastKey="iff( $repeatLastKey == 0, 1, $repeatLastKey)"
+		VTimeWarping="iff( $useTimeAignment == 0, 0, $useTimeAignment )"
+		WaitForAnimation="0"
+		AllowAnimRestart="iff( $allowAnimRestart == 0, 0, $allowAnimRestart )"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose=""
+		ensureInStack="iff( $ensureInStack == 0, 0, $ensureInStack )"
+		stickyOutTime="-1"
+    stayInStateUntil="iff( $stayInState == 0, 0.98, $stayInState )" 
+    forceInStateUntil="iff( $forceInState == 0, 0.0, $forceInState )" 
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		stopCurrentAnimation="iff( $stopCurrentAnim == 0, 0, $stopCurrentAnim )"
+		/>
+</AGTemplate>

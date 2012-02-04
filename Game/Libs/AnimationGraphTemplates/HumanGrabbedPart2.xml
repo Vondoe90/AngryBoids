@@ -1,0 +1,5 @@
+<AGTemplate name="HumanGrabbedPart2" extend="HumanGrabbed">
+	<Param name="delay_start" type="float"/>
+	<MusicDelayEntering time="$delay_start"/>
+</AGTemplate>
+

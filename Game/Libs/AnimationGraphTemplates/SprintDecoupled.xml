@@ -1,0 +1,8 @@
+<AGTemplate name="SprintDecoupled" extend="MovementDecoupled">
+  <Param name="PseudoSpeedMin" type="float"/>
+  <Param name="PseudoSpeedMax" type="float"/>
+  <SelectWhen>
+		<PseudoSpeed min="$PseudoSpeedMin" max="$PseudoSpeedMax"/>
+	</SelectWhen>
+</AGTemplate>
+

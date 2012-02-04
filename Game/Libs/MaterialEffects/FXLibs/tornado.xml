@@ -1,0 +1,32 @@
+<FXLib>
+<Effect name="ground">
+	<Particle>
+		<Name>wind.tornado.soil</Name>
+	</Particle>
+</Effect>
+<Effect name="generic">
+	<Particle>
+		<Name>wind.tornado.generic</Name>
+	</Particle>
+</Effect>
+<Effect name="snow">
+	<Particle>
+		<Name>wind.tornado.snow</Name>
+	</Particle>
+</Effect>
+<Effect name="sand">
+	<Particle>
+		<Name>wind.tornado.sand</Name>
+	</Particle>
+</Effect>
+<Effect name="leaves">
+	<Particle>
+		<Name>wind.tornado.leaves</Name>
+	</Particle>
+</Effect>
+<Effect name="water">
+	<Particle>
+		<Name>wind.tornado.water</Name>
+	</Particle>
+</Effect>
+</FXLib>

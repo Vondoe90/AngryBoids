@@ -1,0 +1,31 @@
+<AGTemplate name="InVehicle">
+	<Param name="animation" type="string"/>
+	<Param name="playback_speed" type="float"/>
+	<Param name="aim_pose" type="string"/>
+	
+	<SelectWhen>
+		<Action value="idle"/>
+	</SelectWhen>
+
+  <ColliderMode mode="Disabled"/>
+	<MovementControlMethod horizontal="Entity" vertical="Entity"/>
+
+	<ParamsLayer1
+		Structure=""
+		TransitionTime="0.2"
+		KeyTime="-1"
+		LoopAnimation="1"
+		RepeatLastKey="1"
+		VTimeWarping="0"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose="$aim_pose"
+		ensureInStack="0"
+		stickyOutTime="0.3"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		/>
+</AGTemplate>
+

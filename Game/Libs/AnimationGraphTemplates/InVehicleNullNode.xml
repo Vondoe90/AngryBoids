@@ -1,0 +1,15 @@
+<AGTemplate name="InVehicleNullNode">
+	<Param name="vehicle" type="string"/>
+
+	<Guard>
+		<Vehicle min="$vehicle" max="$vehicle"/>
+	</Guard>
+	
+	<SelectWhen>
+		<Vehicle value="$vehicle"/>
+	</SelectWhen>
+
+	<ColliderMode mode="Disabled"/>
+	<MovementControlMethod horizontal="Entity" vertical="Entity"/>
+</AGTemplate>
+

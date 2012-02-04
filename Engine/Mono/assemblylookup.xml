@@ -1,0 +1,21 @@
+<!--
+    AssemblyLookup
+    - Ink Studios CryMono Data File
+      Messing around with this without knowledge of .NET/Mono will only hurt your installation
+
+This file helps us translate namespaces to files for on-request assembly addition from our GAC 
+
+Each assembly is unique, but an assembly may contain multiple namespaces as child nodes.
+-->
+
+<AssemblyLookupTable>
+  <Assembly name="System.Xml">
+    <Namespace name="System.Xml.Linq"/>
+  </Assembly>
+  <Assembly name="System.Windows.Forms">
+    <Namespace name="System.Windows.Forms"/>
+  </Assembly>
+  <Assembly name="System.Drawing">
+    <Namespace name="System.Drawing"/>
+  </Assembly>
+</AssemblyLookupTable>

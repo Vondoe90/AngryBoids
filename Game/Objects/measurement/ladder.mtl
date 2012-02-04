@@ -1,0 +1,8 @@
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="1" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0,0,0" SurfaceType="mat_wood" >
+ <Textures>
+  <Texture Map="Diffuse" File="textures/defaults/defaultnouvs.dds">
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

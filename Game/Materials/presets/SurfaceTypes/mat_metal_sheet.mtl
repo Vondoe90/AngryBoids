@@ -1,0 +1,9 @@
+<Material Diffuse="0.77254909,0.77254909,0.77254909" Emissive="0,0,0" GenMask="3" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0.61960787,0.61960787,0.61960787" SurfaceType="mat_metal_sheet" >
+ <Textures>
+  <Texture File="objects/library/architecture/aircraftcarrier/props/electrical_boxes/ecabinet6_side_plain.tif" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" DebugUVScale="64" />
+ <MaterialLayers />
+</Material>

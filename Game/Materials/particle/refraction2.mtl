@@ -1,0 +1,12 @@
+<Material MtlFlags="2048" Shader="Particles" GenMask="4" SurfaceType="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+ <Textures>
+  <Texture Map="Diffuse" File="textures/sprites/glow1.tif">
+   <TexMod TileU="10" TileV="10" RotateW="90"/>
+  </Texture>
+  <Texture Map="Normalmap" File="textures/sprites/fire_blur1_ddn.tif">
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams RefrBumpScale="0.0099999998"/>
+ <MaterialLayers />
+</Material>

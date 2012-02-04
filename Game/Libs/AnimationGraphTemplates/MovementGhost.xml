@@ -1,0 +1,33 @@
+<AGTemplate name="MovementGhost">
+	<Param name="animation" type="string"/>
+	<Param name="playback_speed" type="float"/>
+	<Param name="structure" type="string"/>
+	<Param name="aim_pose" type="string"/>
+	<Param name="transition_time" type="float"/>
+  <Param name="stay_in_state_until" type="float"/>
+
+
+	<ColliderMode mode="Disabled"/>
+	<MovementControlMethod horizontal="Animation" vertical="Animation"/>
+
+	<TransitionParamsLayer1
+		Structure="$structure"
+		TransitionTime="iff( $transition_time == 0, 0.6, $transition_time )"
+		KeyTime="-1"
+		LoopAnimation="0"
+		RepeatLastKey="1"
+		VTimeWarping="0"
+		WaitForAnimation="1"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose="$aim_pose"
+		ensureInStack="1"
+		stickyOutTime="-1"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		stayInStateUntil="0.95"    
+		/>
+</AGTemplate>
+

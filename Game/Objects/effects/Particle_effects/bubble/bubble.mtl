@@ -1,0 +1,16 @@
+<Material MtlFlags="0" Shader="Illum" GenMask="272629888" SurfaceType="" Diffuse="0,0,0" Specular="1.14,1.14,1.14" Emissive="0,0,0" Shininess="5" Opacity="0.18799999" vertModifType="6">
+ <Textures>
+  <Texture Map="Diffuse" File="textures/defaults/white.tif">
+   <TexMod />
+  </Texture>
+  <Texture Map="Environment" File="textures/cubemaps/test_fleetfire.dds">
+   <TexMod />
+  </Texture>
+ </Textures>
+ <VertexDeform Type="6" DividerX="10" DividerY="10" NoiseScale="1,1,1">
+  <WaveX Type="1" Amp="0.69999999" Level="0" Phase="1" Freq="2"/>
+  <WaveY Type="1" Amp="0.69999999" Level="0" Phase="1" Freq="2"/>
+ </VertexDeform>
+ <PublicParams EnvMapAmount="24.5" FresnelScale="2.6199999" FresnelBias="0.068999998" AmbientMultiplier="1"/>
+ <MaterialLayers />
+</Material>

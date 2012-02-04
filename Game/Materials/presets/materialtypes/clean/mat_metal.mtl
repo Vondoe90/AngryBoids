@@ -1,0 +1,17 @@
+<Material Diffuse="0.50196081,0.50196081,0.50196081" Emissive="0,0,0" GenMask="275" MtlFlags="0" Opacity="1" Shader="Metal" Shininess="10" Specular="0.50196081,0.50196081,0.50196081" SurfaceType="mat_metal" >
+ <Textures>
+  <Texture File="materials/presets/materialtypes/textures/generic_metal_diff.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/generic_metal_diff.dds" Map="Specular" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/organic_ddn.dds" Map="Normalmap" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/env_maps/probe_env00.dds" Map="Environment" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams AmbientMultiplier="1" FresnelBias="0.40000001" Glossiness="0.94999999" ReflBumpScale="0.2" ReflectionAmount="0.75" SpecularMultiplier="0.15000001" SurfaceRoughnessX="0.5" SurfaceRoughnessY="0.5" />
+</Material>

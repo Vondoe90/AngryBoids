@@ -1,0 +1,14 @@
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="5" MtlFlags="2048" Opacity="1" Shader="FX_EnergyField" Shininess="10" Specular="0,0,0" SurfaceType="" >
+ <Textures>
+  <Texture File="materials/presets/materialtypes/textures/sparks_test.tif" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture Amount="50" File="materials/presets/materialtypes/textures/force_field_ddn.dds" Map="Normalmap" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/gradient_00.dds" Map="Environment" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpTillingX="1" BumpTillingY="1" ReflBumpScale="1" ReflectionAmount="0.31999999" RefrBumpScale="0.50999999" ShieldAnimSpeedScale="2" ShieldColor="0.68235296,0.85490203,0.90980399" SparksAnimSpeedScale="2" SparksColor="0,0.1254902,0.38431376" SparksMul="8" SparksTillingX="1" SparksTillingY="1" />
+</Material>

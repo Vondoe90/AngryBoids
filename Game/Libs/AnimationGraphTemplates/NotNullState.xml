@@ -1,0 +1,9 @@
+<AGTemplate name="NotNullState">
+	<AnimationLayer1
+		animation1=""
+		aimPose=""
+		ensureInStack="0"
+		stickyOutTime="-1"
+		forceLeaveWhenFinished="0"
+		/>
+</AGTemplate>

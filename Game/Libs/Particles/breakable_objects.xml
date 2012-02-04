@@ -1,0 +1,19 @@
+<ParticleLibrary Name="breakable_objects" SandboxVersion="1.1.1.5534" ParticleVersion="17">	
+	<Particles Name="tree_break.small" Id="{669A625A-B9A4-47AD-A883-C76E4E14410D}">
+		<Params Count="3" ParticleLifeTime="6,0.564" Texture="textures/sprites/smoke_tiled_a.tif" TextureTiling="2,2,,4" SoftParticle="true" Alpha="0.297,,,(;0.02439024,1;0.2631579,1;1)" Color="(0.5960785,0.5568628,0.5058824)" DiffuseLighting="0.495" DiffuseBacklighting="0.327" ReceiveShadows="true" Size="2.16,0.178,,(,0.7045454;1,1)" Stretch=",,,(,1;0.4375)" RandomOffset="0.5,0.3,0.5" Speed="0.6,0.683" AirResistance="0.2" GravityScale="0.02" RandomAngles=",,359" RandomRotationRate=",,15"/>
+		<Childs>
+			<Particles Name="geo3">
+				<Params Count="30" ParticleLifeTime="4,0.208" Texture="textures/sprites/woodchip_tiled_a.tif" TextureTiling="2,2,,4" Geometry="objects/natural/trees/explosion_shape/tree_splinter.cgf" Alpha=",,,(0.6116071,1;1)" Color=",0.733" DiffuseLighting="0.267" DiffuseBacklighting="0.129" Size="0.7,1" Speed="8,0.881" GravityScale="1,0.366" EmitAngle="180,1" RandomRotationRate="300,300,300" PhysicsType="SimpleCollision" CollideTerrain="true" CollideStaticObjects="true" CollideDynamicObjects="true" Bounciness="0.198" DynamicFriction="10" DrawLast="2"/>
+			</Particles>
+		</Childs>
+	</Particles>
+	
+	<Particles Name="Shatter.edges" Id="{0F05F6AD-3DFD-41D0-8BC0-3F04D1BDC0B1}">
+		<Params ParticleLifeTime="3,0.465" Texture="textures/sprites/smoke_tiled_a.tif" TextureTiling="2,2,,4" SoftParticle="true" Alpha="0.485,,,(;0.02439024,1;0.2631579,1;1)" Color="(0.4117647,0.4039216,0.3803922)" DiffuseLighting="0.485" DiffuseBacklighting="0.317" Size="2,,,(,0.2553802;0.1785714,0.7045454;1,1)" Speed=",0.545" AirResistance="0.05" GravityScale="-0.05" EmitAngle="72.6" FillRateCost="3.74"/>
+		<Childs>
+			<Particles Name="a664">
+				<Params Count="4,0.297" ParticleLifeTime="2,0.208" Texture="textures/sprites/woodchip_tiled_a.tif" TextureTiling="2,2,,4" Geometry="objects/natural/trees/explosion_shape/tree_splinter.cgf" Alpha=",,,(0.6116071,1;1)" Color=",0.733" DiffuseLighting="0.267" DiffuseBacklighting="0.129" Size="0.65,1,,(0.6919643,1;1,0.6363636)" Speed="8,0.881" GravityScale="1,0.366" EmitAngle="180,1" RandomAngles="180,180,180" RandomRotationRate="300,300,300" Bounciness="0.099" DynamicFriction="10" DrawLast="2" ConfigMin="Medium"/>
+			</Particles>
+		</Childs>
+	</Particles>
+</ParticleLibrary>

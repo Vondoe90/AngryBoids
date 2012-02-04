@@ -1,0 +1,5 @@
+<AGTemplate name="IdleSignalGhost" extend="IdleSignal">
+	<ColliderMode mode="Disabled"/>
+	<MovementControlMethod horizontal="Animation" vertical="Animation"/>
+</AGTemplate>
+

@@ -1,0 +1,9 @@
+<Material Diffuse="0.63529414,0.59607846,0.50980395" Emissive="0,0,0" GenMask="1" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0.043137256,0.043137256,0.043137256" SurfaceType="mat_dirt" >
+ <Textures>
+  <Texture File="textures/terrain/detail/river_water_stones.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" DebugUVScale="64" />
+ <MaterialLayers />
+</Material>

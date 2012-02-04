@@ -1,0 +1,46 @@
+<AGTemplate name="IdleToMovement">
+	<Param name="animation" type="string"/>
+	<!--Param name="key_time" type="float"/-->
+	<Param name="delta_angle_min" type="float"/>
+	<Param name="delta_angle_max" type="float"/>
+	<Param name="playback_speed" type="float"/>
+	<Param name="structure" type="string"/>
+  <Param name="transition_time" type="float"/>
+
+  <Param name="aim_pose" type="string"/>
+
+	<MovementControlMethod horizontal="DecoupledCatchUp" vertical="SmoothedEntity" angle="360"/>
+
+  <SelectWhen>
+    <PseudoSpeed min="0.0" max="1.5"/>
+  </SelectWhen>
+  
+  <!--
+	<Guard>
+		<DesiredTurnAngleZ min="$delta_angle_min * 3.14159 / 180.0" max="$delta_angle_max * 3.14159 / 180.0"/>
+	</Guard>
+-->
+  
+	<TransitionParamsLayer1
+		Structure="$structure"
+		TransitionTime="0.1"
+		KeyTime="-1"
+		LoopAnimation="0"
+		RepeatLastKey="1"
+		VTimeWarping="0"
+		WaitForAnimation="0"
+		/>
+
+	<!--WaitForKeyTime="$key_time"-->
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose="$aim_pose"
+		ensureInStack="1"
+		stickyOutTime="-1"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		stayInStateUntil="0.0"
+		/>
+</AGTemplate>
+

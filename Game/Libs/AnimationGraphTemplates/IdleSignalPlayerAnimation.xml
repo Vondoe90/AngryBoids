@@ -1,0 +1,4 @@
+<AGTemplate name="IdleSignalPlayerAnimation" extend="IdleSignal">
+	<MovementControlMethod horizontal="Animation" vertical="Animation"/>
+</AGTemplate>
+

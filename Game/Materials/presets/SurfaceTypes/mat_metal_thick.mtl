@@ -1,0 +1,9 @@
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="3" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0.50980395,0.50980395,0.50980395" SurfaceType="mat_metal_thick" >
+ <Textures>
+  <Texture File="objects/library/architecture/aircraftcarrier/textures/hull/bshield_top.tif" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" DebugUVScale="64" />
+ <MaterialLayers />
+</Material>

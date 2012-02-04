@@ -1,0 +1,8 @@
+<Material Diffuse="0.56862748,0.56862748,0.56862748" Emissive="0,0,0" GenMask="3" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="2" Specular="0.54509807,0.54509807,0.54509807" SurfaceType="mat_plastic" >
+ <Textures>
+  <Texture File="textures/defaults/white.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" DebugUVScale="64" EnvMapAmount="0.25" FresnelBias="0" FresnelPow="5" FresnelScale="1" Reflect="0.5" />
+</Material>

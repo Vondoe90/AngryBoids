@@ -1,0 +1,4 @@
+<AGTemplate name="HunterSignal" extend="HunterOneShot">
+	<MovementControlMethod horizontal="Animation" vertical="Animation"/>
+</AGTemplate>
+

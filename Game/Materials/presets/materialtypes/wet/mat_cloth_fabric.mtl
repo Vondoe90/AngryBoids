@@ -1,0 +1,11 @@
+<Material Diffuse="0.7843138,0.7843138,0.7843138" Emissive="0,0,0" GenMask="17" MtlFlags="0" Opacity="1" Shader="Cloth" Shininess="1" Specular="0,0,0" SurfaceType="mat_canvas" >
+ <Textures>
+  <Texture File="materials/presets/materialtypes/textures/fabric_cloth2.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/organic_ddn.dds" Map="Normalmap" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams DiffuseExponent="0.5" FuzzynessSaturation="1" FuzzynessSmoothness="3" FuzzynessSpread="3" FuzzynessStrength="1.2" />
+</Material>

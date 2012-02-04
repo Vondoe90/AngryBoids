@@ -1,0 +1,14 @@
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="17" MtlFlags="2048" Opacity="1" Shader="Glass" Shininess="64" Specular="0.627451,0.627451,0.627451" SurfaceType="mat_glass" >
+ <Textures>
+  <Texture File="textures/defaults/white.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/organic_ddn.dds" Map="Normalmap" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/env_maps/probe_env00.dds" Map="Environment" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BackLightScale="1.5" FilterColor="1,1,1" FresnelBias="0.2" FresnelPow="2" ReflBumpScale="0.2" ReflectionAmount="1" RefrBumpScale="0.5" />
+</Material>

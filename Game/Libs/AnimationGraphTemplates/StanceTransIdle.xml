@@ -1,0 +1,45 @@
+<AGTemplate name="StanceTransIdle">
+	<Param name="animation" type="string"/>
+	<Param name="playback_speed" type="float"/>
+	<Param name="mp_playback_speed" type="float"/>
+	<Param name="structure" type="string"/>
+  <Param name="key_time" type="float"/>
+  <Param name="transition_time" type="float"/>
+  <Param name="InterruptableStart" type="float"/>
+  <Param name="InterruptableEnd" type="float"/>
+  <Param name="aim_pose" type="string"/>
+  <Param name="end_aim_pose" type="string"/>
+  <Param name="stance" type="string"/>
+
+  <MovementControlMethod horizontal="DecoupledCatchUp" vertical="SmoothedEntity"/>
+  <ColliderMode mode="Pushable"/>
+
+  <Guard>
+    <!--Stance min="$stance" max="$stance"      some states are only reachable by temp changing stance     /-->
+    <ActualMoveSpeedLH min="0" max="1"/>
+  </Guard>
+
+  <TransitionParamsLayer1
+		Structure="$structure"
+		TransitionTime="iff( $transition_time == 0, 0.2, $transition_time )"
+		KeyTime="iff( $key_time == 0, -1, $key_time )"
+		LoopAnimation="0"
+		RepeatLastKey="1"
+		VTimeWarping="0"
+		WaitForAnimation="1"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		aimPose="$aim_pose"
+		aimPose2="$end_aim_pose"
+		ensureInStack="0"
+		stickyOutTime="-1"
+		forceLeaveWhenFinished="0"
+		stayInStateUntil="iff( $InterruptableEnd == 0, 0.0, $InterruptableEnd )"
+		forceInStateUntil="iff( $InterruptableStart == 0, 0.0, $InterruptableStart )"
+		speedMultiplier="$playback_speed"
+		MPSpeedMultiplier="$mp_playback_speed"
+		/>
+</AGTemplate>
+

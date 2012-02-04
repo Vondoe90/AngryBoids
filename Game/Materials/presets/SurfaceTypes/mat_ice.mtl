@@ -1,0 +1,8 @@
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="1" MtlFlags="0" Opacity="1" Shader="Illum" Shininess="10" Specular="0,0,0" SurfaceType="mat_ice" >
+ <Textures>
+  <Texture File="textures/terrain/detail/frozen_ground/ice_broken_b.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" EnvMapAmount="0.25" FresnelBias="0" FresnelPow="5" FresnelScale="1" Reflect="0.5" />
+</Material>

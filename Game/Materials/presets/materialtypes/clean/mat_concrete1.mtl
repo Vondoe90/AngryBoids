@@ -1,0 +1,19 @@
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="1053203" GlowAmount="1" MtlFlags="8192" Opacity="1" Shader="Illum" Shininess="2" Specular="0.25098041,0.25098041,0.25098041" SurfaceType="mat_concrete" >
+ <Textures>
+  <Texture File="materials/presets/materialtypes/textures/test.dds" Map="Diffuse" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/concrete/concrete2_diff.dds" Map="Specular" >
+   <TexMod />
+  </Texture>
+  <Texture File="materials/presets/materialtypes/textures/organic_ddn.dds" Map="Normalmap" >
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BumpOffset="0.039999999" DebugUVScale="64" />
+ <MaterialLayers>
+  <Layer Active="1" Name="FrozenLayer" >
+   <PublicParams BaseDarkening="0.125" EndFrostColor="0.60000002,0.85000002,1" FrostAmount="1" FrostBumpAmount="2" FrostDetailTile="2" FrostMultiplier="0.5" FrostOffset="0" StartFrostColor="0.40000001,0.69999999,1" VariationTileU="0.25" VariationTileV="0.34999999" VariationTileW="0.5" />
+  </Layer>
+ </MaterialLayers>
+</Material>

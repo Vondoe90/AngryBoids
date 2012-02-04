@@ -1,0 +1,14 @@
+<Material MtlFlags="0" Shader="Illum" GenMask="268435472" SurfaceType="mat_rock" Diffuse="0.627451,0.627451,0.627451" Specular="0.36078432,0.36078432,0.36078432" Emissive="0,0,0" Shininess="4" Opacity="1" AlphaTest="0.0099999998">
+ <Textures>
+  <Texture Map="Diffuse" File="materials/presets/materialtypes/textures/test.dds">
+   <TexMod />
+  </Texture>
+  <Texture Map="Specular" File="materials/presets/materialtypes/textures/rock/rocky_diff.tga">
+   <TexMod />
+  </Texture>
+  <Texture Map="Normalmap" File="materials/presets/materialtypes/textures/rock/rocky_ddn.dds">
+   <TexMod />
+  </Texture>
+ </Textures>
+ <MaterialLayers />
+</Material>

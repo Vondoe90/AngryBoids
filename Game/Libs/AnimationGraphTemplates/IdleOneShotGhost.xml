@@ -1,0 +1,4 @@
+<AGTemplate name="IdleOneShotGhost" extend="IdleOneShot">
+	<MovementControlMethod horizontal="Animation" vertical="Animation"/>
+	<ColliderMode mode="Disabled"/>
+</AGTemplate>

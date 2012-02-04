@@ -1,0 +1,4 @@
+<AGTemplate name="IdleSignalPPO" extend="IdleSignalGhost">
+	<ColliderMode mode="PushesPlayersOnly"/>
+</AGTemplate>
+

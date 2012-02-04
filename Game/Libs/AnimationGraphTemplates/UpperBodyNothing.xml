@@ -1,0 +1,25 @@
+<AGTemplate name="UpperBodyNothing">
+	<!--SelectWhen>
+		<AllowMixing min="0" max="1"/>
+	</SelectWhen-->
+
+  <WaitForUBAllowed/>
+	<!--ParamsLayer2
+		Structure=""
+		TransitionTime="0"
+		KeyTime="-1"
+		LoopAnimation="1"
+		RepeatLastKey="0"
+		VTimeWarping="0"
+		PartialBodyUpdate="1"
+		/-->
+
+	<!--AnimationLayer2
+		animation1=""
+		aimPose=""
+		ensureInStack="0"
+		stickyOutTime="-1"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="1"
+		/-->
+</AGTemplate>

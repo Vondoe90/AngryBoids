@@ -1,0 +1,35 @@
+<AGTemplate name="SpecialAnimation">
+	<Param name="animation" type="string"/>
+	<Param name="playback_speed" type="float"/>
+
+	<ParamsLayer1
+		TransitionTime="0.1"
+		KeyTime="-1"
+		LoopAnimation="1"
+		RepeatLastKey="0"
+		VTimeWarping="0"
+		/>
+
+	<AnimationLayer1
+		animation1="$animation"
+		ensureInStack="1"
+		stickyOutTime="0.3"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		/>
+	<AnimationLayer2
+		animation1="$animation"
+		ensureInStack="1"
+		stickyOutTime="0.3"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		/>
+	<AnimationLayer3
+		animation1="$animation"
+		ensureInStack="0"
+		stickyOutTime="0.3"
+		forceLeaveWhenFinished="0"
+		speedMultiplier="$playback_speed"
+		/>
+</AGTemplate>
+

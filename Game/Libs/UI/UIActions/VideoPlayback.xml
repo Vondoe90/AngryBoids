@@ -1,0 +1,37 @@
+<Graph Description="" Group="" enabled="1" MultiPlayer="ClientServer">
+ <Nodes>
+  <Node Id="1" Class="UI:Action:Start" pos="-320,-70,0" flags="0"/>
+  <Node Id="2" Class="UI:Util:FromArray" pos="-180,-70,0" flags="0">
+   <Inputs Array=""/>
+  </Node>
+  <Node Id="17" Name="Action_to_start_Video_Playback" Class="_commentbox" pos="-448.61115,-315.62158,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="938.1546" Height="496.17737"/>
+   <NodeSize Width="938.1546" Height="523.56799"/>
+  </Node>
+  <Node Id="25" Name="Arg1:_Instance_ID" Class="_comment" pos="-440,-270,0" flags="0"/>
+  <Node Id="26" Name="Arg2:_USM_File" Class="_comment" pos="-440,-240,0" flags="0"/>
+  <Node Id="27" Name="Arg3:_Loop_Video" Class="_comment" pos="-440,-210,0" flags="0"/>
+  <Node Id="28" Name="Arg4:_Skipable" Class="_comment" pos="-440,-180,0" flags="0"/>
+  <Node Id="36" Class="Video:VideoPlayback" pos="-10,-70,0" flags="0">
+   <Inputs InstanceID="0" VideoFile="" Transparent="0" Loop="0" Skipable="0" AudioChannel="0" SubtitleChannel="0"/>
+  </Node>
+  <Node Id="37" Class="UI:Action:End" pos="340,-70,0" flags="0">
+   <Inputs Args=""/>
+  </Node>
+  <Node Id="38" Class="Logic:Any" pos="240,-70,0" flags="0">
+   <Inputs />
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="2" nodeOut="1" portIn="Array" portOut="Args" enabled="1"/>
+  <Edge nodeIn="36" nodeOut="2" portIn="InstanceID" portOut="Val1" enabled="1"/>
+  <Edge nodeIn="36" nodeOut="2" portIn="VideoFile" portOut="Val2" enabled="1"/>
+  <Edge nodeIn="36" nodeOut="2" portIn="Loop" portOut="Val3" enabled="1"/>
+  <Edge nodeIn="36" nodeOut="2" portIn="Skipable" portOut="Val4" enabled="1"/>
+  <Edge nodeIn="38" nodeOut="36" portIn="in2" portOut="OnLooped" enabled="1"/>
+  <Edge nodeIn="38" nodeOut="36" portIn="in1" portOut="OnStop" enabled="1"/>
+  <Edge nodeIn="38" nodeOut="36" portIn="in3" portOut="OnVideoNotFound" enabled="1"/>
+  <Edge nodeIn="37" nodeOut="38" portIn="EndAction" portOut="out" enabled="1"/>
+ </Edges>
+</Graph>

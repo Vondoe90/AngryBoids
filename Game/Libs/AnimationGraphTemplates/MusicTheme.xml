@@ -1,0 +1,10 @@
+<AGTemplate name="MusicTheme">
+	<Param name="theme" type="string"/>
+	<Param name="delay_start" type="float"/>
+	<Param name="delay_finish" type="float"/>
+
+	<MusicTheme name="$theme"/>
+	<MusicDelayEntering time="$delay_start"/>
+	<MusicDelayLeaving time="$delay_finish"/>
+</AGTemplate>
+
