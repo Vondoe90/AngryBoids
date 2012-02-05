@@ -15,28 +15,15 @@ public class GameRulesBase : BaseGameRules
 {
     public GameRulesBase() 
     {
-        m_damageTable = new Dictionary<string, float>(); 
     }
 
     public override void OnSpawn()
     {
-        //XDocument damageTable = XDocument.Load(Path.Combine(CryPath.GetScriptsFolder(), @"GameRules\DamageTable.xml"));
-
-       // foreach (XElement body in damageTable.Root.Nodes())
-            //m_damageTable.Add(body.Attribute("part").Value, Convert.ToSingle(body.Attribute("damageMultiplier").Value));
     }
 
     // Client / Server shared
 	public override void PrecacheLevel()
 	{
-		Console.LogAlways("PrecacheLevel");
-		string[] items = { "OffHand" };
-
-		foreach(var item in items)
-		{
-			//ItemSystem.CacheItemGeometry(item);
-			//ItemSystem.CacheItemSound(item);
-		}
 	}
 
     public override void RequestSpawnGroup(uint spawnGroupId)
@@ -63,13 +50,6 @@ public class GameRulesBase : BaseGameRules
 	// Server-only
     public override float GetDamageMult(string materialType)
     {
-        Console.LogAlways("GetDamageMult");
-
-        if (m_damageTable.ContainsKey(materialType))
-            return m_damageTable[materialType];
-
-        Console.LogAlways("ret");
-
         return 1.0f;
     }
 

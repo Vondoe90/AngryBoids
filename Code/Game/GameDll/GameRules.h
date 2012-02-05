@@ -2,22 +2,29 @@
 
 #include <IGameRulesSystem.h>
 
+struct IActor;
+
 class CGameRules : public CGameObjectExtensionHelper<CGameRules, IGameRules, 64 /* max RMI's */>
 {
 public:
 	CGameRules();
 	~CGameRules();
 
+	void OnGamemodeChanged(const char *newMode);
+
+	virtual IActor *SpawnPlayer(int channelId, const char *name, const char *className, const Vec3 &pos, const Ang3 &angles);
+	virtual void RevivePlayer(IActor *pActor, const Vec3 &pos, const Ang3 &angles, int teamId=0, bool clearInventory=true);
+
 	// IGameRules
 	virtual bool ShouldKeepClient(int channelId, EDisconnectionCause cause, const char *desc) const { return (!strcmp("timeout", desc) || cause==eDC_Timeout); }
-	virtual void PrecacheLevel() {}
+	virtual void PrecacheLevel();
 	virtual void PrecacheLevelResource(const char* resourceName, EGameResourceType resourceType) {}
 	virtual XmlNodeRef FindPrecachedXmlFile( const char *sFilename ) { return 0; }
-	virtual void OnConnect(struct INetChannel *pNetChannel) {}
-	virtual void OnDisconnect(EDisconnectionCause cause, const char *desc) {}
+	virtual void OnConnect(struct INetChannel *pNetChannel);
+	virtual void OnDisconnect(EDisconnectionCause cause, const char *desc);
 	virtual bool OnClientConnect(int channelId, bool isReset);
-	virtual void OnClientDisconnect(int channelId, EDisconnectionCause cause, const char *desc, bool keepClient) {}
-	virtual bool OnClientEnteredGame(int channelId, bool isReset) { return true;}
+	virtual void OnClientDisconnect(int channelId, EDisconnectionCause cause, const char *desc, bool keepClient);
+	virtual bool OnClientEnteredGame(int channelId, bool isReset);
 	virtual void OnEntitySpawn(IEntity *pEntity) {}
 	virtual void OnEntityRemoved(IEntity *pEntity) {}
 	virtual void OnEntityReused(IEntity *pEntity, SEntitySpawnParams &params, EntityId prevId) {}
@@ -29,8 +36,8 @@ public:
 	virtual void ServerHit(const HitInfo &hitInfo) {}
 	virtual int GetHitTypeId(const char *type) const { return 0; }
 	virtual const char *GetHitType(int id) const { return ""; }
-	virtual void OnVehicleDestroyed(EntityId id) {}
-	virtual void OnVehicleSubmerged(EntityId id, float ratio) {}
+	virtual void OnVehicleDestroyed(EntityId id);
+	virtual void OnVehicleSubmerged(EntityId id, float ratio);
 	virtual void CreateEntityRespawnData(EntityId entityId) {}
 	virtual bool HasEntityRespawnData(EntityId entityId) const { return false; }
 	virtual void ScheduleEntityRespawn(EntityId entityId, bool unique, float timer) {}
@@ -74,4 +81,8 @@ public:
 	virtual void PostUpdate( float frameTime ) {}
 	virtual void PostRemoteSpawn() {}
 	// ~IGameObjectExtension
+
+protected:
+
+	int m_scriptId;
 };

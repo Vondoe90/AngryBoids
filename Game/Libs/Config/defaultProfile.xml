@@ -121,38 +121,8 @@
 
 	<actionmap name="player" version="22">
 	<!-- player keys -->
-		<action name="moveleft" onPress="1" onRelease="1" retriggerable="1" keyboard="a" />
-		<action name="moveright" onPress="1" onRelease="1" retriggerable="1" keyboard="d" />
-		<action name="moveforward" onPress="1" onRelease="1" retriggerable="1" keyboard="w" />
-		<action name="moveback" onPress="1" onRelease="1" retriggerable="1" keyboard="s" />
-		<action name="jump" onPress="1" onRelease="1" keyboard="space" xboxpad="xi_a" ps3pad="pad_cross"/>
-		<action name="crouch" onPress="1" onRelease="0" retriggerable="1" keyboard="lctrl" xboxpad="xi_b" ps3pad="pad_circle"/>
-		<action name="prone" onPress="1" onHold="1" keyboard="z" />
-		<action name="sprint" onPress="1" onRelease="1" retriggerable="1" keyboard="lshift" xboxpad="xi_shoulderl" ps3pad="pad_l1" />
-		<action name="special" onPress="1" onRelease="1" keyboard="t" xboxpad="xi_thumbr" />
-		<action name="leanleft" onPress="1" onRelease="1" onHold="1" keyboard="q" />
-		<action name="leanright" onPress="1" onRelease="1" onHold="1" keyboard="e" />
-		<action name="reload" onPress="1" keyboard="r" xboxpad="xi_x" ps3pad="pad_square"/>
-		<action name="drop" onPress="1" onRelease="1" keyboard="j"/>
-		<action name="nextitem" onPress="1" keyboard="mwheel_up" xboxpad="xi_dpad_right" ps3pad="pad_right"/>
-		<action name="previtem" onPress="1" keyboard="mwheel_down" />
-		<action name="small" onPress="1" keyboard="1"  />
-		<action name="medium" onPress="1" keyboard="2" />
-		<action name="explosive" onPress="1" keyboard="3" />
-		<action name="suitmode" onPress="1" keyboard="4" />
-		<action name="utility" onPress="1" keyboard="5" />
-		<action name="handgrenade" onPress="1" keyboard="h" xboxpad="xi_dpad_left" ps3pad="pad_left"/>
-		<action name="grenade" onPress="1" onRelease="1" keyboard="g" xboxpad="xi_shoulderr" ps3pad="pad_r1"/>
-		<action name="rotateyaw" keyboard="maxis_x" />
-		<action name="rotatepitch" keyboard="maxis_y" />
-		<action name="zoom_in" onPress="1" keyboard="mwheel_up" />
-		<action name="zoom_out" onPress="1" keyboard="mwheel_down" xboxpad="xi_shoulderl" />
-		 <!-- CONSOLE SPECIFIC CONTROLS START -->
-		<action name="xi_movey" xboxpad="xi_thumbly" ps3pad="pad_stickly"/>
-		<action name="xi_movex" xboxpad="xi_thumblx" ps3pad="pad_sticklx"/>
-		<action name="xi_rotateyaw" xboxpad="xi_thumbrx" ps3pad="pad_stickrx"/>
-		<action name="xi_rotatepitch" xboxpad="xi_thumbry" ps3pad="pad_stickry"/>
-		 <!-- CONSOLE SPECIFIC CONTROLS END -->
+		<action name="move_right" onPress="1" onRelease="1" keyboard="d" />
+		<action name="move_left" onPress="1" onRelease="1" keyboard="a" />
 	</actionmap>
 
 	<actionmap name="vehicle_general" version="22">

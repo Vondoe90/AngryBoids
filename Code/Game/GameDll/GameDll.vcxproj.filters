@@ -20,6 +20,9 @@
     <ClCompile Include="GameRules.cpp">
       <Filter>GameRules</Filter>
     </ClCompile>
+    <ClCompile Include="ScriptBind_GameRules.cpp">
+      <Filter>GameRules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h" />
@@ -45,6 +48,9 @@
       <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="GameRules.h">
+      <Filter>GameRules</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptBind_GameRules.h">
       <Filter>GameRules</Filter>
     </ClInclude>
   </ItemGroup>
