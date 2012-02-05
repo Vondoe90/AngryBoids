@@ -17,7 +17,7 @@
 #include <CryExtension/ICryUnknown.h>
 #include <IEngineModule.h>
 
-struct IMonoScriptBind;
+struct IMonoMethodBinding;
 struct IMonoObject;
 struct IMonoArray;
 
@@ -76,10 +76,16 @@ struct IMonoScriptSystem : public IEngineModule
 	virtual IMonoEntityManager *GetEntityManager() const = 0;
 	
 	/// <summary>
-	/// Registers a Mono scriptbind which inherits from IMonoScriptBind, and the methods contained within.
+	/// Registers a method binding, called from IMonoScriptBind.
+	/// </summary>
+	/// <param name="classPath">i.e. "CryEngine.GameRulesSystem::"</param>
+	virtual void RegisterMethodBinding(IMonoMethodBinding binding, const char *classPath) = 0;
+	/// <summary>
+	/// Registers method bindings contained within a vector, called from IMonoScriptBind.
 	/// Note that binded methods also have to be declared as externals within your C# assembly.
 	/// </summary>
-	virtual void RegisterScriptBind(IMonoScriptBind *pScriptBind) = 0;
+	/// <param name="classPath">i.e. "CryEngine.GameRulesSystem::"</param>
+	virtual void RegisterMethodBindings(std::vector<IMonoMethodBinding> methodBindings, const char *classPath) = 0;
 
 	/// <summary>
 	/// Instantiates a script (with constructor parameters if supplied) of type and name
@@ -133,7 +139,7 @@ static IMonoObject *CallMonoScript(int scriptId, const char *funcName, const P1 
 	if(IMonoClass *pClass = gEnv->pMonoScriptSystem->GetScriptById(scriptId))
 		pResult = pClass->CallMethod(funcName, pArray);
 		
-	SAFE_DELETE(pArray);
+	SAFE_RELEASE(pArray);
 
 	return pResult;
 };
@@ -148,7 +154,7 @@ static IMonoObject *CallMonoScript(int scriptId, const char *funcName, const P1 
 	if(IMonoClass *pClass = gEnv->pMonoScriptSystem->GetScriptById(scriptId))
 		pResult = pClass->CallMethod(funcName, pArray);
 
-	SAFE_DELETE(pArray);
+	SAFE_RELEASE(pArray);
 
 	return pResult;
 };
@@ -164,7 +170,7 @@ static IMonoObject *CallMonoScript(int scriptId, const char *funcName, const P1 
 	if(IMonoClass *pClass = gEnv->pMonoScriptSystem->GetScriptById(scriptId))
 		pResult = pClass->CallMethod(funcName, pArray);
 
-	SAFE_DELETE(pArray);
+	SAFE_RELEASE(pArray);
 
 	return pResult;
 };
@@ -181,7 +187,7 @@ static IMonoObject *CallMonoScript(int scriptId, const char *funcName, const P1 
 	if(IMonoClass *pClass = gEnv->pMonoScriptSystem->GetScriptById(scriptId))
 		pResult = pClass->CallMethod(funcName, pArray);
 
-	SAFE_DELETE(pArray);
+	SAFE_RELEASE(pArray);
 
 	return pResult;
 };
@@ -199,7 +205,7 @@ static IMonoObject *CallMonoScript(int scriptId, const char *funcName, const P1 
 	if(IMonoClass *pClass = gEnv->pMonoScriptSystem->GetScriptById(scriptId))
 		pResult = pClass->CallMethod(funcName, pArray);
 
-	SAFE_DELETE(pArray);
+	SAFE_RELEASE(pArray);
 
 	return pResult;
 };
@@ -218,7 +224,7 @@ static IMonoObject *CallMonoScript(int scriptId, const char *funcName, const P1 
 	if(IMonoClass *pClass = gEnv->pMonoScriptSystem->GetScriptById(scriptId))
 		pResult = pClass->CallMethod(funcName, pArray);
 
-	SAFE_DELETE(pArray);
+	SAFE_RELEASE(pArray);
 
 	return pResult;
 };
