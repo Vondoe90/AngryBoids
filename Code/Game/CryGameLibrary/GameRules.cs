@@ -33,7 +33,15 @@ namespace CryEngine
 
 			Players.Add(new T());
 
-			Players.Last().Initialize(_SpawnPlayer(channelId, name, "Actor", pos, angles), channelId);
+			uint EntityId = _SpawnPlayer(channelId, name, "Actor", pos, angles);
+			if (EntityId == 0)
+			{
+				Players.Remove(Players.Last());
+
+				return null;
+			}
+
+			Players.Last().Initialize(EntityId, channelId);
 
 			return Players.Last() as T;
         }

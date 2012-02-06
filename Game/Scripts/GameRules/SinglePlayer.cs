@@ -15,13 +15,6 @@ namespace CryGameCode
 			ReceiveUpdates = true;
         }
 
-        public override void OnClientEnteredGame(int channelId, uint playerId, bool reset, bool loadingSaveGame)
-        {
-            BasePlayer player = GameRules.GetPlayer(playerId);
-
-            base.OnClientEnteredGame(channelId, playerId, reset, loadingSaveGame);
-        }
-
 		public override void OnUpdate()
 		{
 			// TODO: Register instantiated Players with CryScriptCompiler to utilize its update functionality.
@@ -31,33 +24,38 @@ namespace CryGameCode
 
         public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
         {
+			Console.LogAlways("OnClientConnect");
+
             Player player = GameRules.SpawnPlayer<Player>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
 
             if (player == null)
-            {
                 Console.Log("OnClientConnect: Failed to spawn the player!");
-                return;
-            }
-
-            player.OnSpawn();
-
-            StaticEntity[] spawnPoints = EntitySystem.GetEntities("SpawnPoint");
-            if (spawnPoints == null)
-                return;
-
-            if (spawnPoints.Length > 0)
-            {
-                StaticEntity spawnPoint = spawnPoints[0];
-                if (spawnPoint != null)
-                {
-                    player.Position = spawnPoint.Position;
-                    player.Rotation = spawnPoint.Rotation;
-
-                    return;
-                }
-            }
-
-            Console.LogAlways("$1warning: No spawn points; using default spawn location!");
         }
+
+		public override void OnClientEnteredGame(int channelId, uint playerId, bool reset, bool loadingSaveGame)
+		{
+			Console.LogAlways("OnClientEnteredGame");
+
+			BasePlayer player = GameRules.GetPlayer(playerId);
+
+			player.OnSpawn();
+
+			player.Position = new Vec3(0, 0, 1);
+			player.Rotation = new Vec3(-90 * ((float)System.Math.PI / 180.0f), 0, 0);
+
+			StaticEntity[] spawnPoints = EntitySystem.GetEntities("SpawnPoint");
+			if (spawnPoints == null || spawnPoints.Length < 1)
+			{
+				Console.LogAlways("$1warning: No spawn points; using default spawn location!");
+				return;
+			}
+
+			SpawnPoint spawnPoint = spawnPoints[0] as SpawnPoint;
+			if (spawnPoint != null)
+			{
+				player.Position = spawnPoint.Position;
+				player.Rotation = spawnPoint.Rotation;
+			}
+		}
 	}
 }

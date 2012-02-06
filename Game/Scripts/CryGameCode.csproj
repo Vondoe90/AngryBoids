@@ -107,6 +107,7 @@
     <Compile Include="Entities\Rendered\RenderedEntity.cs" />
     <Compile Include="Entities\Rigidbody.cs" />
     <Compile Include="Entities\SampleEntity.cs" />
+    <Compile Include="Entities\SpawnPoint.cs" />
     <Compile Include="FlowNodes\Arduino\GenericMessage.cs" />
     <Compile Include="FlowNodes\Arduino\PortController.cs" />
     <Compile Include="FlowNodes\Math\Mult.cs" />

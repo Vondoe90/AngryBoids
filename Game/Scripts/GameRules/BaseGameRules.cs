@@ -129,7 +129,7 @@ public class GameRulesBase : BaseGameRules
 		Console.LogAlways("OnConnect");
 	}
 
-	public override void OnDisconnect(int cause, string desc)
+	public override void OnDisconnect(DisconnectionCause cause, string desc)
 	{
 		Console.LogAlways("OnDisconnect");
 	}
@@ -165,6 +165,4 @@ public class GameRulesBase : BaseGameRules
 	{
 		Console.LogAlways("OnVehicleSubmerged");
 	}
-
-    Dictionary<string /* material type */, float /* damage mult */> m_damageTable;
 }

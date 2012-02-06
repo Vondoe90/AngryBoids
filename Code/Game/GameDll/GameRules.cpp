@@ -100,8 +100,6 @@ void CGameRules::OnClientDisconnect(int channelId, EDisconnectionCause cause, co
 {
 	CallMonoScript(m_scriptId, "OnClientDisconnect", channelId);
 
-	CryLogAlways("%i, %s", cause, desc);
-
 	return;
 }
 
