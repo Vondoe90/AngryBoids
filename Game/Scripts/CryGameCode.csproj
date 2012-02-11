@@ -96,12 +96,6 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EditorForms\TestExtension.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EditorForms\TestExtension.Designer.cs">
-      <DependentUpon>TestExtension.cs</DependentUpon>
-    </Compile>
     <Compile Include="Entities\Actor\PlayableCharacter.cs" />
     <Compile Include="Entities\Dragon.cs" />
     <Compile Include="Entities\Rendered\RenderedEntity.cs" />

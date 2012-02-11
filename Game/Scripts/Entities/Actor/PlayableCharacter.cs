@@ -10,17 +10,27 @@ namespace CryGameCode
     {
         public Player() 
         {
+			InputSystem.RegisterAction("move_forward", OnMoveForward);
+			InputSystem.RegisterAction("move_backward", OnMoveBackward);
 			InputSystem.RegisterAction("move_right", OnMoveRight);
 			InputSystem.RegisterAction("move_left", OnMoveLeft);
 
 			ReceiveUpdates = true;
 
-			m_velocity = new Vec3();
+			velocity = new Vec3();
+
+			camera = new Camera();
+			Renderer.Camera = camera;
         }
 
 		public override void OnUpdate()
 		{
-			Position += m_velocity;
+			Position += velocity;
+
+			camera.Position = Position;
+			camera.ViewDir = Rotation;
+
+			Renderer.Camera = camera;
 		}
 
         public override void OnSpawn()
@@ -28,16 +38,23 @@ namespace CryGameCode
             Console.LogAlways("Player.OnSpawn");
         }
 
+		public void OnMoveForward(InputSystem.ActionActivationMode activationMode, float value)
+		{
+		}
+
+		public void OnMoveBackward(InputSystem.ActionActivationMode activationMode, float value)
+		{
+		}
+
 		public void OnMoveRight(InputSystem.ActionActivationMode activationMode, float value)
 		{
-			m_velocity.X = value;
 		}
 
 		public void OnMoveLeft(InputSystem.ActionActivationMode activationMode, float value)
 		{
-			m_velocity.X = -value;
 		}
 
-		private Vec3 m_velocity;
+		private Vec3 velocity;
+		private Camera camera;
     }
 }

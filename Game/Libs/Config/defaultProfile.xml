@@ -121,8 +121,10 @@
 
 	<actionmap name="player" version="22">
 	<!-- player keys -->
-		<action name="move_right" onPress="1" onRelease="1" keyboard="d" />
+		<action name="move_forward" onPress="1" onRelease="1" keyboard="w" />
+		<action name="move_backward" onPress="1" onRelease="1" keyboard="s" />
 		<action name="move_left" onPress="1" onRelease="1" keyboard="a" />
+		<action name="move_right" onPress="1" onRelease="1" keyboard="d" />
 	</actionmap>
 
 	<actionmap name="vehicle_general" version="22">

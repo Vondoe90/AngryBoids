@@ -324,7 +324,7 @@ int CGame::Update(bool haveFocus, unsigned int updateFlags)
 	float frameTime = gEnv->pTimer->GetFrameTime();
 
 	m_pRayCaster->Update(frameTime);
-
+	
 	if(!m_pFramework->IsGamePaused())
 	{
 		if (IViewSystem *pViewSystem = m_pFramework->GetIViewSystem())
@@ -332,13 +332,13 @@ int CGame::Update(bool haveFocus, unsigned int updateFlags)
 			if(IView *pView = pViewSystem->GetActiveView())
 			{
 				auto viewParams = *pView->GetCurrentParams();
-				viewParams.fov = 1.3f;
+				viewParams.fov = DEG2RAD(60);
 				g_pGame->GetIGameFramework()->GetIViewSystem()->GetActiveView()->SetCurrentParams(viewParams);
 
-				CCamera cam = gEnv->pSystem->GetViewCamera();
+				/*CCamera cam = gEnv->pSystem->GetViewCamera();
 				cam.SetAngles(gEnv->pEntitySystem->FindEntityByName("Player")->GetWorldAngles()); //Ang3(DEG2RAD(-90),0,0) );
 				cam.SetPosition(gEnv->pEntitySystem->FindEntityByName("Player")->GetWorldPos());//Vec3(2048/2,2048/2,200) );
-				gEnv->pSystem->SetViewCamera( cam );
+				gEnv->pSystem->SetViewCamera( cam );*/
 			}
 		}
 	}
