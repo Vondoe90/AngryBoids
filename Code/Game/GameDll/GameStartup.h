@@ -30,6 +30,16 @@ History:
 #undef max
 #endif
 
+#if defined(LINUX)
+#define GAME_FRAMEWORK_FILENAME	"CryAction.so"
+#else
+#define GAME_FRAMEWORK_FILENAME	"cryaction.dll"
+#endif 
+#define GAME_WINDOW_CLASSNAME		"CryENGINE"
+
+// implemented in GameDll.cpp
+extern HMODULE GetFrameworkDLL(const char* dllLocalDir);
+
 class CGameStartup :
 	public IGameStartup
 {

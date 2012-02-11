@@ -32,6 +32,8 @@ History:
 #include <ICryPak.h>
 #include <ILocalizationManager.h>
 
+#include "Editor/GameRealtimeRemoteUpdate.h"
+
 #if defined(ENABLE_STATS_AGENT)
 #include "StatsAgent.h"
 #endif
@@ -63,21 +65,29 @@ namespace
 	extern "C" IGameFramework *CreateGameFramework();
 #endif
 
+#ifndef XENON
+#define DLL_INITFUNC_CREATEGAME "CreateGameFramework"
+
+
+#endif
+
 #ifdef WIN32
 bool g_StickyKeysStatusSaved = false;
 STICKYKEYS g_StartupStickyKeys = {sizeof(STICKYKEYS), 0};
 TOGGLEKEYS g_StartupToggleKeys = {sizeof(TOGGLEKEYS), 0};
 FILTERKEYS g_StartupFilterKeys = {sizeof(FILTERKEYS), 0};
 
-#ifndef _RELEASE
 const static bool g_debugWindowsMessages = false;
-#endif
 
 void RestoreStickyKeys()
 {
 	CGameStartup::AllowAccessibilityShortcutKeys(true);
 }
 #endif
+
+
+
+#define EYEADAPTIONBASEDEFAULT		0.25f					// only needed for Crysis
 
 #define DEFAULT_CURSOR_RESOURCE_ID 105
 
@@ -95,6 +105,20 @@ public:
 		case ESYSTEM_EVENT_CHANGE_FOCUS:
 			{
 				CGameStartup::AllowAccessibilityShortcutKeys(wparam==0);
+			}
+			break;
+		case ESYSTEM_EVENT_LEVEL_LOAD_START:
+			{
+				// workaround for needed for Crysis - to reset cvar set in level.cfg
+				ICVar *pCVar = gEnv->pConsole->GetCVar("r_EyeAdaptationBase");		assert(pCVar);
+
+				float fOldVal = pCVar->GetFVal();
+
+				if(fOldVal!=EYEADAPTIONBASEDEFAULT)
+				{
+					CryLog("r_EyeAdaptationBase was reset to default");
+					pCVar->Set(EYEADAPTIONBASEDEFAULT);		// set to default value
+				}
 			}
 			break;
 
@@ -188,7 +212,9 @@ IGameRef CGameStartup::Init(SSystemInitParams &startupParams)
 		pOut = Reset(pModName);
 	}
 	else
+	{
 		pOut = Reset(GAME_TITLE);
+	}
 
 	// Load all localized strings.
 	LoadLocalizationData();
@@ -209,9 +235,18 @@ IGameRef CGameStartup::Init(SSystemInitParams &startupParams)
 
 	pSystem->GetISystemEventDispatcher()->RegisterListener( &g_system_event_listener_game );
 
+	// Creates and starts the realtime update system listener.
+	if (pSystem->IsDevMode())
+	{
+		CGameRealtimeRemoteUpdateListener::GetGameRealtimeRemoteUpdateListener().Enable(true);
+	}
+
 	GCOV_FLUSH;
 
-	if (!gEnv || !GetISystem())
+	if (gEnv && GetISystem())
+	{
+	}
+	else
 	{
 		CryLogAlways("failed to find ISystem to register error observer");
 		assert(0);
@@ -391,12 +426,9 @@ int CGameStartup::Update(bool haveFocus, unsigned int updateFlags)
 
 bool CGameStartup::GetRestartLevel(char** levelName)
 {
-	bool bRelaunch = GetISystem()->IsRelaunch();
-
-	if(bRelaunch)
+	if(GetISystem()->IsRelaunch())
 		*levelName = (char*)(gEnv->pGame->GetIGameFramework()->GetLevelName());
-
-	return bRelaunch;
+	return GetISystem()->IsRelaunch();
 }
 
 bool CGameStartup::GetRestartMod(char* pModName, int nameLenMax)
@@ -570,12 +602,30 @@ int CGameStartup::Run( const char * autoStartLevelName )
 
 bool CGameStartup::InitFramework(SSystemInitParams &startupParams)
 {
-	if(!m_pFramework)
-		m_pFramework = GetFramework(startupParams.szBinariesDir);
-/*#ifdef USE_INK_GAMEFRAMEWORK
-	CRY_SAFE_CREATE(m_pFramework, CGameFramework::CreateInstance(m_pFramework));
-#endif*/
-	CRY_ASSERT(m_pFramework);
+#if !defined(_LIB) && !defined(PS3)
+	m_frameworkDll = GetFrameworkDLL(startupParams.szBinariesDir);
+
+	if (!m_frameworkDll)
+	{
+		// failed to open the framework dll
+		CryFatalError("Failed to open the GameFramework DLL!");
+		
+		return false;
+	}
+
+	IGameFramework::TEntryFunction CreateGameFramework = (IGameFramework::TEntryFunction)CryGetProcAddress(m_frameworkDll, DLL_INITFUNC_CREATEGAME );
+
+	if (!CreateGameFramework)
+	{
+		// the dll is not a framework dll
+		CryFatalError("Specified GameFramework DLL is not valid!");
+
+		return false;
+	}
+#endif //_LIB
+
+	m_pFramework = CreateGameFramework();
+
 	if (!m_pFramework)
 	{
 		CryFatalError("Failed to create the GameFramework Interface!");
@@ -667,7 +717,7 @@ bool CGameStartup::InitWindow(SSystemInitParams &startupParams)
 	// FIXME: Very bad way of getting the Icon and Cursor from the Launcher project
 	wc.hIcon         = LoadIcon((HINSTANCE)startupParams.hInstance, MAKEINTRESOURCE(101));
 	wc.hCursor       = LoadCursor((HINSTANCE)startupParams.hInstance, MAKEINTRESOURCE(DEFAULT_CURSOR_RESOURCE_ID));
-	wc.hbrBackground =(HBRUSH)GetStockObject(DKGRAY_BRUSH);
+	wc.hbrBackground =(HBRUSH)GetStockObject(BLACK_BRUSH);
 	wc.lpszMenuName  = 0;
 	wc.lpszClassName = GAME_WINDOW_CLASSNAME;
 
@@ -706,46 +756,36 @@ LRESULT CALLBACK CGameStartup::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 			gEnv->pSystem->Quit();
 		return 0;
 	case WM_MOUSEACTIVATE:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_MOUSEACTIVATE (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
-#endif
 		return MA_ACTIVATEANDEAT;
 	case WM_ENTERSIZEMOVE:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_ENTERSIZEMOVE (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
-#endif
 		if (gEnv && gEnv->pSystem && gEnv->pSystem->GetIHardwareMouse())
 		{
 			gEnv->pSystem->GetIHardwareMouse()->IncrementCounter();
 		}
 		return  0;
 	case WM_EXITSIZEMOVE:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_EXITSIZEMOVE (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
-#endif
 		if (gEnv && gEnv->pSystem && gEnv->pSystem->GetIHardwareMouse())
 		{
 			gEnv->pSystem->GetIHardwareMouse()->DecrementCounter();
 		}
 		return  0;
 	case WM_ENTERMENULOOP:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_ENTERMENULOOP (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
-#endif
 		if (gEnv && gEnv->pSystem && gEnv->pSystem->GetIHardwareMouse())
 		{
 			gEnv->pSystem->GetIHardwareMouse()->IncrementCounter();
 		}
 		return  0;
 	case WM_EXITMENULOOP:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_EXITMENULOOP (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
-#endif
 		if (gEnv && gEnv->pSystem && gEnv->pSystem->GetIHardwareMouse())
 		{
 			gEnv->pSystem->GetIHardwareMouse()->DecrementCounter();
@@ -837,30 +877,24 @@ LRESULT CALLBACK CGameStartup::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 		}
 		return 0;
 	case WM_MOVE:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_MOVE %d %d (%s %s)", LOWORD(lParam), HIWORD(lParam), (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
-#endif
 		if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
 		{
 			gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_MOVE,LOWORD(lParam), HIWORD(lParam));
 		}
     return DefWindowProc(hWnd, msg, wParam, lParam);
 	case WM_SIZE:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_SIZE %d %d (%s %s)", LOWORD(lParam), HIWORD(lParam), (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
-#endif
 		if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
 		{
 			gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_RESIZE,LOWORD(lParam), HIWORD(lParam));
 		}
     return DefWindowProc(hWnd, msg, wParam, lParam);
 	case WM_ACTIVATE:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_ACTIVATE %d (%s %s)", LOWORD(wParam), (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
-#endif
 
 		if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
 		{
@@ -868,50 +902,40 @@ LRESULT CALLBACK CGameStartup::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 		}
 		break;
 	case WM_SETFOCUS:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_SETFOCUS (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
-#endif
 		if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
 		{
 			//gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_CHANGE_FOCUS, 1, 0);
 		}
 		break;
 	case WM_KILLFOCUS:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_KILLFOCUS (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
-#endif
 		if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
 		{
 			//gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_CHANGE_FOCUS, 0, 0);
 		}
 		break;
   case WM_WINDOWPOSCHANGED:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_WINDOWPOSCHANGED (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
-#endif
 		if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
 		{
 			//gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_CHANGE_FOCUS, 1, 0);
 		}
 		break;
   case WM_STYLECHANGED:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_STYLECHANGED (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
-#endif
     if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
     {
       gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_CHANGE_FOCUS, 1, 0);
     }
 		break;
 	case WM_INPUTLANGCHANGE:
-#ifndef _RELEASE
 		if (g_debugWindowsMessages && gEnv && gEnv->pLog)
 			gEnv->pLog->Log("MSG: WM_INPUTLANGCHANGE");
-#endif
 		if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
 		{
 			gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_LANGUAGE_CHANGE, wParam, lParam);

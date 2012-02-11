@@ -404,6 +404,20 @@
             <param name="isClient"></param>
             <param name="isServer"></param>
         </member>
+        <member name="M:CryEngine.Math.DegToRad(System.Double)">
+            <summary>
+            Converts degrees to radians
+            </summary>
+            <param name="angle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.Math.RadToDeg(System.Double)">
+            <summary>
+            Converts radians to degrees
+            </summary>
+            <param name="angle"></param>
+            <returns></returns>
+        </member>
         <member name="T:CryEngine.GameRulesSystem">
             <summary>
             GameRules contains scriptbinds used in relation to the game rules system.

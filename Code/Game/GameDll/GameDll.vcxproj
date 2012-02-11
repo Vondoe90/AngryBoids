@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Editor\EditorGame.cpp" />
+    <ClCompile Include="Editor\GameRealtimeRemoteUpdate.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameDll.cpp" />
     <ClCompile Include="GameRules.cpp" />
@@ -34,6 +35,7 @@
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Editor\EditorGame.h" />
+    <ClInclude Include="Editor\GameRealtimeRemoteUpdate.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameRules.h" />
     <ClInclude Include="GameSettings.h" />
@@ -130,7 +132,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>GAMEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryEngine\CryMono;..\..\SDKs\boost\;(AdditionalIncludeDirectories);..\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryEngine\CryMono;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <ExceptionHandling>false</ExceptionHandling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -163,7 +165,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>GAMEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryEngine\CryMono;..\..\SDKs\boost\;(AdditionalIncludeDirectories);..\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryEngine\CryMono;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <ExceptionHandling>false</ExceptionHandling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -193,7 +195,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GAMEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryEngine\CryMono;..\..\SDKs\boost\;(AdditionalIncludeDirectories);..\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryEngine\CryMono;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>
       </DebugInformationFormat>
@@ -215,7 +217,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GAMEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryEngine\CryMono;..\..\SDKs\boost\;(AdditionalIncludeDirectories);..\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryEngine\CryMono;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>
       </DebugInformationFormat>

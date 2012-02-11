@@ -18,8 +18,9 @@
 # pragma once
 #endif
 
-
 #include <IGameRef.h>
+#include <IGameFramework.h>
+
 #include <IEditorGame.h>
 
 struct IGameStartup;
@@ -49,24 +50,27 @@ public:
 	VIRTUAL IEquipmentSystemInterface* GetIEquipmentSystemInterface() { return NULL; }
 
 	VIRTUAL bool SupportsMultiplayerGameRules() { return true; }
-	VIRTUAL void ToggleMultiplayerGameRules() {}
+	VIRTUAL void ToggleMultiplayerGameRules();
 private:
 	void InitUIEnums(IGameToEditorInterface* pGTE);
 	void InitGlobalFileEnums(IGameToEditorInterface* pGTE);
 	void InitActionEnums(IGameToEditorInterface* pGTE);
 	bool ConfigureNetContext( bool on );
+	static void OnChangeEditorMode( ICVar * );
 	void EnablePlayer(bool bPlayer);
+	static void ResetClient(IConsoleCmdArgs*);
+	static const char *GetGameRulesName();
 
 	IGameRef			m_pGame;
+	IGameStartup	*m_pGameStartup;
 
 	bool          m_bEnabled;
 	bool          m_bGameMode;
 	bool          m_bPlayer;
-
-	IGameStartup *m_pGameStartup;
+	bool          m_bUsingMultiplayerGameRules;
 
 	static ICVar  *s_pEditorGameMode;
-	static CEditorGame *s_pEditorGame;
+	static CEditorGame * s_pEditorGame;
 };
 
 

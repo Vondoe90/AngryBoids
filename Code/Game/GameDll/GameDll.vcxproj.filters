@@ -23,6 +23,9 @@
     <ClCompile Include="ScriptBind_GameRules.cpp">
       <Filter>GameRules</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\GameRealtimeRemoteUpdate.cpp">
+      <Filter>Game\EditorGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h" />
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="ScriptBind_GameRules.h">
       <Filter>GameRules</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\GameRealtimeRemoteUpdate.h">
+      <Filter>Game\EditorGame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
