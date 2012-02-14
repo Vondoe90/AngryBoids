@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using CryEngine;
+﻿using CryEngine;
 
 namespace CryGameCode
 {
@@ -15,9 +11,11 @@ namespace CryGameCode
 			InputSystem.RegisterAction("move_right", OnMoveRight);
 			InputSystem.RegisterAction("move_left", OnMoveLeft);
 
+			InputSystem.RegisterAction("sprint", OnActionSprint);
+
 			ReceiveUpdates = true;
 
-			velocity = new Vec3();
+			DesiredVelocity = new Vec3();
 
 			camera = new Camera();
 			Renderer.Camera = camera;
@@ -25,7 +23,10 @@ namespace CryGameCode
 
 		public override void OnUpdate()
 		{
-			Position += velocity;
+			Quat qRot = new Quat();
+			qRot.Axis = Rotation;
+
+			Position += qRot * DesiredVelocity;
 
 			camera.Position = Position;
 			camera.ViewDir = Rotation;
@@ -33,28 +34,44 @@ namespace CryGameCode
 			Renderer.Camera = camera;
 		}
 
-        public override void OnSpawn()
-        {
-            Console.LogAlways("Player.OnSpawn");
-        }
+		public float GetMovementSpeed()
+		{
+			const float movementSpeed = 1.0f;
+
+			if (Sprinting)
+				return movementSpeed * 10.0f;
+
+			return movementSpeed;
+		}
 
 		public void OnMoveForward(InputSystem.ActionActivationMode activationMode, float value)
 		{
+			DesiredVelocity.Y = GetMovementSpeed() * value;
 		}
 
 		public void OnMoveBackward(InputSystem.ActionActivationMode activationMode, float value)
 		{
+			DesiredVelocity.Y = GetMovementSpeed() * -value;
 		}
 
 		public void OnMoveRight(InputSystem.ActionActivationMode activationMode, float value)
 		{
+			DesiredVelocity.X = GetMovementSpeed() * value;
 		}
 
 		public void OnMoveLeft(InputSystem.ActionActivationMode activationMode, float value)
 		{
+			DesiredVelocity.X = GetMovementSpeed() * -value;
 		}
 
-		private Vec3 velocity;
+		public void OnActionSprint(InputSystem.ActionActivationMode activationMode, float value)
+		{
+			Sprinting = value > 0;
+		}
+
 		private Camera camera;
+
+		private bool Sprinting;
+		private Vec3 DesiredVelocity;
     }
 }

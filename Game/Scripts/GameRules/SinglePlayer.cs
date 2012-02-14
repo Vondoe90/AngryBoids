@@ -38,10 +38,10 @@ namespace CryGameCode
 
 			BasePlayer player = GameRules.GetPlayer(playerId);
 
-			player.OnSpawn();
-
-			player.Position = new Vec3(0, 0, 1);
+			player.Position = new Vec3(541, 510, 146);
 			player.Rotation = new Vec3(-90 * ((float)System.Math.PI / 180.0f), 0, 0);
+
+			player.OnSpawn();
 
 			StaticEntity[] spawnPoints = EntitySystem.GetEntities("SpawnPoint");
 			if (spawnPoints == null || spawnPoints.Length < 1)
