@@ -44,8 +44,6 @@ namespace CryGameCode
 			player.Position = new Vec3(541, 510, 146);
 			player.Rotation = new Vec3(-90 * ((float)System.Math.PI / 180.0f), 0, 0);
 
-			player.OnSpawn();
-
 			StaticEntity[] spawnPoints = EntitySystem.GetEntities("SpawnPoint");
 			if (spawnPoints == null || spawnPoints.Length < 1)
 			{
@@ -56,6 +54,8 @@ namespace CryGameCode
 			SpawnPoint spawnPoint = spawnPoints[0] as SpawnPoint;
 			if (spawnPoint != null)
 			{
+				Console.LogAlways("Found spawnpoint", spawnPoint.Name);
+
 				player.Position = spawnPoint.Position;
 				player.Rotation = spawnPoint.Rotation;
 			}
