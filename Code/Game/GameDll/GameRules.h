@@ -15,6 +15,8 @@ public:
 	virtual IActor *SpawnPlayer(int channelId, const char *name, const char *className, const Vec3 &pos, const Ang3 &angles);
 	virtual void RevivePlayer(IActor *pActor, const Vec3 &pos, const Ang3 &angles, int teamId=0, bool clearInventory=true);
 
+	virtual void OnRevive(IActor *pActor, const Vec3 &pos, const Quat &rot, int teamId = 0);
+
 	// IGameRules
 	virtual bool ShouldKeepClient(int channelId, EDisconnectionCause cause, const char *desc) const { return (!strcmp("timeout", desc) || cause==eDC_Timeout); }
 	virtual void PrecacheLevel();

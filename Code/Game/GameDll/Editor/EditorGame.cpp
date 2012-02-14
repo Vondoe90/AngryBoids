@@ -199,6 +199,10 @@ bool CEditorGame::SetGameMode(bool bGameMode)
 				const Vec3 pos = pActor->GetEntity()->GetWorldPos();
 				const Quat rot = pActor->GetEntity()->GetWorldRotation();
 				pActor->GetEntity()->SetWorldTM(Matrix34::Create(Vec3(1,1,1), rot, pos));
+
+				CGameRules *pGameRules = static_cast<CGameRules *>(pGameFramework->GetIGameRulesSystem()->GetCurrentGameRules());
+				if(pGameRules)
+					pGameRules->OnRevive(pActor, pos, rot);
 			}
 		}
 	}
@@ -241,7 +245,8 @@ void CEditorGame::SetPlayerPosAng(Vec3 pos,Vec3 viewDir)
 			}
 		}
 
-		pClActor->GetEntity()->SetPosRotScale( pos,Quat::CreateRotationVDir(viewDir),Vec3(1,1,1),ENTITY_XFORM_EDITOR );
+		if(!m_bGameMode)
+			pClActor->GetEntity()->SetPosRotScale( pos,Quat::CreateRotationVDir(viewDir),Vec3(1,1,1),ENTITY_XFORM_EDITOR );
 	}
 }
 

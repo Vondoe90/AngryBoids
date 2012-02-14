@@ -18,11 +18,11 @@ namespace CryGameCode
 		public override void OnUpdate()
 		{
 			// TODO: Register instantiated Players with CryScriptCompiler to utilize its update functionality.
-			if(GameRules.Players != null)
-			{
-				foreach(var player in GameRules.Players.Where(x => x.ReceiveUpdates))
-					player.OnUpdate();
-			}
+			if (GameRules.Players == null)
+				return;
+
+			foreach (var player in GameRules.Players.Where(x => x.ReceiveUpdates))
+				player.OnUpdate();
 		}
 
         public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
@@ -35,11 +35,9 @@ namespace CryGameCode
                 Console.Log("OnClientConnect: Failed to spawn the player!");
         }
 
-		public override void OnClientEnteredGame(int channelId, uint playerId, bool reset, bool loadingSaveGame)
+		public override void OnRevive(uint actorId, Vec3 pos, Vec3 rot, int teamId)
 		{
-			Console.LogAlways("OnClientEnteredGame");
-
-			BasePlayer player = GameRules.GetPlayer(playerId);
+			BasePlayer player = GameRules.GetPlayer(actorId);
 
 			player.Position = new Vec3(541, 510, 146);
 			player.Rotation = new Vec3(-90 * ((float)System.Math.PI / 180.0f), 0, 0);

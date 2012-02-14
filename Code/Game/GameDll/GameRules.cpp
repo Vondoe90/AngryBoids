@@ -115,6 +115,12 @@ bool CGameRules::OnClientEnteredGame(int channelId, bool isReset)
 }
 
 //------------------------------------------------------------------------
+void CGameRules::OnRevive(IActor *pActor, const Vec3 &pos, const Quat &rot, int teamId)
+{
+	CallMonoScript<void>(m_scriptId, "OnRevive", pActor->GetEntityId(), pos, Ang3(rot), teamId);
+}
+
+//------------------------------------------------------------------------
 void CGameRules::OnVehicleDestroyed(EntityId id)
 {
 	if (gEnv->bServer)
