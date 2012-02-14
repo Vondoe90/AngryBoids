@@ -18,8 +18,11 @@ namespace CryGameCode
 		public override void OnUpdate()
 		{
 			// TODO: Register instantiated Players with CryScriptCompiler to utilize its update functionality.
-			foreach (var player in GameRules.Players.Where(x => x.ReceiveUpdates))
-				player.OnUpdate();
+			if(GameRules.Players != null)
+			{
+				foreach(var player in GameRules.Players.Where(x => x.ReceiveUpdates))
+					player.OnUpdate();
+			}
 		}
 
         public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")

@@ -10,12 +10,12 @@ namespace CryGameCode
 			InputSystem.RegisterAction("move_backward", OnMoveBackward);
 			InputSystem.RegisterAction("move_right", OnMoveRight);
 			InputSystem.RegisterAction("move_left", OnMoveLeft);
-
+			
 			InputSystem.RegisterAction("sprint", OnActionSprint);
 
 			ReceiveUpdates = true;
 
-			DesiredVelocity = new Vec3();
+			desiredVelocity = new Vec3();
 
 			camera = new Camera();
 			Renderer.Camera = camera;
@@ -26,7 +26,7 @@ namespace CryGameCode
 			Quat qRot = new Quat();
 			qRot.Axis = Rotation;
 
-			Position += qRot * DesiredVelocity;
+			Position += qRot * desiredVelocity;
 
 			camera.Position = Position;
 			camera.ViewDir = Rotation;
@@ -34,34 +34,37 @@ namespace CryGameCode
 			Renderer.Camera = camera;
 		}
 
-		public float GetMovementSpeed()
+		public float MovementSpeed
 		{
-			const float movementSpeed = 1.0f;
+			get
+			{
+				var movementSpeed = 1f;
 
-			if (Sprinting)
-				return movementSpeed * 10.0f;
+				if(Sprinting)
+					movementSpeed *= 10;
 
-			return movementSpeed;
+				return movementSpeed;
+			}
 		}
 
 		public void OnMoveForward(InputSystem.ActionActivationMode activationMode, float value)
 		{
-			DesiredVelocity.Y = GetMovementSpeed() * value;
+			desiredVelocity.Y = MovementSpeed * value;
 		}
 
 		public void OnMoveBackward(InputSystem.ActionActivationMode activationMode, float value)
 		{
-			DesiredVelocity.Y = GetMovementSpeed() * -value;
+			desiredVelocity.Y = MovementSpeed * -value;
 		}
 
 		public void OnMoveRight(InputSystem.ActionActivationMode activationMode, float value)
 		{
-			DesiredVelocity.X = GetMovementSpeed() * value;
+			desiredVelocity.X = MovementSpeed * value;
 		}
 
 		public void OnMoveLeft(InputSystem.ActionActivationMode activationMode, float value)
 		{
-			DesiredVelocity.X = GetMovementSpeed() * -value;
+			desiredVelocity.X = MovementSpeed * -value;
 		}
 
 		public void OnActionSprint(InputSystem.ActionActivationMode activationMode, float value)
@@ -69,9 +72,9 @@ namespace CryGameCode
 			Sprinting = value > 0;
 		}
 
-		private Camera camera;
+		Camera camera;
+		Vec3 desiredVelocity;
 
-		private bool Sprinting;
-		private Vec3 DesiredVelocity;
+		public bool Sprinting { get; private set; }
     }
 }
