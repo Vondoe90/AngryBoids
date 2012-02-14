@@ -235,6 +235,41 @@
             <param name="port">The id of the port, from the order it was registered (first is 0)</param>
             <param name="value"></param>
         </member>
+        <member name="M:CryEngine.FlowNode.GetPortInt(System.Action{System.Int32})">
+            <summary>
+            Gets the int value of an flownode port.
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.FlowNode.GetPortFloat(System.Action{System.Single})">
+            <summary>
+            Gets the float value of an flownode port.
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.FlowNode.GetPortVec3(System.Action{CryEngine.Vec3})">
+            <summary>
+            Gets the int value of an flownode port.
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.FlowNode.GetPortString(System.Action{System.String})">
+            <summary>
+            Gets the string value of an flownode port.
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.FlowNode.GetPortBool(System.Action{System.Boolean})">
+            <summary>
+            Gets the bool value of an flownode port.
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
         <member name="M:CryEngine.FlowNode.IsPortActive(System.Int32)">
             <summary>
             Used to check whether an input port is currently activated.

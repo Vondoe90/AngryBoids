@@ -7,10 +7,6 @@ namespace CryGameCode
     [FlowNode(UICategory = "Samples", Category = FlowNodeCategory.Approved, Description = "Does awesome CryMono things")]
     public class SampleNode : FlowNode
     {
-        public override void OnInit()
-        {
-        }
-
         [InputPort(Name = "Activate", Description = "Test of a void input")]
         public void OnActivateTriggered()
         {

@@ -24,7 +24,7 @@ namespace CryGameCode.Entities
 			ActivateOutput(spawnedPortId);
         }
 
-        public override void OnReset(bool enteringGame)
+        protected override void OnReset(bool enteringGame)
         {
             LoadObject(Model);
 
