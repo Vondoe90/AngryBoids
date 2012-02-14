@@ -125,6 +125,8 @@
 		<action name="move_backward" onPress="1" onRelease="1" keyboard="s" />
 		<action name="move_left" onPress="1" onRelease="1" keyboard="a" />
 		<action name="move_right" onPress="1" onRelease="1" keyboard="d" />
+
+		<action name="sprint" onPress="1" onRelease="1" keyboard="lshift" />
 	</actionmap>
 
 	<actionmap name="vehicle_general" version="22">
