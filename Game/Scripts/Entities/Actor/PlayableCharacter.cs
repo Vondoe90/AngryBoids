@@ -28,7 +28,7 @@ namespace CryGameCode
 
 			Position += qRot * desiredVelocity;
 
-			camera.Position = Position;
+			camera.Position = Position + new Vec3(0,0,10);
 			camera.ViewDir = Rotation;
 
 			Renderer.Camera = camera;
@@ -47,27 +47,27 @@ namespace CryGameCode
 			}
 		}
 
-		public void OnMoveForward(InputSystem.ActionActivationMode activationMode, float value)
+		public void OnMoveForward(ActionActivationMode activationMode, float value)
 		{
 			desiredVelocity.Y = MovementSpeed * value;
 		}
 
-		public void OnMoveBackward(InputSystem.ActionActivationMode activationMode, float value)
+		public void OnMoveBackward(ActionActivationMode activationMode, float value)
 		{
 			desiredVelocity.Y = MovementSpeed * -value;
 		}
 
-		public void OnMoveRight(InputSystem.ActionActivationMode activationMode, float value)
+		public void OnMoveRight(ActionActivationMode activationMode, float value)
 		{
 			desiredVelocity.X = MovementSpeed * value;
 		}
 
-		public void OnMoveLeft(InputSystem.ActionActivationMode activationMode, float value)
+		public void OnMoveLeft(ActionActivationMode activationMode, float value)
 		{
 			desiredVelocity.X = MovementSpeed * -value;
 		}
 
-		public void OnActionSprint(InputSystem.ActionActivationMode activationMode, float value)
+		public void OnActionSprint(ActionActivationMode activationMode, float value)
 		{
 			Sprinting = value > 0;
 		}

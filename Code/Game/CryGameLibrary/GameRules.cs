@@ -26,38 +26,40 @@ namespace CryEngine
         /// <param name="name"></param>
         /// <param name="pos"></param>
         /// <param name="angles"></param>
-        public static T SpawnPlayer<T>(int channelId, string name, Vec3 pos, Vec3 angles) where T : BasePlayer, new()
-        {
-			if (Players == null)
-				Players = new List<BasePlayer>();
-
-			Players.Add(new T());
-
-			uint EntityId = _SpawnPlayer(channelId, name, "Actor", pos, angles);
-			if (EntityId == 0)
+		public static T SpawnPlayer<T>(int channelId, string name, Vec3 pos, Vec3 angles) where T : BasePlayer, new()
+		{
+			uint entityId = _SpawnPlayer(channelId, name, "Actor", pos, angles);
+			if (entityId == 0)
 			{
-				Players.Remove(Players.Last());
-
+				Console.LogAlways("GameRules.SpawnPlayer failed; new entityId was invalid");
 				return null;
 			}
 
-			Players.Last().Initialize(EntityId, channelId);
+			int scriptId = ScriptCompiler.AddScriptInstance(new T());
+			if (scriptId == -1)
+			{
+				Console.LogAlways("GameRules.SpawnPlayer failed; new scriptId was invalid");
+				return null;
+			}
 
-			Players.Last().OnSpawn();
+			T player = ScriptCompiler.GetScriptInstanceById(scriptId) as T;
+			player.InternalSpawn(entityId, channelId);
 
-			return Players.Last() as T;
-        }
+			return player;
+		}
 
-        public static BasePlayer GetPlayer(uint playerId)
-        {
-			return Players.Where(player => player.Id == playerId).FirstOrDefault();
-        }
+		public static BasePlayer GetPlayer(uint playerId)
+		{
+			int scriptId = ScriptCompiler.GetEntityScriptId(playerId, typeof(BasePlayer));
+			if (scriptId != -1)
+				return ScriptCompiler.GetScriptInstanceById(scriptId) as BasePlayer;
 
-        public static T GetPlayer<T>(uint playerId) where T : BasePlayer
-        {
-            return GetPlayer(playerId) as T;
-        }
+			return null;
+		}
 
-		public static List<BasePlayer> Players;
+		public static T GetPlayer<T>(uint playerId) where T : BasePlayer
+		{
+			return GetPlayer(playerId) as T;
+		}
     }
 }

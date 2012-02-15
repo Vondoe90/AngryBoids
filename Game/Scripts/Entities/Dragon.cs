@@ -17,7 +17,7 @@ namespace CryGameCode.Entities
 
         public override void OnSpawn()
         {
-            ReceiveUpdates = true;
+			ReceiveUpdates = true;
 
             LoadObject(Model);
 

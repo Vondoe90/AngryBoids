@@ -4,30 +4,35 @@
         <name>CryBrary</name>
     </assembly>
     <members>
-        <member name="M:CryEngine._ScriptCompiler.ConvertToCSharp(System.String@)">
+        <member name="T:CryEngine.ScriptCompiler">
+            <summary>
+            The script compiler is responsible for all CryScript compilation.
+            </summary>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.ConvertToCSharp(System.String@)">
             <summary>
             Finds C++-specific types in the provided string and substitutes them for C# types.
             </summary>
             <param name="cplusplusTypes"></param>
         </member>
-        <member name="M:CryEngine._ScriptCompiler.LoadLibrariesInFolder(System.String)">
+        <member name="M:CryEngine.ScriptCompiler.LoadLibrariesInFolder(System.String)">
             <summary>
             This function will automatically scan for C# dll (*.dll) files and load the types contained within them.
             </summary>
         </member>
-        <member name="M:CryEngine._ScriptCompiler.CompileScriptsInFolder(System.String)">
+        <member name="M:CryEngine.ScriptCompiler.CompileScriptsInFolder(System.String)">
             <summary>
             This function will automatically scan for C# (*.cs) files and compile them using CompileScripts.
             </summary>
         </member>
-        <member name="M:CryEngine._ScriptCompiler.CompileScripts(System.String[],System.String)">
+        <member name="M:CryEngine.ScriptCompiler.CompileScripts(System.String[],System.String)">
             <summary>
             Compiles the scripts and compiles them into an assembly.
             </summary>
             <param name="scripts">A string array containing full paths to scripts to be compiled.</param>
             <returns></returns>
         </member>
-        <member name="M:CryEngine._ScriptCompiler.GetRequiredAssembliesForScripts(System.String[])">
+        <member name="M:CryEngine.ScriptCompiler.GetRequiredAssembliesForScripts(System.String[])">
             <summary>
             Gets the required assemblies for the scripts passed to the method.
             Note: Does NOT exclude assemblies already loaded by CryMono.
@@ -35,7 +40,7 @@
             <param name="scripts"></param>
             <returns></returns>
         </member>
-        <member name="M:CryEngine._ScriptCompiler.GetRequiredAssembliesForScript(System.String)">
+        <member name="M:CryEngine.ScriptCompiler.GetRequiredAssembliesForScript(System.String)">
             <summary>
             Gets the required assemblies for the script passed to the method.
             Note: Does NOT exclude assemblies already loaded by CryMono.
@@ -43,14 +48,47 @@
             <param name="script"></param>
             <returns></returns>
         </member>
-        <member name="M:CryEngine._ScriptCompiler.LoadAssembly(System.Reflection.Assembly)">
+        <member name="M:CryEngine.ScriptCompiler.LoadAssembly(System.Reflection.Assembly)">
             <summary>
             Loads an C# assembly and return encapulsated script Type.
             </summary>
         </member>
-        <member name="F:CryEngine._ScriptCompiler.referencedAssemblies">
+        <member name="F:CryEngine.ScriptCompiler.referencedAssemblies">
             <summary>
             All libraries passed through LoadLibrariesInFolder will be automatically added to this list.
+            </summary>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.InstantiateScript(System.String,System.Object[])">
+            <summary>
+            Instantiates a script using its name and interface.
+            </summary>
+            <param name="scriptName"></param>
+            <param name="constructorParams"></param>
+            <returns>New instance scriptId or -1 if instantiation failed.</returns>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.AddScriptInstance(CryEngine.CryScriptInstance)">
+            <summary>
+            Adds an script instance to the script collection and returns its new id.
+            </summary>
+            <param name="instance"></param>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.RemoveInstance(System.Int32,System.String)">
+            <summary>
+            Locates and destructs the script with the assigned scriptId.
+            
+            Warning: Not supplying the scriptName will make the method execute slower.
+            </summary>
+            <param name="scriptId"></param>
+            <param name="scriptName"></param>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.RegisterScriptbind(System.String,System.String,System.Object[])">
+            <summary>
+            Automagically registers scriptbind methods to rid us of having to add them in both C# and C++.
+            </summary>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.OnUpdate(System.Single)">
+            <summary>
+            Called once per frame.
             </summary>
         </member>
         <member name="F:CryEngine.MonoScriptType.GameRules">
@@ -83,7 +121,7 @@
             
             </summary>
         </member>
-        <member name="F:CryEngine.MonoScriptType.Other">
+        <member name="F:CryEngine.MonoScriptType.Unknown">
             <summary>
             Scripts will be linked to this type if they inherit from CryScriptInstance, but not any other script base.
             </summary>
@@ -1073,52 +1111,29 @@
             WIP Player class.
             </summary>
         </member>
-        <member name="M:CryEngine.BasePlayer.Initialize(System.UInt32,System.Int32)">
+        <member name="M:CryEngine.BasePlayer.InternalSpawn(System.UInt32,System.Int32)">
             <summary>
             Initializes the player.
             </summary>
             <param name="entityId"></param>
             <param name="channelId"></param>
         </member>
-        <member name="T:CryEngine.ScriptCompiler">
-            <summary>
-            The script compiler is responsible for all CryScript compilation.
-            </summary>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.InstantiateScript(System.String,System.Object[])">
-            <summary>
-            Instantiates a script using its name and interface.
-            </summary>
-            <param name="scriptName"></param>
-            <param name="constructorParams"></param>
-            <returns>New instance scriptId or -1 if instantiation failed.</returns>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.RegisterScriptbind(System.String,System.String,System.Object[])">
-            <summary>
-            Automagically registers scriptbind methods to rid us of having to add them in both C# and C++.
-            </summary>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.OnUpdate(System.Single)">
-            <summary>
-            Called once per frame.
-            </summary>
-        </member>
-        <member name="F:CryEngine.InputSystem.ActionActivationMode.OnPress">
+        <member name="F:CryEngine.ActionActivationMode.OnPress">
             <summary>
             Used when the action key is pressed
             </summary>
         </member>
-        <member name="F:CryEngine.InputSystem.ActionActivationMode.OnRelease">
+        <member name="F:CryEngine.ActionActivationMode.OnRelease">
             <summary>
             Used when the action key is released
             </summary>
         </member>
-        <member name="F:CryEngine.InputSystem.ActionActivationMode.OnHold">
+        <member name="F:CryEngine.ActionActivationMode.OnHold">
             <summary>
             Used when the action key is held
             </summary>
         </member>
-        <member name="F:CryEngine.InputSystem.ActionActivationMode.AnalogCmd">
+        <member name="F:CryEngine.ActionActivationMode.AnalogCmd">
             <summary>
             Used when analog compare op succeeds
             </summary>

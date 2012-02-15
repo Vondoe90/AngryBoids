@@ -15,47 +15,38 @@ namespace CryGameCode
 			ReceiveUpdates = true;
         }
 
-		public override void OnUpdate()
-		{
-			// TODO: Register instantiated Players with CryScriptCompiler to utilize its update functionality.
-			if (GameRules.Players == null)
-				return;
-
-			foreach (var player in GameRules.Players.Where(x => x.ReceiveUpdates))
-				player.OnUpdate();
-		}
-
         public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
         {
-			Console.LogAlways("OnClientConnect");
-
-            Player player = GameRules.SpawnPlayer<Player>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
-
-            if (player == null)
-                Console.Log("OnClientConnect: Failed to spawn the player!");
+            GameRules.SpawnPlayer<Player>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
         }
 
 		public override void OnRevive(uint actorId, Vec3 pos, Vec3 rot, int teamId)
 		{
-			BasePlayer player = GameRules.GetPlayer(actorId);
+			Console.LogAlways("SinglePlayer.OnRevive");
+
+			Player player = GameRules.GetPlayer(actorId) as Player;
+			if (player == null)
+			{
+				Console.LogAlways("[SinglePlayer.OnRevive] Failed to get player");
+				return;
+			}
 
 			player.Position = new Vec3(541, 510, 146);
 			player.Rotation = new Vec3(-90 * ((float)System.Math.PI / 180.0f), 0, 0);
 
 			StaticEntity[] spawnPoints = EntitySystem.GetEntities("SpawnPoint");
 			if (spawnPoints == null || spawnPoints.Length < 1)
-			{
 				Console.LogAlways("$1warning: No spawn points; using default spawn location!");
-				return;
-			}
-
-			SpawnPoint spawnPoint = spawnPoints[0] as SpawnPoint;
-			if (spawnPoint != null)
+			else
 			{
-				Console.LogAlways("Found spawnpoint", spawnPoint.Name);
+				SpawnPoint spawnPoint = spawnPoints[0] as SpawnPoint;
+				if (spawnPoint != null)
+				{
+					Console.LogAlways("Found spawnpoint {0}", spawnPoint.Name);
 
-				player.Position = spawnPoint.Position;
-				player.Rotation = spawnPoint.Rotation;
+					player.Position = spawnPoint.Position;
+					player.Rotation = spawnPoint.Rotation;
+				}
 			}
 		}
 	}
