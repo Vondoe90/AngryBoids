@@ -9,12 +9,6 @@
             The script compiler is responsible for all CryScript compilation.
             </summary>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.ConvertToCSharp(System.String@)">
-            <summary>
-            Finds C++-specific types in the provided string and substitutes them for C# types.
-            </summary>
-            <param name="cplusplusTypes"></param>
-        </member>
         <member name="M:CryEngine.ScriptCompiler.LoadLibrariesInFolder(System.String)">
             <summary>
             This function will automatically scan for C# dll (*.dll) files and load the types contained within them.
@@ -32,30 +26,9 @@
             <param name="scripts">A string array containing full paths to scripts to be compiled.</param>
             <returns></returns>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.GetRequiredAssembliesForScripts(System.String[])">
-            <summary>
-            Gets the required assemblies for the scripts passed to the method.
-            Note: Does NOT exclude assemblies already loaded by CryMono.
-            </summary>
-            <param name="scripts"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.GetRequiredAssembliesForScript(System.String)">
-            <summary>
-            Gets the required assemblies for the script passed to the method.
-            Note: Does NOT exclude assemblies already loaded by CryMono.
-            </summary>
-            <param name="script"></param>
-            <returns></returns>
-        </member>
         <member name="M:CryEngine.ScriptCompiler.LoadAssembly(System.Reflection.Assembly)">
             <summary>
             Loads an C# assembly and return encapulsated script Type.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ScriptCompiler.referencedAssemblies">
-            <summary>
-            All libraries passed through LoadLibrariesInFolder will be automatically added to this list.
             </summary>
         </member>
         <member name="M:CryEngine.ScriptCompiler.InstantiateScript(System.String,System.Object[])">
@@ -229,11 +202,6 @@
             Called from C++ when a console command registered via Mono is invoked.
             </summary>
             <param name="cmdName"></param>
-        </member>
-        <member name="T:CryEngine.ItemSystem">
-            <summary>
-            ItemSystem contains scriptbinds used in relation to the item system.
-            </summary>
         </member>
         <member name="T:CryEngine.CryScriptInstance">
             <summary>
@@ -732,47 +700,6 @@
         <member name="F:CryEngine.PhysicalWorld.RayWorldIntersectionFlag.CollissionTypeAny">
             <summary>
             if several colltype flag are specified, switches between requiring all or any of them in a geometry
-            </summary>
-        </member>
-        <member name="T:CryEngine.Vec3">
-            <summary>
-            The Vec3 struct is used for all 3D coordinates within the engine.
-            TODO: Implement a Quat class for rotation in place of angles.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.op_UnaryNegation(CryEngine.Vec3)">
-            <summary>
-            Negate this vector.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.op_Addition(CryEngine.Vec3,CryEngine.Vec3)">
-            <summary>
-            Add two vectors component-wise.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.op_Subtraction(CryEngine.Vec3,CryEngine.Vec3)">
-            <summary>
-            Subtract two vectors component-wise.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.op_Multiply(CryEngine.Vec3,System.Single)">
-            <summary>
-            Multiply this vector by a scalar.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.op_Multiply(System.Single,CryEngine.Vec3)">
-            <summary>
-            Multiply this vector by a scalar.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.Dot(CryEngine.Vec3,CryEngine.Vec3)">
-            <summary>
-            Perform the dot product on two vectors.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.Cross(CryEngine.Vec3,CryEngine.Vec3)">
-            <summary>
-            Perform the cross product on two vectors.
             </summary>
         </member>
         <member name="T:CryEngine.BaseGameRules">
@@ -1358,6 +1285,94 @@
             <summary>
             Provides an direct interface to the 3DEngine.
             Mildly WIP.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Vec3">
+            <summary>
+            The Vec3 struct is used for all 3D coordinates within the engine.
+            TODO: Implement a Quat class for rotation in place of angles.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.op_UnaryNegation(CryEngine.Vec3)">
+            <summary>
+            Negate this vector.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.op_Addition(CryEngine.Vec3,CryEngine.Vec3)">
+            <summary>
+            Add two vectors component-wise.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.op_Subtraction(CryEngine.Vec3,CryEngine.Vec3)">
+            <summary>
+            Subtract two vectors component-wise.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.op_Multiply(CryEngine.Vec3,System.Single)">
+            <summary>
+            Multiply this vector by a scalar.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.op_Multiply(System.Single,CryEngine.Vec3)">
+            <summary>
+            Multiply this vector by a scalar.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.Dot(CryEngine.Vec3,CryEngine.Vec3)">
+            <summary>
+            Perform the dot product on two vectors.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.Cross(CryEngine.Vec3,CryEngine.Vec3)">
+            <summary>
+            Perform the cross product on two vectors.
+            </summary>
+        </member>
+        <member name="T:CryEngine.ItemSystem">
+            <summary>
+            ItemSystem contains scriptbinds used in relation to the item system.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Utils.ScriptBindAssemblyGenerator">
+            <summary>
+            Generates an assembly containing the scriptbind externals passed to it.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Utils.ScriptBindAssemblyGenerator.ConvertToCSharp(System.String@)">
+            <summary>
+            Finds C++-specific types in the provided string and substitutes them for C# types.
+            </summary>
+            <param name="cplusplusTypes"></param>
+        </member>
+        <member name="T:CryEngine.Utils.AppDomainSerializer">
+            <summary>
+            Handles serializing script instances for an app domain reload.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Utils.AssemblyReferenceHandler">
+            <summary>
+            Handles retrieval of required assemblies for compiled scripts etc.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Utils.AssemblyReferenceHandler.GetRequiredAssembliesForScripts(System.String[])">
+            <summary>
+            Gets the required assemblies for the scripts passed to the method.
+            Note: Does NOT exclude assemblies already loaded by CryMono.
+            </summary>
+            <param name="scripts"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.Utils.AssemblyReferenceHandler.GetRequiredAssembliesForScript(System.String)">
+            <summary>
+            Gets the required assemblies for the script passed to the method.
+            Note: Does NOT exclude assemblies already loaded by CryMono.
+            </summary>
+            <param name="script"></param>
+            <returns></returns>
+        </member>
+        <member name="F:CryEngine.Utils.AssemblyReferenceHandler.ReferencedAssemblies">
+            <summary>
+            All libraries passed through ScriptCompiler.LoadLibrariesInFolder will be automatically added to this list.
             </summary>
         </member>
     </members>

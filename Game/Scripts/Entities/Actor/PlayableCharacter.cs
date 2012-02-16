@@ -21,14 +21,24 @@ namespace CryGameCode
 			Renderer.Camera = camera;
         }
 
+		public void OnRevive()
+		{
+			//LoadObject(@"Objects/default/primitive_sphere.cgf");
+			//Physics.Type = PhysicalizationType.Rigid;
+			//Physics.Mass = 25;
+		}
+
 		public override void OnUpdate()
 		{
+			if (camera == null)
+				camera = new Camera();
+
 			Quat qRot = new Quat();
 			qRot.Axis = Rotation;
 
 			Position += qRot * desiredVelocity;
 
-			camera.Position = Position + new Vec3(0,0,10);
+			camera.Position = Position + new Vec3(0,0,20);
 			camera.ViewDir = Rotation;
 
 			Renderer.Camera = camera;

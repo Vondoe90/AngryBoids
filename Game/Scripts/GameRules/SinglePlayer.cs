@@ -48,6 +48,8 @@ namespace CryGameCode
 					player.Rotation = spawnPoint.Rotation;
 				}
 			}
+
+			player.OnRevive();
 		}
 	}
 }
