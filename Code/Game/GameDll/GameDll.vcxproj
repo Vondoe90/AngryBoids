@@ -132,7 +132,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>GAMEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryEngine\CryMono;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryMono\MonoDll\Headers;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <ExceptionHandling>false</ExceptionHandling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -165,7 +165,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>GAMEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryEngine\CryMono;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryMono\MonoDll\Headers;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <ExceptionHandling>false</ExceptionHandling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -195,7 +195,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GAMEDLL_EXPORTS;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Create</PrecompiledHeader>
-      <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryEngine\CryMono;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryMono\MonoDll\Headers;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
@@ -225,7 +225,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GAMEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryEngine\CryMono;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryMono\MonoDll\Headers;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
