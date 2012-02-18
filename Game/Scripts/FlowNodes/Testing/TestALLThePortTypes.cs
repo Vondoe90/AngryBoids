@@ -7,58 +7,58 @@ namespace CryGameCode.FlowNodes.Testing
 		Category = FlowNodeCategory.Debug)]
 	public class TestALLThePortTypes : FlowNode
 	{
-		[InputPort(Name = "Activation Test", Description = "")]
-		public void Activate() { ActivateOutput(activatedOutput); }
+		[Port(Name = "Activation Test", Description = "")]
+		public void Activate() { activatedOutput.Activate(); }
 
-		[InputPort(Name = "Default Value Test", Description = "")]
+		[Port(Name = "Default Value Test", Description = "")]
 		public void TestAll()
 		{
-			ActivateOutput(activatedOutput);
-			ActivateOutput(intOutput, GetPortInt(IntInput));
-			ActivateOutput(floatOutput, GetPortFloat(FloatInput));
-			ActivateOutput(stringOutput, GetPortString(StringInput));
-			ActivateOutput(boolOutput, GetPortBool(BoolInput));
-			ActivateOutput(vec3Output, GetPortVec3(Vec3Input));
+			activatedOutput.Activate();
+			intOutput.Activate(GetPortInt(IntInput));
+			floatOutput.Activate(GetPortFloat(FloatInput));
+			stringOutput.Activate(GetPortString(StringInput));
+			boolOutput.Activate(GetPortBool(BoolInput));
+			vec3Output.Activate(GetPortVec3(Vec3Input));
 		}
 
 		#region Data Inputs
 
-		[InputPort(Name = "Integer Test", Description = "")]
-		public void IntInput(int value) { ActivateOutput(intOutput, value); }
+		[Port(Name = "Integer Test", Description = "")]
+		public void IntInput(int value) { intOutput.Activate(value); }
 
-		[InputPort(Name = "Float Test", Description = "")]
-		public void FloatInput(float value) { ActivateOutput(floatOutput, value); }
+		[Port(Name = "Float Test", Description = "")]
+		public void FloatInput(float value) { floatOutput.Activate(value); }
 
-		[InputPort(Name = "Bool Test", Description = "")]
-		public void BoolInput(bool value = true) { ActivateOutput(boolOutput, value); }
+		[Port(Name = "Bool Test", Description = "")]
+		public void BoolInput(bool value = true) { boolOutput.Activate(value); }
 
-		[InputPort(Name = "String Test", Description = "")]
-		public void StringInput(string value = "woo default value") { ActivateOutput(stringOutput, value); }
+		[Port(Name = "String Test", Description = "")]
+		public void StringInput(string value = "woo default value") { stringOutput.Activate(value); }
 
-		[InputPort(Name = "Vec3 Test", Description = "")]
-        public void Vec3Input(Vec3 value) { ActivateOutput(vec3Output, value); }
+		[Port(Name = "Vec3 Test", Description = "")]
+		public void Vec3Input(Vec3 value) { vec3Output.Activate(value); }
 
 		#endregion
 
 		#region Outputs
 
-		[OutputPort(Name = "Activated Output", Description = "", Type = NodePortType.Void)]
-		public static int activatedOutput;
+		[Port(Name = "Activated Output", Description = "")]
+		public OutputPort activatedOutput;
 
-		[OutputPort(Name = "Int Output", Description = "", Type = NodePortType.Int)]
-		public static int intOutput;
+		[Port(Name = "Int Output", Description = "")]
+		public OutputPort<int> intOutput;
 
-		[OutputPort(Name = "Float Output", Description = "", Type = NodePortType.Float)]
-		public static int floatOutput;
+		[Port(Name = "Float Output", Description = "")]
+		public OutputPort<float> floatOutput;
 
-		[OutputPort(Name = "String Output", Description = "", Type = NodePortType.String)]
-		public static int stringOutput;
+		[Port(Name = "String Output", Description = "")]
+		public OutputPort<string> stringOutput;
 
-		[OutputPort(Name = "Vec3 Output", Description = "", Type = NodePortType.Vec3)]
-		public static int vec3Output;
+		[Port(Name = "Vec3 Output", Description = "")]
+		public OutputPort<Vec3> vec3Output;
 
-		[OutputPort(Name = "Bool Output", Description = "", Type = NodePortType.Bool)]
-		public static int boolOutput;
+		[Port(Name = "Bool Output", Description = "")]
+		public OutputPort<bool> boolOutput;
 
 		#endregion
 	}

@@ -9,7 +9,7 @@ namespace CryGameCode.Entities
             //Velocity += new Vec3(2, 2, 0);
         }
 
-		[InputPort(Name = "Let panic ensue", Description = "Kill them all.")]
+		[Port(Name = "Let panic ensue", Description = "Kill them all.")]
 		public void FlyAroundAndSetPeopleOnFire()
 		{
 			// TODO
@@ -21,7 +21,7 @@ namespace CryGameCode.Entities
 
             LoadObject(Model);
 
-			ActivateOutput(spawnedPortId);
+			spawnedPort.Activate();
         }
 
         protected override void OnReset(bool enteringGame)
@@ -33,8 +33,8 @@ namespace CryGameCode.Entities
 			Physics.Stiffness = 70;
         }
 
-		[OutputPort(Name = "Spawned", Description = "", Type = NodePortType.Void)]
-		public static int spawnedPortId;
+		[Port(Name = "Spawned", Description = "")]
+		public static OutputPort spawnedPort;
 
         [EditorProperty(Type = EntityPropertyType.Object, DefaultValue="Objects/Characters/Dragon/Dragon.cdf")]
         public string Model { get { return GetObjectFilePath(); } set { LoadObject(value); } }

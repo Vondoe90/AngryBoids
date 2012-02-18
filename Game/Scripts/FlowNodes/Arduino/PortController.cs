@@ -6,7 +6,7 @@ using System.IO.Ports;
 [FlowNode(UICategory = "Arduino", Description = "Controls the global port settings", Category = FlowNodeCategory.Advanced)] 
 public class PortController : FlowNode
 {
-	[InputPort(Name = "Create Port", Description = "")]
+	[Port(Name = "Create Port", Description = "")]
 	public void CreatePort()
 	{
 		if(ArduinoHelper.Port != null && ArduinoHelper.Port.IsOpen)
@@ -14,28 +14,28 @@ public class PortController : FlowNode
 
 		ArduinoHelper.Port = new SerialPort(GetPortString(PortName), GetPortInt(BaudRate));
 		ArduinoHelper.Port.Open();
-		ActivateOutput(createdOutput);
+		createdOutput.Activate();
 	}
 
-	[InputPort(Name = "Destroy Port", Description = "")]
+	[Port(Name = "Destroy Port", Description = "")]
 	public void DestroyPort()
 	{
 		if(ArduinoHelper.Port != null && ArduinoHelper.Port.IsOpen)
 			ArduinoHelper.Port.Close();
 
 		ArduinoHelper.Port = null;
-		ActivateOutput(destroyedOutput);
+		destroyedOutput.Activate();
 	}
 
-	[InputPort(Name = "Baud Rate", Description = "")]
+	[Port(Name = "Baud Rate", Description = "")]
 	public void BaudRate(int rate) { }
 
-	[InputPort(Name = "Port Name", Description = "")]
+	[Port(Name = "Port Name", Description = "")]
 	public void PortName(string name) { }
 
-	[OutputPort(Name = "Created", Description = "", Type = NodePortType.Void)]
-	public static int createdOutput;
+	[Port(Name = "Created", Description = "")]
+	public OutputPort createdOutput;
 
-	[OutputPort(Name = "Destroyed", Description = "", Type = NodePortType.Void)]
-	public static int destroyedOutput;	
+	[Port(Name = "Destroyed", Description = "")]
+	public OutputPort destroyedOutput;	
 }

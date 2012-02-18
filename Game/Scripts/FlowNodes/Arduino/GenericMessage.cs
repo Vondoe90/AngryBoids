@@ -6,13 +6,13 @@ using System.IO.Ports;
 [FlowNode(UICategory = "Arduino", Description = "Test script", Category = FlowNodeCategory.Advanced)]
 public class GenericMessage : FlowNode
 {
-	[InputPort(Name = "Send", Description = "")]
+	[Port(Name = "Send", Description = "")]
 	public void Send()
 	{
 		ArduinoHelper.Port.WriteLine(GetPortString(MessageSelector));
 	}
 
-	[InputPort(Name = "Message", Description = "")]
+	[Port(Name = "Message", Description = "")]
 	public void MessageSelector(string pin) { }
 }
 

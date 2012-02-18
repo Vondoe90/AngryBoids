@@ -5,19 +5,19 @@ namespace CryGameCode.FlowNodes.Samples
     [FlowNode(UICategory = "Samples", Description = "Reimplementation of multiplication in C#", Category = FlowNodeCategory.Approved)]
     public class Multiplier : FlowNode
     {
-        [InputPort(Name = "Activate", Description = "Do the maths")]
+        [Port(Name = "Activate", Description = "Do the maths")]
         public void Activate()
         {
-			ActivateOutput(answerOutput, GetPortFloat(LeftSide) * GetPortFloat(RightSide));
+			answerOutput.Activate(GetPortFloat(LeftSide) * GetPortFloat(RightSide));
         }
 
-        [InputPort(Name = "Left Side", Description = "The left side of the calculation")]
+        [Port(Name = "Left Side", Description = "The left side of the calculation")]
         public void LeftSide(float value) { }
 
-        [InputPort(Name = "Right Side", Description = "The right side of the calculation")]
+        [Port(Name = "Right Side", Description = "The right side of the calculation")]
         public void RightSide(float value) { }
 
-        [OutputPort(Name = "Answer", Description = "Get the answer", Type = NodePortType.Float)]
-        public static int answerOutput;
+        [Port(Name = "Answer", Description = "Get the answer")]
+        public OutputPort<float> answerOutput;
     }
 }
