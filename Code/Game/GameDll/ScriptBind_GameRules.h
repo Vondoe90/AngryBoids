@@ -42,7 +42,7 @@ public:
 	//		angles		- Player angle.
 	// Description:
 	//		Spawns a player.
-	MonoMethod(EntityId, SpawnPlayer, int, mono::string, mono::string, Vec3, Vec3);
+	static EntityId SpawnPlayer(int, mono::string, mono::string, Vec3, Vec3);
 	// <title ChangePlayerClass>
 	// Syntax: GameRules.ChangePlayerClass( int, mono::string, className )
 	// Arguments:
@@ -61,7 +61,7 @@ public:
 	//		clearInventory	- True to clean the inventory, false otherwise. 
 	// Description:
 	//		Revives the player.
-	MonoMethod(void, RevivePlayer, EntityId, Vec3, Vec3, int, bool);
+	static void RevivePlayer(EntityId, Vec3, Vec3, int, bool);
 
 	// IMonoScriptBind
 	virtual const char *GetClassName() override { return "GameRules"; }

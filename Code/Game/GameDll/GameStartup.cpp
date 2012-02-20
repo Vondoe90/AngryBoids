@@ -394,9 +394,6 @@ int CGameStartup::Update(bool haveFocus, unsigned int updateFlags)
 	if (m_pMod)
 		returnCode = m_pMod->Update(haveFocus, updateFlags);
 
-	if(gEnv->pMonoScriptSystem)
-		gEnv->pMonoScriptSystem->Update(gEnv->pTimer->GetFrameTime());
-
 #if defined(ENABLE_STATS_AGENT)
 	CStatsAgent::Update();
 #endif

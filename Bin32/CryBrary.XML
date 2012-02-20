@@ -55,13 +55,6 @@
             <returns>The folder in which scripts of this type are located; i.e. Game\Scripts\Entities</returns>
             <example>GetScriptFolder(MonoScriptType.Entity)</example>
         </member>
-        <member name="M:CryEngine.PathUtils.GetGacFolder">
-            <summary>
-            Gets the folder in which the global assembly cache is located.
-            </summary>
-            <returns>The filepath to the GAC folder as a string, ex:
-            <example>"C:\CryENGINE3\Engine\Mono\lib\mono\gac"</example></returns>
-        </member>
         <member name="T:CryEngine.ActorSystem">
             <summary>
             Used internally by this assembly for the Player base class.
@@ -590,6 +583,13 @@
             Initializes the entity, not recommended to set manually.
             </summary>
             <param name="entityId"></param>
+            <returns>IsEntityFlowNode</returns>
+        </member>
+        <member name="M:CryEngine.StaticEntity.IsEntityFlowNode">
+            <summary>
+            Returns true if this entity contains input or output ports.
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:CryEngine.StaticEntity.OnSpawn">
             <summary>
@@ -1187,17 +1187,6 @@
             <summary>
             number of surfaces the bullet has penetrated
             </summary>
-        </member>
-        <member name="T:CryEngine.Utils.ScriptBindAssemblyGenerator">
-            <summary>
-            Generates an assembly containing the scriptbind externals passed to it.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Utils.ScriptBindAssemblyGenerator.ConvertToCSharp(System.String@)">
-            <summary>
-            Finds C++-specific types in the provided string and substitutes them for C# types.
-            </summary>
-            <param name="cplusplusTypes"></param>
         </member>
         <member name="T:CryEngine.Entity">
             <summary>

@@ -12,7 +12,6 @@ namespace CryGameCode
 	{
         public SinglePlayer()
         {
-			ReceiveUpdates = true;
         }
 
         public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")

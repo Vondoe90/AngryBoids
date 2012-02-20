@@ -19,6 +19,8 @@ namespace CryGameCode
 
 			camera = new Camera();
 			Renderer.Camera = camera;
+
+			textureId = Renderer._LoadTexture(@"Textures/skys/night/half_moon.dds");
         }
 
 		public void OnRevive()
@@ -30,6 +32,8 @@ namespace CryGameCode
 
 		public override void OnUpdate()
 		{
+			Renderer._DrawTextureToScreen(0, 0, 256, 256, textureId);
+
 			if (camera == null)
 				camera = new Camera();
 
@@ -86,5 +90,7 @@ namespace CryGameCode
 		Vec3 desiredVelocity;
 
 		public bool Sprinting { get; private set; }
+
+		int textureId;
     }
 }
