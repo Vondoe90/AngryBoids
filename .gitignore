@@ -58,3 +58,6 @@ _ReSharper*/
 
 # Output directory
 output
+
+#CryENGINE excludes
+!Engine/Mono/*
