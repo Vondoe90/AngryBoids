@@ -9,8 +9,10 @@
     <OutputType>Library</OutputType>
     <RootNamespace>CryGameCode</RootNamespace>
     <AssemblyName>CryGameCode</AssemblyName>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -76,7 +78,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CryBrary">
+    <Reference Include="CryBrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Bin32\CryBrary.dll</HintPath>
     </Reference>
     <Reference Include="CryGameLibrary">
@@ -98,8 +101,9 @@
   <ItemGroup>
     <Compile Include="Entities\Actor\PlayableCharacter.cs" />
     <Compile Include="Entities\Dragon.cs" />
+    <Compile Include="Entities\Physics\Bouncer.cs" />
     <Compile Include="Entities\Rendered\RenderedEntity.cs" />
-    <Compile Include="Entities\Rigidbody.cs" />
+    <Compile Include="Entities\Physics\Rigidbody.cs" />
     <Compile Include="Entities\SampleEntity.cs" />
     <Compile Include="Entities\SpawnPoint.cs" />
     <Compile Include="FlowNodes\Arduino\GenericMessage.cs" />

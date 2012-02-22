@@ -458,7 +458,7 @@
             <param name="materialId"></param>
             <param name="contactNormal"></param>
         </member>
-        <member name="M:CryEngine.StaticEntity.OnHit">
+        <member name="M:CryEngine.StaticEntity.OnHit(CryEngine.HitInfo)">
             <summary>
             
             </summary>

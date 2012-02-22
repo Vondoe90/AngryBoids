@@ -47,12 +47,6 @@ public class GameRulesBase : BaseGameRules
 		Console.LogAlways("ShowScores");
 	}
 
-	// Server-only
-    public override float GetDamageMult(string materialType)
-    {
-        return 1.0f;
-    }
-
     public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
 	{
 		Console.LogAlways("OnClientConnect");

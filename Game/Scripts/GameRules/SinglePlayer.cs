@@ -10,10 +10,6 @@ namespace CryGameCode
     [DefaultGamemodeAttribute]
 	public class SinglePlayer : GameRulesBase
 	{
-        public SinglePlayer()
-        {
-        }
-
         public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
         {
             GameRules.SpawnPlayer<Player>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
@@ -30,8 +26,8 @@ namespace CryGameCode
 				return;
 			}
 
-			player.Position = new Vec3(541, 510, 146);
-			player.Rotation = new Vec3(-90 * ((float)System.Math.PI / 180.0f), 0, 0);
+			//player.Position = new Vec3(541, 510, 146);
+			//player.Rotation = new Vec3(-90 * ((float)System.Math.PI / 180.0f), 0, 0);
 
 			StaticEntity[] spawnPoints = EntitySystem.GetEntities("SpawnPoint");
 			if (spawnPoints == null || spawnPoints.Length < 1)
