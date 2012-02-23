@@ -82,9 +82,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Bin32\CryBrary.dll</HintPath>
     </Reference>
-    <Reference Include="CryGameLibrary">
-      <HintPath>Plugins\CryGameLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -102,6 +99,7 @@
     <Compile Include="Entities\Actor\PlayableCharacter.cs" />
     <Compile Include="Entities\Dragon.cs" />
     <Compile Include="Entities\Physics\Bouncer.cs" />
+    <Compile Include="Entities\Player\PlayerCamera.cs" />
     <Compile Include="Entities\Rendered\RenderedEntity.cs" />
     <Compile Include="Entities\Physics\Rigidbody.cs" />
     <Compile Include="Entities\SampleEntity.cs" />
@@ -113,6 +111,11 @@
     <Compile Include="FlowNodes\Testing\TestALLThePortTypes.cs" />
     <Compile Include="GameRules\BaseGameRules.cs" />
     <Compile Include="GameRules\SinglePlayer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Libs\Config\defaultProfile.xml">
+      <Link>Data Links\defaultProfile.xml</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
