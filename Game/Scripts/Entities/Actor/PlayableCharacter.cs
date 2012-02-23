@@ -1,4 +1,5 @@
 ﻿using CryEngine;
+using CryGameCode.Entities;
 
 namespace CryGameCode
 {
@@ -6,91 +7,33 @@ namespace CryGameCode
     {
         public Player() 
         {
-			InputSystem.RegisterAction("move_forward", OnMoveForward);
-			InputSystem.RegisterAction("move_backward", OnMoveBackward);
 			InputSystem.RegisterAction("move_right", OnMoveRight);
 			InputSystem.RegisterAction("move_left", OnMoveLeft);
-			
-			InputSystem.RegisterAction("sprint", OnActionSprint);
 
 			ReceiveUpdates = true;
 
-			desiredVelocity = new Vec3();
+			//Spawn the player camera
+			var playerCamera = EntitySystem.SpawnEntity<PlayerCamera>("Camera");
 
-			camera = new Camera();
-			Renderer.Camera = camera;
-
-			textureId = Renderer.LoadTexture(@"Textures/skys/night/half_moon.dds");
+			playerCamera.Camera = new Camera { FieldOfView = 60 };
+			playerCamera.Target = this;
         }
 
 		public void OnRevive()
 		{
-			//LoadObject(@"Objects/default/primitive_sphere.cgf");
-			//Physics.Type = PhysicalizationType.Rigid;
-			//Physics.Mass = 25;
-		}
-
-		public override void OnUpdate()
-		{
-			Renderer.DrawTexture(0, 0, 256, 256, textureId);
-
-			if (camera == null)
-				camera = new Camera();
-
-			Quat qRot = new Quat();
-			qRot.Axis = Rotation;
-
-			Position += qRot * desiredVelocity;
-
-			camera.Position = Position + new Vec3(0,0,20);
-			camera.ViewDir = Rotation;
-
-			Renderer.Camera = camera;
-		}
-
-		public float MovementSpeed
-		{
-			get
-			{
-				var movementSpeed = 1f;
-
-				if(Sprinting)
-					movementSpeed *= 10;
-
-				return movementSpeed;
-			}
-		}
-
-		public void OnMoveForward(ActionActivationMode activationMode, float value)
-		{
-			desiredVelocity.Y = MovementSpeed * value;
-		}
-
-		public void OnMoveBackward(ActionActivationMode activationMode, float value)
-		{
-			desiredVelocity.Y = MovementSpeed * -value;
+			LoadObject(@"Objects/default/primitive_sphere.cgf");
+			Physics.Type = PhysicalizationType.Rigid;
+			Physics.Mass = 100;
 		}
 
 		public void OnMoveRight(ActionActivationMode activationMode, float value)
 		{
-			desiredVelocity.X = MovementSpeed * value;
+			Physics.AddImpulse(new Vec3 { Y = 10 });
 		}
 
 		public void OnMoveLeft(ActionActivationMode activationMode, float value)
 		{
-			desiredVelocity.X = MovementSpeed * -value;
+			Physics.AddImpulse(new Vec3 { Y = -10 });
 		}
-
-		public void OnActionSprint(ActionActivationMode activationMode, float value)
-		{
-			Sprinting = value > 0;
-		}
-
-		Camera camera;
-		Vec3 desiredVelocity;
-
-		public bool Sprinting { get; private set; }
-
-		int textureId;
     }
 }

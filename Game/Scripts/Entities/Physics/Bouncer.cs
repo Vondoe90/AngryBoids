@@ -15,9 +15,6 @@ namespace CryGameCode.Entities
 
 		protected override void OnCollision(uint targetEntityId, Vec3 hitPos, Vec3 dir, short materialId, Vec3 contactNormal)
 		{
-			Console.LogAlways("Bouncy.OnCollision (ID = {0}), targetID = {1}, hitpos = {2}, dir = {3}, materialId = {4}, normal = {5} | strength is {6}",
-				this.Id, targetEntityId, hitPos, dir, materialId, contactNormal, -GlobalPhysics.GravityZ * BounceMultiplier);
-
 			Physics.AddImpulse(new Vec3(0, 0, -GlobalPhysics.GravityZ * BounceMultiplier));
 		}
 
