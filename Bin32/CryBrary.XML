@@ -1045,7 +1045,7 @@
             All libraries passed through ScriptCompiler.LoadLibrariesInFolder will be automatically added to this list.
             </summary>
         </member>
-        <member name="M:CryEngine.EntitySystem.SpawnEntity(CryEngine.EntitySpawnParams,System.Boolean)">
+        <member name="M:CryEngine.EntitySystem._SpawnEntity(CryEngine.EntitySpawnParams,System.Boolean)">
             <summary>
             Spawns an entity with the specified parameters.
             </summary>
@@ -1059,6 +1059,18 @@
             </summary>
             <param name="config">The Entity configuration.</param>
             <returns>True if registration succeeded, otherwise false.</returns>
+        </member>
+        <member name="M:CryEngine.EntitySystem.SpawnEntity``1(System.String,CryEngine.Vec3,CryEngine.Vec3,CryEngine.Vec3,System.Boolean)">
+            <summary>
+            Spawn a new instance of entity type T.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="name"></param>
+            <param name="pos"></param>
+            <param name="rot"></param>
+            <param name="scale"></param>
+            <param name="autoInit"></param>
+            <returns></returns>
         </member>
         <member name="M:CryEngine.EntitySystem.GetEntity(System.UInt32)">
             <summary>
@@ -1388,6 +1400,15 @@
             Provides an direct interface to the 3DEngine.
             Mildly WIP.
             </summary>
+        </member>
+        <member name="M:CryEngine.GameRules.SpawnPlayer``1(System.Int32,System.String,CryEngine.Vec3,CryEngine.Vec3)">
+            <summary>
+            Creates the player actor.
+            </summary>
+            <param name="channelId"></param>
+            <param name="name"></param>
+            <param name="pos"></param>
+            <param name="angles"></param>
         </member>
     </members>
 </doc>
