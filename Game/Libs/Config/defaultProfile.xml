@@ -4,7 +4,16 @@
 		<Xbox keyboard="1" xboxpad="1" ps3pad="0" />
 		<PS3 keyboard="1" xboxpad="0" ps3pad="1" />
 	</platforms>
+  
+  <actionmap name="player" version="23">
+    <action name="move_forward" onPress="1" onHold="1" onRelease="1" keyboard="w" />
+    <action name="move_backward" onPress="1" onHold="1" onRelease="1" keyboard="s" />
+    <action name="move_left" onPress="1" onHold="1" onRelease="1" keyboard="a" />
+    <action name="move_right" onPress="1" onHold="1" onRelease="1" keyboard="d" />
 
+    <action name="sprint" onPress="1" onRelease="1" keyboard="lshift" />
+  </actionmap>
+  
 	<actionmap name="debug" version="22">
 	<!-- debug keys - move to debug when we can switch devmode-->
 		<action name="flymode" onPress="1" noModifiers="1" keyboard="f3" />
@@ -117,16 +126,6 @@
 		</action>
 
 		<action name="ui_skip_video" onPress="1" onRelease="1" keyboard="space" xboxpad="xi_a" ps3pad="pad_cross"/>		
-	</actionmap>
-
-	<actionmap name="player" version="22">
-	<!-- player keys -->
-		<action name="move_forward" onPress="1" onRelease="1" keyboard="w" />
-		<action name="move_backward" onPress="1" onRelease="1" keyboard="s" />
-		<action name="move_left" onPress="1" onRelease="1" keyboard="a" />
-		<action name="move_right" onPress="1" onRelease="1" keyboard="d" />
-
-		<action name="sprint" onPress="1" onRelease="1" keyboard="lshift" />
 	</actionmap>
 
 	<actionmap name="vehicle_general" version="22">
