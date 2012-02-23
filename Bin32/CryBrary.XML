@@ -1064,7 +1064,7 @@
             <summary>
             Spawn a new instance of entity type T.
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="T">The entity type</typeparam>
             <param name="name"></param>
             <param name="pos"></param>
             <param name="rot"></param>
