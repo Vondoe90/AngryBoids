@@ -170,6 +170,7 @@ UNIQUE_IFACE struct IPlayerProfileManager
 		ePOR_ProfileInUse			= 5,
 		ePOR_NoActiveProfile	= 6,
 		ePOR_DefaultProfile   = 7,
+		ePOR_LoadingProfile		= 8,
 		ePOR_Unknown					=	255,
 	};
 
@@ -184,6 +185,15 @@ UNIQUE_IFACE struct IPlayerProfileManager
 
 	// save a profile
 	virtual bool SaveProfile(const char* userId, EProfileOperationResult& result, unsigned int reason) = 0;
+
+	// save an inactive profile
+	virtual bool SaveInactiveProfile(const char* userId, const char* profileName, EProfileOperationResult& result, unsigned int reason) = 0;
+
+	// is profile being loaded?
+	virtual bool IsLoadingProfile() const = 0;
+
+	// is profile being saved?
+	virtual bool IsSavingProfile() const = 0;
 
 	// load and activate a profile, returns the IPlayerProfile if successful
 	virtual IPlayerProfile* ActivateProfile(const char* userId, const char* profileName) = 0;
@@ -277,6 +287,9 @@ UNIQUE_IFACE struct IPlayerProfileManager
 
 	// return the number of online attributes
 	virtual uint32 GetOnlineAttributeCount() = 0;
+
+	// clear the state of the online attributes
+	virtual void ClearOnlineAttributes() = 0;
 
 	// apply checksums to online data
 	virtual void ApplyChecksums(SCryLobbyUserData* pData, uint32 numData) = 0;

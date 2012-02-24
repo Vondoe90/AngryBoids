@@ -120,7 +120,7 @@ enum eTEX_Format
 #define FT_FILESINGLE			  0x20				// suppress loading of additional files like _DDNDIF (faster, RC can tag the file for that)
 #define FT_TEX_FONT         0x40
 #define FT_HAS_ATTACHED_ALPHA 0x80
-#define FT_DONTSYNCMULTIGPU 0x100				// through NVAPI we tell driver not to sync
+//#define FT_DONTSYNCMULTIGPU 0x100				// through NVAPI we tell driver not to sync
 #define FT_USAGE_READBACK   0x200
 #define FT_USAGE_FSAA       0x400
 #define FT_FORCE_MIPS       0x800
@@ -203,8 +203,8 @@ public:
 	virtual const ETEX_Type GetTextureType() const = 0;
 	virtual const bool IsTextureLoaded() const = 0;
 	virtual void PrecacheAsynchronously(float fMipFactor, int nFlags, int nUpdateId, int nCounter=1) = 0;
-	virtual byte *GetData32(int nSide=0, int nLevel=0, byte * pDst=NULL, ETEX_Format eDstFormat = eTF_A8R8G8B8)=0;
-	virtual byte *LockData(int& nPitch, int nSide=0, int nLevel=0)=0;
+	virtual uint8 *GetData32(int nSide=0, int nLevel=0, uint8 * pDst=NULL, ETEX_Format eDstFormat = eTF_A8R8G8B8)=0;
+	virtual uint8 *LockData(int& nPitch, int nSide=0, int nLevel=0)=0;
 	virtual void UnlockData(int nSide=0, int nLevel=0)=0;
 	virtual bool SaveTGA(const char *szName, bool bMips=false)=0;
 	virtual bool SaveJPG(const char *szName, bool bMips=false)=0;
@@ -231,7 +231,7 @@ public:
 	virtual const bool IsParticularMipStreamed(float fMipFactor) const = 0;
 
   // copy texture back into system memory (used for decals baked into terrain texture)
-  virtual byte ** GetSystemCopy() = 0;
+	virtual uint8 ** GetSystemCopy() = 0;
 
 	void GetMemoryUsage( ICrySizer *pSizer ) const {
 		COMPILE_TIME_ASSERT(eTT_MaxTexType <= 255);
@@ -264,6 +264,7 @@ struct IDynTextureSource
 		DTS_RT_UNIQUE
 	};
 	virtual EDynTextureRTType GetRTType() const = 0;
+	virtual ITexture* GetTexture() const = 0;
 
 	virtual void EnablePerFrameRendering(bool enable) = 0;
 
@@ -290,8 +291,8 @@ public:
 	virtual int GetWidth() = 0;
 	virtual int GetHeight() = 0;
 	virtual bool IsValid() = 0;
-	virtual byte GetFlags() const = 0;
-	virtual void SetFlags(byte flags) {}
+	virtual uint8 GetFlags() const = 0;
+	virtual void SetFlags(uint8 flags) {}
 	virtual bool Update(int nNewWidth, int nNewHeight)=0;
 	virtual void Apply(int nTUnit, int nTS=-1)=0;
 	virtual bool SetRT(int nRT, bool bPush, struct SD3DSurface *pDepthSurf, bool bScreenVP=false)=0;
@@ -301,7 +302,7 @@ public:
 	virtual void SetUpdateMask()=0;
 	virtual void ResetUpdateMask()=0;
 	virtual bool IsSecondFrame()=0;
-  virtual bool GetImageData32(byte * pData, int nDataSize) { return 0; }
+  virtual bool GetImageData32(uint8 * pData, int nDataSize) { return 0; }
 };
 
 // Animating Texture sequence definition

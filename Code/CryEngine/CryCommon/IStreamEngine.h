@@ -64,6 +64,8 @@ enum EStreamTaskType
 	eStreamTaskTypeTexture    = 1,
 };
 
+#define STREAM_TASK_TYPE_AUDIO_ALL ((1<<eStreamTaskTypeMusic) | (1<<eStreamTaskTypeSound) | (1 << eStreamTaskTypeFSBCache))
+
 // Summary:
 //	 Priority types of streaming tasks
 //	 Affects priority directly
@@ -453,7 +455,7 @@ public:
 
 	// Summary:
 	//	 Unconditionally waits until the callback is called.
-	//   if nMaxWaitMillis is not negative wait for the specified ammount of milliseconds then exit.
+	//   if nMaxWaitMillis is not negative wait for the specified amount of milliseconds then exit.
 	// Example:
 	//	 If the stream hasn't yet finish, it's guaranteed that the user-supplied callback
 	//	 is called before return from this function (unless no callback was specified).

@@ -361,7 +361,10 @@ struct SVF_TP3F_T2F_T3F
 struct SVF_P3F_C4B_I4B_PS4F
 {
   Vec3 xyz;
+	Vec2 prevXaxis;
+	Vec2 prevYaxis;
   UCol color;
+	Vec3 prevPos;
   struct SpriteInfo
   {
 
@@ -497,6 +500,7 @@ enum EStreamIDs
   VSF_HWSKIN_MORPHTARGET_INFO,  // HW skinning (morph targets) buffer
 #if !defined(XENON) && !defined(PS3) 
   VSF_HWSKIN_SHAPEDEFORM_INFO,  // HW skinning (shape deformation) buffer
+  VSF_NORMALS,                  // Normals, used for skinning
 #endif
   // <- Insert new stream IDs here
   VSF_NUM,											// Number of vertex streams
@@ -514,6 +518,7 @@ enum EStreamMasks
   VSM_HWSKIN_MORPHTARGET       = 1 << VSF_HWSKIN_MORPHTARGET_INFO,
 #if !defined(XENON) && !defined(PS3) 
   VSM_HWSKIN_SHAPEDEFORM       = 1 << VSF_HWSKIN_SHAPEDEFORM_INFO,
+  VSM_NORMALS                  = 1 << VSF_NORMALS,
 #endif
 
   VSM_MORPHBUDDY = 1 << VSF_MORPHBUDDY,

@@ -1779,21 +1779,25 @@ struct EXPORT_FLAGS_CHUNK_DESC
 	enum {VERSION = 0x0001};
 	enum EFlags
 	{
-		MERGE_ALL_NODES = 0x0001,
-		HAVE_AUTO_LODS  = 0x0002,
+		MERGE_ALL_NODES		= 0x0001,
+		HAVE_AUTO_LODS		= 0x0002,
+		USE_CUSTOM_NORMALS	= 0x0004,
 	};
 	enum ESrcFlags
 	{
 		FROM_MAX_EXPORTER = 0x0000,
 		FROM_COLLADA_XSI = 0x1001,
 		FROM_COLLADA_MAX = 0x1002,
+		FROM_COLLADA_MAYA = 0x1003,
 	};
 
 	CHUNK_HEADER  chdr;
 	unsigned int flags; // @see EFlags
 	unsigned int rc_version[4]; // Resource compiler version.
 	char rc_version_string[16]; // Version as a string.
-	unsigned int reserved[32];
+	unsigned int assetAuthorTool;
+	unsigned int authorToolVersion;
+	unsigned int reserved[30];
 
 	AUTO_STRUCT_INFO
 };

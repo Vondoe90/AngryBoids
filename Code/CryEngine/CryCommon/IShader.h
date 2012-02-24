@@ -80,10 +80,6 @@ enum ESrcPointer
 struct SWaveForm;
 struct SWaveForm2;
 
-typedef TAllocator16<Matrix44> MatrixAllocator16;
-typedef std::vector<Matrix44, MatrixAllocator16> MatrixArray16;
-
-
 #define FRF_REFRACTIVE 1
 #define FRF_GLOW       2
 #define FRF_HEAT       4
@@ -104,7 +100,7 @@ enum EParamType
   eType_FCOLOR,
   eType_VECTOR,
   eType_TEXTURE_HANDLE,
-  eType_CAMERA
+  eType_CAMERA,
 };
 
 union UParamVal
@@ -406,7 +402,7 @@ struct SWaveForm
   {
     memset(this, 0, sizeof(SWaveForm));
   }
-  bool operator == (const SWaveForm& wf)
+  bool operator == (const SWaveForm& wf) const
   {
     if (m_eWFType == wf.m_eWFType && m_Level == wf.m_Level && m_Amp == wf.m_Amp && m_Phase == wf.m_Phase && m_Freq == wf.m_Freq && m_Level1 == wf.m_Level1 && m_Amp1 == wf.m_Amp1 && m_Phase1 == wf.m_Phase1 && m_Freq1 == wf.m_Freq1 && m_Flags == wf.m_Flags)
       return true;
@@ -440,7 +436,7 @@ struct SWaveForm2
   {
     memset(this, 0, sizeof(SWaveForm2));
   }
-  bool operator == (const SWaveForm2& wf)
+  bool operator == (const SWaveForm2& wf) const
   {
     if (m_eWFType == wf.m_eWFType && m_Level == wf.m_Level && m_Amp == wf.m_Amp && m_Phase == wf.m_Phase && m_Freq == wf.m_Freq)
       return true;
@@ -572,14 +568,14 @@ struct SDetailDecalInfo
 
 #define FOB_RENDER_AFTER_POSTPROCESSING (1<<3)	// 8
 #define FOB_OWNER_GEOMETRY  (1<<4)			// 0x10
-#define FOB_NO_Z_PASS       (1<<5)			// 0x20
+#define FOB_MESH_SUBSET_INDICES (1<<5)	// 0x20	
 #define FOB_SELECTED        (1<<6)			// 0x40
 #define FOB_PERMANENT       (1<<7)			// 0x80
 
 #define FOB_GLOBAL_ILLUMINATION  (1<<8)			// 0x100
 #define FOB_NO_FOG					(1<<9)			// 0x200
-#define FOB_CAMERA_SPACE    (1<<10)			// 0x400
-#define FOB_ONLY_Z_PASS			(1<<11)     // 0x800
+#define FOB_DECAL           (1<<10)			// 0x400
+#define FOB_NO_Z_PASS			  (1<<11)     // 0x800
 
 #define FOB_BLEND_WITH_TERRAIN_COLOR (1<<12)// 0x1000
 #define FOB_REMOVED         (1<<13)			// 0x2000
@@ -592,7 +588,7 @@ struct SDetailDecalInfo
 //#define FOB_AMBIENT_OCCLUSION (1<<17)		// 0x20000
 #define FOB_AFTER_WATER (1<<17)		// 0x20000
 #define FOB_BENDED          (1<<18)			// 0x40000
-#define FOB_SHADER_LOD  (1<<19)     // 0x80000
+#define FOB_MOTION_BLUR_PARTICLE  (1<<19)     // 0x80000
 
 #define FOB_INSHADOW        (1<<20)			// 0x100000
 #define FOB_DISSOLVE        (1<<21)				// 0x200000
@@ -604,22 +600,24 @@ struct SDetailDecalInfo
 
 #define FOB_CHARACTER       (1<<24)			// 0x1000000
 #define FOB_SHADOW_DISSOLVE (1<<25)			// 0x2000000
-#define FOB_PARTICLE_MASK		(FOB_SOFT_PARTICLE | FOB_NO_FOG)
 
 #define FOB_NO_STATIC_DECALS	(1<<26)         // 0x4000000
 
-#define FOB_DECAL           (1<<27)			// 0x8000000
+//#define FOB_CAMERA_SPACE    (1<<27)			// 0x8000000
+#define FOB_TESSELATION  (1<<27)			// 0x8000000
 #define FOB_DECAL_TEXGEN_2D (1<<28)			// 0x10000000
-//#define FOB_STATIC (1<<28)			// 0x10000000
-#define FOB_MESH_SUBSET_INDICES (1<<29)			// 0x20000000
+
+
 #define FOB_VEGETATION      (1<<30)			// 0x40000000
 #define FOB_HAS_PREVMATRIX        (1<<31)			// 0x80000000
 #define FOB_DECAL_MASK		  (FOB_DECAL | FOB_DECAL_TEXGEN_2D)
 
-#define FOB_MASK_AFFECTS_MERGING_GEOM  (FOB_VEGETATION | FOB_CHARACTER | FOB_BENDED | FOB_NO_STATIC_DECALS | FOB_BLEND_WITH_TERRAIN_COLOR)
+#define FOB_PARTICLE_MASK		(FOB_SOFT_PARTICLE | FOB_NO_FOG | FOB_GLOBAL_ILLUMINATION | FOB_INSHADOW | FOB_NEAREST | FOB_MOTION_BLUR_PARTICLE)
+
 // Note:
 //	 WARNING: FOB_MASK_AFFECTS_MERGING must start from 0x10000 (important for instancing).
-#define FOB_MASK_AFFECTS_MERGING  (FOB_SHADER_LOD| FOB_HAS_PREVSKINXFORM | FOB_HAS_PREVMATRIX | FOB_VEGETATION | FOB_CHARACTER | FOB_BENDED | FOB_INSHADOW/* | FOB_AMBIENT_OCCLUSION*/| FOB_AFTER_WATER | FOB_DISSOLVE | FOB_NEAREST | FOB_NO_STATIC_DECALS)
+#define FOB_MASK_AFFECTS_MERGING_GEOM  (FOB_VEGETATION | FOB_CHARACTER | FOB_BENDED | FOB_NO_STATIC_DECALS | FOB_BLEND_WITH_TERRAIN_COLOR | FOB_TESSELATION)
+#define FOB_MASK_AFFECTS_MERGING  (FOB_HAS_PREVSKINXFORM | FOB_HAS_PREVMATRIX | FOB_VEGETATION | FOB_CHARACTER | FOB_BENDED | FOB_INSHADOW/* | FOB_AMBIENT_OCCLUSION*/| FOB_AFTER_WATER | FOB_DISSOLVE | FOB_NEAREST | FOB_NO_STATIC_DECALS | FOB_TESSELATION)
 #define FOB_PERSISTENT  (FOB_PERMANENT | FOB_REMOVED)
 
 //////////////////////////////////////////////////////////////////////
@@ -631,6 +629,7 @@ struct SDetailDecalInfo
 #define COB_IGNORE_HEAT_AMOUNT				(1<<3)			// 8
 #define COB_POST_3D_RENDER					(1<<4)			// 0x10
 #define COB_IGNORE_CLOAK_REFRACTION_COLOR		(1<<5)			// 0x20
+#define COB_HUD_REQUIRE_DEPTHTEST		(1<<6)			// 0x40
 
 struct SInstanceInfo
 {
@@ -661,6 +660,11 @@ struct SCustomObjData
 	uint8	m_nFlags;
 };
 
+struct SBending
+{
+  SWaveForm2 m_Waves[2];
+};
+
 struct SRenderObjData
 {
 	void							*m_pInstance;			
@@ -680,7 +684,7 @@ struct SRenderObjData
 	uint8	m_nObjID;
 	uint8	m_nVisionScale;
 
-	uint32	m_nVisionParams;	
+	uint32	m_nVisionParams;							
 	uint32	m_nHUDSilhouetteParams;	
 
 	union
@@ -698,13 +702,16 @@ struct SRenderObjData
 	uint16	m_scissorWidth;
 	uint16	m_scissorHeight;
 
-	uint8	m_nCoarseShadowMask[4];
-
 	uint8 m_screenBounds[4];
 	
-	SCustomObjData						m_nCustomData;					// Custom data used for objects without custom textures
+	SCustomObjData m_nCustomData;    // Custom data used for objects without custom textures
 
-	uint64 m_nSubObjHideMask;	
+	uint64 m_nSubObjHideMask;
+
+	uint64 m_ShadowCasters;          // Mask of shadow casters.
+
+  SBending* m_pBending;
+
 
   SRenderObjData()
   {
@@ -721,32 +728,20 @@ struct SRenderObjData
     m_nVisionParams = 0;
 		m_pRE = NULL;	
 		m_HMAData = 0;
-		*((uint32*)m_nCoarseShadowMask) = 0;
 		m_pCharInstance = NULL;
 		m_scissorX = m_scissorY = m_scissorWidth = m_scissorHeight = 0;
 		m_screenBounds[0] = m_screenBounds[1] = m_screenBounds[2] = m_screenBounds[3] = 0;
 		m_nObjID = 0;
 		m_nCustomData.m_nData = m_nCustomData.m_nFlags = 0;
 		m_pLayerEffectParams = m_nHUDSilhouetteParams = m_nVisionParams = 0;
+		m_ShadowCasters = 0;
+		m_pBending = NULL;
 	}
 
 	void GetMemoryUsage(ICrySizer *pSizer) const
 	{
 		pSizer->AddObject(m_Constants);
 	}
-};
-
-struct SBending
-{
-  Vec2 m_vBending;
-  float m_fMainBendingScale;
-  SWaveForm2 m_Waves[2];
-
-  SBending()
-  {
-    m_vBending.zero();
-    m_fMainBendingScale = 1.f;
-  }
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -762,7 +757,8 @@ struct ISkinnable
 
   // Description:
   //	 Renderer calls this function to allow update the video vertex buffers right before the rendering.
-  virtual uint32 GetSkeletonPose(int nLod, int nList, const Matrix34& RenderMat34, QuatTS*& pBoneQuatsL, QuatTS*& pBoneQuatsS, QuatTS*& pMBBoneQuatsL, QuatTS*& pMBBoneQuatsS, Vec4 shapeDeformationData[], uint32 &DoWeNeedMorphtargets, uint8*& pRemapTable ) = 0;
+	virtual uint32 GetSkeletonPose(int nLod, int nList, const Matrix34& RenderMat34, QuatTS*& pBoneQuatsL, QuatTS*& pBoneQuatsS, QuatTS*& pMBBoneQuatsL, QuatTS*& pMBBoneQuatsS, Vec4 shapeDeformationData[], uint32 &DoWeNeedMorphtargets, uint8*& pRemapTable ) = 0;
+
 };
 
 // Summary:
@@ -797,12 +793,12 @@ public:
     m_nMaterialLayers = 0;
     m_pRenderNode = NULL;
 
-    m_pBending = NULL;
-    m_nMDV = 0;
+		m_nMDV = 0;
     m_ObjFlags = 0;
     m_pCurrMaterial = NULL;
     m_DissolveRef = 0;
     m_nCBID = -1;
+		m_bHasShadowCasters = false;
 
   }
   CRenderObject(const CRenderObject& other) 
@@ -812,7 +808,7 @@ public:
 
 	// trying to avoid L2 cache misses, keep most accessed data in first cache line
 	uint32                      m_ObjFlags;
-	int16                       m_Id;							// Permanent object.
+	uint16                      m_Id;							// Permanent object.
 private:
   int16                       m_nObjDataId;
 public:
@@ -837,16 +833,16 @@ public:
   uint8												m_DissolveRef;								//
 	uint8		  									m_RState;									//	
 
-  SInstanceInfo               m_II;  
+  SInstanceInfo               m_II;  // Must be aligned by 16 from begining of CRenderObject!
   
 	uint32											m_DynLMMask[RT_COMMAND_BUF_COUNT];
   uint32                      m_nMaterialLayers;          // Which mtl layers active and how much to blend them  
   uint32                      m_nRTMask;
+	bool                        m_bHasShadowCasters;  // Has non-empty list of lights casting shadows in render object data
 
-	PodArray<ShadowMapFrustum*> *	m_pShadowCasters;			// List of shadow casters .
 	void        *               m_pRenderNode;				// Will define instance id.
 	IMaterial   *               m_pCurrMaterial;				// Current material (is this available somewhere ??).
-  SBending					  *m_pBending;
+	uintptr_t                   m_padding; // empty padding area to ensure that the size is 128 bytes on 32bit platforms 
 
   //=========================================================================================================
 
@@ -861,16 +857,6 @@ public:
   inline float GetScaleZ() const
   {
     return cry_sqrtf(m_II.m_Matrix(2,0)*m_II.m_Matrix(2,0) + m_II.m_Matrix(2,1)*m_II.m_Matrix(2,1) + m_II.m_Matrix(2,2)*m_II.m_Matrix(2,2));
-  }
-  inline bool IsMergable()
-  {
-    if (m_fAlpha != 1.0f)
-      return false;
-    if (m_pShadowCasters)
-      return false;
-    if (m_ObjFlags & FOB_CHARACTER)
-      return false;
-    return true;
   }
 
   static TArray<SRenderObjData> m_sObjData[RT_COMMAND_BUF_COUNT];
@@ -897,8 +883,6 @@ public:
 
 		m_nMDV = 0;
 		m_fSort = 0;
-		m_pBending = NULL;
-		m_pShadowCasters = NULL;
 
 		m_II.m_AmbColor = Col_White;
 		m_fAlpha = 1.0f;
@@ -907,6 +891,7 @@ public:
 		m_pCurrMaterial = NULL;
 
 		m_nRTMask = 0;
+		m_bHasShadowCasters = false;
 
 		m_pRenderNode = NULL;
 	}
@@ -1036,9 +1021,21 @@ struct SRenderObjectModifier
 	: mat(newMat)
 	, prev_mat(newPrevMat)
 	, pWeights(pNewWeights)
+	,	nSubObjId(0)
 	, nMatricesInUse(1)
 	, nStatesInUse(pROM?pROM->nStatesInUse:0)
 	, fDistance(pROM?pROM->fDistance:0.0f)
+	{}
+
+	SRenderObjectModifier(const SRenderObjectModifier* pROM, const Matrix34& newMat, 
+		const Matrix34& newPrevMat, IRenderMesh* const pNewWeights, uint8 nNewSubObjId)
+		: mat(newMat)
+		, prev_mat(newPrevMat)
+		, pWeights(pNewWeights)
+		,	nSubObjId(nNewSubObjId)
+		, nMatricesInUse(1)
+		, nStatesInUse(pROM?pROM->nStatesInUse:0)
+		, fDistance(pROM?pROM->fDistance:0.0f)
 	{}
 
   const bool InUse() const { return nStatesInUse || nMatricesInUse; }
@@ -1046,6 +1043,7 @@ struct SRenderObjectModifier
   Matrix34 mat;
   Matrix34 prev_mat;
   IRenderMesh * pWeights;
+	uint8 nSubObjId;
   byte nMatricesInUse;
   byte nStatesInUse;
   float fDistance;
@@ -1118,8 +1116,11 @@ enum EColorOp
 
 enum EColorArg
 {
+  eCA_Unknown,
   eCA_Specular,
   eCA_Texture,
+  eCA_Texture1,
+  eCA_Normal,
   eCA_Diffuse,
   eCA_Previous,
   eCA_Constant,
@@ -1134,6 +1135,7 @@ enum ETexModRotateType
   ETMR_Fixed,
   ETMR_Constant,
   ETMR_Oscillated,
+  ETMR_Max
 };
 
 enum ETexModMoveType
@@ -1145,6 +1147,7 @@ enum ETexModMoveType
   ETMM_Pan,
   ETMM_Stretch,
   ETMM_StretchRepeat,
+  ETMM_Max
 };
 
 enum ETexGenType
@@ -1156,6 +1159,7 @@ enum ETexGenType
   ETG_CameraEnvMap,
   ETG_NormalMap,
   ETG_SphereMap,
+  ETG_Max
 };
 
 #define CASE_TEXMOD(var_name)\
@@ -2053,18 +2057,21 @@ struct SInputShaderResources : public SBaseShaderResources
 #define SHGD_TEX_ENVCM      8
 #define SHGD_TEX_GLOSS   0x10
 #define SHGD_TEX_BUMPDIF 0x20
+#define SHGD_TEX_HEIGHTMAP 0x40
 #define SHGD_TEX_SUBSURFACE 0x80
 #define SHGD_HW_BILINEARFP16   0x100
 #define SHGD_HW_SEPARATEFP16   0x200
 #define SHGD_TEX_CUSTOM 0x1000
 #define SHGD_TEX_CUSTOM_SECONDARY 0x2000
 #define SHGD_TEX_DECAL 0x4000
-#define SHGD_HW_ALLOW_POM 0x10000
+#define SHGD_HW_TESSELATION 0x20000
 #define SHGD_USER_ENABLED 0x40000
 #define SHGD_HW_PS3  0x80000
 #define SHGD_HW_X360 0x100000
 #define SHGD_HW_DX10 0x200000
-#define SHGD_HW_DX9  0x400000
+#define SHGD_HW_DX11 0x400000
+#define SHGD_HW_DX9  0x800000
+#define SHGD_HW_WATER_TESSELATION 0x1000000
 
 struct SShaderGenBit
 {
@@ -2151,6 +2158,7 @@ enum EShaderType
   eST_HDR,
   eST_Sky,
   eST_Particle,
+  eST_Compute,
   eST_Max						// To define array size.
 };
 
@@ -2250,12 +2258,11 @@ enum EShaderTechniqueID
 #define EFSLIST_POSTPROCESS          11  // Post-processing screen effects.
 #define EFSLIST_AFTER_POSTPROCESS    12  // After post-processing screen effects.
 #define EFSLIST_SHADOW_PASS          13  // Shadow mask generation (usually from from shadow maps).
-#define EFSLIST_REFRACTPASS          14  // Refraction.
-#define EFSLIST_DEFERRED_PREPROCESS  15  // Pre-process before deferred passes.
-#define EFSLIST_SKIN		             16  // Skin rendering pre-process 
-#define EFSLIST_HALFRES_PARTICLES    17  // Half resolution particles
+#define EFSLIST_DEFERRED_PREPROCESS  14  // Pre-process before deferred passes.
+#define EFSLIST_SKIN		             15  // Skin rendering pre-process 
+#define EFSLIST_HALFRES_PARTICLES    16  // Half resolution particles
 
-#define EFSLIST_NUM                  18  // One higher than the last EFSLIST_...
+#define EFSLIST_NUM                  17  // One higher than the last EFSLIST_...
 
 //================================================================
 // Different preprocess flags for shaders that require preprocessing (like recursive render to texture, screen effects, visibility check, ...)
@@ -2264,8 +2271,6 @@ enum EShaderTechniqueID
 #define  SPRID_FIRST          16 
 #define  SPRID_CORONA         16 
 #define  FSPR_CORONA          (1<<SPRID_CORONA)
-#define  SPRID_PANORAMA       17
-#define  FSPR_PANORAMA        (1<<SPRID_PANORAMA)
 #define  SPRID_PORTAL         18
 #define  FSPR_PORTAL          (1<<SPRID_PORTAL)
 #define  SPRID_SCANCM         19
@@ -2322,8 +2327,9 @@ enum EShaderTechniqueID
 #define EF_USELIGHTS     0x80000
 #define EF_ALLOW3DC      0x100000
 #define EF_FOGSHADER     0x200000
-#define EF_USEPROJLIGHTS 0x400000
+#define EF_SUPPORTSDISPLACEMENT 0x400000
 #define EF_PRECACHESHADER 0x800000
+#define EF_FORCEREFRACTIONUPDATE    0x1000000
 #define EF_SUPPORTSINSTANCING_CONST 0x2000000
 #define EF_SUPPORTSINSTANCING_ATTR  0x4000000
 #define EF_SUPPORTSINSTANCING (EF_SUPPORTSINSTANCING_CONST | EF_SUPPORTSINSTANCING_ATTR)
@@ -2331,7 +2337,6 @@ enum EShaderTechniqueID
 #define EF_CLIENTEFFECT  0x10000000
 #define EF_SYSTEM        0x20000000
 #define EF_REFRACTIVE    0x40000000
-#define EF_FORCEREFRACTIONUPDATE 0x1000000
 #define EF_NOPREVIEW     0x80000000
 
 #define EF_PARSE_MASK    (EF_SUPPORTSINSTANCING | EF_SKY | EF_HASCULL | EF_USELIGHTS | EF_REFRACTIVE)
@@ -2369,6 +2374,8 @@ enum EShaderTechniqueID
 #define EF2_DEFERBACKLIGHTING 0x8000000
 #define EF2_VERTEXCOLORS 0x10000000
 #define EF2_SKINPASS 0x20000000
+#define EF2_HW_DISPLACEMENT_MAPPING 0x40000000
+#define EF2_HW_TESSELATION 0x40000000
 
 UNIQUE_IFACE struct IShader
 {
@@ -2381,8 +2388,8 @@ public:
 
   virtual const char *GetName()=0;
   virtual const char *GetName() const =0;
-  virtual int GetFlags() = 0;
-  virtual int GetFlags2() = 0;
+  virtual int GetFlags() const = 0;
+  virtual int GetFlags2() const = 0;
   virtual void SetFlags2(int Flags) = 0;
   virtual void ClearFlags2(int Flags) = 0;
   virtual bool Reload(int nFlags, const char *szShaderName) = 0;
@@ -2515,7 +2522,7 @@ struct SShaderItem
 #define DLF_ONLY_FOR_HIGHSPEC 0x4000000				// This light is active as dynamic light only for high spec machines.
 #define DLF_SPECULAR_ONLY_FOR_HIGHSPEC  0x8000000	// This light have specular component enabled only for high spec machines.
 #define DLF_DEFERRED_LIGHT    0x10000000
-#define DLF_IRRAD_VOLUMES		0x20000000			// Add only to irradiance volume even if it's possible.
+#define DLF_ALLOW_LPV         0x20000000			// Add only to  Light Propagation Volume if it's possible.
 #define DLF_SPECULAROCCLUSION 0x40000000			// Use occlusion map for specular part of the light.
 #define DLF_DIFFUSEOCCLUSION 0x80000000				// Use occlusion map for diffuse part of the light.
 
@@ -2543,8 +2550,11 @@ struct SRenderLight
     m_ProjMatrix.SetIdentity();
     m_ObjMatrix.SetIdentity();
     m_sName = "";
+    m_fCoronaIntensity = 1.0f;
     m_fCoronaDistSizeFactor = 1.0f;
     m_fCoronaDistIntensityFactor = 1.0f;
+    m_nCoronaShaftsMinSpec = eSQ_VeryHigh;
+    m_nLensGhostsMinSpec = eSQ_VeryHigh;
     m_pDeferredRenderMesh = NULL;
   }
 
@@ -2600,7 +2610,8 @@ struct SRenderLight
   ITexture*                       m_pDiffuseCubemap;									// Very small cubemap texture to make a lookup for diffuse.
   ITexture*                       m_pSpecularCubemap;									// Cubemap texture to make a lookup for local specular.
   ITexture*                       m_pLightImage;
-  ITexture*												m_pLightAttenMap;										// User can specify custom light attenuation gradient
+  ITexture*                       m_pLightAttenMap;										// User can specify custom light attenuation gradient
+  IDynTextureSource*              m_pLightDynTexSource;								// can be used to project dynamic textures
 
   const char*                     m_sName;									// Optional name of the light source.
   const char*											m_sDeferredGeom;						// Optional deferred geom file
@@ -2622,8 +2633,18 @@ struct SRenderLight
 
   float														m_fAnimSpeed;  
   float														m_fCoronaScale;
+  float														m_fCoronaIntensity;
   float														m_fCoronaDistSizeFactor;
   float														m_fCoronaDistIntensityFactor;
+
+  float														m_fShaftSrcSize;
+  float														m_fShaftLength;
+  float														m_fShaftBrightness;
+  float														m_fShaftBlendFactor;
+  float														m_fShaftDecayFactor;
+  
+  EShaderQuality									m_nCoronaShaftsMinSpec;
+  EShaderQuality									m_nLensGhostsMinSpec;
 
   float														m_fLightFrustumAngle;
   float														m_fProjectorNearPlane;
@@ -2652,66 +2673,119 @@ struct SRenderLight
 class CDLight : public SRenderLight
 {
 public:
-  CDLight() : SRenderLight()
-  {
-  }
+	CDLight() : SRenderLight()
+	{
+	}
 
-  ~CDLight()
-  {
-    //SAFE_RELEASE(m_Shader.m_pShader);
-    SAFE_RELEASE(m_pLightImage);
+	~CDLight()
+	{
+		SAFE_RELEASE(m_Shader.m_pShader);
+		SAFE_RELEASE(m_pLightImage);
 		SAFE_RELEASE(m_pLightAttenMap);
+		SAFE_RELEASE(m_pLightDynTexSource);
 
 		ReleaseCubemaps();
 		ReleaseDeferredRenderMesh();
-  }
+	}
 
-  // Summary:
-  //	 Good for debugging.
-  bool IsOk() const
-  {
-    for(int i=0;i<3;++i)
-    {			
-      if(m_Color[i]<0 || m_Color[i]>100.0f || _isnan(m_Color[i]))
-        return false;
-      if(m_BaseColor[i]<0 || m_BaseColor[i]>100.0f || _isnan(m_BaseColor[i]))
-        return false;
-    }
-    return true;
-  }
+	// Summary:
+	//	 Good for debugging.
+	bool IsOk() const
+	{
+		for(int i=0;i<3;++i)
+		{			
+			if(m_Color[i]<0 || m_Color[i]>100.0f || _isnan(m_Color[i]))
+				return false;
+			if(m_BaseColor[i]<0 || m_BaseColor[i]>100.0f || _isnan(m_BaseColor[i]))
+				return false;
+		}
+		return true;
+	}
 
-  CDLight(const CDLight& other)
-		: SRenderLight(other)
-  {
-    if (m_Shader.m_pShader)
-      m_Shader.m_pShader->AddRef();
-    if (m_pLightImage)
-      m_pLightImage->AddRef();
-    if (m_pDiffuseCubemap)
-      m_pDiffuseCubemap->AddRef();
-    if (m_pSpecularCubemap)
-      m_pSpecularCubemap->AddRef();
-    if(m_pLightAttenMap)
-      m_pLightAttenMap->AddRef();
-    if (m_pDeferredRenderMesh)
-      m_pDeferredRenderMesh->AddRef();
-  }
+	CDLight(const CDLight& other)
+	{
+		operator=(other);
+	}
 
-  CDLight& operator=(const CDLight& other)
-  {
-    if (this == &other) return *this;
+	CDLight& operator=(const CDLight& dl)
+	{
+		if (this == &dl) return *this;
 
-    SAFE_RELEASE(m_Shader.m_pShader);
-    SAFE_RELEASE(m_pLightImage);
-    SAFE_RELEASE(m_pDiffuseCubemap);
-    SAFE_RELEASE(m_pSpecularCubemap);
-    SAFE_RELEASE(m_pLightAttenMap);
-    SAFE_RELEASE(m_pDeferredRenderMesh);
-	
-		new(this) CDLight(other);
+		SAFE_RELEASE(m_Shader.m_pShader);
+		SAFE_RELEASE(m_pLightImage);
+		SAFE_RELEASE(m_pLightDynTexSource);
+		SAFE_RELEASE(m_pDiffuseCubemap);
+		SAFE_RELEASE(m_pSpecularCubemap);
+		SAFE_RELEASE(m_pLightAttenMap);
+		SAFE_RELEASE(m_pDeferredRenderMesh);
 
-    return *this;
-  }
+		m_pOwner=dl.m_pOwner;
+		memcpy(m_pObject, dl.m_pObject, sizeof(m_pObject));
+		m_pDeferredRenderMesh=dl.m_pDeferredRenderMesh;
+		m_Shader=dl.m_Shader;
+		m_pShadowMapFrustums=dl.m_pShadowMapFrustums;
+		m_pDiffuseCubemap=dl.m_pDiffuseCubemap;
+		m_pSpecularCubemap=dl.m_pSpecularCubemap;
+		m_pLightImage=dl.m_pLightImage;
+		m_pLightDynTexSource=dl.m_pLightDynTexSource;
+		m_pLightAttenMap=dl.m_pLightAttenMap;
+		m_sName=dl.m_sName;
+		m_sDeferredGeom=dl.m_sDeferredGeom;
+		m_ProjMatrix=dl.m_ProjMatrix;
+		m_ObjMatrix=dl.m_ObjMatrix;
+		m_ClipBox=dl.m_ClipBox;
+		m_Color=dl.m_Color;
+		m_BaseColor=dl.m_BaseColor;
+		m_Origin=dl.m_Origin;
+		m_BaseOrigin=dl.m_BaseOrigin;
+		m_fRadius=dl.m_fRadius;
+		m_SpecMult=dl.m_SpecMult;
+		m_BaseSpecMult=dl.m_BaseSpecMult;
+		m_fHDRDynamic=dl.m_fHDRDynamic;
+		m_fAnimSpeed=dl.m_fAnimSpeed;  
+		m_fCoronaScale=dl.m_fCoronaScale;
+		m_fCoronaIntensity=dl.m_fCoronaIntensity;
+		m_fCoronaDistSizeFactor=dl.m_fCoronaDistSizeFactor;
+		m_fCoronaDistIntensityFactor=dl.m_fCoronaDistIntensityFactor;
+		m_nCoronaShaftsMinSpec=dl.m_nCoronaShaftsMinSpec;
+		m_fShaftSrcSize=dl.m_fShaftSrcSize;
+		m_fShaftLength=dl.m_fShaftLength;
+		m_fShaftBrightness=dl.m_fShaftBrightness;
+		m_fShaftBlendFactor=dl.m_fShaftBlendFactor;
+		m_fShaftDecayFactor=dl.m_fShaftDecayFactor;
+		m_nLensGhostsMinSpec=dl.m_nLensGhostsMinSpec;
+		m_fLightFrustumAngle=dl.m_fLightFrustumAngle;
+		m_fProjectorNearPlane=dl.m_fProjectorNearPlane;
+		m_Flags=dl.m_Flags;
+		m_Id=dl.m_Id; 
+		m_n3DEngineLightId=dl.m_n3DEngineLightId;
+		m_n3DEngineUpdateFrameID=dl.m_n3DEngineUpdateFrameID;
+		m_sX=dl.m_sX;
+		m_sY=dl.m_sY;
+		m_sWidth=dl.m_sWidth;
+		m_sHeight=dl.m_sHeight;
+		for (int i=0; i<3; m_AnimRotation[i]=dl.m_AnimRotation[i],++i);
+		m_nLightStyle=dl.m_nLightStyle;
+		m_nLightPhase=dl.m_nLightPhase;
+		m_nPostEffect=dl.m_nPostEffect;
+		m_ShadowChanMask=dl.m_ShadowChanMask;
+
+		if (m_Shader.m_pShader)
+			m_Shader.m_pShader->AddRef();
+		if (m_pLightImage)
+			m_pLightImage->AddRef();
+		if (m_pLightDynTexSource)
+			m_pLightDynTexSource->AddRef();
+		if (m_pDiffuseCubemap)
+			m_pDiffuseCubemap->AddRef();
+		if (m_pSpecularCubemap)
+			m_pSpecularCubemap->AddRef();
+		if(m_pLightAttenMap)
+			m_pLightAttenMap->AddRef();
+		if (m_pDeferredRenderMesh)
+			m_pDeferredRenderMesh->AddRef();
+		return *this;
+	}
 
   // Summary:
   //	 Use this instead of m_Color.
@@ -2734,18 +2808,18 @@ public:
 	{
 		return m_SpecMult;
 	}
-  void SetMatrix(const Matrix34& Matrix)
-  {
-    // Scale the cubemap to adjust the default 45 degree 1/2 angle fustrum to 
-    // the desired angle (0 to 90 degrees).
-    float scaleFactor = cry_tanf((90.0f-m_fLightFrustumAngle)*gf_PI/180.0f);
-    m_ProjMatrix = Matrix33(Matrix) * Matrix33::CreateScale(Vec3(1,scaleFactor,scaleFactor));
-    Matrix44 transMat;
-    transMat.SetIdentity();
-    transMat(3,0) = -Matrix(0,3); transMat(3,1) = -Matrix(1,3); transMat(3,2) = -Matrix(2,3);
-    m_ProjMatrix = transMat * m_ProjMatrix;
-    m_ObjMatrix = Matrix;
-  }
+	void SetMatrix(const Matrix34& Matrix)
+	{
+		// Scale the cubemap to adjust the default 45 degree 1/2 angle fustrum to 
+		// the desired angle (0 to 90 degrees).
+		float scaleFactor = cry_tanf((90.0f-m_fLightFrustumAngle)*gf_PI/180.0f);
+		m_ProjMatrix = Matrix33(Matrix) * Matrix33::CreateScale(Vec3(1,scaleFactor,scaleFactor));
+		Matrix44 transMat;
+		transMat.SetIdentity();
+		transMat(3,0) = -Matrix(0,3); transMat(3,1) = -Matrix(1,3); transMat(3,2) = -Matrix(2,3);
+		m_ProjMatrix = transMat * m_ProjMatrix;
+		m_ObjMatrix = Matrix;
+	}
 
 	void SetSpecularCubemap(ITexture* texture)
 	{
@@ -2789,6 +2863,7 @@ public:
 
 #define DECAL_HAS_NORMAL_MAP	(1<<0)
 #define DECAL_STATIC					(1<<1)
+#define DECAL_HAS_SPECULAR_MAP (1<<2)
 
 struct SDeferrredDecal
 {
@@ -2964,10 +3039,10 @@ struct CRenderChunk
 	m_nMatFlags(0),
 	m_nMatID(0),
 	nSubObjectIndex(0)
-  {
-  }
+	{
+	}
 
-  int Size();
+	int Size() const;
 
 	void GetMemoryUsage( ICrySizer *pSizer ) const 
 	{

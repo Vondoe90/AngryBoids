@@ -617,11 +617,7 @@ inline void CryStackStringT<T,S>::_AllocData( size_type nLen )
 		value_type* pData = m_strBuf;
 		if (allocLen > MAX_SIZE)
 		{
-#if defined(NOT_USE_CRY_MEMORY_MANAGER)
-			pData = (value_type*)CryModuleMalloc( allocLen);
-#else
-			pData = (value_type*)CryModuleMalloc( allocLen, eCryM_Launcher );
-#endif
+			pData = (value_type*)CryModuleMalloc(allocLen);
 			_usedMemory( allocLen ); // For statistics.
 			m_nAllocSize = nLen;
 		}
@@ -651,11 +647,7 @@ inline void CryStackStringT<T,S>::_FreeData(value_type* pData)
 	{
 		size_t allocLen = (m_nAllocSize+1)*sizeof(value_type);
 		_usedMemory( -check_cast<ptrdiff_t>(allocLen) ); // For statistics.
-#if defined(NOT_USE_CRY_MEMORY_MANAGER)
 		CryModuleFree(pData);
-#else
-		CryModuleFree(pData, eCryM_Launcher);
-#endif
 	}
 }
 

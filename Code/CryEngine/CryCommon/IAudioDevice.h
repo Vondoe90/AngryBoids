@@ -126,12 +126,6 @@ struct IAudioDevice
 	// returns ptr to the event system if possible, else NULL
 	virtual void* GetEventSystem(void) const = 0;
 
-	// returns the output handle if possible, else NULL
-	// return the MasterVoice handle for Xbox360 if possible, else NULL
-	// HandleType will specify if this a pointer to DirectX LPDIRECTSOUND or a WINMM handle
-	// HandleType will be eOUTPUT_MAX if invalid
-	virtual void GetOutputHandle( void **pHandle, void **pHandle2, EOutputHandle *HandleType) = 0;
-
 	virtual void GetInitSettings(AudioDeviceSettings *InitSettings) = 0;
 	virtual void SetInitSettings(AudioDeviceSettings *InitSettings) = 0;
 

@@ -399,6 +399,11 @@ public:
 		BaseType::operator=(str.c_str());
 		return *this;
 	}
+	CryStringLocalT& operator=( const CryStringLocalT& str )
+	{
+		BaseType::operator=(str.c_str());
+		return *this;
+	}
 	CryStringLocalT& operator=( const_str str )
 	{
 		BaseType::operator=(str);
@@ -695,11 +700,8 @@ inline void CryStringT<T>::_AllocData( size_type nLen )
 	{
 		size_type allocLen = sizeof(StrHeader) + (nLen+1)*sizeof(value_type);
 
-#if defined(NOT_USE_CRY_MEMORY_MANAGER)
-		StrHeader* pData = (StrHeader*)CryModuleMalloc( allocLen);
-#else
-		StrHeader* pData = (StrHeader*)CryModuleMalloc( allocLen, eCryM_Launcher );
-#endif
+		StrHeader* pData = (StrHeader*)CryModuleMalloc( allocLen );
+
 		_usedMemory( allocLen ); // For statistics.
 
 
@@ -735,11 +737,7 @@ inline void CryStringT<T>::_FreeData( StrHeader* pData )
 			size_t allocLen = sizeof(StrHeader) + (pData->nAllocSize+1)*sizeof(value_type);
 			_usedMemory( -check_cast<int>(allocLen) ); // For statistics.
 
-#if defined(NOT_USE_CRY_MEMORY_MANAGER)
 			CryModuleFree((void*)pData);
-#else
-			CryModuleFree((void*)pData, eCryM_Launcher);
-#endif
 			//int allocLen = sizeof(StrHeader) + (pData->nAllocSize+1)*sizeof(value_type);
 			//string_alloc::deallocate( (value_type*)pData,allocLen );
 		}

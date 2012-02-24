@@ -90,7 +90,9 @@ public:
 	void Free()
   {    
     if(m_pElements)
-      free (m_pElements); 
+		{
+      InternalRealloc(m_pElements,0);
+		}
     m_pElements=0;
     m_nCount=0; 
     m_nAllocatedCount= 0; 
@@ -137,23 +139,12 @@ public:
     {
       assert(&p<m_pElements || &p>=(m_pElements+m_nAllocatedCount));
       m_nAllocatedCount = m_nCount*2 + 8;
-      T* pOldMemBlock = m_pElements;
 
-
-
-
-
-
-
-      PREFAST_SUPPRESS_WARNING(6308) m_pElements = (T *)realloc(m_pElements, (m_nAllocatedCount*sizeof(T)) + overAllocBytes);
-
+			//keep alignment requirement of T if memory man is used on PS3
+			m_pElements = InternalRealloc(m_pElements, (m_nAllocatedCount*sizeof(T)) + overAllocBytes );
+			assert(m_pElements!=NULL);
 
 			MEMSTAT_BIND_TO_CONTAINER(this, m_pElements);
-      assert(m_pElements!=NULL);
-      if (m_pElements==NULL)
-      {
-        free(pOldMemBlock);
-      }
     }
 
 		//this is twice as fast on PS3, on PC there is no call to memcpy so no performance win
@@ -177,24 +168,9 @@ public:
   {
     if( m_nCount >= m_nAllocatedCount )
     {
-      m_nAllocatedCount = m_nCount*2 + 8;      
-
-
-
-
-
-
-
-      PREFAST_SUPPRESS_WARNING(6308) T * pNewElements = (T *)realloc(m_pElements, (m_nAllocatedCount*sizeof(T)) + overAllocBytes);
-
-
-
-      if(!pNewElements)
-      {
-        free(m_pElements);
-        assert(!"Out of memory");
-      }
-      m_pElements = pNewElements;
+      m_nAllocatedCount = m_nCount*2 + 8;
+      m_pElements = InternalRealloc(m_pElements,(m_nAllocatedCount*sizeof(T)) + overAllocBytes);
+			assert(m_pElements!=NULL);
 			MEMSTAT_BIND_TO_CONTAINER(this, m_pElements);
     }
 
@@ -218,24 +194,15 @@ public:
   {
     if( elem_count > m_nAllocatedCount )
     {
+			int nPrevAllocCount = m_nAllocatedCount;
+			int nAddedCount = elem_count - m_nAllocatedCount;
+
       m_nAllocatedCount = elem_count;
 
+			m_pElements = InternalRealloc(m_pElements,(m_nAllocatedCount*sizeof(T)) + overAllocBytes);
+      assert(m_pElements);
+      memset(m_pElements + nPrevAllocCount, 0, (sizeof(T)*nAddedCount) + overAllocBytes);
 
-
-
-
-
-
-
-			PREFAST_SUPPRESS_WARNING(6308) T * new_elements = (T *)malloc((m_nAllocatedCount*sizeof(T)) + overAllocBytes);
-
-
-      assert(new_elements);
-      memset(new_elements, 0, (sizeof(T)*m_nAllocatedCount) + overAllocBytes);
-      memcpy(new_elements, m_pElements, sizeof(T)*m_nCount);
-      if(m_pElements)
-        free (m_pElements);
-      m_pElements = new_elements;
 			MEMSTAT_BIND_TO_CONTAINER(this, m_pElements);
     }
     
@@ -318,6 +285,21 @@ public:
 	{ 
 		return (sizeof(*this)+sizeof(T)*m_nAllocatedCount) + overAllocBytes; 
 	}
+
+private:
+	T* InternalRealloc( T* pBuffer,size_t nNewSize )
+	{
+		PREFAST_SUPPRESS_WARNING (6326)
+		if (alignof(T) > _CRY_DEFAULT_MALLOC_ALIGNMENT)
+		{
+			return (T*)CryModuleReallocAlign(pBuffer, nNewSize,alignof(T));
+		}
+		else
+		{
+			return (T*)CryModuleRealloc( pBuffer,nNewSize );
+		}
+	}
+
 };
 
 #endif // __CRY_POD_ARRAY_H__

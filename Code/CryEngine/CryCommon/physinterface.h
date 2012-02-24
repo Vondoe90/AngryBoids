@@ -43,13 +43,18 @@ struct GeomQuery;
 IPhysicalEntity *const WORLD_ENTITY = (IPhysicalEntity*)-10;
 
 #if !defined(PS3) && !defined(XENON)
+#if defined(DEDICATED_SERVER)
+#define MAX_PHYS_THREADS 1
+#else
 #define MAX_PHYS_THREADS 4
+#endif
 
 
 
 
 #endif
 
+#define USE_IMPROVED_RIGID_ENTITY_SYNCHRONISATION 1
 
 /////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////// IPhysicsStreamer Interface /////////////////////////////
@@ -204,9 +209,19 @@ public:
 // (this is used in all physics params/status/action structures)
 class unused_marker {
 public:
+	union f2i
+	{
+		float f;
+		uint32 i;
+	};
+	union d2i
+	{
+		double d;
+		uint32 i[2];
+	};
 	unused_marker() {}
-	unused_marker& operator,(float &x) { *(int*)&x = 0xFFBFFFFF; return *this; }
-	unused_marker& operator,(double &x) { *((int*)&x+1) = 0xFFF7FFFF; return *this; }
+	unused_marker& operator,(float &x) { f2i u; u.i=0xFFBFFFFF; x=u.f; return *this; }
+	unused_marker& operator,(double &x) { d2i u; u.i[eLittleEndian?1:0]=0xFFF7FFFF; x=u.d; return *this; }
 	unused_marker& operator,(int &x) { x=1<<31; return *this; }
 	unused_marker& operator,(unsigned int &x) { x=1u<<31; return *this; }
 	template<class ref> unused_marker& operator,(ref *&x) { x=(ref*)-1; return *this; }
@@ -215,7 +230,7 @@ public:
 	template<class F> unused_marker& operator,(strided_pointer<F> &x) { return *this,x.data; }
 };
 #if !defined(__SPU__)
- inline bool is_unused(const float &x) { return (*(int*)&x & 0xFFA00000) == 0xFFA00000; }
+ inline bool is_unused(const float &x) { unused_marker::f2i u; u.f=x; return (u.i & 0xFFA00000) == 0xFFA00000; }
 
 
 #endif
@@ -226,7 +241,7 @@ template<class ref> bool is_unused(strided_pointer<ref> x) { return is_unused(x.
 template<class F> bool is_unused(const Ang3_tpl<F> &x) { return is_unused(x.x); }
 template<class F> bool is_unused(const Vec3_tpl<F> &x) { return is_unused(x.x); }
 template<class F> bool is_unused(const Quat_tpl<F> &x) { return is_unused(x.w); }
-inline bool is_unused(const double &x) { return (*((int*)&x+1) & 0xFFF40000) == 0xFFF40000; }
+inline bool is_unused(const double &x) { unused_marker::d2i u; u.d=x; return (u.i[eLittleEndian?1:0] & 0xFFF40000) == 0xFFF40000; }
 #define MARK_UNUSED unused_marker(),
 
 
@@ -464,7 +479,7 @@ enum phentity_flags {
 	pef_log_state_changes=0x1000000, // entity will log simulation class change events
 	pef_log_collisions=0x2000000, // entity will log collision events
 	pef_log_env_changes=0x4000000, // entity will log EventPhysEnvChange when something breaks nearby
-	pef_log_poststep=0x8000000 // entity will log EventPhysPostStep events
+	pef_log_poststep=0x8000000, // entity will log EventPhysPostStep events
 };
 
 struct pe_params_flags : pe_params {
@@ -488,8 +503,8 @@ struct pe_params_structural_joint : pe_params {
 	enum entype { type_id=21 };
 	pe_params_structural_joint() { 
 		type=type_id; id=0; bReplaceExisting=0; 
-		MARK_UNUSED idx,partid[0],partid[1],pt,n,maxForcePush,maxForcePull,maxForceShift,maxTorqueBend,maxTorqueTwist,
-			bBreakable,szSensor,bBroken,partidEpicenter,axisx,limitConstraint,bConstraintWillIgnoreCollisions,dampingConstraint;
+		MARK_UNUSED idx,partid[0],partid[1],pt,n,maxForcePush,maxForcePull,maxForceShift,maxTorqueBend,maxTorqueTwist,damageAccum,damageAccumThresh,
+      bBreakable,szSensor,bBroken,partidEpicenter,axisx,limitConstraint,bConstraintWillIgnoreCollisions,dampingConstraint;
 	}
 
 	int id;	// joint's 'foreign' identifier
@@ -501,6 +516,7 @@ struct pe_params_structural_joint : pe_params {
 	Vec3 axisx;	// x axis in entity frame; only used for joints that can become dynamic constraints
 	float maxForcePush,maxForcePull,maxForceShift; // linear force limits
 	float maxTorqueBend,maxTorqueTwist;	// angular force (torque) limits
+  float damageAccum, damageAccumThresh; // fraction of tension that gets accumulated, can be used to emulate an health system
 	Vec3 limitConstraint; // x=min angle, y=max angle, z=force limit
 	int bBreakable;	// joint is at all breakable
 	int bConstraintWillIgnoreCollisions; // dynamic constraints will have constraint_ignore_buddy flag
@@ -776,7 +792,7 @@ struct pe_params_wheel : pe_params {
 	enum entype { type_id=16 };
 	pe_params_wheel() {
 		type=type_id; iWheel=0; MARK_UNUSED bDriving,iAxle,suspLenMax,suspLenInitial,minFriction,maxFriction,surface_idx,bCanBrake,bBlocked,
-			bRayCast,kStiffness,kDamping,kLatFriction,Tscale,w;
+			bRayCast,kStiffness,kDamping,kLatFriction,Tscale,w,bCanSteer,kStiffnessWeight;
 	}
 
 	int iWheel;
@@ -785,6 +801,7 @@ struct pe_params_wheel : pe_params {
 	           // and apply stabilizer force (if set); axle<0 means the wheel does not affect the physics
 	int bCanBrake; // handbrake applies
   int bBlocked;	// locks the wheel (acts like a forced handbrake)
+	int bCanSteer; // can this wheel steer, 0 or 1
 	float suspLenMax;	// full suspension length (relaxed)
 	float suspLenInitial;	// length in the initial state (used for automatic computations)
 	float minFriction; // surface friction is cropped to this min-max range
@@ -792,6 +809,9 @@ struct pe_params_wheel : pe_params {
 	int surface_idx;
 	int bRayCast; // uses raycasts instead of cylinders
 	float kStiffness;	// if 0, will be computed based on mass distribution, lenMax, and lenInitial
+	float kStiffnessWeight; // When autocalculating stiffness use this weight for this wheel. Note weights for wheels in front of the centre of mass do not influence the weights of wheels behind the centre of mass
+	                        // By default all weights are 1.0 and the sum doesn't have to add up to 1.0!
+	                        // Also a <=0 weight will leave the wheel out of the autocalculation. It will be get a stiffness of weight*mass*gravity/defaultLength/numWheels. weight=-1 is a good starting point for these wheels
 	float kDamping;	// absolute value if >=0, otherwise -(fraction of 0-oscillation damping)
   float kLatFriction; // lateral friction scale (doesn't apply when on handbrake)
 	float Tscale;	// optional driving torque scale
@@ -1116,11 +1136,12 @@ struct pe_action_move : pe_action { // movement request for living entities
 
 struct pe_action_drive : pe_action {
 	enum entype { type_id=3 };
-	pe_action_drive() { type=type_id; MARK_UNUSED pedal,dpedal,steer,dsteer,bHandBrake,clutch,iGear; }
+	pe_action_drive() { type=type_id; MARK_UNUSED pedal,dpedal,steer,dsteer,bHandBrake,clutch,iGear; ackermanOffset=0.f; }
 
 	float pedal; // engine pedal absolute value; active pedal always awakes the entity
 	float dpedal; // engine pedal delta
 	float steer; // steering angle absolute value
+	float ackermanOffset; // apply ackerman steering, 0.0 -> normal driving front wheels steer, back fixed. 1.0 -> front fixed, back steer. 0.5 -> both front and back steer
 	float dsteer; // steering angle delta
 	float clutch;	// forces clutch; 0..1
 	int bHandBrake;	// removing handbrake will automatically awaken the vehicle if it's sleeping
@@ -1588,21 +1609,23 @@ struct pe_articgeomparams : pe_geomparams {
 const int NMAXWHEELS = 18;
 struct pe_cargeomparams : pe_geomparams {
 	enum entype { type_id=1 };
-	pe_cargeomparams() : pe_geomparams() { type=type_id; MARK_UNUSED bDriving,minFriction,maxFriction,bRayCast,kLatFriction; bCanBrake=1; }
+	pe_cargeomparams() : pe_geomparams() { type=type_id; MARK_UNUSED bDriving,minFriction,maxFriction,bRayCast,kLatFriction; bCanBrake=1; bCanSteer=1; kStiffnessWeight=1.f; }
 	pe_cargeomparams(pe_geomparams &src) {
 		type=type_id;	density=src.density; mass=src.mass; pos=src.pos; q=src.q; surface_idx=src.surface_idx; 
 		idmatBreakable=src.idmatBreakable; pLattice=src.pLattice; pMatMapping=src.pMatMapping; nMats=src.nMats;
 		pMtx3x4=src.pMtx3x4;pMtx3x3=src.pMtx3x3; flags=src.flags; flagsCollider=src.flagsCollider;
-		MARK_UNUSED bDriving,minFriction,maxFriction,bRayCast; bCanBrake=1;
+		MARK_UNUSED bDriving,minFriction,maxFriction,bRayCast; bCanBrake=1, bCanSteer=1; kStiffnessWeight=1.f;
 	}
 	int bDriving;	// whether wheel is driving, -1 - geometry os not a wheel
 	int iAxle; // wheel axle, currently not used
 	int bCanBrake; // whether the wheel is locked during handbrakes
 	int bRayCast;	// whether the wheel use simple raycasting instead of geometry sweep check
+	int bCanSteer; // wheel the wheel can steer
 	Vec3 pivot; // upper suspension point in vehicle CS
 	float lenMax;	// relaxed suspension length
 	float lenInitial; // current suspension length (assumed to be length in rest state)
 	float kStiffness; // suspension stiffness, if 0 - calculate from lenMax, lenInitial, and vehicle mass and geometry
+	float kStiffnessWeight; // When autocalculating stiffness use this weight for this wheel. Note weights for wheels in front of the centre of mass do not influence the weights of wheels behind the centre of mass
 	float kDamping; // suspension damping, if <0 - calculate as -kdamping*(approximate zero oscillations damping)
 	float minFriction,maxFriction; // additional friction limits for tire friction
   float kLatFriction; // coefficient for lateral friction
@@ -1668,7 +1691,6 @@ struct intersection_params {
 		bNoIntersection=0;
 		bExactBorder=0;
 		bThreadSafe=bThreadSafeMesh=0;
-		plock=(ppu_volatile int*)&bThreadSafe;
 	}
 	int iUnprojectionMode; // 0-angular, 1-rotational
 	Vec3 centerOfRotation; // for mode 1 only
@@ -1692,7 +1714,6 @@ struct intersection_params {
 	int bThreadSafe; // set if it's known that no other thread will contend for the internal intersection data (only used in PrimitiveWorldIntersection now)
 	int bThreadSafeMesh; // set if it's known that no other thread will try to modify the colliding geometry
 	geom_contact *pGlobalContacts; // pointer to thread's global contact buffer
-	SPU_DOMAIN_LOCAL ppu_volatile int *plock; // lock to access contact data
 };
 
 struct phys_geometry {
@@ -1848,6 +1869,8 @@ struct IOwnedObject {
 	virtual int Release() = 0;
 };
 
+struct SOcclusionCubeMap;
+
 struct IGeometry {
 	virtual ~IGeometry(){}
 	virtual int GetType() = 0; // see enum geomtypes
@@ -1894,7 +1917,7 @@ struct IGeometry {
 	// BuildOcclusionCubemap: cubemap projection-based occlusion (used for explosions); pGrids are 6 [nRes^2] arrays 
 	// iMode: 0 - update cubemap in pGrid0; 1 - build cubemap in pGrid1, grow edges by nGrow cells, and compare with pGrid0
 	// all geometry closer than rmin is ignored (to avoid large projection scale); same if farther than rmax 
-	virtual float BuildOcclusionCubemap(geom_world_data *pgwd, int iMode, int *pGrid0[6],int *pGrid1[6],int nRes, float rmin,float rmax, int nGrow) = 0;
+	virtual float BuildOcclusionCubemap(geom_world_data *pgwd, int iMode, SOcclusionCubeMap* cubemap0, SOcclusionCubeMap* cubemap1, int nGrow) = 0;
 	virtual void GetMemoryStatistics(ICrySizer *pSizer) = 0;
 	virtual void Save(CMemStream &stm) = 0;
 	virtual void Load(CMemStream &stm) = 0;
@@ -2046,7 +2069,7 @@ struct IPhysUtils {
 //////////////////////////// IPhysicalEntity Interface //////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-enum snapshot_flags { ssf_compensate_time_diff=1, ssf_checksum_only=2, ssf_no_update=4, ssf_from_child_class=8 };
+enum snapshot_flags { ssf_compensate_time_diff=1, ssf_checksum_only=2, ssf_no_update=4 };
 
 struct IPhysicalEntity {
 	virtual ~IPhysicalEntity(){}
@@ -2073,10 +2096,11 @@ struct IPhysicalEntity {
 	virtual int GetiForeignData() const = 0; // returns entity's iForegnData
 
 	virtual int GetStateSnapshot(class CStream &stm, float time_back=0, int flags=0) = 0;	// obsolete, was used in Far Cry
-	virtual int GetStateSnapshot(TSerialize ser, float time_back=0, int flags=0) = 0;	// obsolete
+	virtual int GetStateSnapshot(TSerialize ser, float time_back=0, int flags=0) = 0;
 	virtual int SetStateFromSnapshot(class CStream &stm, int flags=0) = 0; // obsolete
 	virtual int PostSetStateFromSnapshot() = 0; // obsolete
 	virtual unsigned int GetStateChecksum() = 0; // obsolete
+	virtual void SetNetworkAuthority(bool auth) = 0;
 
 	virtual int SetStateFromSnapshot(TSerialize ser, int flags=0) = 0;
 	virtual int SetStateFromTypedSnapshot(TSerialize ser, int type, int flags=0) = 0;
@@ -2274,11 +2298,19 @@ struct PhysicsVars : SolverSettings {
 	Vec3 helperOffset;
 	int64 ticksPerSecond;
 	// net-synchronization related
+#if USE_IMPROVED_RIGID_ENTITY_SYNCHRONISATION
+	float netInterpTime;
+	float netExtrapMaxTime;
+	int netSequenceFrequency;
+	int netDebugDraw;
+#else
 	float netMinSnapDist;
 	float netVelSnapMul;
 	float netMinSnapDot;
 	float netAngSnapMul;
 	float netSmoothTime;
+#endif
+
 	int bEntGridUseOBB;
 	int nStartupOverloadChecks;
   int bAsyncRWIUseSpu;
@@ -2371,7 +2403,7 @@ enum EventPhysCollisionState {EPC_DEFERRED_INITIAL, EPC_DEFERRED_REQUEUE, EPC_DE
 
 struct EventPhysCollision : EventPhysStereo {
 	enum entype { id=1, flagsCall=pef_monitor_collisions, flagsLog=pef_log_collisions };
-	EventPhysCollision() { idval=id; pEntContact=0; iPrim[0]=iPrim[1]=-1; deferredState = EPC_DEFERRED_INITIAL; deferredDecalPlacementTestResult=1; }
+	EventPhysCollision() { idval=id; pEntContact=0; iPrim[0]=iPrim[1]=-1; deferredState = EPC_DEFERRED_INITIAL; fDecalPlacementTestMaxSize=1000.f; }
 	int idCollider;	// in addition to pEntity[1]
 	Vec3 pt; // contact point in world coordinates
 	Vec3 n;	// contact normal
@@ -2386,7 +2418,7 @@ struct EventPhysCollision : EventPhysStereo {
 	void *pEntContact; // reserved for internal use
 	char deferredState; // EventPhysCollisionState
 	char deferredResult; // stores the result returned by the deferred event
-	char deferredDecalPlacementTestResult; // allow decals caused by this collision
+	float fDecalPlacementTestMaxSize; // maximum allowed size of decals caused by this collision
 };
 
 struct EventPhysStateChange : EventPhysMono {	// triggered by simclass changes, even those caused by SetParams
@@ -2394,6 +2426,8 @@ struct EventPhysStateChange : EventPhysMono {	// triggered by simclass changes, 
 	EventPhysStateChange() { idval=id; }
 	int iSimClass[2];
 	float timeIdle;	// how long the entity stayed without external activation (such as impulses)
+	Vec3 BBoxOld[2];
+	Vec3 BBoxNew[2];
 };
 
 struct EventPhysEnvChange : EventPhysMono { // called when something around the entityy breaks
@@ -2727,12 +2761,12 @@ UNIQUE_IFACE struct IPhysicalWorld {
 	// PrimitiveWorldIntersection  - similar to RayWorldIntersection, but does a primitive sweep (or overlap) check 
 	// unlike RWI, it doesn't trace enitity cells along the path, but checks all of them in the swept volume's bounding box,
 	// so long PWIs are not recommended
-	// ppcontact - pointer to the pointer to the resulting contacts array, since it uses shaded data it gets locked with pip->plock
+	// ppcontact - pointer to the pointer to the resulting contacts array, since it uses shared data it gets locked with lockContacts
 	// geomFlagsAll - flags that must all be present in an entity part
 	// geomFlagsAny - flags at least one of which must be present in an entity part
 	// pip - custom intersection parameters, overrides the sweepDir setting if any.
 	//	if not specified, the function performs a simple true/false overlap check if sweepDir is 0, and a sweep check otherwise
-	//	if specified and pip->bThreadSafe==false, the caller must manually release the lock in pip->plock (but only if there were any contacts)
+	//	if specified and pip->bThreadSafe==false, lockContacts will keep the lock while in scope
 	// OnEvent - optional personal callback to be called *instead* of the global one
 	// returns distance to the first hit for sweep checks and the number of hits for intersection checks (as float)
 	// special note: if specified, **ppcontact has the collider entity id in iPrim[0], partid in iPrim[1], matid in id[1]
@@ -2740,7 +2774,8 @@ UNIQUE_IFACE struct IPhysicalWorld {
 	struct SPWIParams {
 		SPWIParams() {
 			memset(this,0,sizeof(*this)); 
-			entTypes=ent_all;	geomFlagsAny=geom_colltype0|geom_colltype_player; 
+			entTypes=ent_all;	geomFlagsAny=geom_colltype0|geom_colltype_player;
+			lockContacts.prw = &lockContacts.iActive;
 		}
 		void *pForeignData;
 		int iForeignData;
@@ -2755,17 +2790,18 @@ UNIQUE_IFACE struct IPhysicalWorld {
 		intersection_params *pip;
 		int nSkipEnts;
 		IPhysicalEntity **pSkipEnts;
+		WriteLockCond lockContacts;
 	};
-	virtual float PrimitiveWorldIntersection(const SPWIParams &pp, const char *pNameTag=PWI_NAME_TAG) = 0;
-	virtual float PrimitiveWorldIntersection(int itype, const primitives::primitive *pprim, const Vec3 &sweepDir=Vec3(ZERO), int entTypes=ent_all, 
+	virtual float PrimitiveWorldIntersection(const SPWIParams &pp, WriteLockCond &lockContacts=*(WriteLockCond*)0, const char *pNameTag=PWI_NAME_TAG) = 0;
+	float PrimitiveWorldIntersection(int itype, const primitives::primitive *pprim, const Vec3 &sweepDir=Vec3(ZERO), int entTypes=ent_all, 
 		geom_contact **ppcontact=0, int geomFlagsAll=0,int geomFlagsAny=geom_colltype0|geom_colltype_player, intersection_params *pip=0,
-		void *pForeignData=0, int iForeignData=0, IPhysicalEntity **pSkipEnts=0,int nSkipEnts=0, const char *pNameTag=PWI_NAME_TAG)
+		void *pForeignData=0, int iForeignData=0, IPhysicalEntity **pSkipEnts=0,int nSkipEnts=0, WriteLockCond &lockContacts=*(WriteLockCond*)0, const char *pNameTag=PWI_NAME_TAG)
 	{
 		SPWIParams pp;
 		pp.itype=itype; pp.pprim=pprim; pp.sweepDir=sweepDir; pp.entTypes=entTypes;
 		pp.ppcontact=ppcontact; pp.geomFlagsAll=geomFlagsAll; pp.geomFlagsAny=geomFlagsAny; pp.pip=pip;
 		pp.pForeignData=pForeignData; pp.iForeignData=iForeignData; pp.pSkipEnts=pSkipEnts; pp.nSkipEnts=nSkipEnts;
-		return PrimitiveWorldIntersection(pp);
+		return PrimitiveWorldIntersection(pp,lockContacts);
 	}
 
 	virtual void GetMemoryStatistics(ICrySizer *pSizer) = 0;

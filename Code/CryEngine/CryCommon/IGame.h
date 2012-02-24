@@ -32,6 +32,7 @@ struct IGameFramework;
 struct IGameStateRecorder;
 struct IGameAudio;
 struct IGameWarningsListener;
+struct IAntiCheatManager;
 //struct ITestManager;
 struct SGameStartParams;
 
@@ -113,12 +114,6 @@ UNIQUE_IFACE struct IGame
 	virtual void PlayerIdSet(EntityId playerId) = 0;
 
 	// Description:
-	//		Returns a pointer to the game framework being used.
-	// Return Value:
-	//		Pointer to the game framework being used.
-	virtual IGameFramework *GetIGameFramework() = 0;
-
-	// Description:
 	//		Returns the name of the mode. (i.e.: "Capture The Flag")
 	// Return Value:
 	//		The name of the mode. (i.e.: "Capture The Flag")
@@ -147,6 +142,12 @@ UNIQUE_IFACE struct IGame
 	// Return Value:
 	//		c_str or NULL
 	virtual IGame::TSaveGameName CreateSaveGameName() = 0;
+
+	// Description:
+	//		Returns a pointer to the game framework being used.
+	// Return Value:
+	//		Pointer to the game framework being used.
+	virtual IGameFramework *GetIGameFramework() = 0;
 
 	// Description:
 	//		Mapping level filename to "official" name.
@@ -201,6 +202,11 @@ UNIQUE_IFACE struct IGame
 	//		to have at least one NPDRM EDATA encrypted file in the package. If the file is not present or the user cannot decrypt them, the game will display a TRC compliant
 	//		error message and quit. Note that this is ONLY used on games that are specified as HDD Boot Games in their PARAM.SFO.
 	virtual const char* GetDRMFileList() = 0;
+
+	// Description:
+	//		called by FlowSystem to register all game specific flow nodes
+	virtual void RegisterGameFlowNodes() = 0;
+
 };
 
 

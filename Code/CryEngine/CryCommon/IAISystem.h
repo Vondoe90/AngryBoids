@@ -905,7 +905,7 @@ public:
 	CAILightProfileSection() 
 		: m_nTicks( CryGetTicks() )
 #   if EMBED_PHYSICS_AS_FIBER
-		, m_nYields(NPPU::FiberYieldTime())
+		, m_nYields(JobManager::Fiber::FiberYieldTime())
 #   else 
 		, m_nYields()
 #   endif 
@@ -919,7 +919,7 @@ public:
 		IAISystem *pAISystem = gEnv->pAISystem;
 		uint64 nTicks  = CryGetTicks();
 #   if EMBED_PHYSICS_AS_FIBER
-		uint64 nYields = NPPU::FiberYieldTime(); 
+		uint64 nYields = JobManager::Fiber::FiberYieldTime(); 
 #   else 
 		uint64 nYields = 0ULL; 
 #   endif 

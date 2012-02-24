@@ -4,6 +4,7 @@
 
 #include <Tarray.h>
 #include "ISerialize.h"
+#include "crc32.h"
 
 
 #define MAX_LMG_ANIMS (40)

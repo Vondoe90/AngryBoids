@@ -552,12 +552,6 @@ struct IVehicleObject
 	virtual void Update(const float deltaTime) = 0;
 
 	virtual void UpdateFromPassenger(const float deltaTime, EntityId playerId) {}
-  
-  // Summary
-  //  Handle vehicle events
-	// See Also
-	//   EVehicleEvent
-  virtual void OnVehicleEvent(EVehicleEvent event, const SVehicleEventParams& params) = 0;
 };
 
 // Summary
@@ -1183,13 +1177,6 @@ struct IVehicleView
 
   virtual void OnAction(const TVehicleActionId actionId, int activationMode, float value) = 0;
 	virtual void UpdateView(SViewParams &viewParams, EntityId playerId = 0) = 0;
-
-	virtual TVehicleObjectId GetId() = 0;
-	virtual void Serialize(TSerialize ser, EEntityAspects aspects) = 0;
-
-	// Summary
-	//		Performs computation which depends of the frame rate
-	virtual void Update(const float deltaTime) = 0;
 
   virtual void SetDebugView(bool debug) = 0;
   virtual bool IsDebugView() = 0;
@@ -1916,6 +1903,8 @@ UNIQUE_IFACE struct IVehicleSystem
 	virtual IVehicle* GetVehicle(EntityId entityId) = 0;
 
 	virtual IVehicle* GetVehicleByChannelId(uint16 channelId) = 0;
+	
+	virtual const char* GetVehicleLightType(IVehiclePart* pVehiclePart) = 0;
 
 	virtual bool IsVehicleClass(const char *name) const = 0;
 

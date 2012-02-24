@@ -38,6 +38,7 @@ struct IConsole;
 struct IInput;
 struct IRenderer;
 struct IConsole;
+namespace Telemetry { struct ITelemetrySystem; }
 struct IProcess;
 struct I3DEngine;
 struct ITimer;
@@ -86,12 +87,14 @@ struct IVisualLog;
 struct ILocalizationManager;
 struct ICryFactoryRegistry;
 struct ICodeCheckpointMgr;
+struct ISoftCodeMgr;
 struct IZLibCompressor;
 struct IOutputPrintSink;
 struct IMonoScriptSystem;
 
 struct ILocalMemoryUsage;
 
+typedef void* WIN_HWND;
 struct IScaleformGFx;
 struct IFlashUI;
 
@@ -111,6 +114,8 @@ class CFrameProfilerSection;
 struct INotificationNetwork;
 struct IPlatformOS;
 struct ICryPerfHUD;
+
+namespace JobManager { struct IJobManager; }
 
 #define PROC_MENU		1
 #define PROC_3DENGINE	2
@@ -238,6 +243,7 @@ enum ESystemEvent
 
 	// Description:
 	//	 Sent to start the active loading screen rendering.
+	//	 wparam = ILevelInfo* ptr
 	ESYSTEM_EVENT_LEVEL_LOAD_START_LOADINGSCREEN,
 
   // Description:
@@ -321,7 +327,7 @@ enum ESystemEvent
 	//	 wparam=[0/1/2/3] : [stop/play/pause/resume]
 	ESYSTEM_EVENT_VIDEO,
 
-	// Description:
+  // Description:
 	//	 Sent if the game is paused
 	ESYSTEM_EVENT_GAME_PAUSED,
 
@@ -586,6 +592,7 @@ struct SSystemGlobalEnvironment
 	IInput*                    pInput;
 	ITimer*                    pTimer;
 	IConsole*                  pConsole;
+	Telemetry::ITelemetrySystem* pTelemetrySystem;
 	IScriptSystem*             pScriptSystem;
 	I3DEngine*                 p3DEngine;
 	ISoundSystem*              pSoundSystem;
@@ -614,6 +621,8 @@ struct SSystemGlobalEnvironment
 	ICodeCheckpointMgr*				 pCodeCheckpointMgr;
 	IScaleformGFx*						 pScaleformGFx;
 	IFlashUI*									 pFlashUI;
+	JobManager::IJobManager*   pJobManager;
+	ISoftCodeMgr*							 pSoftCodeMgr;
 #if defined(MAP_LOADING_SLICING)
 	ISystemScheduler*          pSystemScheduler;
 #endif
@@ -772,6 +781,12 @@ struct SSystemGlobalEnvironment
 
 
 
+	// Getter function for jobmanager
+	ILINE JobManager::IJobManager* GetJobManager()
+	{
+		return pJobManager;
+	}
+
 #if !defined(XENON) && !defined(PS3)
 private:
 	bool bClient;
@@ -787,16 +802,6 @@ public:
 
 	IMonoScriptSystem *pMonoScriptSystem;
 };
-
-
-// NOTE Nov 25, 2008: <pvl> the ISystem interface that follows has a member function
-// called 'GetUserName'.  If we don't #undef'ine the same-named Win32 symbol here
-// ISystem wouldn't even compile.
-// TODO Nov 25, 2008: <pvl> there might be a better place for this?
-#ifdef GetUserName
-#undef GetUserName
-#endif
-
 
 UNIQUE_IFACE struct IProfilingSystem
 {
@@ -861,11 +866,16 @@ UNIQUE_IFACE struct ISystem
 	virtual bool UpdateLoadtime() = 0;
 
 	// Summary:
-	//	 Begins rendering frame.
-	virtual void	RenderBegin() = 0;
+	//   Optimisation: do part of the update while waiting for occlusion queries to complete
+	virtual void DoWorkDuringOcclusionChecks() = 0;
+	virtual bool NeedDoWorkDuringOcclusionChecks() = 0;
+
 	// Summary:
 	//	 Renders subsystems.
 	virtual void	Render() = 0;
+	// Summary:
+	//	 Begins rendering frame.
+	virtual void	RenderBegin() = 0;
 	// Summary:
 	//	 Ends rendering frame and swap back buffer.
 	virtual void	RenderEnd( bool bRenderStats=true ) = 0;
@@ -885,7 +895,7 @@ UNIQUE_IFACE struct ISystem
 
 	// Summary:
 	//	 Retrieve the name of the user currently logged in to the computer.
-	virtual const char *GetUserName() = 0;
+	virtual const char *GetLoggedInUserName() = 0;
 
 	// Summary:
 	//	 Gets current supported CPU features flags. (CPUF_SSE, CPUF_SSE2, CPUF_3DNOW, CPUF_MMX)
@@ -909,15 +919,15 @@ UNIQUE_IFACE struct ISystem
 	// Summary:
 	//	 Tells the system if it is relaunching or not.
 	virtual void	Relaunch(bool bRelaunch) = 0;
-	virtual bool IsRelaunch() const = 0;
+	// Summary:
+	//	 Returns true if the application is in the shutdown phase.
+	virtual bool	IsQuitting() = 0;
 	// Summary:
 	//	 Tells the system in which way we are using the serialization system.
 	virtual void  SerializingFile(int mode) = 0;	
 	virtual int IsSerializingFile() const = 0;
-	// Summary:
-	//	 Returns true if the application is in the shutdown phase.
-	virtual bool	IsQuitting() = 0;
 
+	virtual bool IsRelaunch() const = 0;
 	// Summary:
 	//   Displays an error message to display info for certain time
 	// Arguments:
@@ -952,43 +962,45 @@ UNIQUE_IFACE struct ISystem
 	// return the related subsystem interface
 
 	//
-	virtual IConsole *GetIConsole() = 0;
-	virtual IScriptSystem *GetIScriptSystem() = 0;
-	virtual I3DEngine *GetI3DEngine() = 0;
-	virtual ISoundSystem *GetISoundSystem() = 0;
-	virtual IMusicSystem *GetIMusicSystem() = 0;
-  virtual IPhysicalWorld *GetIPhysicalWorld() = 0;
-	virtual IMovieSystem *GetIMovieSystem() = 0;
-	virtual IAISystem *GetAISystem() = 0;
-	virtual IMemoryManager *GetIMemoryManager() = 0;
-	virtual IEntitySystem *GetIEntitySystem() = 0;
-	virtual ICryFont *GetICryFont()	= 0;
-	virtual ICryPak *GetIPak()	= 0;
-	virtual ILog *GetILog() = 0;
-	virtual ICmdLine *GetICmdLine() = 0;
-	virtual IStreamEngine *GetStreamEngine() = 0;
-	virtual ICharacterManager *GetIAnimationSystem() = 0;
-	virtual IValidator *GetIValidator() = 0;
-	virtual IFrameProfileSystem *GetIProfileSystem() = 0;	
-	virtual IDiskProfiler *GetIDiskProfiler() = 0;	
-	virtual INameTable *GetINameTable() = 0;
-	virtual IBudgetingSystem *GetIBudgetingSystem() = 0;
-	virtual IFlowSystem *GetIFlowSystem() = 0;
-	virtual IAnimationGraphSystem *GetIAnimationGraphSystem() = 0;
-	virtual IDialogSystem *GetIDialogSystem() = 0;
-	virtual IHardwareMouse *GetIHardwareMouse() = 0;
-	virtual INotificationNetwork *GetINotificationNetwork() = 0;
-	virtual IPlatformOS	*GetPlatformOS() = 0;
-	virtual ICryPerfHUD *GetPerfHUD() = 0;
 	virtual IZLibCompressor *GetIZLibCompressor() = 0;
+	virtual ICryPerfHUD *GetPerfHUD() = 0;
+	virtual IPlatformOS	*GetPlatformOS() = 0;
+	virtual INotificationNetwork *GetINotificationNetwork() = 0;
+	virtual IHardwareMouse *GetIHardwareMouse() = 0;
+	virtual IDialogSystem *GetIDialogSystem() = 0;
+	virtual IAnimationGraphSystem *GetIAnimationGraphSystem() = 0;
+	virtual IFlowSystem *GetIFlowSystem() = 0;
+	virtual IBudgetingSystem *GetIBudgetingSystem() = 0;
+	virtual INameTable *GetINameTable() = 0;
+	virtual IDiskProfiler *GetIDiskProfiler() = 0;	
+	virtual IFrameProfileSystem *GetIProfileSystem() = 0;	
+	virtual IValidator *GetIValidator() = 0;
+	virtual ICharacterManager *GetIAnimationSystem() = 0;
+	virtual IStreamEngine *GetStreamEngine() = 0;
+	virtual ICmdLine *GetICmdLine() = 0;
+	virtual ILog *GetILog() = 0;
+	virtual ICryPak *GetIPak()	= 0;
+	virtual ICryFont *GetICryFont()	= 0;
+	virtual IEntitySystem *GetIEntitySystem() = 0;
+	virtual IMemoryManager *GetIMemoryManager() = 0;
+	virtual IAISystem *GetAISystem() = 0;
+	virtual IMovieSystem *GetIMovieSystem() = 0;
+	virtual IPhysicalWorld *GetIPhysicalWorld() = 0;
+	virtual IMusicSystem *GetIMusicSystem() = 0;
+	virtual ISoundSystem *GetISoundSystem() = 0;
+	virtual I3DEngine *GetI3DEngine() = 0;
+	virtual IScriptSystem *GetIScriptSystem() = 0;
+	virtual IConsole *GetIConsole() = 0;
 	// Returns:
 	//   Can be NULL, because it only exists when running through the editor, not in pure game mode. 
-	virtual IFileChangeMonitor *GetIFileChangeMonitor() = 0;
-	virtual IVisualLog *GetIVisualLog() = 0;
-	virtual ISystemEventDispatcher *GetISystemEventDispatcher() = 0;
-	virtual IProfilingSystem * GetIProfilingSystem() = 0;
-	virtual IThreadTaskManager *GetIThreadTaskManager() = 0;
 	virtual IResourceManager *GetIResourceManager() = 0;
+	virtual IThreadTaskManager *GetIThreadTaskManager() = 0;
+	virtual IProfilingSystem * GetIProfilingSystem() = 0;
+	virtual ISystemEventDispatcher *GetISystemEventDispatcher() = 0;
+	virtual IVisualLog *GetIVisualLog() = 0;
+	virtual IFileChangeMonitor *GetIFileChangeMonitor() = 0;
+
+	virtual WIN_HWND GetHWND() = 0;
 
 	virtual IGame *GetIGame() = 0;
 	virtual INetwork *GetINetwork() = 0;
@@ -1043,11 +1055,11 @@ UNIQUE_IFACE struct ISystem
 	//	 Creates new xml node.
 	virtual XmlNodeRef CreateXmlNode( const char *sNodeName="", bool bReuseStrings = false ) = 0;
 	// Summary:
-	//	 Loads xml file, returns 0 if load failed.
-	virtual XmlNodeRef LoadXmlFromFile( const char *sFilename, bool bReuseStrings = false ) = 0;
-	// Summary:
 	//	 Loads xml from memory buffer, returns 0 if load failed.
 	virtual XmlNodeRef LoadXmlFromBuffer( const char *buffer, size_t size, bool bReuseStrings = false ) = 0;
+	// Summary:
+	//	 Loads xml file, returns 0 if load failed.
+	virtual XmlNodeRef LoadXmlFromFile( const char *sFilename, bool bReuseStrings = false ) = 0;
 	// Summary:
 	//	 Retrieves access to XML utilities interface.
 	virtual IXmlUtils* GetXmlUtils() = 0;
@@ -1280,10 +1292,10 @@ UNIQUE_IFACE struct ISystem
 
 
 
-#if defined(SDK_PROTECTION) 
-	virtual struct IProtectionCipher* GetProtectionCipher() = 0;
-	virtual struct IProtectionConfig* GetProtectionConfig() = 0;
-#endif
+
+
+
+
 
 
 
@@ -1385,7 +1397,7 @@ typedef ISystem* (*PFNCREATESYSTEMINTERFACE)( SSystemInitParams &initParams );
 
 
 
-	extern SSystemGlobalEnvironment* gEnv;
+	extern SC_API SSystemGlobalEnvironment* gEnv;
 
 
 // Summary:

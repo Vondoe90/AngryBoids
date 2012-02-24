@@ -18,7 +18,7 @@ private:
 	enum { user_bits	= 16, };
 	enum { user_shift	= (sizeof(id_type) << 3) - user_bits, };
 
-	typedef struct container_type
+	struct container_type
 	{
 		container_type()
 			: age((age_type)0)

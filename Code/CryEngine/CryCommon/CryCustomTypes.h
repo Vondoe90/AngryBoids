@@ -15,6 +15,7 @@
 #define _CRY_CUSTOM_TYPES_H
 
 #include "CryTypeInfo.h"
+#include "CryFixedString.h"
 
 #pragma warning(push)
 #pragma warning(disable: 4800)
@@ -33,7 +34,7 @@
 template<class T>
 inline bool HasString(const T& val, FToString flags, const void* def_data = 0)
 {
-	if (flags._SkipDefault)
+	if (flags.SkipDefault)
 	{
 		if (val == (def_data ? *(const T*)def_data : T()))
 			return false;
@@ -61,7 +62,8 @@ string NumToString(T val, int min_digits, int max_digits, bool floating)
 
 struct CStructInfo: CTypeInfo
 {
-	CStructInfo( cstr name, size_t size, size_t num_vars = 0, CVarInfo* vars = 0, CTypeInfo const* template_type = 0 );
+	CStructInfo( cstr name, size_t size, Array<CVarInfo> vars = ZERO, Array<CTypeInfo const*> templates = ZERO );
+	virtual bool IsType( CTypeInfo const& Info ) const;
 	virtual string ToString(const void* data, FToString flags = 0, const void* def_data = 0) const;
 	virtual bool FromString(void* data, cstr str, FFromString flags = 0) const;
 	virtual bool ToValue(const void* data, void* value, const CTypeInfo& typeVal) const;
@@ -76,13 +78,18 @@ struct CStructInfo: CTypeInfo
 		return pPrev < Vars.end() ? pPrev : 0;
 	}
 	virtual const CVarInfo* FindSubVar(cstr name) const;
-	virtual bool IsType( CTypeInfo const& Info ) const;
+
+	virtual CTypeInfo const* const* NextTemplateType(CTypeInfo const* const* pPrev) const
+	{
+		pPrev = pPrev ? pPrev+1 : TemplateTypes.begin();
+		return pPrev < TemplateTypes.end() ? pPrev : 0;
+	}
 
 protected:
 	Array<CVarInfo>						Vars;
 	CryStackStringT<char, 16>	EndianDesc;				// Encodes instructions for endian swapping.
-	CTypeInfo const*					pTemplateType;		// First template type, if any.
 	bool											HasBitfields;
+	Array<CTypeInfo const*>		TemplateTypes;
 
 	void MakeEndianDesc();
 	size_t AddEndianDesc(cstr desc, size_t dim, size_t elem_size);
@@ -151,7 +158,7 @@ struct TTypeInfo: CTypeInfo
 	{
 		if (!*str)
 		{
-			if (!flags._SkipEmpty)
+			if (!flags.SkipEmpty)
 				*(T*)data = T();
 			return true;
 		}
@@ -216,7 +223,7 @@ struct TProxyTypeInfo: CTypeInfo
 		T val;
 		if (!*str)
 		{
-			if (!flags._SkipEmpty)
+			if (!flags.SkipEmpty)
 				*(S*)data = S();
 			return true;
 		}
@@ -245,7 +252,7 @@ template<>
 inline string TTypeInfo<string>::ToString(const void* data, FToString flags, const void* def_data) const
 {
 	const string& val = *(const string*)data;
-	if (def_data && flags._SkipDefault)
+	if (def_data && flags.SkipDefault)
 	{
 		if (val == *(const string*)def_data)
 			return string();
@@ -256,7 +263,7 @@ inline string TTypeInfo<string>::ToString(const void* data, FToString flags, con
 template<> 
 inline bool TTypeInfo<string>::FromString(void* data, cstr str, FFromString flags) const
 {
-	if (!*str && flags._SkipEmpty)
+	if (!*str && flags.SkipEmpty)
 		return true;
 	*(string*)data = str;
 	return true;
@@ -415,7 +422,7 @@ protected:
 				return fVal = T(nMIN), true;
 			if (eLimit == eLimit_Max && HasMax())
 				return fVal = T(nMAX), true;
-			return false;
+			return ::TypeInfo((T*)0).GetLimit(eLimit, fVal);
 		}
 
 		// Override to check range
@@ -466,7 +473,7 @@ protected:
 
 //---------------------------------------------------------------------------
 // Quantise a float linearly in an int.
-template<class S, int nLIMIT, S nQUANT = TIntTraits<S>::nMAX>
+template<class S, int nLIMIT, S nQUANT = TIntTraits<S>::nMAX, bool bTRUNC = false>
 struct TFixed
 {
 	typedef float TValue;
@@ -476,7 +483,11 @@ struct TFixed
 	{}
 
 	inline TFixed(float fIn)
-		{ FromFloat(this, fIn); }
+	{
+		float fStore = ToStore(fIn);
+		int32 iStore = bTRUNC ? int32(fStore) : int_round(fStore);
+		ConvertInt(m_Store, iStore, S(TIntTraits<S>::nMIN_FACTOR * nQUANT), nQUANT);
+	}
 
 	// Conversion.
 	inline operator float() const
@@ -503,7 +514,7 @@ struct TFixed
 protected:
 	S		m_Store;
 
-	typedef TFixed<S, nLIMIT, nQUANT> TThis;
+	typedef TFixed<S, nLIMIT, nQUANT, bTRUNC> TThis;
 
 	static const int nMAX = nLIMIT;
 	static const int nMIN = TIntTraits<S>::nMIN_FACTOR * nLIMIT;
@@ -512,9 +523,6 @@ protected:
 		{ return f * float(nQUANT) / float(nLIMIT); }
 	static inline float FromStore(float f)
 		{ return f * float(nLIMIT) / float(nQUANT); }
-
-	static inline bool FromFloat(void* data, float val)
-		{ return ConvertInt(*(S*)data, int_round(ToStore(val)), S(TIntTraits<S>::nMIN_FACTOR * nQUANT), nQUANT); }
 
 	// TypeInfo implementation.
 	struct CCustomInfo: TProxyTypeInfo<float, TThis>
@@ -563,12 +571,6 @@ struct TFloat
 	ILINE TFloat(float fIn)
 		: m_Store(FromFloat(fIn))
 	{}
-
-	ILINE TFloat& operator =(float fIn)
-	{
-		m_Store = FromFloat(fIn);
-		return *this;
-	}
 
 	ILINE operator float() const
 		{ return ToFloat(m_Store); }
@@ -620,7 +622,7 @@ protected:
 		float fClamped = clamp_tpl(fIn * fROUNDER(), fMIN(), fMAX());
 
 		// Bit shift to convert from IEEE float32.
-		uint32 uBits = *(const uint32*)&fClamped;
+		uint32 uBits = *alias_cast<const uint32*>(&fClamped);
 		
 		// Convert exp.
     int32 iExp = (uBits >> 23) & 0xFF;
@@ -667,7 +669,7 @@ protected:
 			return 0.f;
 
 		uint32 uBits = ToFloatCore( bits );
-		return *(float*)&uBits;
+		return *alias_cast<float*>(&uBits);
 	}
 
 	// TypeInfo implementation.
@@ -890,7 +892,7 @@ private:
 			this_t& ptr = *(this_t*)data;
 			if (!*str)
 			{
-				if (!flags._SkipEmpty)
+				if (!flags.SkipEmpty)
 					ptr = 0;
 				return true;
 			}

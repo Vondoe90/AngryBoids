@@ -139,12 +139,13 @@ public:
 	friend bool operator != ( int null,const XmlNodeRef &p1 );
 	//##@}
 
+#if !defined(RESOURCE_COMPILER)
 	template<typename Sizer >
 	void GetMemoryUsage( Sizer *pSizer ) const
 	{
 		pSizer->AddObject(p);
 	}
-	
+#endif	
 };
 
 // Summary:
@@ -164,9 +165,11 @@ protected:
 
 public:
 
+#if !defined(RESOURCE_COMPILER)
 	// Summary:
 	//	 Collect all allocated memory
 	virtual void GetMemoryUsage( ICrySizer *pSizer ) const =0;
+#endif
 
 	// Summary:
 	//	 Creates new XML node.
@@ -205,11 +208,13 @@ public:
 	//	 Copies attributes to this node from a given node.
 	virtual void copyAttributes( XmlNodeRef fromNode ) = 0;
 
+#if !defined(RESOURCE_COMPILER)
 	// Summary:
 	//	 Copies children to this node from a given node.
 	//	 Children are reference copied (shallow copy) and the children's parent is NOT set to this
 	//	 node, but left with its original parent (which is still the parent)
 	virtual void shareChildren( const XmlNodeRef &fromNode ) = 0;
+#endif
 
 	// Summary:
 	//	 Gets XML Node attribute for specified key.
@@ -229,6 +234,7 @@ public:
 	//	 Adds new child node.
 	virtual void addChild( const XmlNodeRef &node ) = 0;
 
+#if !defined(RESOURCE_COMPILER)
 	// Summary:
 	//	 Adds a new child node, inserting it at the index specified
 	virtual void insertChild ( int nIndex, const XmlNodeRef &node ) = 0;
@@ -237,6 +243,7 @@ public:
 	//	 Replaces a specified child with the passed one
 	//	 Not supported by all node implementations
 	virtual void replaceChild( int nIndex, const XmlNodeRef &fromNode ) = 0;
+#endif
 
 	// Summary:
 	//	 Creates new xml node and add it to childs list.
@@ -250,9 +257,11 @@ public:
 	//	 Removes all child nodes.
 	virtual void removeAllChilds() = 0;
 
+#if !defined(RESOURCE_COMPILER)
 	// Summary:
 	//	 Removes child node at known position.
 	virtual void deleteChildAt( int nIndex ) = 0;
+#endif
 
 	// Summary:
 	//	 Gets number of child XML nodes.
@@ -270,10 +279,12 @@ public:
 	//	 Gets parent XML node.
 	virtual XmlNodeRef getParent() const = 0;
 
+#if !defined(RESOURCE_COMPILER)
 	// Summary:
 	//	 Sets parent XML node, used internally by the addChild()/replaceChild() functions
 	//	 Do not call via external api
 	virtual void setParent( const XmlNodeRef &inNewParent ) = 0;
+#endif
 
 	// Summary:
 	//	 Returns content of this node.
@@ -303,13 +314,19 @@ public:
 	// Summary:
 	//	 Returns XML of this node and sub nodes.
 	virtual XmlString getXML( int level=0 ) const = 0;
+#if !defined(RESOURCE_COMPILER)
 	// Summary:
 	//	 Returns XML of this node and sub nodes into tmpBuffer without XML checks (much faster)
 	virtual XmlString getXMLUnsafe( int level, char *tmpBuffer, uint32 sizeOfTmpBuffer ) const { return getXML(level); }
+#endif
+
 	virtual bool saveToFile( const char *fileName ) = 0;
+
+#if !defined(RESOURCE_COMPILER)
 	// Notes:
 	//	 Save in small memory chunks.
 	virtual bool saveToFile( const char *fileName, size_t chunkSizeBytes, FILE *file = NULL) = 0; 
+#endif
 
 	// Summary:
 	//	 Sets new XML Node attribute (or override attribute with same key).
@@ -447,7 +464,7 @@ inline XmlNodeRef::XmlNodeRef( const XmlNodeRef &p_ ) : p(p_.p)
 
 inline XmlNodeRef::~XmlNodeRef()
 {
-	if (p ) p->Release();
+	if (p) p->Release();
 }
 
 inline XmlNodeRef&  XmlNodeRef::operator=( IXmlNode* newp )
@@ -491,10 +508,12 @@ UNIQUE_IFACE struct IXmlSerializer
 
 	virtual ISerialize* GetWriter( XmlNodeRef &node ) = 0;
 	virtual ISerialize* GetReader( XmlNodeRef &node ) = 0;
-
+#if !defined(RESOURCE_COMPILER)
 	virtual void GetMemoryUsage( ICrySizer *pSizer ) const = 0;
+#endif
 };
 
+#if !defined(RESOURCE_COMPILER)
 //////////////////////////////////////////////////////////////////////////
 // Summary:
 //	 XML Parser interface.
@@ -559,6 +578,7 @@ UNIQUE_IFACE struct IXmlTableReader
 	// Returns false if no cells left in the row.
 	virtual bool ReadCell(int& columnIndex, const char*& pContent, size_t& contentSize) = 0;
 };
+#endif
 
 //////////////////////////////////////////////////////////////////////////
 // Summary:
@@ -567,6 +587,7 @@ UNIQUE_IFACE struct IXmlUtils
 {
 	virtual ~IXmlUtils(){}
 
+#if !defined(RESOURCE_COMPILER)
 	// Summary:
 	//	 Creates XML Parser.
 	// Notes:
@@ -575,6 +596,7 @@ UNIQUE_IFACE struct IXmlUtils
 	//	 This is a specialized interface for fast loading of many XMLs, 
 	//	 After use it must be released with call to Release method.
 	virtual IXmlParser* CreateXmlParser() = 0;
+#endif
 
 	// Summary:
 	//	 Loads xml file, returns 0 if load failed.
@@ -598,6 +620,7 @@ UNIQUE_IFACE struct IXmlUtils
 	//	 IXmlSerializer
 	virtual IXmlSerializer* CreateXmlSerializer() = 0;
 
+#if !defined(RESOURCE_COMPILER)
 	// Summary:
 	//	 Creates XML to file in the binary form.
 	virtual bool SaveBinaryXmlFile( const char *sFilename,XmlNodeRef root ) = 0;
@@ -627,6 +650,7 @@ UNIQUE_IFACE struct IXmlUtils
 
 	// Free memory held on to by xml pool if empty
 	virtual void FlushStatsXmlNodePool() = 0;
+#endif
 };
 
 #endif // __ixml_h__

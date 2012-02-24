@@ -5,6 +5,8 @@ class LineStreamBuffer
 {
 public:
 	template <typename T> LineStreamBuffer(T* object, void (T::*method)(const char* line))
+		: m_charCount(0)
+		, m_bTruncated(false)
 	{
 		m_target = new Target<T>(object, method);
 	}
@@ -20,31 +22,46 @@ public:
 		const char* pos = text;
 		while(pos - text < length)
 		{
-			const char* start;
-			start = pos;
+			const char* start = pos;
 
-			while(pos - text < length && *pos != '\n' && *pos != '\r')
+			while (pos - text < length && *pos != '\n' && *pos != '\r')
 			{
 				 ++pos;
 			}
-			m_buffer.append(start, pos);
-			if (*pos == '\n' || *pos == '\r')
+
+			size_t n = pos - start;
+			if (m_charCount + n > kMaxCharCount)
 			{
-				m_target->Call(m_buffer.c_str());
-				m_buffer.resize(0);
-				while (*pos == '\n' || *pos == '\r')
-					++pos;
+				n = kMaxCharCount - m_charCount;
+				m_bTruncated = true;
+			}
+			memcpy(&m_buffer[m_charCount], start, n);
+			m_charCount += n;
+
+			if (pos - text < length)
+			{
+				Flush();
+				while (pos - text < length && (*pos == '\n' || *pos == '\r'))
+				{
+					 ++pos;
+				}
 			}
 		}
 	}
 
 	void Flush()
 	{
-		if (!m_buffer.empty())
+		if (m_charCount > 0)
 		{
-			m_target->Call(m_buffer.c_str());
-			m_buffer.resize(0);
+			m_buffer[m_charCount] = 0;
+			m_target->Call(m_buffer);
+			m_charCount = 0;
 		}
+	}
+
+	bool IsTruncated() const
+	{
+		return m_bTruncated;
 	}
 
 private:
@@ -67,7 +84,10 @@ private:
 	};
 
 	ITarget* m_target;
-	string m_buffer;
+	size_t m_charCount;
+	static const size_t kMaxCharCount = 2047;
+	char m_buffer[kMaxCharCount + 1];
+	bool m_bTruncated;
 };
 
 #endif //__LINESTREAMBUFFER_H__

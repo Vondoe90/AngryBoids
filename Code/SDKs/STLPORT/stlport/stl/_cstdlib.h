@@ -62,7 +62,7 @@ using _STLP_VENDOR_CSTD::size_t;
 // these functions just don't exist on Windows CE
 using _STLP_VENDOR_CSTD::abort;
 // PS3_STLPORT_FIX: These functions don't exist in the cell SDK
-#if !defined(PS3) && !defined(_XBOX_VER)
+#if !defined(PS3)
 	using _STLP_VENDOR_CSTD::getenv;
 	using _STLP_VENDOR_CSTD::system;
 #endif
@@ -158,6 +158,8 @@ inline _STLP_VENDOR_CSTD::ldiv_t div(long __x, long __y) { return _STLP_VENDOR_C
 #  undef _STLP_RESTORE_FUNCTION_INTRINSIC
 #endif
 
+#if !defined(_STLP_MSVC) || (_STLP_MSVC < 1600)
+
 #if defined (_STLP_LONG_LONG) && !defined(PS3)
 #  if !defined (_STLP_NO_VENDOR_STDLIB_L)
 #    if !defined (__sun)
@@ -172,6 +174,8 @@ inline lldiv_t div(_STLP_LONG_LONG __x, _STLP_LONG_LONG __y) { return ::lldiv(__
 inline _STLP_LONG_LONG  abs(_STLP_LONG_LONG __x) { return __x < 0 ? -__x : __x; }
 #endif
 #  endif
+#endif
+
 #endif
 
 /* C++ Standard is unclear about several call to 'using ::func' if new overloads

@@ -42,18 +42,20 @@
 
 
 #elif defined(WIN32) || defined(WIN64)
-//#	define EXCLUDE_SCALEFORM_SDK
-//#	define EXCLUDE_CRI_SDK
+# if defined(DEDICATED_SERVER)
+#		define EXCLUDE_SCALEFORM_SDK
+# endif // defined(DEDICATED_SERVER)
+# define EXCLUDE_CRI_SDK
 #else
 #	define EXCLUDE_SCALEFORM_SDK
 #	define EXCLUDE_CRI_SDK
 #endif
 
 //#define GAME_IS_CRYSIS2
-
-
 #define DYNTEX_USE_SHAREDRT
+#ifndef EXCLUDE_CRI_SDK
 #define DYNTEX_ALLOW_SFDVIDEO
+#endif
 
 // see http://wiki/bin/view/CryEngine/TerrainTexCompression for more details on this
 // 0=off, 1=on
@@ -65,7 +67,10 @@
 
 
 
-//#define RELEASE_LOGGING
+#if defined(WIN32) || defined(WIN64)
+#define RELEASE_LOGGING
+#endif
+
 #if defined(_RELEASE) && !defined(RELEASE_LOGGING) && !defined(DEDICATED_SERVER)
 #define EXCLUDE_NORMAL_LOG
 #endif
@@ -108,11 +113,7 @@
 
 
 
-
-
-
 #if CAPTURE_REPLAY_LOG && defined(PS3_CRYSIZER_HEAP_TRAVERSAL)
-	#define MALLOC_DUMMY_WRAP
 	#undef CAPTURE_REPLAY_LOG
 #endif
 
@@ -125,8 +126,8 @@
 #endif
 
 #if (defined(PS3) || defined(XENON)) && !defined(PS3_CRYSIZER_HEAP_TRAVERSAL)
-	#define USE_GLOBAL_BUCKET_ALLOCATOR
-#endif
+		#define USE_GLOBAL_BUCKET_ALLOCATOR
+	#endif
 
 #if (defined(PS3) || defined(XENON)) && !defined(PS3_CRYSIZER_HEAP_TRAVERSAL)
 #define USE_LEVEL_HEAP 1
@@ -135,7 +136,6 @@
 #define OLD_VOICE_SYSTEM_DEPRECATED
 //#define INCLUDE_PS3PAD
 //#define EXCLUDE_SCALEFORM_SDK
-#define EXCLUDE_CRI_SDK
 
 
 
@@ -145,18 +145,16 @@
 
 
 
-
-#if defined(NOT_USE_CRY_MEMORY_MANAGER)
-  // No replay functionality without the memory manager.
-  #if CAPTURE_REPLAY_LOG
-    #define MALLOC_DUMMY_WRAP 1
-  #endif
-  #undef CAPTURE_REPLAY_LOG
-#endif
 
 #ifdef CRYTEK_VISUALIZATION
 #define CRYTEK_SDK_EVALUATION
 #endif
+
+
+
+
+
+
 
 
 
@@ -273,16 +271,19 @@
 	#define FMOD_STREAMING_DEBUGGING 1
 #endif
 
-
-
-
-
 #if (defined(PS3) || defined(XENON)) && !defined(ENABLE_LW_PROFILERS)
 #ifndef USE_NULLFONT
 #define USE_NULLFONT 1
 #endif
 #define USE_NULLFONT_ALWAYS 1
 #endif
+#if defined(WIN32) && !defined(WIN64) && !defined(DEDICATED_SERVER)
+	//#define OPEN_AUTOMATE
+#endif
+
+
+
+
 
 #if !defined(XENON)
 #define PIXBeginNamedEvent(x,y,...)
@@ -290,6 +291,49 @@
 #define PIXSetMarker(x,y,...)
 #elif !defined(_RELEASE) && !defined(_DEBUG)
 #define USE_PIX
+#endif
+
+#if (defined(WIN32) || defined(WIN64)) && !defined(_LIB)
+#define CRY_ENABLE_RC_HELPER 1
+#endif
+
+
+
+
+
+
+
+
+
+
+#if !defined(XENON)
+#define PIXBeginNamedEvent(x,y,...)
+#define PIXEndNamedEvent()
+#define PIXSetMarker(x,y,...)
+#elif !defined(_RELEASE) && !defined(_DEBUG)
+#define USE_PIX
+#endif
+
+#if !defined(_RELEASE) && !defined(PS3) && !defined(LINUX)
+	#define SOFTCODE_SYSTEM_ENABLED
+#endif
+
+// Is SoftCoding enabled for this module? Usually set by the SoftCode AddIn in conjunction with a SoftCode.props file.
+#ifdef SOFTCODE_ENABLED
+
+	// Is this current compilation unit part of a SOFTCODE build?
+	#ifdef SOFTCODE
+		// Import any SC functions from the host module
+		#define SC_API __declspec(dllimport)
+	#else
+		// Export any SC functions from the host module
+		#define SC_API __declspec(dllexport)
+	#endif
+
+#else	// SoftCode disabled
+	
+	#define SC_API
+
 #endif
 
 #include "ProjectDefinesInclude.h"

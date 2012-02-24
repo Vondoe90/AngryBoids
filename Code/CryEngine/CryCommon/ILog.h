@@ -117,11 +117,19 @@ UNIQUE_IFACE struct ILog: public IMiniLog
 	virtual void Unindent(class CLogIndenter * indenter) = 0;
 #endif
 
+	// Asset scope strings help to figure out asset dependencies in case of asset loading errors.
+	// Should not be used directly, only by using define CRY_DEFINE_ASSET_SCOPE
+	// @see CRY_DEFINE_ASSET_SCOPE
+	virtual void PushAssetScopeName( const char *sAssetType,const char *sName ) {};
+	virtual void PopAssetScopeName() {};
+	virtual const char* GetAssetScopeString() { return ""; };
+
 	DEVIRTUALIZATION_VTABLE_FIX
 };
 
 #if defined(_RELEASE) || defined(RESOURCE_COMPILER)
 #define INDENT_LOG_DURING_SCOPE(...) (void)(0)
+#define CRY_DEFINE_ASSET_SCOPE( sAssetType,sAssetName ) (void)(0)
 #else
 class CLogIndenter
 {
@@ -169,9 +177,19 @@ class CLogIndenter
 	CLogIndenter * m_nextIndenter;
 };
 
+class CLogAssetScopeName
+{
+	ILog *m_pLog;
+public:
+	CLogAssetScopeName( ILog *pLog,const char* sAssetType,const char *sAssetName ) : m_pLog(pLog) { pLog->PushAssetScopeName(sAssetType,sAssetName); }
+	~CLogAssetScopeName() { m_pLog->PopAssetScopeName(); }
+};
+
 #define ILOG_CONCAT_IMPL( x, y ) x##y
 #define ILOG_CONCAT_MACRO( x, y ) ILOG_CONCAT_IMPL( x, y )
 #define INDENT_LOG_DURING_SCOPE(...) CLogIndenter ILOG_CONCAT_MACRO(indentMe, __LINE__) ((CryGetCurrentThreadId() == gEnv->mMainThreadId) ? gEnv->pLog : NULL); ILOG_CONCAT_MACRO(indentMe, __LINE__).Enable(__VA_ARGS__)
+
+#define CRY_DEFINE_ASSET_SCOPE( sAssetType,sAssetName ) CLogAssetScopeName __asset_scope_name(gEnv->pLog,sAssetType,sAssetName);
 #endif
 
 

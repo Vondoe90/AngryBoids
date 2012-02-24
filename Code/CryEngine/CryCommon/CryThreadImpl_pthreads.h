@@ -10,18 +10,6 @@
 
 #include "CryThread_pthreads.h"
 
-#if !defined(PS3) || defined(PS3_USE_POSIX_LOCKS)
-	template<>
-	_PthreadLockAttr<PTHREAD_MUTEX_ERRORCHECK>
-		_PthreadLockBase<PTHREAD_MUTEX_ERRORCHECK>::m_Attr = 0;
-	template<>
-	_PthreadLockAttr<PTHREAD_MUTEX_NORMAL>
-		_PthreadLockBase<PTHREAD_MUTEX_NORMAL>::m_Attr = 0;
-	template<>
-	_PthreadLockAttr<PTHREAD_MUTEX_RECURSIVE>
-		_PthreadLockBase<PTHREAD_MUTEX_RECURSIVE>::m_Attr = 0;
-#endif
-
 #ifndef __SPU__
 THREADLOCAL CrySimpleThreadSelf
 	*CrySimpleThreadSelf::m_Self = NULL;

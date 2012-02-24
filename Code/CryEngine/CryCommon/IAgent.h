@@ -376,6 +376,7 @@ enum EAITargetType
 
 	// Backwards compatibility for scriptbind.
 	AITARGET_ENEMY,
+	AITARGET_NEUTRAL,
 	AITARGET_FRIENDLY,
 	AITARGET_BEACON,
 	AITARGET_GRENADE,

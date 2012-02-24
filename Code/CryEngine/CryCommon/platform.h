@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+
 //
 //  Crytek Engine Source File.
 //  Copyright (C), Crytek Studios, 2002.
@@ -43,7 +43,6 @@
 
 #ifndef PS3
 	#define __FUNC__ __FUNCTION__
-	#define InvokeJobOnSPU(Name) false
 #endif
 
 #if defined(_DEBUG) && !defined(PS3) && !defined(LINUX)
@@ -104,25 +103,12 @@ enum ETunerIDs
 	eTI_PumpLoggedEv,
 	eTI_ScriptSys,
 	eTI_EntitySys,
-	eTI_ActionPreUpdate
+	eTI_ActionPreUpdate,
+	eTI_WaitForRenderThread,
+	eTI_Physics,
+	eTI_CapFrameRate,
+	eTI_JobManagerUpdate
 };
-#ifdef SNTUNER
-	# include <lib/libsntuner.h>
-	struct SNTunerAutoMarker
-	{
-		static inline void StartMarker(unsigned int id, const char* pName){snStartMarker(id, pName);}
-		static inline void StopMarker(unsigned int id){snStopMarker(id);}
-		inline SNTunerAutoMarker(const char* pName){snPushMarker(pName);}
-		inline ~SNTunerAutoMarker(){snPopMarker();}
-	};
-#else
-	struct SNTunerAutoMarker
-	{
-		static inline void StartMarker(unsigned int, const char*){}
-		static inline void StopMarker(unsigned int){}
-		inline SNTunerAutoMarker(const char*){}
-	};
-#endif
 
 #if !defined(GCC411_OR_LATER) || defined(__SPU__)
 	#define __vecreg
@@ -184,6 +170,8 @@ enum ETunerIDs
 
 
 
+
+
 //render thread settings, as this is accessed inside 3dengine and renderer and needs to be compile time defined, we need to do it here
 //enable this macro to strip out the overhead for render thread
 //	#define STRIP_RENDER_THREAD
@@ -203,6 +191,19 @@ enum ETunerIDs
 	#define WIN64
 #endif
 
+// In Win32 Release we use static linkage
+#if (defined(WIN32) || defined(WIN64)) && !defined(RESOURCE_COMPILER)
+	#if defined(_RELEASE) && !defined(_FORCEDLL) && !defined(RESOURCE_COMPILER)
+		#define _LIB
+	#else //#if defined(_RELEASE) && !defined(_FORCEDLL)
+
+		// All windows targets not in Release built as DLLs.
+		#ifndef _USRDLL
+			#define _USRDLL
+		#endif
+	#endif
+#endif //WIN32
+
 
 
 
@@ -213,15 +214,6 @@ enum ETunerIDs
 	#define __passinreg
 	#define __passinreg_vec
 
-
-// All windows targets built as DLLs.
-#if defined(WIN32)
-	#ifndef _USRDLL
-		#define _USRDLL
-	#endif
-#else
-	//#define _LIB
-#endif
 
 #if defined(LINUX) || defined(PS3)
 #define __STDC_FORMAT_MACROS
@@ -292,6 +284,17 @@ enum ETunerIDs
 #endif
 //////////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////////////////
+// define macro to prevent memory reoderings of reads/and writes
+
+
+
+
+
+
+
+	#define MEMORY_RW_REORDERING_BARRIER do{/*not implemented*/}while(0)
+
 //default stack size for threads, currently only used on PS3
 #ifdef LINUX
 #define SIMPLE_THREAD_STACK_SIZE_KB (64)
@@ -326,8 +329,13 @@ enum ETunerIDs
 
 
 #else
-	#define DLL_EXPORT __declspec(dllexport)
-	#define DLL_IMPORT __declspec(dllimport)
+	#ifdef _LIB
+		#define DLL_EXPORT
+		#define DLL_IMPORT
+	#else //_LIB
+		#define DLL_EXPORT __declspec(dllexport)
+		#define DLL_IMPORT __declspec(dllimport)
+	#endif //_LIB
 #endif
 
 //////////////////////////////////////////////////////////////////////////
@@ -402,6 +410,24 @@ enum ETunerIDs
 // Includes core CryEngine modules definitions.
 #include "CryModuleDefs.h"
 
+#ifdef SNTUNER
+# include <sn/libsntuner.h>
+struct SNTunerAutoMarker
+{
+	static inline void StartMarker(unsigned int id, const char* pName){snStartMarker(id, pName);}
+	static inline void StopMarker(unsigned int id){snStopMarker(id);}
+	inline SNTunerAutoMarker(const char* pName){snPushMarker(pName);}
+	inline ~SNTunerAutoMarker(){snPopMarker();}
+};
+#else
+struct SNTunerAutoMarker
+{
+	static inline void StartMarker(unsigned int, const char*){}
+	static inline void StopMarker(unsigned int){}
+	inline SNTunerAutoMarker(const char*){}
+};
+#endif
+
 //////////////////////////////////////////////////////////////////////////
 // Provide special cast function which mirrors C++ style casts to support aliasing correct type punning casts in gcc with strict-aliasing enabled
 template<typename DestinationType, typename SourceType>
@@ -453,6 +479,7 @@ inline int IsHeapValid()
 //needs to be included for all platforms (mostly empty decls. there)
 #if !defined __CRYCG__
 #define __CRYCG_NOINLINE__
+#define __CRYCG_IGNORE_PARAM_MISMATCH__
 #if defined __cplusplus
 #if !defined SPU_MAIN_PTR
 #define SPU_MAIN_PTR(PTR) (PTR)
@@ -490,7 +517,6 @@ inline int IsHeapValid()
 #endif
 #endif /* __CRYCG__ */
 
-
 //////////////////////////////////////////////////////////////////////////
 #ifndef DEPRICATED
 #define DEPRICATED
@@ -501,6 +527,7 @@ inline int IsHeapValid()
 //////////////////////////////////////////////////////////////////////////
 template<bool> struct CompileTimeError;
 template<> struct CompileTimeError<true> {};
+#undef STATIC_CHECK 
 #define STATIC_CHECK(expr, msg) \
 	{ CompileTimeError<((expr) != 0)> ERROR_##msg; (void)ERROR_##msg; } 
 
@@ -756,6 +783,12 @@ namespace std
 }
 #endif // defined(USING_STLPORT)
 
+// Atomic constants useful for special semantics for overloaded functions
+enum type_zero { ZERO };
+enum type_min { VMIN };
+enum type_max { VMAX };
+enum type_identity { IDENTITY };
+
 // Include support for meta-type data.
 #include "TypeInfo_decl.h"
 
@@ -889,8 +922,6 @@ enum ETriState
 	#define __spu_flush_cache_line(a)
 	#define __flush_cache_range(a,b)
 	#define __flush_cache()
-	#define DECLARE_SPU_JOB(func_name, typedef_name)
-	#define DECLARE_SPU_CLASS_JOB(func_name, typedef_name, class_name)
 	
 	#undef IF
 	#undef WHILE
@@ -1012,7 +1043,7 @@ enum ETriState
 	#define memtransfer_to_main(pDest, pSrc, cSize, cSyncPointID) memcpy(pDest, pSrc, cSize)
 	#define memtransfer_from_main_fenced memtransfer_from_main
 	#define memtransfer_to_main_fenced memtransfer_to_main
-	#define memtransfer_sync(cSyncPointID)
+	#define memtransfer_sync(cSyncPointID) (void)(cSyncPointID)
 	#define memtransfer_pending(id) false
 	#define __spu_flush_cache()
 	#define __spu_cache_barrier()

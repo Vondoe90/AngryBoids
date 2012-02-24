@@ -150,7 +150,10 @@ public:
 
 	virtual void SetGroupId(int id) = 0;
 	virtual int GetGroupId() const = 0;
+	virtual IFactionMap::EReactionType GetReaction(const IAIObject* pOther, bool bUsingAIIgnorePlayer = true) const = 0;
+	virtual bool IsFriendly(const IAIObject* pOther, bool bUsingAIIgnorePlayer = true) const = 0;
 	virtual bool IsHostile(const IAIObject* pOther, bool bUsingAIIgnorePlayer = true) const = 0;
+	virtual bool IsNeutral(const IAIObject* pOther, bool bUsingAIIgnorePlayer = true) const = 0;
 	
 	virtual uint8 GetFactionID() const = 0;
 	virtual void SetFactionID(uint8 factionID) = 0;

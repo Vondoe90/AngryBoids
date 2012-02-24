@@ -15,7 +15,8 @@
 #define _CRY_ENGINE_STRING_UTILS_HDR_
 
 #include <CryString.h>
-#include <algorithm>				// std::replace
+#include <ISystem.h>        // CryLog()
+#include <algorithm>        // std::replace
 #include <time.h>
 
 #if defined(LINUX)
@@ -566,18 +567,25 @@ enum EWstrToUTF8Constants
 	eWTUC_MASKBITS		= 0x3F,
 	eWTUC_MASKBYTE		= 0x80,
 	eWTUC_MASK2BYTES	= 0xC0,
-	eWTUC_MASK3BYTES	= 0xE0
+	eWTUC_MASK3BYTES	= 0xE0,
+
+	eUTWC_MASKBYTE		= 0x80,
+	eUTWC_MASKBITS		= 0x3F,
+	eUTWC_MASKIDBITS	= 0xE0,
+	eUTWC_MASK2BYTES	= 0xC0,
+	eUTWC_MASK3BYTES	= 0xE0,
 };
 
 template <typename T>
-inline void WStrToUTF8(const wstring& str, T& dstr)
+inline void WStrToUTF8(const wchar_t* str, T& dstr)
 {
 	CryStackStringT<char, 128> tmp;
-	tmp.resize(str.length());  // this preallocation is enough in simple cases (in complex cases append() will re-allocate)
+	const size_t strlength = wcslen(str);
+	tmp.resize(strlength);  // this preallocation is enough in simple cases (in complex cases append() will re-allocate)
 	tmp.clear();
 
-	const wchar_t* const src = str.data();
-	const size_t length = str.length();
+	const wchar_t* const src = str;
+	const size_t length = strlength;
 
 	for (size_t i = 0; i < length; ++i)
 	{
@@ -587,21 +595,155 @@ inline void WStrToUTF8(const wstring& str, T& dstr)
 		}
 		else if (src[i] < 0x800) // < 2048
 		{
-			tmp.append(1, (char)(eWTUC_MASK2BYTES | src[i] >> 6));
-			tmp.append(1, (char)(eWTUC_MASKBYTE | src[i] & eWTUC_MASKBITS));
+			tmp.append(1, (char)(eWTUC_MASK2BYTES | (src[i] >> 6)));
+			tmp.append(1, (char)(eWTUC_MASKBYTE | (src[i] & eWTUC_MASKBITS)));
 		}
 		// gcc complains that if we get here, then the result can only ever be true (wchar_t is 2 bytes), which is fair enough I guess
 		// I have confirmed that 360/ps3/win32/x64 all have wchar_t as two bytes, should this ever change, this may end up needing to
 		// be #if PS3'd, but I'm trying to avoid that unless theres good reason
 		else  // if(src[i] < 0x10000) // < 65336
 		{
-			tmp.append(1, (char)(eWTUC_MASK3BYTES | src[i] >> 12));
-			tmp.append(1, (char)(eWTUC_MASKBYTE | src[i] >> 6 & eWTUC_MASKBITS));
-			tmp.append(1, (char)(eWTUC_MASKBYTE | src[i] & eWTUC_MASKBITS));
+			tmp.append(1, (char)(eWTUC_MASK3BYTES | (src[i] >> 12)));
+			tmp.append(1, (char)(eWTUC_MASKBYTE | ((src[i] >> 6) & eWTUC_MASKBITS)));
+			tmp.append(1, (char)(eWTUC_MASKBYTE | (src[i] & eWTUC_MASKBITS)));
 		}
 	}
 
 	dstr.assign(tmp.data(), tmp.length());
+}
+
+inline string WStrToUTF8(const wchar_t* str)
+{
+	string strout;
+	WStrToUTF8(str, strout);
+	return strout;
+}
+
+template <typename T>
+inline void UTF8ToWStr(const char* str, T& dstr)
+{
+	CryStackStringT<wchar_t, 128> tmp;
+	const size_t length = strlen(str);
+	tmp.resize(length);  // this preallocation is enough in simple cases (in complex cases append() will re-allocate)
+	tmp.clear();
+
+	const unsigned char* const src = (unsigned char*)str;
+
+	for (size_t i = 0; i < length; )
+	{
+		if (src[i] < 0x80) // < 128
+		{
+			tmp.append(1, (wchar_t)src[i]);
+			++i;
+		}
+		else if((src[i] & eUTWC_MASKIDBITS) == eUTWC_MASK2BYTES)
+		{
+			wchar_t d = (wchar_t)(src[i] & ~eUTWC_MASKIDBITS) << 6;
+			wchar_t e = (wchar_t)(src[i+1] & eUTWC_MASKBITS);
+			wchar_t f = d | e;
+			tmp.append(1, f);
+			i += 2;
+		}
+		else
+		{
+			wchar_t d = (wchar_t)(src[i] & ~eUTWC_MASKIDBITS) << 12;
+			wchar_t e = (wchar_t)(src[i+1] & eUTWC_MASKBITS) << 6;
+			wchar_t f = (wchar_t)(src[i+2] & eUTWC_MASKBITS);
+			wchar_t g = d | e | f;
+			tmp.append(1, g);
+			i += 3;
+		}
+	}
+
+	dstr.assign(tmp.data(), tmp.length());
+}
+
+inline wstring UTF8ToWStr(const char* str)
+{
+	wstring strout;
+	UTF8ToWStr(str, strout);
+	return strout;
+}
+
+enum eUTF8Constants
+{
+	// From http://en.wikipedia.org/wiki/UTF-8
+	// +------+-----------------+----------+----------+----------+----------+----------+----------+
+	// | Bits | Last code point | Byte 1   | Byte 2   | Byte 3   | Byte 4   | Byte 5   | Byte 6   |
+	// +------+-----------------+----------+----------+----------+----------+----------+----------+
+	// |   7  | U+007F          | 0xxxxxxx |          |          |          |          |          |
+	// |  11  | U+07FF          | 110xxxxx | 10xxxxxx |          |          |          |          |
+	// |  16  | U+FFFF          | 1110xxxx | 10xxxxxx | 10xxxxxx |          |          |          |
+	// |  21  | U+1FFFFF        | 11110xxx | 10xxxxxx | 10xxxxxx | 10xxxxxx |          |          |
+	// |  26  | U+3FFFFFF       | 111110xx | 10xxxxxx | 10xxxxxx | 10xxxxxx | 10xxxxxx |          |
+	// |  31  | U+7FFFFFFF      | 1111110x | 10xxxxxx | 10xxxxxx | 10xxxxxx | 10xxxxxx | 10xxxxxx |
+	// +------+-----------------+----------+----------+----------+----------+----------+----------+
+	eUTF8_1BYTE_MASK = 0x80,
+	eUTF8_2BYTE_MASK = 0xE0,
+	eUTF8_3BYTE_MASK = 0xF0,
+	eUTF8_4BYTE_MASK = 0xF8,
+	eUTF8_5BYTE_MASK = 0xFC,
+	eUTF8_6BYTE_MASK = 0xFE,
+
+	eUTF8_SEQ_MASK   = 0xC0
+};
+
+// Returns the number of *chars* in a UTF8 string
+// N.B. This function assumes that the string passed *starts* on a valid UTF-8 sequence, i.e. the
+// highest two bits of the first char are *not* 10 (see table above)
+inline size_t UTF8strlen(const char* str)
+{
+	size_t length = 0;
+	size_t index = 0;
+
+#if !defined(RESOURCE_COMPILER)
+	CRY_ASSERT_MESSAGE((str[index] & eUTF8_SEQ_MASK) != (eUTF8_SEQ_MASK << 1), "UTF8strlen(): string passed did not start at a valid byte");
+#endif
+
+	const unsigned char* const src = (unsigned char*)str;
+	while (src[index])
+	{
+		// To test the lead byte of a UTF-8 sequence, mask off the indicator bits as per the table
+		// above and then compare to the mask left shifted 1 bit (i.e. all bits set except the lowest
+		// bit of the mask).
+		if ((src[index] & eUTF8_1BYTE_MASK) == ((eUTF8_1BYTE_MASK << 1) & 0xFF))
+		{
+			++index;
+			++length;
+		}
+		else if ((src[index] & eUTF8_2BYTE_MASK) == ((eUTF8_2BYTE_MASK << 1) & 0xFF))
+		{
+			index += 2;
+			++length;
+		}
+		else if ((src[index] & eUTF8_3BYTE_MASK) == ((eUTF8_3BYTE_MASK << 1) & 0xFF))
+		{
+			index += 3;
+			++length;
+		}
+		else if ((src[index] & eUTF8_4BYTE_MASK) == ((eUTF8_4BYTE_MASK << 1) & 0xFF))
+		{
+			index += 4;
+			++length;
+		}
+		else if ((src[index] & eUTF8_5BYTE_MASK) == ((eUTF8_5BYTE_MASK << 1) & 0xFF))
+		{
+			index += 5;
+			++length;
+		}
+		else if ((src[index] & eUTF8_6BYTE_MASK) == ((eUTF8_6BYTE_MASK << 1) & 0xFF))
+		{
+			index += 6;
+			++length;
+		}
+		else
+		{
+			CryLog("UTF8strlen() encountered unexpected byte %02X at index %d...skipping", src[index], (int)index);
+			++index;
+		}
+	}
+
+	return length;
 }
 
 // the type used to parse a yes/no string in the CAL file

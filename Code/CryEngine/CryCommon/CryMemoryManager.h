@@ -25,16 +25,7 @@
 //#define DEBUG_MEMORY_MANAGER
 //////////////////////////////////////////////////////////////////////////
 
-// THIS DEFINE ESPECIALLY FOR SOLVING TROUBLES WITH MEMORY ALLOCATOR. SHOULD BE DISABLED IN OTHER CASES
-//#define __MEMORY_VALIDATOR_workaround
-
 // That mean we use node_allocator for all small allocations
-
-#define NOT_STANDARD_CRT
-
-#ifdef DEBUG_MEMORY_MANAGER
-	#define NOT_USE_CRY_MEMORY_MANAGER
-#endif
 
 #include "platform.h"
 
@@ -44,24 +35,14 @@
 #define STLALLOCATOR_CLEANUP
 #endif
 
-//#ifdef NOT_USE_CRY_MEMORY_MANAGER
-//#define CryModuleMalloc CRYMEMORYMANAGER_API malloc
-//#define CryModuleFree CRYMEMORYMANAGER_API free
-//#endif
+#define _CRY_DEFAULT_MALLOC_ALIGNMENT 4
 
 #if !defined(PS3)
 	#include <malloc.h>
-
-
-
-
-
-
 #endif
 
 #if defined(__cplusplus)
 #if defined(PS3) || defined(LINUX)
-#define NOT_STANDARD_CRT
 	#include <new>
 #else
 	#include <new.h>
@@ -72,20 +53,13 @@
 #endif
 #endif
 
-#ifndef _LIB
 	#ifdef CRYSYSTEM_EXPORTS
 		#define CRYMEMORYMANAGER_API DLL_EXPORT
 	#else
 		#define CRYMEMORYMANAGER_API DLL_IMPORT
 	#endif
-#else //_LIB
-	#define CRYMEMORYMANAGER_API
-#endif //_LIB
-
-
 
 #ifdef __cplusplus
-
 //////////////////////////////////////////////////////////////////////////
 #ifdef DEBUG_MEMORY_MANAGER
 	#ifdef _DEBUG
@@ -233,9 +207,9 @@ protected:
 struct CryModuleMemoryInfo
 {
 	uint64 requested;
-	// Total Ammount of memory allocated.
+	// Total amount of memory allocated.
 	uint64 allocated;
-	// Total Ammount of memory freed.
+	// Total amount of memory freed.
 	uint64 freed;
 	// Total number of memory allocations.
 	int num_allocations;
@@ -255,68 +229,19 @@ struct CryReplayInfo
 	const char* filename;
 };
 
-#if defined(NOT_USE_CRY_MEMORY_MANAGER) //&& !defined(JOB_LIB_COMP)
-#define CryModuleMalloc malloc
-#define CryModuleCalloc calloc
-#define CryModuleRealloc realloc
-
-
-
-
-
-
-#if defined(LINUX)
-#define CryModuleFree free
-#elif !defined(__CRYCG__) && !defined(_SPU_JOB)
-inline size_t CryModuleFree(void *p) {
-	size_t size = 0;
-	if (p)
-	{
-		size = _msize(p);
-		free(p);
-	}
-	return size;
-}
-
-
-
-
-
-
-
-
-
-
-
-#endif
-
-#if defined(__cplusplus) && defined(LINUX)
-	inline void * __cdecl operator new   (size_t  size) throw(std::bad_alloc) { return CryModuleMalloc(size); }
-	inline void * __cdecl operator new (size_t size, const std::nothrow_t &nothrow) { return CryModuleMalloc(size); };
-	inline void * __cdecl operator new[](size_t size) throw(std::bad_alloc) { return CryModuleMalloc(size); }; 
-	inline void * __cdecl operator new[](size_t size, const std::nothrow_t &nothrow) { return CryModuleMalloc(size); }
-	inline void __cdecl operator delete  (void *p) { CryModuleFree(p); };
-	inline void __cdecl operator delete[](void *p) { CryModuleFree(p); };
-#endif //__cplusplus
-
-#endif //NOT_USE_CRY_MEMORY_MANAGER
-
 //////////////////////////////////////////////////////////////////////////
 // Extern declarations of globals inside CrySystem.
 //////////////////////////////////////////////////////////////////////////
 #if !defined(__SPU__)
+
 #ifdef __cplusplus 
 extern "C" {
 #endif //__cplusplus
-#ifndef __MEMORY_VALIDATOR_workaround
 
 
-
-
-CRYMEMORYMANAGER_API void *CryMalloc(size_t size, size_t& allocated);
-CRYMEMORYMANAGER_API void *CryRealloc(void *memblock,size_t size, size_t& allocated);
-
-CRYMEMORYMANAGER_API size_t CryFree(void *p);
+CRYMEMORYMANAGER_API void *CryMalloc(size_t size, size_t& allocated, size_t alignment);
+CRYMEMORYMANAGER_API void *CryRealloc(void *memblock,size_t size, size_t& allocated,size_t& oldsize, size_t alignment);
+CRYMEMORYMANAGER_API size_t CryFree(void *p, size_t alignment);
 CRYMEMORYMANAGER_API size_t CryGetMemSize(void *p, size_t size);
 CRYMEMORYMANAGER_API int  CryStats(char *buf);
 CRYMEMORYMANAGER_API void CryFlushAll();
@@ -331,29 +256,11 @@ CRYMEMORYMANAGER_API void CryGetIMemoryManagerInterface( void **pIMemoryManager 
 
 // This function is local in every module
 /*CRYMEMORYMANAGER_API*/ void CryGetMemoryInfoForModule(CryModuleMemoryInfo * pInfo);
-#else
-CRYMEMORYMANAGER_API void *CryMalloc(size_t size);
-CRYMEMORYMANAGER_API void *CryRealloc(void *memblock,size_t size);
-CRYMEMORYMANAGER_API size_t CryFree(void *p);
-CRYMEMORYMANAGER_API size_t CryGetMemSize(void *p, size_t size);
-CRYMEMORYMANAGER_API int  CryStats(char *buf);
-CRYMEMORYMANAGER_API void CryFlushAll();
-CRYMEMORYMANAGER_API void CryCleanup();
-CRYMEMORYMANAGER_API int  CryGetUsedHeapSize();
-CRYMEMORYMANAGER_API int  CryGetWastedHeapSize();
-CRYMEMORYMANAGER_API void *CrySystemCrtMalloc(size_t size);
-CRYMEMORYMANAGER_API void *CrySystemCrtRealloc(void * p, size_t size);
-CRYMEMORYMANAGER_API size_t CrySystemCrtFree(void *p);
-CRYMEMORYMANAGER_API size_t CrySystemCrtSize(void *p);
-CRYMEMORYMANAGER_API void CryGetIMemoryManagerInterface( void **pIMemoryManager );
 
-// This function is local in every module
-/*CRYMEMORYMANAGER_API*/ void CryGetMemoryInfoForModule(CryModuleMemoryInfo * pInfo);
-#endif
 #ifdef __cplusplus
 }
-
 #endif //__cplusplus
+
 #endif //!defined(__SPU__)
 
 //////////////////////////////////////////////////////////////////////////
@@ -371,114 +278,62 @@ CRYMEMORYMANAGER_API void CryGetIMemoryManagerInterface( void **pIMemoryManager 
 #define CRY_MEM_USAGE_API
 #endif //_USRDLL
 
+#if defined(NOT_USE_CRY_MEMORY_MANAGER)
+	#if !defined(__SPU__)
+		ILINE void* CryModuleMalloc(size_t size) { return malloc(size); };
+		ILINE void* CryModuleRealloc(void *memblock, size_t size) { return realloc(memblock,size); };
+		ILINE void  CryModuleFree(void *memblock) { free(memblock); };		
+		ILINE void  CryModuleMemalignFree( void *memblock ) throw() { return free(memblock); }
+
+
+
+
+			ILINE void* CryModuleReallocAlign( void *memblock, size_t size,size_t alignment ) throw() { return realloc(memblock,size); }
+			ILINE void* CryModuleMemalign( size_t size,size_t alignment ) throw() { return malloc(size); }
+
+
+
+
+
+
+
+
+
+
+
+	#endif //__SPU__
+#else //NOT_USE_CRY_MEMORY_MANAGER
+
 /////////////////////////////////////////////////////////////////////////
 // Extern declarations,used by overriden new and delete operators.
 //////////////////////////////////////////////////////////////////////////
 extern "C"
 {
-#ifndef _LIB
-
-#if !defined(__CRYCG__) && !defined(NOT_USE_CRY_MEMORY_MANAGER)
-	// For the code scanner we need the annotated declarations from
-	// PS3CryCache.h.
-  void* CryModuleMemalign(size_t size, size_t alignment) throw();
-	void CryModuleMemalignFree(void*) throw();
 	void* CryModuleMalloc(size_t size) throw();
-	void* CryModuleCalloc(size_t num,size_t size) throw();
 	void* CryModuleRealloc(void *memblock,size_t size) throw();
-	size_t CryModuleFree(void *ptr) throw();
-	size_t CryModuleMemSize(void* ptr, size_t sz) throw();
-#else
-	#if !defined(__CRYCG__)
-		void* CryModuleMemalign(size_t size, size_t alignment) throw();
-		void CryModuleMemalignFree(void*) throw();
-	#endif // !__CRYCG__
-#endif // !__CRYCG__ && ! NOT_USE_CRY_MEMORY_MANAGER
-
-#elif !defined(NOT_USE_CRY_MEMORY_MANAGER) // _LIB
-
-  void* CryModuleMemalign(size_t size, size_t alignment, ECryModule eCM=eCryModule);
-	void CryModuleMemalignFree(void*, ECryModule eCM=eCryModule);
-	void* CryModuleMalloc(size_t size, ECryModule eCM=eCryModule) throw();
-  void* CryModuleCalloc(size_t num, size_t size, ECryModule eCM=eCryModule) throw();
-  void* CryModuleRealloc(void *memblock, size_t size, ECryModule eCM=eCryModule) throw();
-
-
-
-
-
-  #if !defined(NOT_USE_CRY_MEMORY_MANAGER)
-		size_t CryModuleFree(void *ptr, ECryModule eCM=eCryModule) throw();
-	#endif
-	size_t CryModuleMemSize(void* ptr, size_t sz) throw();
-#ifndef PS3
-  ILINE void* _LibCryModuleMalloc(size_t size) throw() { return CryModuleMalloc(size); }
-  ILINE void* _LibCryModuleCalloc(size_t num,size_t size) throw() { return CryModuleCalloc(num, size); }
-  ILINE void* _LibCryModuleRealloc(void *memblock,size_t size) throw() { return CryModuleRealloc(memblock, size); }
-	ILINE void  _LibCryModuleFree(void *ptr) throw() { CryModuleFree(ptr); }
-	ILINE size_t _LibCryModuleMemSize(void* ptr, size_t sz) throw() { return CryModuleMemSize(ptr, sz); }
-#endif
-#endif
+	void  CryModuleFree(void *ptr) throw();
+	void* CryModuleMemalign(size_t size, size_t alignment) throw() ;
+	void* CryModuleReallocAlign(void *memblock, size_t size,size_t alignment) throw();
+	void  CryModuleMemalignFree(void*) throw() ;
 }
 
-#if !defined(PS3)
-// Align alloc helpers
-inline void* SetAlignPrefix(void* ptr, size_t alignment)
+ILINE void CryModuleCRTFree(void* p)
 {
-	uint8* p = static_cast<uint8*>(ptr);
-	if (p)
-	{
-		uint8 offset = (uint8)(alignment - ((UINT_PTR)p & (alignment - 1)));
-		p += offset;
-		p[-1] = offset;
-	}
-	return p;
-}
-inline void* GetAlignPrefix(void* ptr)
-{
-	uint8* p = static_cast<uint8*>(ptr);
-	if (p)
-	{
-		p -= p[-1];
-	}
-	return p;
+	CryModuleFree(p);
 }
 
-#ifndef _LIB
-inline void* CryModuleMemalign( size_t size, size_t alignment ) throw()
-{
-	return SetAlignPrefix(malloc(size + alignment), alignment);
-}
-inline void CryModuleMemalignFree(void* p) throw()
-{
-	free(GetAlignPrefix(p));
-}
+#define malloc   CryModuleMalloc
+#define realloc  CryModuleRealloc
+#define free     CryModuleFree
+
+#endif //NOT_USE_CRY_MEMORY_MANAGER
+
+#if !defined(__SPU__)
+CRY_MEM_USAGE_API void CryModuleGetMemoryInfo( CryModuleMemoryInfo *pMemInfo );
 #endif
 
-#endif
-
-
-
-
-
-
-
-
-
-
-
-
-#if !defined(_LIB) && !defined(NOT_USE_CRY_MEMORY_MANAGER) && !defined(__CRYCG__)
-	ILINE void* CryModuleMalloc(size_t size, ECryModule) throw() { return CryModuleMalloc(size); };
-	ILINE void* CryModuleCalloc(size_t num, size_t size, ECryModule) throw() { return CryModuleCalloc(num, size); };
-	ILINE void* CryModuleRealloc(void *memblock, size_t size, ECryModule) throw() { return CryModuleRealloc(memblock, size); };
-	ILINE size_t CryModuleFree(void *ptr, ECryModule) throw() { return CryModuleFree(ptr); }
-#endif
-
-#if defined(_LIB) && !defined(NEW_OVERRIDEN)
-	CRY_MEM_USAGE_API void CryModuleGetMemoryInfo( CryModuleMemoryInfo *pMemInfo, ECryModule eCM );
-	#if !defined(_DEBUG) || defined(PS3)
-    #if !defined(NOT_USE_CRY_MEMORY_MANAGER) && !defined(__SPU__)
+#if !defined(NOT_USE_CRY_MEMORY_MANAGER)
+	#if defined(_LIB) && !defined(NEW_OVERRIDEN)
 
 
 
@@ -493,92 +348,37 @@ inline void CryModuleMemalignFree(void* p) throw()
 
 
 
-        #if !defined(XENON)
-          ILINE void * __cdecl operator new   (size_t size) throw (std::bad_alloc) { return CryModuleMalloc(size, eCryModule); }
-        #endif // !defined(XENON)
+					#if !defined(XENON)
+						//ILINE void * __cdecl operator new   (size_t size) throw () { return CryModuleMalloc(size, eCryModule); }
+					#endif // !defined(XENON)
+
+					ILINE void * __cdecl operator new   (size_t size) { return CryModuleMalloc(size); }
+
+					#if !defined(XENON)
+						//ILINE void * __cdecl operator new[] (size_t size) throw () { return CryModuleMalloc(size, eCryModule); }
+					#endif // !defined(XENON)
+
+					ILINE void * __cdecl operator new[] (size_t size) { return CryModuleMalloc(size); }
+					ILINE void __cdecl operator delete  (void *p) throw (){ CryModuleFree(p); };
+					ILINE void __cdecl operator delete[](void *p) throw (){ CryModuleFree(p); };
 
 
-		ILINE void * __cdecl operator new   (size_t size) { return CryModuleMalloc(size, eCryModule); }
-
-        #if !defined(XENON)
-          ILINE void * __cdecl operator new[] (size_t size) throw (std::bad_alloc) { return CryModuleMalloc(size, eCryModule); }
-        #endif // !defined(XENON)
-
-        ILINE void * __cdecl operator new[] (size_t size) { return CryModuleMalloc(size, eCryModule); }
-        ILINE void __cdecl operator delete  (void *p) throw (){ CryModuleFree(p, eCryModule); };
-        ILINE void __cdecl operator delete[](void *p) throw (){ CryModuleFree(p, eCryModule); };
-
-    #else // !defined(NOT_USE_CRY_MEMORY_MANAGER) && !defined(__SPU__)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #endif // else !defined(NOT_USE_CRY_MEMORY_MANAGER) && !defined(__SPU__)
-	#endif // !defined(_DEBUG) || defined(PS3)
-#else
-	CRY_MEM_USAGE_API void CryModuleGetMemoryInfo( CryModuleMemoryInfo *pMemInfo );
-#endif
-
-
-//////////////////////////////////////////////////////////////////////////
-
-// Redirect standard memory routines to CryModule functions in this module,
-// unless _DEBUG or NOT_USE_CRY_MEMORY_MANAGER
-
-#if defined(__SPU__) || ((!defined(_DEBUG) || defined(PS3)) && !defined(NOT_USE_CRY_MEMORY_MANAGER))
-	#undef malloc
-	#undef calloc
-	#undef realloc
-	#undef free
-	#undef memalign
-# ifndef __CRYCG__
-# ifndef _LIB
-	#define malloc        CryModuleMalloc
-	#define calloc        CryModuleCalloc
-	#define realloc       CryModuleRealloc
-	#define free          CryModuleFree
-# else
-  #define malloc        _LibCryModuleMalloc
-  #define calloc        _LibCryModuleCalloc
-  #define realloc       _LibCryModuleRealloc
-  #define free          _LibCryModuleFree
-# endif
-# endif
-#endif
-
-// Description:
-//	Useful debug macro.
-//	We use memset otherwise windows will no allocate physical memory.
-//	We free last one so biggest block left is n MB.
-#define MEMORY_DEBUG_POINT(pSystem,no)	\
-	{ assert(no);	static ICVar *pVar = pSystem->GetIConsole()->GetCVar("sys_memory_debug");	assert(pVar);\
-		if(pVar && pVar->GetIVal()==no)	{\
-			void *pMem=0; uint32 dwSumMB=0,dwSizeMB=10;		\
-			while(pMem=malloc(dwSizeMB*1024*1024))\
-			{ dwSumMB+=dwSizeMB;memset(pMem,no,dwSizeMB*1024*1024);} \
-			if(pMem)free(pMem);\
-			pSystem->GetILog()->Log("MEMORY_DEBUG_POINT %d activated, %d MB",no,dwSumMB); } }
-
-
-
+	#endif // defined(_LIB) && !defined(NEW_OVERRIDEN)
+#endif // !defined(NOT_USE_CRY_MEMORY_MANAGER)
 
 // Need for our allocator to avoid deadlock in cleanup
-/*CRYMEMORYMANAGER_API */void *CryCrtMalloc(size_t size);
-/*CRYMEMORYMANAGER_API */size_t CryCrtFree(void *p);
+void*  CryCrtMalloc(size_t size);
+size_t CryCrtFree(void *p);
 // wrapper for _msize on PC
 size_t CryCrtSize(void * p);
 
 #include "CryMemReplay.h"
+
+#if CAPTURE_REPLAY_LOG
+#define CRYMM_INLINE inline
+#else
+#define CRYMM_INLINE ILINE
+#endif
 
 #if !defined( NOT_USE_CRY_MEMORY_MANAGER) && !defined(JOB_LIB_COMP) // && !defined(_STLP_BEGIN_NAMESPACE) // Avoid non STLport version
 #include "CryMemoryAllocator.h"
@@ -589,10 +389,6 @@ size_t CryCrtSize(void * p);
 #endif
 
 //////////////////////////////////////////////////////////////////////////
-
-// Single function which handles all alloc/dealloc cases.
-typedef void* (*TPFAlloc)( void* ptr, size_t size );
-
 class ScopedSwitchToGlobalHeap
 {
 

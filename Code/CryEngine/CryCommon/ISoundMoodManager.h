@@ -132,8 +132,6 @@ UNIQUE_IFACE struct ICategory : public _i_reference_target_t
 	//	 Sets parameter.
 	virtual bool				SetParam(enumGroupParamSemantics eSemantics, ptParam* pParam) = 0;
 
-	virtual bool				InterpolateCategories(ICategory *pCat1, float fFade1, ICategory *pCat2, float fFade2, bool bForceDefault) = 0;
-
 	// Import Export
 	//##@{
 	virtual bool				Serialize(XmlNodeRef &node, bool bLoading) = 0;
@@ -208,13 +206,7 @@ UNIQUE_IFACE struct IMood : public _i_reference_target_t
 	//##@{
 	virtual bool Serialize(XmlNodeRef &node, bool bLoading) = 0;
 	virtual void SetIsMixMood(const bool bIsMixMood) = 0;
-	virtual bool GetIsMixMood() = 0;
-	//##@}
-
-	// Functionality
-	//##@{
-	virtual bool InterpolateMoods(const IMood *pMood1, float fFade1, const IMood *pMood2, float fFade2, bool bForceDefault) = 0;
-	virtual bool ApplyMood(float fFade) = 0;
+	virtual bool GetIsMixMood() const = 0;
 	//##@}
 
 
@@ -222,7 +214,7 @@ UNIQUE_IFACE struct IMood : public _i_reference_target_t
 
 	// Summary:
 	//	 Gets a pointer to the mood manager.
-	virtual ISoundMoodManager* GetIMoodManager() = 0;
+	virtual ISoundMoodManager* GetIMoodManager() const = 0;
 
 	virtual void GetMemoryUsage(ICrySizer *pSizer) const=0;
 };

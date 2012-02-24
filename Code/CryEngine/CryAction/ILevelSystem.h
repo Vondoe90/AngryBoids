@@ -21,6 +21,7 @@
 #endif
 
 #include <CrySizer.h>
+#include <IFlowSystem.h>
 
 struct ILevelRotationFile;
 struct IConsoleCmdArgs;
@@ -75,19 +76,47 @@ UNIQUE_IFACE struct ILevelInfo
 		}
 	} TGameTypeInfo;
 
+	struct SMinimapInfo
+	{
+		SMinimapInfo() : fStartX(0), fStartY(0), fEndX(1), fEndY(1), fDimX(1), fDimY(1), iWidth(1024), iHeight(1024) {}
+
+		string sMinimapName;
+		int iWidth;
+		int iHeight;
+		float fStartX;
+		float fStartY;
+		float fEndX;
+		float fEndY;
+		float fDimX;
+		float fDimY;
+	};
+
 	virtual const char *GetName() const = 0;
 	virtual const char *GetPath() const = 0;
 	virtual const char *GetPaks() const = 0;
-  virtual const char* GetDisplayName()const = 0;
-	virtual const char *GetPreviewImagePath() const = 0;
+	virtual const char* GetDisplayName()const = 0;
 	virtual const ILevelInfo::TStringVec& GetMusicLibs() const = 0;
 	virtual int GetHeightmapSize() const = 0;
+	virtual bool GetIsModLevel() const = 0;
 	virtual const bool MetadataLoaded() const = 0;
 
 	virtual int GetGameTypeCount() const = 0;
 	virtual const ILevelInfo::TGameTypeInfo *GetGameType(int gameType) const = 0;
 	virtual bool SupportsGameType(const char *gameTypeName) const = 0;
 	virtual const ILevelInfo::TGameTypeInfo *GetDefaultGameType() const = 0;
+	virtual bool HasGameRules() const = 0;
+
+	virtual const ILevelInfo::SMinimapInfo& GetMinimapInfo() const = 0;
+
+	virtual bool GetAttribute(const char* name, TFlowInputData& val) const = 0;
+
+	template<typename T> bool GetAttribute(const char* name, T& outVal) const
+	{
+		TFlowInputData val;
+		if (GetAttribute(name, val) == false)
+			return false;
+		return val.GetValueWithConversion(outVal);
+	}
 };
 
 

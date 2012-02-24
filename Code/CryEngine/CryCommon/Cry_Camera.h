@@ -376,8 +376,11 @@ private:
 
 
 
-
-#define CAM_NO_INLINE NO_INLINE inline // elf/exe will have multiply defined symbol error without inline
+#if defined(__SNC__)
+	#define CAM_NO_INLINE inline // snc assumes no_inline in case no_inline and inline are specified together
+#else
+	#define CAM_NO_INLINE NO_INLINE inline // elf/exe will have multiply defined symbol error without inline
+#endif
 
 
 inline float CCamera::GetHorizontalFov() const

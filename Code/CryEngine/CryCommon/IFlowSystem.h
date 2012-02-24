@@ -10,15 +10,18 @@
 
 #define _UICONFIG(x) x
 
-struct IFlowgraphModuleManager;
+struct IFlowGraphModuleManager;
+struct IFlowgraphDebugger;
 
 typedef uint8 TFlowPortId;
 typedef uint16 TFlowNodeId;
 typedef uint16 TFlowNodeTypeId;
+typedef uint32 TFlowGraphId;
 
 static const TFlowNodeId InvalidFlowNodeId = ~TFlowNodeId(0);
 static const TFlowPortId InvalidFlowPortId = ~TFlowPortId(0);
 static const TFlowNodeTypeId InvalidFlowNodeTypeId = 0; // must be 0! FlowSystem.cpp relies on it
+static const TFlowGraphId InvalidFlowGraphId = ~TFlowGraphId(0);
 
 // Notes:
 //	 This is a special type which means "no input data"
@@ -347,21 +350,19 @@ struct SFlowAddress
 //	 Flags used by the flow system.
 enum EFlowNodeFlags
 {
-	EFLN_TARGET_ENTITY         = 0x0001, // CORE FLAG: This node targets an entity, entity id must be provided.
-	EFLN_HIDE_UI               = 0x0002, // CORE FLAG: This node cannot be selected by user for placement in flow graph UI.
-	EFLN_DYNAMIC_OUTPUT		   = 0x0004, // CORE FLAG: This node is setup for dynamic output port growth in runtime.
-	EFLN_CORE_MASK             = 0x000F, // CORE_MASK
+	EFLN_TARGET_ENTITY        = 0x0001, // CORE FLAG: This node targets an entity, entity id must be provided.
+	EFLN_HIDE_UI              = 0x0002, // CORE FLAG: This node cannot be selected by user for placement in flow graph UI.
+	EFLN_DYNAMIC_OUTPUT				= 0x0004, // CORE FLAG: This node is setup for dynamic output port growth in runtime.
+	EFLN_UNREMOVEABLE					= 0x0008,	// CORE FLAG: This node cannot be deleted by the user
+	EFLN_CORE_MASK            = 0x000F, // CORE_MASK
 
-	EFLN_APPROVED			   = 0x0010, // CATEGORY:  This node is approved for designers.
-	EFLN_ADVANCED              = 0x0020, // CATEGORY:  This node is slightly advanced and approved.
-	EFLN_DEBUG                 = 0x0040, // CATEGORY:  This node is for debug purpose only.
-	//EFLN_WIP                   = 0x0080, // CATEGORY:  This node is work-in-progress and shouldn't be used by designers.
-	//EFLN_LEGACY                = 0x0100, // CATEGORY:  This node is legacy and will VERY soon vanish.
-	EFLN_OBSOLETE              = 0x0200, // CATEGORY:  This node is obsolete and is not available in the editor.
-	//EFLN_NOCATEGORY            = 0x0800, // CATEGORY:  This node has no category yet! Default!
-	EFLN_CATEGORY_MASK         = 0x0FF0, // CATEGORY_MASK.
+	EFLN_APPROVED							= 0x0010, // CATEGORY:  This node is approved for designers.
+	EFLN_ADVANCED             = 0x0020, // CATEGORY:  This node is slightly advanced and approved.
+	EFLN_DEBUG                = 0x0040, // CATEGORY:  This node is for debug purpose only.
+	EFLN_OBSOLETE             = 0x0200, // CATEGORY:  This node is obsolete and is not available in the editor.
+	EFLN_CATEGORY_MASK        = 0x0FF0, // CATEGORY_MASK.
 
-	EFLN_USAGE_MASK            = 0xF000, // USAGE_MASK.
+	EFLN_USAGE_MASK           = 0xF000, // USAGE_MASK.
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -588,6 +589,7 @@ struct IFlowNode
 	virtual void GetConfiguration( SFlowNodeConfig& ) = 0;
 	virtual bool SerializeXML( SActivationInfo *, const XmlNodeRef& root, bool reading ) = 0;
 	virtual void Serialize( SActivationInfo *, TSerialize ser ) = 0;
+	virtual void PostSerialize( SActivationInfo * ) = 0;
 	virtual void ProcessEvent( EFlowEvent event, SActivationInfo * ) = 0;
 
 	virtual void GetMemoryUsage(ICrySizer * s) const = 0;
@@ -636,6 +638,14 @@ typedef IFlowGraphHook_AutoPtr IFlowGraphHookPtr;
 
 UNIQUE_IFACE struct IFlowGraphHook
 {
+	enum EActivation
+	{
+		eFGH_Stop, 
+		eFGH_Pass,
+		eFGH_Debugger_Input,
+		eFGH_Debugger_Output,
+	};
+
 	virtual ~IFlowGraphHook(){}
 	virtual void AddRef() = 0;
 	virtual void Release() = 0;
@@ -646,6 +656,8 @@ UNIQUE_IFACE struct IFlowGraphHook
 	// Description:
 	//	 This gets called if CreatedNode was called, and then cancelled later
 	virtual void CancelCreatedNode( TFlowNodeId id, const char * name, TFlowNodeTypeId typeId, IFlowNodePtr pNode ) = 0;
+
+	virtual IFlowGraphHook::EActivation PerformActivation( IFlowGraphPtr pFlowgraph, TFlowNodeId srcNode, TFlowPortId srcPort, TFlowNodeId toNode, TFlowPortId toPort, const TFlowInputData* value) = 0;
 
 	void GetMemoryUsage(ICrySizer *pSizer ) const{}
 };
@@ -687,7 +699,7 @@ typedef IFlowEdgeIterator_AutoPtr IFlowEdgeIteratorPtr;
 struct SFlowNodeActivationListener
 {
 	virtual ~SFlowNodeActivationListener(){}
-	virtual void OnFlowNodeActivation(TFlowNodeId srcNode, TFlowPortId srcPort, TFlowNodeId toNode, TFlowPortId toPort, const char* value) = 0;
+	virtual bool OnFlowNodeActivation(IFlowGraphPtr pFlowgraph, TFlowNodeId srcNode, TFlowPortId srcPort, TFlowNodeId toNode, TFlowPortId toPort, const char* value) = 0;
 };
 
 // Description:
@@ -695,6 +707,14 @@ struct SFlowNodeActivationListener
 //	 functions that are added to this interface.
 UNIQUE_IFACE struct IFlowGraph : public NFlowSystemUtils::IFlowSystemTyped<TFlowSystemDataTypes>
 {
+	enum EFlowGraphType
+	{
+			eFGT_Default = 0,
+			eFGT_AIAction,
+			eFGT_UIAction,
+			eFGT_Module,
+			eFGT_MaterialFx,
+	};
 
 	virtual void AddRef() = 0;
 	virtual void Release() = 0;
@@ -715,7 +735,7 @@ UNIQUE_IFACE struct IFlowGraph : public NFlowSystemUtils::IFlowSystemTyped<TFlow
 	virtual void SetGraphEntity( EntityId id,int nIndex=0 ) = 0;
 	// Summary:
 	//	 Retrieves id of the default entity associated with this flow graph.
-	virtual EntityId GetGraphEntity( int nIndex ) = 0;
+	virtual EntityId GetGraphEntity( int nIndex ) const = 0;
 
 	// Summary:
 	//	 Enables/disables the flowgraph - used from editor.
@@ -733,12 +753,16 @@ UNIQUE_IFACE struct IFlowGraph : public NFlowSystemUtils::IFlowSystemTyped<TFlow
 	//	 Checks if flowgraph is currently active.
 	virtual bool IsActive() const = 0;
 
+	virtual void SetType (IFlowGraph::EFlowGraphType type) = 0;
+	virtual IFlowGraph::EFlowGraphType GetType() const = 0;
+
 	// Primary game interface.
 
 	//
 	virtual void Update() = 0;
 	virtual bool SerializeXML( const XmlNodeRef& root, bool reading ) = 0;
 	virtual void Serialize( TSerialize ser ) = 0;
+	virtual void PostSerialize() = 0;
 	// Description:
 	//	 Similar to Update, but sends an eFE_Initialize instead of an eFE_Update
 	virtual void InitializeValues() = 0;
@@ -747,6 +771,8 @@ UNIQUE_IFACE struct IFlowGraph : public NFlowSystemUtils::IFlowSystemTyped<TFlow
 	//	 Send eFE_PrecacheResources event to all flow graph nodes, so they can cache thierinternally used assets.
 	virtual void PrecacheResources() = 0;
 
+	virtual void EnsureSortedEdges() = 0;
+
 	// Node manipulation.
 	//##@{
 	virtual SFlowAddress ResolveAddress( const char * addr, bool isOutput ) = 0;
@@ -754,7 +780,7 @@ UNIQUE_IFACE struct IFlowGraph : public NFlowSystemUtils::IFlowSystemTyped<TFlow
 	virtual TFlowNodeId CreateNode( TFlowNodeTypeId typeId, const char *name, void *pUserData=0 ) = 0;
 	virtual TFlowNodeId CreateNode( const char* typeName, const char *name, void *pUserData=0 ) = 0; // deprecated
 	virtual IFlowNodeData* GetNodeData( TFlowNodeId id ) = 0;
-	virtual void SetNodeName( TFlowNodeId id,const char *sName ) = 0;
+	virtual bool SetNodeName( TFlowNodeId id,const char *sName ) = 0;
 	virtual const char* GetNodeName( TFlowNodeId id ) = 0;
 	virtual TFlowNodeTypeId GetNodeTypeId( TFlowNodeId id ) = 0;
 	virtual const char* GetNodeTypeName( TFlowNodeId id ) = 0;
@@ -772,6 +798,8 @@ UNIQUE_IFACE struct IFlowGraph : public NFlowSystemUtils::IFlowSystemTyped<TFlow
 	// Description:
 	//	 Removes hypergraph/editor listeners for visual flowgraph debugging.
 	virtual void RemoveFlowNodeActivationListener(SFlowNodeActivationListener *listener) = 0;
+
+	virtual bool NotifyFlowNodeActivationListeners(TFlowNodeId srcNode, TFlowPortId srcPort, TFlowNodeId toNode, TFlowPortId toPort, const char *value) = 0;
 
 	virtual void SetEntityId( TFlowNodeId, EntityId ) = 0;
 	virtual EntityId GetEntityId( TFlowNodeId ) = 0;
@@ -826,7 +854,25 @@ UNIQUE_IFACE struct IFlowGraph : public NFlowSystemUtils::IFlowSystemTyped<TFlow
 	//	 Gets an AI Action
 	virtual IAIAction* GetAIAction() const = 0;
 
+	virtual void UnregisterFromFlowSystem() = 0;
+
 	virtual void GetMemoryUsage(ICrySizer * s) const = 0;
+
+	// Graph tokens are gametokens which are unique to a particular flow graph
+	struct SGraphToken
+	{
+		SGraphToken() : type(eFDT_Void) {}
+
+		string name;
+		EFlowDataTypes type;
+	};
+	virtual void RemoveGraphTokens() = 0;
+	virtual bool AddGraphToken(const SGraphToken& token) = 0;
+	virtual size_t GetGraphTokenCount() const = 0;
+	virtual const IFlowGraph::SGraphToken* GetGraphToken(size_t index) const = 0;
+	virtual string GetGlobalNameForGraphToken(const string& tokenName) const = 0;
+
+	virtual TFlowGraphId GetGraphId() const = 0;
 };
 
 struct IFlowNodeFactory
@@ -931,6 +977,11 @@ UNIQUE_IFACE struct IFlowSystem
 	//	 Resets the flow system.
 	virtual void Reset(bool unload) = 0;
 
+	virtual void Enable(bool enable) = 0;
+	// Summary:
+	//	 Reload all FlowNode templates; only in Sandbox!
+	virtual void ReloadAllNodeTypes() = 0;
+
 	// Summary:
 	//	 Creates a flowgraph.
 	virtual IFlowGraphPtr CreateFlowGraph() = 0;
@@ -938,6 +989,8 @@ UNIQUE_IFACE struct IFlowSystem
 	// Summary:
 	//	 Type registration and resolving.
 	virtual TFlowNodeTypeId RegisterType( const char *typeName, IFlowNodeFactoryPtr factory ) = 0;
+
+	virtual bool UnregisterType(const char *type) = 0;
 	// Summary:
 	//	 Gets a type name from a flow node type ID.
 	virtual const char* GetTypeName( TFlowNodeTypeId typeId ) = 0;
@@ -966,11 +1019,18 @@ UNIQUE_IFACE struct IFlowSystem
 	//	 Returns true if inspectoring is enable, false otherwise.
 	virtual bool IsInspectingEnabled() const = 0;
 
+	// Summary:
+	//	Returns the graph with the specified ID (NULL if not found)
+	virtual IFlowGraph* GetGraphById(TFlowGraphId graphId) = 0;
+
 	// Gets memory statistics.
 	virtual void GetMemoryUsage(ICrySizer * s) const = 0;
 
-	//Gets the module manager
-	virtual IFlowgraphModuleManager* GetIModuleManager() = 0;
+	// Gets the module manager
+	virtual IFlowGraphModuleManager* GetIModuleManager() = 0;
+
+	//Gets the flowgraph debugger
+	virtual IFlowgraphDebugger* GetIDebugger() = 0;
 };
 
 #endif

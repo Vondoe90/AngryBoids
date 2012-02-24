@@ -136,7 +136,7 @@ public:
 
 
 
-		void* ptr;
+		void* ptr = NULL;
 
 #if CAPTURE_REPLAY_LOG
 		int ms = CryGetIMemReplay()->EnterAlloc();

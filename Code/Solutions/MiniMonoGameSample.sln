@@ -3,13 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CryCommon", "..\CryEngine\CryCommon\CryCommon.vcxproj", "{AEB958D4-45CA-478B-BA8E-D0E897CE974B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CryMiniGame", "..\Game\GameDll\GameDll.vcxproj", "{0A626603-18B8-41F4-ACFB-0ABE9C4569F5}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F95F543D-A167-4505-A157-AA969A60BF41} = {F95F543D-A167-4505-A157-AA969A60BF41}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CryAction", "..\CryEngine\CryAction\CryActionHeaders.vcxproj", "{498187B3-E46F-45FA-A202-992AE9FDA01A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryGameLibrary", "..\Game\CryGameLibrary\CryGameLibrary.csproj", "{F95F543D-A167-4505-A157-AA969A60BF41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,12 +25,6 @@ Global
 		{498187B3-E46F-45FA-A202-992AE9FDA01A}.Debug|Win32.ActiveCfg = Release|Win32
 		{498187B3-E46F-45FA-A202-992AE9FDA01A}.Profile|Win32.ActiveCfg = Release|Win32
 		{498187B3-E46F-45FA-A202-992AE9FDA01A}.Release|Win32.ActiveCfg = Release|Win32
-		{F95F543D-A167-4505-A157-AA969A60BF41}.Debug|Win32.ActiveCfg = Debug|x86
-		{F95F543D-A167-4505-A157-AA969A60BF41}.Debug|Win32.Build.0 = Debug|x86
-		{F95F543D-A167-4505-A157-AA969A60BF41}.Profile|Win32.ActiveCfg = Release|x86
-		{F95F543D-A167-4505-A157-AA969A60BF41}.Profile|Win32.Build.0 = Release|x86
-		{F95F543D-A167-4505-A157-AA969A60BF41}.Release|Win32.ActiveCfg = Release|x86
-		{F95F543D-A167-4505-A157-AA969A60BF41}.Release|Win32.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

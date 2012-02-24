@@ -53,6 +53,7 @@
 
 struct XMVec4
 {
+	NULL_STRUCT_INFO
 };
 
 struct XMVec4A
@@ -1163,21 +1164,12 @@ ILINE T BiRandom(T fRange)
 
 
 //////////////////////////////////////////////////////////////////////////
-enum type_zero { ZERO };
-enum type_min { VMIN };
-enum type_max { VMAX };
-enum type_identity { IDENTITY };
-
 #include "Cry_Vector2.h"
 #include "Cry_Vector3.h"
 #include "Cry_Matrix.h"
 #include "Cry_Quat.h"
 #include "Cry_HWVector3.h"
 #include "Cry_HWMatrix.h"
-
-
-
-
 
 #if (defined(WIN32) || defined (_XBOX))
 #include "Cry_XOptimise.h"

@@ -19,6 +19,7 @@ struct SFlashCxform;
 struct SFlashDisplayInfo;
 struct SFlashCursorEvent;
 struct SFlashKeyEvent;
+struct SFlashCharEvent;
 
 
 // Notes:
@@ -116,6 +117,7 @@ struct IFlashPlayer
 	virtual void SetExternalInterfaceHandler(IExternalInterfaceHandler* pHandler, void* pUserData = 0) = 0;
 	virtual void SendCursorEvent(const SFlashCursorEvent& cursorEvent) = 0;
 	virtual void SendKeyEvent(const SFlashKeyEvent& keyEvent) = 0;
+	virtual void SendCharEvent(const SFlashCharEvent& charEvent) = 0;
 	//##@}
 
 	virtual void SetVisible(bool visible) = 0;
@@ -914,21 +916,32 @@ public:
 		eScrollToggled	= 0x20
 	};
 
-	SFlashKeyEvent(EKeyState state, EKeyCode keyCode, unsigned char specialKeyState, unsigned char asciiCode, unsigned int wcharCode)
+	SFlashKeyEvent(EKeyState state, EKeyCode keyCode, unsigned char specialKeyState)
 	: m_state(state)
 	, m_keyCode(keyCode)
 	, m_specialKeyState(specialKeyState)
-	, m_asciiCode(asciiCode)
-	, m_wcharCode(wcharCode)
 	{
 	}
 
 	EKeyState m_state;
 	EKeyCode m_keyCode;
 	unsigned char m_specialKeyState;
-	unsigned char m_asciiCode;
-	unsigned int m_wcharCode;	
 };
 
+// Summary:
+//	 Char event sent to flash
+struct SFlashCharEvent
+{
+public:
+	SFlashCharEvent(uint32 wCharCode, uint8 keyboardIndex = 0)
+	: m_wCharCode(wCharCode)
+	, m_keyboardIndex(keyboardIndex)
+	{
+	}
+
+	uint32 m_wCharCode;
+	// The index of the physical keyboard controller.
+	uint8 m_keyboardIndex;
+};
 
 #endif //#ifndef _I_FLASH_PLAYER_H_

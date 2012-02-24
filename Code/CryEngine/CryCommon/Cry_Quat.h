@@ -42,11 +42,11 @@ template <typename F> struct Quat_tpl
 	{
 		if (sizeof(F)==4)
 		{
-			uint32* p=(uint32*)&v.x; 		p[0]=F32NAN;	p[1]=F32NAN;	p[2]=F32NAN;	p[3]=F32NAN;
+			uint32* p=alias_cast<uint32*>(&v.x); 		p[0]=F32NAN;	p[1]=F32NAN;	p[2]=F32NAN;	p[3]=F32NAN;
 		}
 		if (sizeof(F)==8)
 		{
-			uint64* p=(uint64*)&v.x;		p[0]=F64NAN;	p[1]=F64NAN;	p[2]=F64NAN;	p[3]=F64NAN;
+			uint64* p=alias_cast<uint64*>(&v.x);		p[0]=F64NAN;	p[1]=F64NAN;	p[2]=F64NAN;	p[3]=F64NAN;
 		}
 	}
 #else
@@ -1105,11 +1105,11 @@ template <typename F> struct QuatT_tpl
 	{
 		if (sizeof(F)==4)
 		{
-			uint32* p=(uint32*)&q.v.x; 		p[0]=F32NAN;p[1]=F32NAN;p[2]=F32NAN;p[3]=F32NAN; p[4]=F32NAN;p[5]=F32NAN;p[6]=F32NAN;
+			uint32* p=alias_cast<uint32*>(&q.v.x); 		p[0]=F32NAN;p[1]=F32NAN;p[2]=F32NAN;p[3]=F32NAN; p[4]=F32NAN;p[5]=F32NAN;p[6]=F32NAN;
 		}
 		if (sizeof(F)==8)
 		{
-			uint64* p=(uint64*)&q.v.x;		p[0]=F64NAN;p[1]=F64NAN;p[2]=F64NAN;p[3]=F64NAN; p[4]=F64NAN;p[5]=F64NAN;p[6]=F64NAN;
+			uint64* p=alias_cast<uint64*>(&q.v.x);		p[0]=F64NAN;p[1]=F64NAN;p[2]=F64NAN;p[3]=F64NAN; p[4]=F64NAN;p[5]=F64NAN;p[6]=F64NAN;
 		}
 	}
 #else
@@ -1418,11 +1418,11 @@ template <typename F> struct QuatTS_tpl
 	{
 		if (sizeof(F)==4)
 		{
-			uint32* p=(uint32*)&q.v.x; 		p[0]=F32NAN;p[1]=F32NAN;p[2]=F32NAN;p[3]=F32NAN; p[4]=F32NAN;p[5]=F32NAN;p[6]=F32NAN;p[7]=F32NAN;
+			uint32* p=alias_cast<uint32*>(&q.v.x); 		p[0]=F32NAN;p[1]=F32NAN;p[2]=F32NAN;p[3]=F32NAN; p[4]=F32NAN;p[5]=F32NAN;p[6]=F32NAN;p[7]=F32NAN;
 		}
 		if (sizeof(F)==8)
 		{
-			uint64* p=(uint64*)&q.v.x;		p[0]=F64NAN;p[1]=F64NAN;p[2]=F64NAN;p[3]=F64NAN; p[4]=F64NAN;p[5]=F64NAN;p[6]=F64NAN;p[7]=F64NAN;
+			uint64* p=alias_cast<uint64*>(&q.v.x);		p[0]=F64NAN;p[1]=F64NAN;p[2]=F64NAN;p[3]=F64NAN; p[4]=F64NAN;p[5]=F64NAN;p[6]=F64NAN;p[7]=F64NAN;
 		}
 	}
 #else

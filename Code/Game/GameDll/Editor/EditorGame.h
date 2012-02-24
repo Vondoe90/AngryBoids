@@ -51,6 +51,8 @@ public:
 
 	VIRTUAL bool SupportsMultiplayerGameRules() { return true; }
 	VIRTUAL void ToggleMultiplayerGameRules();
+
+	VIRTUAL void RegisterTelemetryTimelineRenderers(Telemetry::ITelemetryRepository* pRepository) {}
 private:
 	void InitUIEnums(IGameToEditorInterface* pGTE);
 	void InitGlobalFileEnums(IGameToEditorInterface* pGTE);

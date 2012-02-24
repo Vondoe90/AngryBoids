@@ -125,6 +125,18 @@ private:
 	size_t m_wasBroadcast;
 };
 
+class CrySemaphore
+{
+public:
+	CrySemaphore(int nMaximumCount);	
+	~CrySemaphore();
+	void Acquire();	
+	void Release();	
+
+private:
+	void* m_Semaphore; 
+};
+
 class CrySimpleThreadSelf
 {
 public:

@@ -94,7 +94,8 @@ struct SMFXRunTimeEffectParams
 		soundProxyOffset(ZERO),
 		soundDistanceMult(1.0f),
 		soundScale(1.0f),
-		numSoundParams(0)
+		numSoundParams(0),
+		fDecalPlacementTestMaxSize(1000.f)
 	{
 		dir[0].Set(0.0f,0.0f,-1.0f);
 		dir[1].Set(0.0f,0.0f, 1.0f);
@@ -126,6 +127,7 @@ public:
 
 	uint16 playflags;     // see EMFXPlayFlags
 	float	 fLastTime;		  // last time this effect was played
+	float fDecalPlacementTestMaxSize;
 
 	EntityId     src;
 	EntityId     trg;

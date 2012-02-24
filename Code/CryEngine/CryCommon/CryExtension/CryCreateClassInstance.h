@@ -34,8 +34,7 @@ bool CryCreateClassInstance(const CryClassID& cid, boost::shared_ptr<T>& p)
 		if (pFactory && pFactory->ClassSupports(cryiidof<T>()))
 		{
 			ICryUnknownPtr pUnk = pFactory->CreateClassInstance();
-			boost::shared_ptr<T> pT = ::cryinterface_cast<T>(pUnk);
-			assert(pT.get());
+			boost::shared_ptr<T> pT = cryinterface_cast<T>(pUnk);
 			if (pT)
 				p = pT;
 		}
@@ -55,8 +54,7 @@ bool CryCreateClassInstance(const char* cname, boost::shared_ptr<T>& p)
 		if (pFactory && pFactory->ClassSupports(cryiidof<T>()))
 		{
 			ICryUnknownPtr pUnk = pFactory->CreateClassInstance();
-			boost::shared_ptr<T> pT = ::cryinterface_cast<T>(pUnk);
-			assert(pT.get());
+			boost::shared_ptr<T> pT = cryinterface_cast<T>(pUnk);
 			if (pT)
 				p = pT;
 		}
@@ -78,8 +76,7 @@ bool CryCreateClassInstanceForInterface(const CryInterfaceID& iid, boost::shared
 		if (numFactories == 1 && pFactory)
 		{
 			ICryUnknownPtr pUnk = pFactory->CreateClassInstance();
-			boost::shared_ptr<T> pT = ::cryinterface_cast<T>(pUnk);
-			assert(pT.get());
+			boost::shared_ptr<T> pT = cryinterface_cast<T>(pUnk);
 			if (pT)
 				p = pT;
 		}

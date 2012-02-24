@@ -196,6 +196,7 @@ UNIQUE_IFACE struct IStatObj : public IStreamable
 		ELoadingFlagsPreviewMode		=BIT(0),
 		ELoadingFlagsForceBreakable =BIT(1),
 		ELoadingFlagsIgnoreLoDs			=BIT(2),
+		ELoadingFlagsTesselate			=BIT(3), // if e_StatObjTesselation enabled
 	};
 
 	//////////////////////////////////////////////////////////////////////////

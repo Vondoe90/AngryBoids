@@ -17,25 +17,16 @@ struct SParserFrame;
 enum EDataType
 {
   eDATA_Unknown = 0,
-  eDATA_Dummy,
   eDATA_Sky,		
   eDATA_Beam,		
   eDATA_ClientPoly,
-  eDATA_ClientPoly2D,
   eDATA_Flare,
   eDATA_Terrain,
   eDATA_SkyZone,
   eDATA_Mesh,
   eDATA_Imposter,
-	eDATA_PanoramaCluster,
-  eDATA_TerrainSector,
   eDATA_FarTreeSprites,  
-  eDATA_ShadowMapGen,
-  eDATA_TerrainDetailTextureLayers,
-  eDATA_TerrainParticles,
-  eDATA_Ocean,  
   eDATA_OcclusionQuery,
-  eDATA_TempMesh,
 	eDATA_Particle,
   eDATA_PostProcess, 
   eDATA_HDRProcess,  
@@ -43,10 +34,9 @@ enum EDataType
 	eDATA_HDRSky,  
 	eDATA_FogVolume,
 	eDATA_WaterVolume,
-  eDATA_WaterWave,
   eDATA_WaterOcean,
 	eDATA_VolumeObject,
-	eDATA_IrradianceVolume,
+	eDATA_LightPropagationVolume,
 	eDATA_PrismObject,				// normally this would be #if !defined(EXCLUDE_DOCUMENTATION_PURPOSE) but we keep it to get consistent numbers for serialization
 	eDATA_DeferredShading,
 	eDATA_GameEffect,
@@ -67,7 +57,7 @@ enum EDataType
 #define FCEF_MODIF_COL  0x40
 #define FCEF_MODIF_MASK 0xf0
 
-#define FCEF_NEEDFILLBUF 0x100
+#define FCEF_UPDATEALWAYS 0x100
 #define FCEF_ALLOC_CUST_FLOAT_DATA 0x200
 #define FCEF_MERGABLE    0x400
 
@@ -150,7 +140,7 @@ public:
   inline void mfClearFlags(uint32 fl) { m_Flags &= ~fl; }
   inline bool mfCheckUpdate(EVertexFormat eVertFormat, int Flags, uint16 nFrame)
   {
-    if (nFrame != m_nFrameUpdated || (m_Flags & (FCEF_DIRTY | FCEF_SKINNED)))
+    if (nFrame != m_nFrameUpdated || (m_Flags & (FCEF_DIRTY | FCEF_SKINNED | FCEF_UPDATEALWAYS)))
     {
       m_nFrameUpdated = nFrame;
       return mfUpdate(eVertFormat, Flags);
@@ -159,7 +149,6 @@ public:
   }
 
   virtual void mfPrepare(bool bCheckOverflow); // False - mergable, True - static mesh
-  virtual bool mfCullByClipPlane(CRenderObject *pObj);
   virtual CRenderChunk *mfGetMatInfo();
   virtual PodArray<CRenderChunk> *mfGetMatInfoList();
   virtual int mfGetMatId();
@@ -187,19 +176,17 @@ public:
 
 #include "CREMesh.h"
 #include "CRESky.h"
-#include "CREDummy.h"
-#include "CRETerrainSector.h"
+#include "CREFarTreeSprites.h"
 #include "CREOcclusionQuery.h"
 #include "CREImposter.h"
 #include "CREBaseCloud.h" 
 #include "CREPostProcess.h" 
 #include "CREFogVolume.h" 
 #include "CREWaterVolume.h" 
-#include "CREWaterWave.h" 
 #include "CREWaterOcean.h" 
 #include "CREParticle.h" 
 #include "CREVolumeObject.h" 
-#include "CREIrradianceVolume.h" 
+#include "CRELightPropagationVolume.h" 
 #include "CREGameEffect.h" 
 #include "CRELightShape.h"
 

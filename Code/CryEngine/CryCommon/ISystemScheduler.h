@@ -28,4 +28,4 @@ public:
 
 #endif // defined(MAP_LOADING_SLICING)
 
-#endif __ISYSTEMSCHEDULER_H__
+#endif // __ISYSTEMSCHEDULER_H__

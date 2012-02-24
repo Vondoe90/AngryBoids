@@ -4,7 +4,8 @@
 
 enum ECryModule
 {
-  eCryM_3DEngine = 0,
+	eCryM_Local = 0,
+  eCryM_3DEngine,
   eCryM_Action,
   eCryM_AISystem,
   eCryM_Animation,
@@ -21,7 +22,8 @@ enum ECryModule
   eCryM_Game,
   eCryM_Render,
   eCryM_Launcher,
-  eCryM_Mono,
+	eCryM_Editor,
+	eCryM_Mono,
 
   eCryM_Num,
 };

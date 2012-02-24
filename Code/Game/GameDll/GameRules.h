@@ -50,6 +50,7 @@ public:
 	virtual void RemoveHitListener(IHitListener* pHitListener) {}
 	virtual bool IsFrozen(EntityId entityId) const { return false; }
 	virtual bool OnCollision(const SGameCollision& event) { return true; }
+	virtual void OnCollision_NotifyAI( const EventPhys * pEvent ) {}
 	virtual void ShowStatus() {}
 	virtual bool IsTimeLimited() const { return false; }
 	virtual float GetRemainingGameTime() const { return 1.0f; }

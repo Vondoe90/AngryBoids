@@ -447,14 +447,28 @@ struct SMusicSystemStatus
 //////////////////////////////////////////////////////////////////////////
 struct SMusicMoodHierarchy
 {
-	SMusicMoodHierarchy(CryFixedStringT<16> const _sMood, CryFixedStringT<16> const _sHigherMood, CryFixedStringT<16> const _sLowerMood)
+	typedef CryFixedStringT<16> StringType;
+	SMusicMoodHierarchy( StringType const _sMood, StringType const _sHigherMood, StringType const _sLowerMood)
 		: sMood(_sMood),
 		  sHigherMood(_sHigherMood),
 		  sLowerMood(_sLowerMood){}
 
-	CryFixedStringT<16> const sMood;
-	CryFixedStringT<16> const sHigherMood;
-	CryFixedStringT<16> const sLowerMood;
+	SMusicMoodHierarchy(const SMusicMoodHierarchy& other)
+		: sMood(other.sMood), 
+			sHigherMood(other.sHigherMood), 
+			sLowerMood(other.sLowerMood) {}
+
+	SMusicMoodHierarchy & operator= (const SMusicMoodHierarchy & other)
+	{
+		*const_cast<StringType*>(&sMood) = other.sMood;
+		*const_cast<StringType*>(&sHigherMood) = other.sHigherMood;
+		*const_cast<StringType*>(&sLowerMood) = other.sLowerMood;
+		return *this;
+	}
+
+	StringType const sMood;
+	StringType const sHigherMood;
+	StringType const sLowerMood;
 };
 
 // Music mood vector typedef

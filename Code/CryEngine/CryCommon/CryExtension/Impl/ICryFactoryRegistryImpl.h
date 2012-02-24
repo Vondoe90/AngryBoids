@@ -25,9 +25,11 @@ struct SRegFactoryNode;
 
 struct ICryFactoryRegistryCallback
 {
-	virtual ~ICryFactoryRegistryCallback(){}
 	virtual void OnNotifyFactoryRegistered(ICryFactory* pFactory) = 0;
 	virtual void OnNotifyFactoryUnregistered(ICryFactory* pFactory) = 0;
+
+protected:
+	virtual ~ICryFactoryRegistryCallback() {}
 };
 
 

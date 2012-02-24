@@ -4,42 +4,13 @@
 #define __CREPARTICLE_H__
 
 #include "CryThread.h"
+#include <IJobManager.h>
 
 typedef SVF_P3F_C4B_I4B_PS4F		SVertexParticle;
 
 // forward declarations
 class CREParticle;
 struct CRenderListData;
-
-//#define PARTICLE_RENDER_ORDER
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 struct SRenderVertices
@@ -60,16 +31,19 @@ struct SRenderVertices
 		aSrc.erase_front(nVerts);
 	}
 
-	inline void ExpandQuadVertices()
+	ILINE static void SetQuadVertices(SVertexParticle aV[4])
 	{
-		SVertexParticle* aV = aVertices.grow_raw(3)-1;
-
-		aV[3] = aV[2] = aV[1] = aV[0];
-
 		aV[1].info.tex_x = 255;
 		aV[2].info.tex_y = 255;
 		aV[3].info.tex_x = 255;
 		aV[3].info.tex_y = 255;
+	}
+
+	inline void ExpandQuadVertices()
+	{
+		SVertexParticle* aV = aVertices.grow_raw(3)-1;
+		aV[3] = aV[2] = aV[1] = aV[0];
+		SetQuadVertices(aV);
 	}
 
 	inline void ExpandQuadVertices(const SVertexParticle& RESTRICT_REFERENCE part)
@@ -92,22 +66,13 @@ struct SRenderVertices
 			d[i] = v;
 		}
 
-		aV[1].info.tex_x = 255;
-		aV[2].info.tex_y = 255;
-		aV[3].info.tex_x = 255;
-		aV[3].info.tex_y = 255;
+		SetQuadVertices(aV);
 	}
 
-	inline void ExpandOctVertices()
+	inline void SetOctVertices(SVertexParticle aV[8])
 	{
-		SVertexParticle* aV = aVertices.grow_raw(7) - 1;
-
-		aV[7] = aV[6] = aV[5] = aV[4] = aV[3] = aV[2] = aV[1] = aV[0];
-
 		aV[0].info.tex_x = 75;
-		aV[0].info.tex_y = 0;
 		aV[1].info.tex_x = 180;
-		aV[1].info.tex_y = 0;
 		aV[2].info.tex_x = 255;
 		aV[2].info.tex_y = 75;
 		aV[3].info.tex_x = 255;
@@ -116,10 +81,15 @@ struct SRenderVertices
 		aV[4].info.tex_y = 255;
 		aV[5].info.tex_x = 75;
 		aV[5].info.tex_y = 255;
-		aV[6].info.tex_x = 0;
 		aV[6].info.tex_y = 180;
-		aV[7].info.tex_x = 0;
 		aV[7].info.tex_y = 75;
+	}
+
+	inline void ExpandOctVertices()
+	{
+		SVertexParticle* aV = aVertices.grow_raw(7) - 1;
+		aV[7] = aV[6] = aV[5] = aV[4] = aV[3] = aV[2] = aV[1] = aV[0];
+		SetOctVertices(aV);
 	}
 
 	inline void ExpandOctVertices(const SVertexParticle& RESTRICT_REFERENCE part)
@@ -150,22 +120,7 @@ struct SRenderVertices
 			h[i] = v;
 		}
 
-		aV[0].info.tex_x = 75;
-		aV[0].info.tex_y = 0;
-		aV[1].info.tex_x = 180;
-		aV[1].info.tex_y = 0;
-		aV[2].info.tex_x = 255;
-		aV[2].info.tex_y = 75;
-		aV[3].info.tex_x = 255;
-		aV[3].info.tex_y = 180;
-		aV[4].info.tex_x = 180;
-		aV[4].info.tex_y = 255;
-		aV[5].info.tex_x = 75;
-		aV[5].info.tex_y = 255;
-		aV[6].info.tex_x = 0;
-		aV[6].info.tex_y = 180;
-		aV[7].info.tex_x = 0;
-		aV[7].info.tex_y = 75;
+		SetOctVertices(aV);
 	}
 
 	inline void SetQuadIndices(int nVertAdvance = 4)
@@ -282,20 +237,20 @@ struct SParticleRenderContext
 	float		m_fAngularRes;		// Pixels per radian
 	uint16	m_nWidth;					// Screen dimensions.
 	uint16	m_nHeight;
-	bool		m_bOctogonal;
+	bool		m_bOctagonal;			// Specify octagonal vertex creation
 };
 
 UNIQUE_IFACE struct IParticleVertexCreator
 {
 	// Create the vertices for the particle emitter.
-	virtual void ComputeVertices( SParticleRenderContext& context, IAllocRender& alloc, bool bIsParticleThread = false ) = 0;
+	virtual void ComputeVertices( const SParticleRenderContext& context, IAllocRender& alloc ) = 0;
 	virtual float GetDistSquared( const Vec3& vPos ) const = 0;
-	virtual uint32 GetRenderOrder() const = 0;
+	virtual float GetApproxParticleArea () const = 0;
 
 	// Reference counting.
 	virtual void AddRef() = 0;
 	virtual void Release() = 0;
-	virtual ~IParticleVertexCreator(){}
+	virtual ~IParticleVertexCreator() {}
 };
 
 class CREParticle : public CRendElementBase
@@ -307,12 +262,8 @@ public:
 	// Custom copy constructor required to avoid m_Lock copy.
 	CREParticle( const CREParticle& in )
 	: m_pVertexCreator(in.m_pVertexCreator)
-	, m_ParticleComputed(in.m_ParticleComputed)
 	, m_Context(in.m_Context)
 	, m_fPixels(0.f)
-#if defined(PARTICLE_RENDER_ORDER)
-	, m_nRenderOrder(0)
-#endif
 	{
 	}
 
@@ -321,9 +272,8 @@ public:
 		//pSizer->AddObject(this, sizeof(*this)); // allocated in own allocator
 	}
 	// CRendElement implementation.
-	static CREParticle* Create( IParticleVertexCreator* pVC, const SParticleRenderContext& context, int threadList );
-	static void ClearSPUQueue();
-	static void PushAllOntoQueue(int threadList, CREParticle** particles, size_t numParticles);
+	static CREParticle* Create( IParticleVertexCreator* pVC, const SParticleRenderContext& context, bool bOctagonal, int nThreadList );
+	static void ClearComputeVerticesQueue();
 	static void WakeUp();
 	static void SetParticleFillThread(int nThreadList);
 	static int GetParticleFillThread() { return m_nParticleFillThread; }
@@ -347,7 +297,7 @@ public:
 	// Additional methods.
 	void PushOntoQueue(int threadList);
 
-	void StoreVertices( bool bWait, bool bParticleThread = false );
+	void StoreVertices( bool bWait );
 	void TransferVertices() const;
 
 	void SetVertices( Array<SVertexParticle> aVerts, Array<uint16> aVertCounts, float fPixels )
@@ -358,22 +308,11 @@ public:
 		m_fPixels = fPixels;
 	}
 
-	bool operator< (const CREParticle& r) const
+	JobManager::SJobState* GetSPUState()
 	{
-#if defined(PARTICLE_RENDER_ORDER)	
-		return m_nRenderOrder < r.m_nRenderOrder;
-#else
-		return false;
-#endif
+		return &m_SPUState;
 	}
 
-
-
-
-
-
-
-	
 	void ResetVertexCreator()
 	{
 		m_pVertexCreator = NULL;
@@ -382,19 +321,13 @@ public:
 private:
 	CryCriticalSectionNonRecursive			m_Lock;							// Serialises access to vertex creator and verts.
 	IParticleVertexCreator*							m_pVertexCreator;		// Particle object which computes vertices.
-	volatile bool												m_ParticleComputed;
 	SParticleRenderContext							m_Context;					// Camera position and resolution.
 	Array<SVertexParticle>							m_aVerts;						// Computed particle vertices.
 	Array<uint16>												m_aVertCounts;			// Verts in each particle (multi-seg particles only).
 	float																m_fPixels;					// Total pixels rendered.
-#if defined(PARTICLE_RENDER_ORDER)
-	uint32															m_nRenderOrder;			// Copied from VertexCreator upon assignment.
-#endif
 
 	static int													m_nParticleFillThread; // Thread ID used for the particle thread this frame
-
-
-
+	JobManager::SJobState								m_SPUState;
 
 	bool Lock(const bool bWait)
 	{

@@ -128,12 +128,20 @@ public:
       if (_M_len > 0)
         _M_initialize_buffer(*__first, _Trivial());
     }
+#if defined(PS3) && !defined(__SPU__)
+     _STLP_UNWIND(_STLP_CLASS_DECLSPEC __new_alloc::deallocate(_M_buffer, _M_len * sizeof(_Tp)); _M_buffer = 0; _M_len = 0)
+#else
     _STLP_UNWIND(free(_M_buffer); _M_buffer = 0; _M_len = 0)
+#endif
   }
 
   ~_Temporary_buffer() {
     _STLP_STD::_Destroy_Range(_M_buffer, _M_buffer + _M_len);
+#if defined(PS3) && !defined(__SPU__)
+		_STLP_CLASS_DECLSPEC __new_alloc::deallocate(_M_buffer, _M_len * sizeof(_Tp));
+#else
     free(_M_buffer);
+#endif
   }
 
 private:

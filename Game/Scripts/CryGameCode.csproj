@@ -96,7 +96,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Actor\PlayableCharacter.cs" />
+    <Compile Include="Entities\Player\PlayableCharacter.cs" />
     <Compile Include="Entities\Dragon.cs" />
     <Compile Include="Entities\Physics\Bouncer.cs" />
     <Compile Include="Entities\Player\PlayerCamera.cs" />
@@ -109,7 +109,6 @@
     <Compile Include="FlowNodes\Math\Mult.cs" />
     <Compile Include="FlowNodes\SampleNode.cs" />
     <Compile Include="FlowNodes\Testing\TestALLThePortTypes.cs" />
-    <Compile Include="GameRules\BaseGameRules.cs" />
     <Compile Include="GameRules\SinglePlayer.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -328,20 +328,30 @@ struct IFaceSeqKey : public IKey
 	}
 };
 
+/** ILookAtKey used in lookat track.
+*/
+enum ELookAtKeyBoneSet
+{
+		eLookAtKeyBoneSet_Eyes,
+		eLookAtKeyBoneSet_HeadEyes,
+		eLookAtKeyBoneSet_SpineHeadEyes,
+
+		eLookAtKeyBoneSet_COUNT
+};
 struct ILookAtKey : public IKey
 {
-	char szSelection[128];	//!< Node name.
-	float fDuration;
-	char lookPose[128];
-	float smoothTime;
-	
-	ILookAtKey()
-	{
-		fDuration = 0;
-		szSelection[0] = '\0'; // empty string.
-		smoothTime = 0.2f;
-		lookPose[0] = 0x00;
-	}
+		char szSelection[128];	//!< Node name.
+		float fDuration;
+		bool bAllowAdditionalTransforms;
+		ELookAtKeyBoneSet boneSet;
+
+		ILookAtKey()
+		{
+				fDuration = 0;
+				szSelection[0] = '\0'; // empty string.
+				bAllowAdditionalTransforms = false;
+				boneSet = eLookAtKeyBoneSet_HeadEyes;
+		}
 };
 
 //! Discrete (non-interpolated) float key.

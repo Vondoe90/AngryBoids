@@ -164,7 +164,7 @@ bool CGame::Init(IGameFramework *pFramework)
 		}
 	}
 
-	REGISTER_FACTORY(m_pFramework, "Actor", CActor, false);
+	REGISTER_FACTORY(m_pFramework, "Player", CActor, false);
 	REGISTER_FACTORY(m_pFramework, "GameRules", CGameRules, false);
 
 	gEnv->pConsole->CreateKeyBind("f12", "r_getscreenshot 2");
@@ -186,7 +186,7 @@ bool CGame::Init(IGameFramework *pFramework)
 	const bool bResetProfile = gEnv->pSystem->GetICmdLine()->FindArg(eCLAT_Pre,"ResetProfile") != 0;
 	if (m_pPlayerProfileManager)
 	{
-		const char* userName = gEnv->pSystem->GetUserName();
+		const char* userName = gEnv->pSystem->GetLoggedInUserName();
 
 		bool ok = m_pPlayerProfileManager->LoginUser(userName, bIsFirstTime);
 		if (ok)
@@ -325,24 +325,6 @@ int CGame::Update(bool haveFocus, unsigned int updateFlags)
 
 	m_pRayCaster->Update(frameTime);
 	
-	if(!m_pFramework->IsGamePaused())
-	{
-		if (IViewSystem *pViewSystem = m_pFramework->GetIViewSystem())
-		{
-			if(IView *pView = pViewSystem->GetActiveView())
-			{
-				auto viewParams = *pView->GetCurrentParams();
-				viewParams.fov = DEG2RAD(60);
-				g_pGame->GetIGameFramework()->GetIViewSystem()->GetActiveView()->SetCurrentParams(viewParams);
-
-				/*CCamera cam = gEnv->pSystem->GetViewCamera();
-				cam.SetAngles(gEnv->pEntitySystem->FindEntityByName("Player")->GetWorldAngles()); //Ang3(DEG2RAD(-90),0,0) );
-				cam.SetPosition(gEnv->pEntitySystem->FindEntityByName("Player")->GetWorldPos());//Vec3(2048/2,2048/2,200) );
-				gEnv->pSystem->SetViewCamera( cam );*/
-			}
-		}
-	}
-
 	m_pFramework->PostUpdate( true, updateFlags );
 
 	if(m_inDevMode != gEnv->pSystem->IsDevMode())
@@ -386,7 +368,7 @@ string CGame::InitMapReloading()
 	levelFileName.append("_crysis.crysisjmsf");
 	if (m_pPlayerProfileManager)
 	{
-		const char* userName = GetISystem()->GetUserName();
+		const char* userName = GetISystem()->GetLoggedInUserName();
 		IPlayerProfile* pProfile = m_pPlayerProfileManager->GetCurrentProfile(userName);
 		if (pProfile)
 		{

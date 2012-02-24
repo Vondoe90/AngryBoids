@@ -51,7 +51,7 @@
 	#define CrySharedLibrayExtension ".dll"
 	#define CryGetProcAddress(libHandle, procName) ::GetProcAddress((HMODULE)(libHandle), procName)
 	#define CryFreeLibrary(libHandle) ::FreeLibrary((HMODULE)(libHandle))
-#elif defined(LINUX)
+#elif (defined(LINUX) && !defined(_LIB))
 	#include <dlfcn.h>
 	#include <stdlib.h>
 	#include "platform.h"

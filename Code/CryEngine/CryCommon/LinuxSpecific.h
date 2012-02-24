@@ -21,7 +21,7 @@
 #include MATH_H
 #include <string.h>
 #include <errno.h>
-#include </usr/include/ctype.h>
+#include <ctype.h>
 #include <algorithm>
 #include <signal.h>
 #include <unistd.h>
@@ -77,7 +77,7 @@ typedef float FLOAT;
 #endif
 #endif
 
-#if !defined(_STLP_HASH_MAP)
+#if !defined(_STLP_HASH_MAP) && !defined(USING_STLPORT)
 #define _STLP_HASH_MAP 1
 #endif
 
@@ -246,7 +246,7 @@ typedef struct in_addr_windows
 #define _strnicmp strncasecmp
 #define wcsicmp wcscasecmp
 #define wcsnicmp wcsncasecmp
-
+#define memcpy_s(dest,bytes,src,n) memcpy(dest,src,n)
 
 #define _vsnprintf vsnprintf
 #define _wtof( str ) wcstod( str, 0 )

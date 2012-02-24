@@ -201,6 +201,13 @@ enum eHostMigrationState
 	eHMS_NUM_STATES
 };
 
+enum eStatusCmdMode
+{
+	eSCM_AllSessions = 1,
+	eSCM_LegacyRConCompatabilityConnectionsOnly,
+	eSCM_LegacyRConCompatabilityNoNub
+};
+
 enum ECrySessionSearchOperator
 {
 	eCSSO_Equal,
@@ -378,6 +385,7 @@ typedef void (*CryMatchmakingSessionJoinCallback)(CryLobbyTaskID taskID, ECryLob
 typedef void (*CryMatchmakingSessionSendRequestInfoCallback)(CryLobbyTaskID taskID, ECryLobbyError error, CCryLobbyPacket* pPacket, void* pArg);
 
 struct IHostMigrationEventListener;
+struct CryUserID;
 struct ICryMatchMaking
 {
 public:
@@ -698,11 +706,18 @@ public:
 	// return			 - eCLE_Success of successful, otherwise an error
 	virtual ECryLobbyError GetSessionPlayerPing( SCryMatchMakingConnectionUID uid, CryPing* const pPing ) = 0;
 
+	// GetSessionIDFromSessionURL
+	// Get a CrySessionID from a session URL
+	// pSessionURL - session URL
+	// pSessionID	 - session ID
+	// return			 - eCLE_Success if successful, otherwise an error
+	virtual ECryLobbyError GetSessionIDFromSessionURL( const char* const pSessionURL, CrySessionID* const pSessionID ) = 0;
+
 	// GetSessionIDFromIP
 	// Get a CrySessionID from an ASCII IP address
 	// pAddr			 - IP address
 	// pSessionID	 - session ID
-	// return			 - eXCLE_Success if successful, otherwise an error
+	// return			 - eCLE_Success if successful, otherwise an error
 	virtual ECryLobbyError GetSessionIDFromIP( const char* const pAddr, CrySessionID* const pSessionID ) = 0;
 
 	// GetTimeSincePacketFromServerMS
@@ -715,6 +730,42 @@ public:
 	// Forces the server connection to disconnect
 	// gh					- game session handle
 	virtual void DisconnectFromServer(CrySessionHandle gh) = 0;
+
+	// StatusCmd
+	// Logs all connections for all sessions to the console (used by 'status' command)
+	// mode				- see eStatusCmdMode for modes
+	virtual void StatusCmd(eStatusCmdMode mode) = 0;
+
+	// KickCmd
+	// Kick console command
+	// cxID - connection ID to kick (or CryLobbyInvalidConnectionID to ignore this param)
+	// userID - e.g. GPProfile id to kick (or 0 to ignore this param)
+	// pName - user name to ban (or NULL to ignore this param)
+	virtual void KickCmd(CryLobbyConnectionID cxID, uint64 userID, const char* pName) = 0;
+
+	// Kick
+	// pUserID - CryUserID* of the user to kick
+	virtual void Kick(const CryUserID* pUserID) = 0;
+
+	// BanCmd
+	// ban console command
+	// userID - e.g. GPProfile id to ban
+	// timeout - ban timeout in minutes
+	virtual void BanCmd(uint64 userID, float timeout) = 0;
+
+	// UnbanCmd
+	// unban console command
+	// userID - e.g. GPProfile id to unban
+	virtual void UnbanCmd(uint64 userID) = 0;
+
+	// BanStatusCmd
+	// Logs all banned users to the console
+	virtual void BanStatus(void) = 0;
+
+	// Ban
+	// pUserID - CryUserID* of the user to ban
+	// timeout - ban timeout in minutes
+	virtual void Ban(const CryUserID* pUserID, float timeout) = 0;
 };
 
 #endif // __ICRYMATCHMAKING_H__

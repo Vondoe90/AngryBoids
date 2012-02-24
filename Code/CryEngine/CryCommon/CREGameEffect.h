@@ -15,7 +15,7 @@ struct IREGameEffect
 	virtual ~IREGameEffect(){}
 
 	virtual void	mfPrepare(bool bCheckOverflow) = 0;
-	virtual bool	mfDraw(CShader* ef, SShaderPass* sfm) = 0;
+	virtual bool	mfDraw(CShader* ef, SShaderPass* sfm, CRenderObject* renderObj) = 0;
 	virtual float mfDistanceToCameraSquared(Matrix34& matInst) = 0;
 };//------------------------------------------------------------------------------------------------
 

@@ -17,6 +17,7 @@
 #define __platform_impl_h__
 #pragma once
 
+#include <StringUtils.h>
 #include <platform.h>
 #include <ISystem.h>
 //#include <CryUnitTest.h>
@@ -73,8 +74,8 @@
 
 
 // this global environment variable must be initialized in each module!
-#if !defined(PS3)
-	SSystemGlobalEnvironment* gEnv = NULL;
+#if !defined(PS3) && !defined(SOFTCODE)
+	SC_API SSystemGlobalEnvironment* gEnv = NULL;
 #endif
 /*
 #ifdef CRY_STRING
@@ -128,6 +129,7 @@ void InitCRTHandlers()
 void InitCRTHandlers() {}
 #endif
 
+#ifndef SOFTCODE
 //////////////////////////////////////////////////////////////////////////
 // This is an entry to DLL initialization function that must be called for each loaded module
 //////////////////////////////////////////////////////////////////////////
@@ -166,6 +168,7 @@ extern "C" DLL_EXPORT void ModuleInitISystem( ISystem *pSystem,const char *modul
 	}
 #endif //CRY_UNIT_TESTING
 }
+#endif
 
 bool g_bProfilerEnabled = false;
 int g_iTraceAllocations = 0;
@@ -271,7 +274,12 @@ int CryMessageBox( const char *lpText,const char *lpCaption,unsigned int uType)
 //////////////////////////////////////////////////////////////////////////
 int CryCreateDirectory( const char *lpPathName,void *lpSecurityAttributes )
 {
+	// Convert from UTF-8 to UNICODE
+#if defined(WIN32) || defined(WIN64)
+	return CreateDirectoryW( CryStringUtils::UTF8ToWStr(lpPathName),(LPSECURITY_ATTRIBUTES)lpSecurityAttributes );
+#else
 	return CreateDirectory( lpPathName,(LPSECURITY_ATTRIBUTES)lpSecurityAttributes );
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////

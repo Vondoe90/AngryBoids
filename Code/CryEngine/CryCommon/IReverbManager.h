@@ -25,14 +25,75 @@
 #define REVERB_PRESETS_FILENAME_LUA	"Libs/ReverbPresets/ReverbPresetDB.lua"
 #define REVERB_PRESETS_FILENAME_XML	"Libs/ReverbPresets/ReverbPresets.xml"
 
-#define REVERB_TYPE_NONE 0
-#define REVERB_TYPE_HARDWARE 1
-#define REVERB_TYPE_SOFTWARE_LOW 2
-#define REVERB_TYPE_SOFTWARE_HIGH 3
-#define REVERB_TYPE_FREEVERB 4  // Built in FMOD reverb.
-#define REVERB_TYPE_VST_CLASSIC_REVERB 5
-#define REVERB_TYPE_VST_PRINCETON2016 6
-#define REVERB_TYPE_VST_ROOMMACHINE844 7
+#define REVERB_TYPE_NONE          0
+#define REVERB_TYPE_SOFTWARE_LOW  1
+#define REVERB_TYPE_SOFTWARE_HIGH 2
+
+// Reverb min, max and defaults
+// Master level
+#define CRYVERB_ROOM_MAX                  0
+#define CRYVERB_ROOM_MIN                  -10000
+#define CRYVERB_ROOM_DEFAULT              -1000
+
+// HF gain
+#define CRYVERB_ROOM_HF_MAX               0
+#define CRYVERB_ROOM_HF_MIN               -10000
+#define CRYVERB_ROOM_HF_DEFAULT           -100
+
+// LF gain
+#define CRYVERB_ROOM_LF_MAX               0
+#define CRYVERB_ROOM_LF_MIN               -10000
+#define CRYVERB_ROOM_LF_DEFAULT           0
+
+// Decay time
+#define CRYVERB_DECAY_TIME_MAX            20.0f
+#define CRYVERB_DECAY_TIME_MIN            0.1f
+#define CRYVERB_DECAY_TIME_DEFAULT        1.49f
+
+// Decay ratio
+#define CRYVERB_DECAY_HF_RATIO_MAX        2.0f
+#define CRYVERB_DECAY_HF_RATIO_MIN        0.1f
+#define CRYVERB_DECAY_HF_RATIO_DEFAULT    0.83f
+
+// Early reflections
+#define CRYVERB_REFLECTIONS_MAX           1000
+#define CRYVERB_REFLECTIONS_MIN           -10000
+#define CRYVERB_REFLECTIONS_DEFAULT       -2602
+
+// Pre delay
+#define CRYVERB_REFLECTIONS_DELAY_MAX     0.3f
+#define CRYVERB_REFLECTIONS_DELAY_MIN     0.0f
+#define CRYVERB_REFLECTIONS_DELAY_DEFAULT 0.007f
+
+// Late reflections
+#define CRYVERB_REVERB_MAX                2000
+#define CRYVERB_REVERB_MIN                -10000
+#define CRYVERB_REVERB_DEFAULT            200
+
+// Late delay
+#define CRYVERB_REVERB_DELAY_MAX          0.1f
+#define CRYVERB_REVERB_DELAY_MIN          0.0f
+#define CRYVERB_REVERB_DELAY_DEFAULT      0.011f
+
+// HF crossover
+#define CRYVERB_HF_REFERENCE_MAX          20000.0f
+#define CRYVERB_HF_REFERENCE_MIN          20.0f
+#define CRYVERB_HF_REFERENCE_DEFAULT      5000.0f
+
+// LF crossover
+#define CRYVERB_LF_REFERENCE_MAX          1000.0f
+#define CRYVERB_LF_REFERENCE_MIN          20.0f
+#define CRYVERB_LF_REFERENCE_DEFAULT      250.0f
+
+// Diffusion
+#define CRYVERB_DIFFUSION_MAX             100.0f
+#define CRYVERB_DIFFUSION_MIN             0.0f
+#define CRYVERB_DIFFUSION_DEFAULT         100.0f
+
+// Density
+#define CRYVERB_DENSITY_MAX               100.0f
+#define CRYVERB_DENSITY_MIN               0.0f
+#define CRYVERB_DENSITY_DEFAULT           100.0f
 
 // Reverb Presets
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,56 +132,20 @@ class CSoundSystem;
 
 typedef struct CRYSOUND_REVERB_PROPERTIES /* MIN     MAX    DEFAULT   DESCRIPTION */
 {
-	int						Instance;
-	int						Environment;            /* 0     , 25    , 0      , sets all listener properties (WIN32/PS2 only) */
-	float					EnvSize;                /* 1.0   , 100.0 , 7.5    , environment size in meters (WIN32 only) */
-	float					EnvDiffusion;           /* 0.0   , 1.0   , 1.0    , environment diffusion (WIN32/XBOX) */
-	int						Room;                   /* -10000, 0     , -1000  , room effect level (at mid frequencies) (WIN32/XBOX/PS2) */
-	int						RoomHF;                 /* -10000, 0     , -100   , relative room effect level at high frequencies (WIN32/XBOX) */
-	int						RoomLF;                 /* -10000, 0     , 0      , relative room effect level at low frequencies (WIN32 only) */
-	float					DecayTime;              /* 0.1   , 20.0  , 1.49   , reverberation decay time at mid frequencies (WIN32/XBOX) */
-	float					DecayHFRatio;           /* 0.1   , 2.0   , 0.83   , high-frequency to mid-frequency decay time ratio (WIN32/XBOX) */
-	float					DecayLFRatio;           /* 0.1   , 2.0   , 1.0    , low-frequency to mid-frequency decay time ratio (WIN32 only) */
-	int						Reflections;            /* -10000, 1000  , -2602  , early reflections level relative to room effect (WIN32/XBOX) */
-	float					ReflectionsDelay;       /* 0.0   , 0.3   , 0.007  , initial reflection delay time (WIN32/XBOX) */
-	float					ReflectionsPan[3];      /*       ,       , [0,0,0], early reflections panning vector (WIN32 only) */
-	int						Reverb;                 /* -10000, 2000  , 200    , late reverberation level relative to room effect (WIN32/XBOX) */
-	float					ReverbDelay;            /* 0.0   , 0.1   , 0.011  , late reverberation delay time relative to initial reflection (WIN32/XBOX) */
-	float					ReverbPan[3];           /*       ,       , [0,0,0], late reverberation panning vector (WIN32 only) */
-	float					EchoTime;               /* .075  , 0.25  , 0.25   , echo time (WIN32/PS2 only.  PS2 = Delay time for ECHO/DELAY modes only) */
-	float					EchoDepth;              /* 0.0   , 1.0   , 0.0    , echo depth (WIN32/PS2 only.  PS2 = Feedback level for ECHO mode only) */
-	float					ModulationTime;         /* 0.04  , 4.0   , 0.25   , modulation time (WIN32 only) */
-	float					ModulationDepth;        /* 0.0   , 1.0   , 0.0    , modulation depth (WIN32 only) */
-	float					AirAbsorptionHF;        /* -100  , 0.0   , -5.0   , change in level per meter at high frequencies (WIN32 only) */
-	float					HFReference;            /* 1000.0, 20000 , 5000.0 , reference high frequency (hz) (WIN32/XBOX) */
-	float					LFReference;            /* 20.0  , 1000.0, 250.0  , reference low frequency (hz) (WIN32 only) */
-	float					RoomRolloffFactor;      /* 0.0   , 10.0  , 0.0    , like CS_3D_SetRolloffFactor but for room effect (WIN32/XBOX) */
-	float					Diffusion;              /* 0.0   , 100.0 , 100.0  , Value that controls the echo density in the late reverberation decay. (XBOX only) */
-	float					Density;                /* 0.0   , 100.0 , 100.0  , Value that controls the modal density in the late reverberation decay (XBOX only) */
-	unsigned int	Flags;                  /* CS_REVERB_FLAGS - modifies the behavior of above properties (WIN32/PS2 only) */
+  int   nRoom;             /* [in/out] -10000, 0,        -1000,   master level */
+	int   nRoomHF;           /* [in/out] -10000, 0,        -100,    hf gain */
+	int   nRoomLF;           /* [in/out] -10000, 0,        0,       lf gain */
+	float fDecayTime;        /* [in/out] 0.1f,   20.0f,    1.49f,   decay time */
+	float fDecayHFRatio;     /* [in/out] 0.1f,   2.0f,     0.83f,   decay ratio */
+	int   nReflections;      /* [in/out] -10000, 1000,     -2602,   early reflections */
+	float fReflectionsDelay; /* [in/out] 0.0f,   0.3f,     0.007f,  pre delay */
+	int   nReverb;           /* [in/out] -10000, 2000,     200,     late reflections */
+	float fReverbDelay;      /* [in/out] 0.0f,   0.1f,     0.011f,  late delay */
+	float fHFReference;      /* [in/out] 20.0f,  20000.0f, 5000.0f, hf crossover */
+  float fLFReference;      /* [in/out] 20.0f,  1000.0f,  250.0f,  lf crossover */
+  float fDiffusion;        /* [in/out] 0.0f,   100.0f,   100.0f,  diffusion */
+  float fDensity;          /* [in/out] 0.0f,   100.0f,   100.0f,  density */
 }CRYSOUND_REVERB_PROPERTIES;
-
-typedef struct CRYSOUND_REVERB_CHANNELPROPERTIES  
-{                                      /*          MIN     MAX    DEFAULT  DESCRIPTION */
-	int          Direct;               /* [in/out] -10000, 1000,  0,       direct path level (at low and mid frequencies) (win32/Xbox) */
-	int          DirectHF;             /* [in/out] -10000, 0,     0,       relative direct path level at high frequencies (win32/Xbox) */
-	int          Room;                 /* [in/out] -10000, 1000,  0,       room effect level (at low and mid frequencies) (win32/Xbox/Gamecube/Xbox360) */
-	int          RoomHF;               /* [in/out] -10000, 0,     0,       relative room effect level at high frequencies (win32/Xbox) */
-	int          Obstruction;          /* [in/out] -10000, 0,     0,       main obstruction control (attenuation at high frequencies)  (win32/Xbox) */
-	float        ObstructionLFRatio;   /* [in/out] 0.0,    1.0,   0.0,     obstruction low-frequency level re. main control (win32/Xbox) */
-	int          Occlusion;            /* [in/out] -10000, 0,     0,       main occlusion control (attenuation at high frequencies) (win32/Xbox) */
-	float        OcclusionLFRatio;     /* [in/out] 0.0,    1.0,   0.25,    occlusion low-frequency level re. main control (win32/Xbox) */
-	float        OcclusionRoomRatio;   /* [in/out] 0.0,    10.0,  1.5,     relative occlusion control for room effect (win32) */
-	float        OcclusionDirectRatio; /* [in/out] 0.0,    10.0,  1.0,     relative occlusion control for direct path (win32) */
-	int          Exclusion;            /* [in/out] -10000, 0,     0,       main exlusion control (attenuation at high frequencies) (win32) */
-	float        ExclusionLFRatio;     /* [in/out] 0.0,    1.0,   1.0,     exclusion low-frequency level re. main control (win32) */
-	int          OutsideVolumeHF;      /* [in/out] -10000, 0,     0,       outside sound cone level at high frequencies (win32) */
-	float        DopplerFactor;        /* [in/out] 0.0,    10.0,  0.0,     like DS3D flDopplerFactor but per source (win32) */
-	float        RolloffFactor;        /* [in/out] 0.0,    10.0,  0.0,     like DS3D flRolloffFactor but per source (win32) */
-	float        RoomRolloffFactor;    /* [in/out] 0.0,    10.0,  0.0,     like DS3D flRolloffFactor but for room effect (win32/Xbox) */
-	float        AirAbsorptionFactor;  /* [in/out] 0.0,    10.0,  1.0,     multiplies AirAbsorptionHF member of FMOD_REVERB_PROPERTIES (win32) */
-	unsigned int Flags;                /* [in/out] FMOD_REVERB_CHANNELFLAGS - modifies the behavior of properties (win32) */
-}CRYSOUND_REVERB_CHANNELPROPERTIES;
 
 typedef struct CRYSOUND_ECHO_PROPERTIES /* MIN     MAX    DEFAULT   DESCRIPTION */
 {
@@ -136,26 +161,12 @@ typedef struct CRYSOUND_ECHO_PROPERTIES /* MIN     MAX    DEFAULT   DESCRIPTION 
 	float	fWetMix;			/* [in/out] 0.0f,		1.0f,			1.0f,		Volume of echo signal to pass to output.*/
 }CRYSOUND_ECHO_PROPERTIES;
 
-#define CRYSOUND_REVERB_PRESET_ZERO    {0, 0,		0.0f,		0.0f,		0,			0,			0,	0.0f,		0.0f,		0.0f, 0,			0.0f,		{ 0.0f,0.0f,0.0f },		0,		0.0f,		{ 0.0f,0.0f,0.0f }, 0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,			0.0f,		0.0f, 0.0f,		0.0f,		0x3f}
-#define CRYSOUND_REVERB_PRESET_OFF     {0, -1,	7.5f,		1.00f,	-10000, -10000, 0,  1.00f,  1.00f,	1.0f, -2602,	0.007f, { 0.0f,0.0f,0.0f },   200,	0.011f, { 0.0f,0.0f,0.0f }, 0.250f, 0.00f,	0.25f,	0.000f, -5.0f,	5000.0f,	250.0f, 0.0f, 0.0f,   0.0f,		0x33f}
-#define CRYSOUND_REVERB_PRESET_GENERIC {0, 0,		7.5f,		1.00f,	-1000,  -100,   0,  1.49f,  0.83f,	1.0f, -2602,	0.007f, { 0.0f,0.0f,0.0f },   200,	0.011f, { 0.0f,0.0f,0.0f }, 0.250f, 0.00f,	0.25f,	0.000f, -5.0f,	5000.0f,	250.0f, 0.0f, 100.0f, 100.0f, 0x3f}
-#define CRYSOUND_REVERB_UNDERWATER		 {0, 22,	1.8f,		1.00f,	-1000,	-4000,  0,  1.49f,	0.10f,	1.0f, -449,		0.007f, { 0.0f,0.0f,0.0f },		1700, 0.011f, { 0.0f,0.0f,0.0f }, 0.250f, 0.00f,	1.18f,	0.348f, -5.0f,	5000.0f,	250.0f, 0.0f, 100.0f, 100.0f, 0x3f}
-#define CRYSOUND_REVERB_PRESET_OUTDOOR {0, 0,		100.0f,	1.0f,		-2000,	-100,		0,	0.2f,		0.83f,	1.0f,	-2602,	0.015f,	{ 0.0f,0.0f,0.0f },		-500,	0.011f,	{ 0.0f,0.0f,0.0f }, 0.25f,	0.0f,		0.25f,	0.0f,		-5.0f,	5000.0f,	250.0f,	0.0f, 100.0f,	100.0f,	0x3f}
+#define CRYSOUND_REVERB_PRESET_ZERO    {0, 0, 0, 0.0f, 0.0f, 0, 0.0f, 0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
+#define CRYSOUND_REVERB_PRESET_OFF     {-10000, -10000, -10000, 0.1f, 0.1f, -10000, 0.0f, -10000, 0.0f, 20.0f, 20.0f, 0.0f, 0.0f}
+#define CRYSOUND_REVERB_PRESET_INDOOR  {-1000, -100, 0, 1.49f, 0.83f, -2602, 0.007f, 200, 0.011f, 5000.0f, 250.0f, 100.0f, 100.0f}
+#define CRYSOUND_REVERB_PRESET_OUTDOOR {-2000, -100, 0, 0.2f, 0.83f, -2602, 0.015f, -500, 0.011f, 5000.0f, 250.0f, 100.0f, 100.0f}
+#define CRYSOUND_REVERB_UNDERWATER     {-1000, -4000, 0, 1.49f, 0.1f, -449, 0.007f, 1700, 0.011f, 5000.0f, 250.0f, 100.0f, 100.0f}
 
-#define CRYSOUND_REVERB_CHANNEL_ZERO			{0, 0, 0,				0,			0, 0.0f, 0, 0.0f,		0.0f,		0.0f,		0, 0.0f, 0, 0.0f, 0.0f, 0.0f, 0.0f, 0}
-#define CRYSOUND_REVERB_CHANNEL_GENERIC		{0, 0, 0,				0,			0, 0.0f, 0, 0.25f,	1.5f,		1.0f,		0, 1.0f, 0, 0.0f, 0.0f, 0.0f, 1.0f, 0}
-#define CRYSOUND_REVERB_CHANNEL_NOREVERB	{0, 0, -10000, -10000,	0, 0.0f, 0, 0.25f,	1.5f,		1.0f,		0, 1.0f, 0, 0.0f, 0.0f, 0.0f, 1.0f, 0}
-
-//#define FMOD_REVERB_CHANNELFLAGS_DIRECTHFAUTO  0x00000001
-//#define FMOD_REVERB_CHANNELFLAGS_ROOMAUTO  0x00000002
-//#define FMOD_REVERB_CHANNELFLAGS_ROOMHFAUTO  0x00000004
-//#define FMOD_REVERB_CHANNELFLAGS_ENVIRONMENT0  0x00000008
-//#define FMOD_REVERB_CHANNELFLAGS_ENVIRONMENT1  0x00000010
-//#define FMOD_REVERB_CHANNELFLAGS_ENVIRONMENT2  0x00000020
-//#define FMOD_REVERB_CHANNELFLAGS_DEFAULT  (FMOD_REVERB_CHANNELFLAGS_DIRECTHFAUTO | FMOD_REVERB_CHANNELFLAGS_ROOMAUTO| FMOD_REVERB_CHANNELFLAGS_ROOMHFAUTO| FMOD_REVERB_CHANNELFLAGS_ENVIRONMENT0)
-
-
-//
 #define MAXCHARBUFFERSIZE 512
 typedef CryFixedStringT<MAXCHARBUFFERSIZE>	TFixedResourceName;
 
@@ -171,7 +182,7 @@ struct SReverbInfo
 
 	struct SReverbPreset
 	{
-		TFixedResourceName sPresetName;
+		CryFixedStringT<64> sPresetName;
 		CRYSOUND_REVERB_PROPERTIES EAX;
 		CRYSOUND_ECHO_PROPERTIES EchoDSP;
 		void GetMemoryUsage(ICrySizer *pSizer ) const{}
@@ -212,7 +223,7 @@ struct IReverbManager
 	//////////////////////////////////////////////////////////////////////////
 
 	//
-	virtual void Init(IAudioDevice *pAudioDevice, int nInstanceNumber, CSoundSystem* pSoundSystem) = 0;
+	virtual void Init(IAudioDevice *pAudioDevice, CSoundSystem* pSoundSystem) = 0;
 	virtual bool SelectReverb(int nReverbType) = 0;
 
 	virtual void Reset() = 0;
@@ -271,11 +282,6 @@ struct IReverbManager
 	//////////////////////////////////////////////////////////////////////////
 	// Dependency with loading a sound
 	//////////////////////////////////////////////////////////////////////////
-
-	// Return Value:
-	//	 Boolean if hardware reverb (EAX) is used or not.
-	virtual bool UseHardwareVoices() = 0;
-
 
 	virtual float GetEnvironment(ISound *pSound) = 0;
 

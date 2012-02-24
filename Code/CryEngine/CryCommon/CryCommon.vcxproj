@@ -9,12 +9,28 @@
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Profile Server Only|Win32">
+      <Configuration>Profile Server Only</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Profile Server Only|x64">
+      <Configuration>Profile Server Only</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Profile|Win32">
       <Configuration>Profile</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Profile|x64">
       <Configuration>Profile</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Server Only|Win32">
+      <Configuration>Release Server Only</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Server Only|x64">
+      <Configuration>Release Server Only</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
@@ -29,9 +45,22 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AEB958D4-45CA-478B-BA8E-D0E897CE974B}</ProjectGuid>
     <RootNamespace>CryCommon</RootNamespace>
+
+
+
     <Keyword>MakeFileProj</Keyword>
+
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Server Only|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile Server Only|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
@@ -45,6 +74,15 @@
     <ConfigurationType>Utility</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Server Only|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile Server Only|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
@@ -63,30 +101,49 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Server Only|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir).\StandardSDKs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Profile Server Only|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir).\StandardSDKs.props" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="$(SolutionDir).\StandardSDKs.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir).\StandardSDKs.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir).\StandardSDKs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Server Only|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir).\StandardSDKs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Profile Server Only|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir).\StandardSDKs.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="$(SolutionDir).\StandardSDKs.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="$(SolutionDir).\StandardSDKs.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir).\StandardSDKs.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\..\BinTemp\$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\..\BinTemp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\..\Bin64\</OutDir>
@@ -99,6 +156,14 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">$(SolutionDir)..\..\BinTemp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">$(SolutionDir)..\..\Bin64\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">$(SolutionDir)..\..\BinTemp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Profile Server Only|Win32'">$(SolutionDir)..\..\BinTemp\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Profile Server Only|Win32'">$(SolutionDir)..\..\BinTemp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Profile Server Only|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Profile Server Only|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Server Only|Win32'">$(SolutionDir)..\..\BinTemp\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Server Only|Win32'">$(SolutionDir)..\..\BinTemp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Server Only|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Server Only|x64'">$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
@@ -115,21 +180,29 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile Server Only|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Server Only|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AgentParams.h" />
     <ClInclude Include="Allocator.h" />
+    <ClInclude Include="auto_vector.h" />
+    <ClInclude Include="CRELightPropagationVolume.h" />
+    <ClInclude Include="CryExtension\Impl\Conversion.h" />
     <ClInclude Include="CryLobbyEvent.h" />
-    <ClInclude Include="CryUnitTest.h" />
     <ClInclude Include="FinalizingSpline.h" />
+    <ClInclude Include="GenericParam.h" />
+    <ClInclude Include="HardwareBreakpoint.h" />
     <ClInclude Include="I3DEngine.h" />
     <ClInclude Include="I3DEngine_info.h" />
     <ClInclude Include="I3DSampler.h" />
-    <ClInclude Include="IAIAction.h" />
-    <ClInclude Include="IAIDebugRenderer.h" />
-    <ClInclude Include="IAIGroup.h" />
-    <ClInclude Include="IAIRateOfDeathHandler.h" />
-    <ClInclude Include="IAIRecorder.h" />
-    <ClInclude Include="IAISystem.h" />
     <ClInclude Include="IAnimationGraphSystem.h" />
     <ClInclude Include="IAnimationPoseModifier.h" />
     <ClInclude Include="IAttachment.h" />
@@ -178,6 +251,7 @@
     <ClInclude Include="IFileChangeMonitor.h" />
     <ClInclude Include="IFlashPlayer.h" />
     <ClInclude Include="IFlashUI.h" />
+    <ClInclude Include="IFlowgraphDebugger.h" />
     <ClInclude Include="IFlowgraphModuleManager.h" />
     <ClInclude Include="IFlowSystem.h" />
     <ClInclude Include="IFont.h" />
@@ -192,7 +266,9 @@
     <ClInclude Include="IIndexedMesh_info.h" />
     <ClInclude Include="IInput.h" />
     <ClInclude Include="IInterestSystem.h" />
-    <ClInclude Include="IJobManSPU.h" />
+    <ClInclude Include="IJob.h" />
+    <ClInclude Include="IJobManager.h" />
+    <ClInclude Include="IJobManager_JobDelegator.h" />
     <ClInclude Include="IJoystick.h" />
     <ClInclude Include="ILipSync.h" />
     <ClInclude Include="ILMSerializationManager.h" />
@@ -213,6 +289,7 @@
     <ClInclude Include="IPhysics.h" />
     <ClInclude Include="IPlatformOS.h" />
     <ClInclude Include="IProcess.h" />
+    <ClInclude Include="IProtectionManager.h" />
     <ClInclude Include="IReadWriteXMLSink.h" />
     <ClInclude Include="IRealtimeRemoteUpdate.h" />
     <ClInclude Include="IRemoteControl.h" />
@@ -230,10 +307,10 @@
     <ClInclude Include="IShader.h" />
     <ClInclude Include="IShader_info.h" />
     <ClInclude Include="ISimpleHttpServer.h" />
+    <ClInclude Include="ISoftCodeMgr.h" />
     <ClInclude Include="ISound.h" />
     <ClInclude Include="ISoundMoodManager.h" />
     <ClInclude Include="ISplines.h" />
-    <ClInclude Include="ISPULog.h" />
     <ClInclude Include="IStatObj.h" />
     <ClInclude Include="IStereoRenderer.h" />
     <ClInclude Include="IStreamEngine.h" />
@@ -242,6 +319,7 @@
     <ClInclude Include="ISystem.h" />
     <ClInclude Include="ISystemScheduler.h" />
     <ClInclude Include="ITacticalPointSystem.h" />
+    <ClInclude Include="ITelemetrySystem.h" />
     <ClInclude Include="ITestSystem.h" />
     <ClInclude Include="ITextModeConsole.h" />
     <ClInclude Include="ITexture.h" />
@@ -252,18 +330,26 @@
     <ClInclude Include="IVisualLog.h" />
     <ClInclude Include="IXml.h" />
     <ClInclude Include="IZLibCompressor.h" />
+    <ClInclude Include="LCGRandom.h" />
     <ClInclude Include="LMCompStructures.h" />
     <ClInclude Include="LMCompStructures_info.h" />
+    <ClInclude Include="LoadSeq.h" />
     <ClInclude Include="ParticleParams.h" />
     <ClInclude Include="ParticleParams_info.h" />
     <ClInclude Include="physinterface.h" />
     <ClInclude Include="IAgent.h" />
+    <ClInclude Include="IAIAction.h" />
     <ClInclude Include="IAIActor.h" />
     <ClInclude Include="IAIActorProxy.h" />
+    <ClInclude Include="IAIDebugRenderer.h" />
+    <ClInclude Include="IAIGroup.h" />
     <ClInclude Include="IAIGroupManger.h" />
     <ClInclude Include="IAIGroupProxy.h" />
     <ClInclude Include="IAIObject.h" />
     <ClInclude Include="IAIObjectManager.h" />
+    <ClInclude Include="IAIRateOfDeathHandler.h" />
+    <ClInclude Include="IAIRecorder.h" />
+    <ClInclude Include="IAISystem.h" />
     <ClInclude Include="IBlackBoard.h" />
     <ClInclude Include="ICommunicationManager.h" />
     <ClInclude Include="ICoordinationManager.h" />
@@ -279,7 +365,6 @@
     <ClInclude Include="AIFormationDescriptor.h" />
     <ClInclude Include="AISystemListener.h" />
     <ClInclude Include="AnimKey.h" />
-    <ClInclude Include="auto_vector.h" />
     <ClInclude Include="BitFiddling.h" />
     <ClInclude Include="BitmapDilation.h" />
     <ClInclude Include="BoostHelpers.h" />
@@ -327,6 +412,7 @@
     <ClInclude Include="CryThread.h" />
     <ClInclude Include="CryThreadImpl.h" />
     <ClInclude Include="CryTypeInfo.h" />
+    <ClInclude Include="CryUnitTest.h" />
     <ClInclude Include="CryVersion.h" />
     <ClInclude Include="CryVertexBinding.h" />
     <ClInclude Include="DeferredActionQueue.h" />
@@ -340,7 +426,6 @@
     <ClInclude Include="HeapContainer.h" />
     <ClInclude Include="HidespotQueryContext.h" />
     <ClInclude Include="IAVI_Reader.h" />
-    <ClInclude Include="IDeferredCollisionEvent.h" />
     <ClInclude Include="IDirectBee.h" />
     <ClInclude Include="IDiskProfiler.h" />
     <ClInclude Include="IDMap.h" />
@@ -349,7 +434,6 @@
     <ClInclude Include="IntersectionTestQueue.h" />
     <ClInclude Include="IStatoscope.h" />
     <ClInclude Include="LineStreamBuffer.h" />
-    <ClInclude Include="LoadSeq.h" />
     <ClInclude Include="MetaUtils.h" />
     <ClInclude Include="MiniQueue.h" />
     <ClInclude Include="MTPseudoRandom.h" />
@@ -368,7 +452,9 @@
     <ClInclude Include="ProfileLog.h" />
     <ClInclude Include="ProjectDefines.h" />
     <ClInclude Include="ProjectDefinesInclude.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="Range.h" />
+    <ClInclude Include="RangeIter.h" />
     <ClInclude Include="RayCastQueue.h" />
     <ClInclude Include="ResourceCompilerHelper.h" />
     <ClInclude Include="ScopedVariableSetter.h" />
@@ -387,14 +473,19 @@
     <ClInclude Include="StlUtils.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="Synchronization.h" />
-    <ClInclude Include="TArray.h" />
+    <ClInclude Include="Tarray.h" />
+    <ClInclude Include="TelemetryConfig.h" />
+    <ClInclude Include="TelemetryFormat.h" />
+    <ClInclude Include="TelemetryParams.h" />
     <ClInclude Include="ThreadProfilerSupport.h" />
     <ClInclude Include="TimeValue.h" />
     <ClInclude Include="TimeValue_info.h" />
     <ClInclude Include="TypeInfo_decl.h" />
     <ClInclude Include="TypeInfo_impl.h" />
+    <ClInclude Include="TypeLibrary.h" />
     <ClInclude Include="Typelist.h" />
     <ClInclude Include="TypelistUtils.h" />
+    <ClInclude Include="VariadicParams.h" />
     <ClInclude Include="VectorMap.h" />
     <ClInclude Include="VectorSet.h" />
     <ClInclude Include="VertexBufferSource.h" />
@@ -402,23 +493,19 @@
     <ClInclude Include="VisionMapTypes.h" />
     <ClInclude Include="XMLBinaryHeaders.h" />
     <ClInclude Include="CREBaseCloud.h" />
-    <ClInclude Include="CREDummy.h" />
+    <ClInclude Include="CREFarTreeSprites.h" />
     <ClInclude Include="CREFogVolume.h" />
     <ClInclude Include="CREGameEffect.h" />
     <ClInclude Include="CREImposter.h" />
-    <ClInclude Include="CREIrradianceVolume.h" />
     <ClInclude Include="CRELightShape.h" />
     <ClInclude Include="CREMesh.h" />
     <ClInclude Include="CREOcclusionQuery.h" />
     <ClInclude Include="CREParticle.h" />
-    <ClInclude Include="CREPolyMesh.h" />
     <ClInclude Include="CREPostProcess.h" />
     <ClInclude Include="CRESky.h" />
-    <ClInclude Include="CRETerrainSector.h" />
     <ClInclude Include="CREVolumeObject.h" />
     <ClInclude Include="CREWaterOcean.h" />
     <ClInclude Include="CREWaterVolume.h" />
-    <ClInclude Include="CREWaterWave.h" />
     <ClInclude Include="RendElement.h" />
     <ClInclude Include="AABBSV.h" />
     <ClInclude Include="Cry_Camera.h" />
@@ -464,7 +551,6 @@
     <ClInclude Include="NoIfaceWrapper.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="platform_impl.h" />
-    <ClInclude Include="SpuUtils.h" />
     <ClInclude Include="STLPortConfig.h" />
     <ClInclude Include="Win32specific.h" />
     <ClInclude Include="Win64specific.h" />
@@ -493,34 +579,32 @@
     <ClInclude Include="CryPool\STLWrapper.h" />
     <ClInclude Include="CryPool\ThreadSafe.h" />
     <ClInclude Include="stl\STLAlignedAlloc.h" />
-    <ClInclude Include="LCGRandom.h" />
-    <ClInclude Include="Random.h" />
+    <ClInclude Include="IDeferredCollisionEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CryCommon.cpp" />
     <ClCompile Include="CryTypeInfo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Profile Server Only|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Profile Server Only|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Server Only|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Server Only|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="LCGRandom.cpp" />
     <ClCompile Include="MTPseudoRandom.cpp" />
     <ClCompile Include="ResourceCompilerHelper.cpp" />
     <ClCompile Include="CryStructPack.cpp" />
     <ClCompile Include="WinBase.cpp" />
     <ClCompile Include="CryPool\PAUnitTest.cpp" />
-    <ClCompile Include="LCGRandom.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="CryHalf_branchfree.inl" />
     <None Include="CryHalf.inl" />
-    <None Include="cpuid64\cpuid64.asm" />
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="cpuid64\cpuid64.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

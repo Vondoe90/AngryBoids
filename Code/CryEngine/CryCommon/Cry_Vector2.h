@@ -35,11 +35,11 @@ template<class F> struct Vec2_tpl
 	{
 		if (sizeof(F)==4)
 		{
-			uint32* p=(uint32*)&x;		p[0]=F32NAN;	p[1]=F32NAN;
+			uint32* p=alias_cast<uint32*>(&x);		p[0]=F32NAN;	p[1]=F32NAN;
 		}
 		if (sizeof(F)==8)
 		{
-			uint64* p=(uint64*)&x;		p[0]=F64NAN;	p[1]=F64NAN;
+			uint64* p=alias_cast<uint64*>(&x);		p[0]=F64NAN;	p[1]=F64NAN;
 		}
 	}
 #else

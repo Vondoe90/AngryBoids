@@ -67,6 +67,9 @@ struct IFireMode
 	virtual void CancelReload() = 0;
 	virtual bool CanCancelReload() = 0;
 	//virtual void FinishReload() = 0;
+#ifdef SERVER_CHECKS
+	virtual float GetDamageAmountAtXMeters(float x) { return 0.0f; }
+#endif
 
 	virtual const char *GetSuffix() const {return NULL;}
 	virtual const char *GetSuffixAG() const {return NULL;}

@@ -22,6 +22,7 @@
 
 struct IFlowSystem;
 struct IGameTokenSystem;
+namespace Telemetry { struct ITelemetryRepository; }
 
 // For game to access Editor functionality.
 struct IGameToEditorInterface
@@ -99,6 +100,9 @@ UNIQUE_IFACE struct IEditorGame
 
 	virtual bool SupportsMultiplayerGameRules() { return false; }
 	virtual void ToggleMultiplayerGameRules() {}
+
+	// telemetry functions: possibly should find a better place for these
+	virtual void RegisterTelemetryTimelineRenderers(Telemetry::ITelemetryRepository* pRepository) = 0;
 };
 
 

@@ -9,11 +9,11 @@ struct IHttpServerListener
 	enum EResultDesc {eRD_Okay, eRD_Failed, eRD_AlreadyStarted};
 	virtual void OnStartResult(bool started, EResultDesc desc) = 0;
 
-	//virtual void OnClientAuthorized(string clientAddr) = 0;
-	//virtual void OnAuthorizedClientLeft(string clientAddr) = 0;
+	virtual void OnClientConnected(string client) = 0;
+	virtual void OnClientDisconnected() = 0;
 
-	virtual void OnGetRequest( string url, string client ) = 0;
-	virtual void OnRpcRequest(string xml, string client) = 0;
+	virtual void OnGetRequest(string url) = 0;
+	virtual void OnRpcRequest(string xml) = 0;
 
 	// required by work queueing
 	virtual void AddRef() const {}

@@ -9,6 +9,7 @@
 struct SCryUserID : public CMultiThreadRefCount
 {
 	virtual bool operator == (const SCryUserID &other) const = 0;
+	virtual bool operator < (const SCryUserID &other) const = 0;
 
 	virtual CryFixedStringT<CRYLOBBY_USER_GUID_STRING_LENGTH> GetGUIDAsString() const
 	{
@@ -31,6 +32,11 @@ struct CryUserID
 		return userID.get();
 	}
 	
+	bool operator != (const CryUserID& other) const
+	{
+		return !(*this == other);
+	}
+
 	bool operator == (const CryUserID& other) const
 	{
 		if (other.IsValid() && IsValid())
@@ -40,6 +46,23 @@ struct CryUserID
 		if ((!other.IsValid()) && (!IsValid()))
 		{
 			return true;
+		}
+		return false;
+	}
+
+	bool operator < (const CryUserID& other) const
+	{
+		// In the case where one is invalid, the invalid one is considered less than the valid one
+		if (other.IsValid())
+		{
+			if (IsValid())
+			{
+				return (*userID) < (*other.userID);
+			}
+			else
+			{
+				return true;
+			}
 		}
 		return false;
 	}
@@ -80,6 +103,9 @@ struct ICryDLCStore;
 
 typedef uint32 CryLobbyTaskID;
 const CryLobbyTaskID CryLobbyInvalidTaskID = 0xffffffff;
+
+typedef uint32 CryLobbyConnectionID;
+const CryLobbyConnectionID CryLobbyInvalidConnectionID = 0xffffffff;
 
 typedef uint16 CryPing;
 #define CRYLOBBY_INVALID_PING		(CryPing(~0))
@@ -169,6 +195,13 @@ enum ECryLobbyError
 	eCLE_ThisUsersAccount = 70,		// GameSpy: Attempt to create account with email address already used by this user, if wrong uniquenick a reminder will be dispatched in an eCLSE_OnlineNameRejected event.
 	eCLE_Cancelled = 71,					// GameSpy: login attempt was cancelled
 	eCLE_InvalidPing = 72,				// No valid ping value found for user in session
+	eCLE_CDKeyMalformed = 73,			// Malformed CD key
+	eCLE_CDKeyUnknown = 74,				// CD key not in database for this game
+	eCLE_CDKeyAuthFailed = 75,		// CD key authentication failed
+	eCLE_CDKeyDisabled = 76,			// CD key has been disabled
+	eCLE_CDKeyInUse = 77,					// CD key is in use
+	eCLE_MultipleSignIn = 78,			// Disconnected because another sign in to the same account occurred
+	eCLE_Banned = 79,							// Banned user attempting to join session
 
 	eCLE_InternalError,
 
@@ -386,6 +419,7 @@ struct SCryGameSpyVoiceCodecInfo
 #define CLCC_PSN_STORE_ID									'PSto'
 #define CLCC_PSN_IS_DLC_INSTALLED					'PDlc'
 
+#define CLCC_GAMESPY_CDKEY					'GCdk'
 #define CLCC_GAMESPY_D2GCATALOGREGION		'GDcr'
 #define CLCC_GAMESPY_D2GCATALOGTOKEN		'GDct'
 #define CLCC_GAMESPY_D2GCATALOGVERSION	'GDcv'
@@ -402,11 +436,16 @@ struct SCryGameSpyVoiceCodecInfo
 #define CLCC_GAMESPY_TITLE					'GTtl'
 #define CLCC_GAMESPY_UNIQUENICK			'GUnk'
 #define CLCC_GAMESPY_GAMEVERSION		'GVer'
+#define CLCC_GAMESPY_GAMEVERSIONSTRING	'GVes'
 #define CLCC_GAMESPY_P2PLEADERBOARDFMT				'GPlf'
 #define CLCC_GAMESPY_DEDICATEDLEADERBOARDFMT	'GDlf'
+#define CLCC_GAMESPY_P2PSTATSTABLE						'GPst'
+#define CLCC_GAMESPY_DEDICATEDSTATSTABLE			'GDst'
 #define CLCC_GAMESPY_VOICE_CODEC		'GVCo'
+#define CLCC_GAMESPY_DISTRIBUTIONID	'GDid'
 
 #define CLCC_CRYLOBBY_LOGINGUISTATE	'CSgs'	// Common to all online services for which login is not handled by OS
+#define CLCC_CRYLOBBY_LOGINGUICOUNT	'CSgc'	// Integer that game must increment every time user confirms login credentials
 
 #define CLCC_CRYLOBBY_PRESENCE_CONVERTER	'CPre'	// Used by PSN and Gamespy for converting presence info into a string form
 
@@ -424,11 +463,14 @@ enum ECryLobbyLeaderboardType
 
 enum ECryLobbyLoginGUIState
 {
-	eCLLGS_NotImplemented,	// Login GUI not implemented
-	eCLLGS_NotFinished,			// Values in GUI fields not confirmed, engine must not read values returned along with this
-	eCLLGS_Cancelled,				// Abort the login attempt
-	eCLLGS_NewAccount,			// Create a new account with values returned along with this
-	eCLLGS_ExistingAccount	// Login to existing account with values returned along with this
+	eCLLGS_NotImplemented,					// Login GUI not implemented
+	eCLLGS_NotFinished,							// Values in GUI fields not confirmed, engine must not read values returned along with this
+	eCLLGS_Cancelled,								// Abort the login attempt
+	eCLLGS_NewAccount,							// Create a new account with values returned along with this
+	eCLLGS_ExistingAccount,					// Login to existing account with values returned along with this
+	eCLLGS_InvalidUniqueNickSize,		// Invalid unique nick size (must be between GAMESPY_UNIQUENICK_MIN_LENGTH and GAMESPY_UNIQUENICK_MAX_LENGTH characters)
+	eCLLGS_InvalidUniqueNickChar,		// Invalid starting character for unique nick (cannot be '@', '+', ':' or '#'), or invalid in body (<'"', >'~' or one of '\', ',')
+	eCLLGS_PasswordIncorrect
 };
 
 // User credential identifiers used by GetUserCredentials task
@@ -894,6 +936,11 @@ public:
 	// Return:
 	//	 True if the flag is true.
 	virtual bool GetLobbyServiceFlag( ECryLobbyService service, ECryLobbyServiceFlag flag ) = 0;
+
+	// SetUserPacketEnd
+	// Set the user packet end point.
+	// end	- The user packet end point. Packet types end and higher get translated to disconnect packets.
+	virtual void SetUserPacketEnd(uint32 end) = 0;
 
 	// The following three functions are used to allow clients to start loading assets earlier in the flow when using the lobby service
 	//At present we don't support more than one nub session, so these are in the lobby for easier access.

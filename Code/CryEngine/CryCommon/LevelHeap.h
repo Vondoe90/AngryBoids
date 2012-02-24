@@ -125,6 +125,20 @@ public:
 	uint32 m_pageBitmap[DLAddressSpace / ((64*1024) * 32)];
 };
 
+#else
+// dummy implementation to prevent too many ifdefs in client code
+class CLevelHeap 
+{
+public:
+	void *Malloc(size_t sz) { __debugbreak(); return NULL; }
+	size_t Free(void * ptr) { __debugbreak(); return 0; }
+	void *Realloc(void * ptr, size_t sz){ __debugbreak(); return NULL; }
+	void *ReallocAlign(void * ptr, size_t size, size_t alignment){ __debugbreak(); return NULL; }
+	void *Memalign(size_t boundary, size_t size){ __debugbreak(); return NULL; }
+	size_t UsableSize(void* ptr){ __debugbreak(); return 0; }
+	bool IsInAddressRange(void* ptr) const { return false; }
+};
+
 #endif
 
 #endif

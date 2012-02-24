@@ -15,6 +15,7 @@
 #include "CryMemoryManager.h"
 class ICrySizer;
 
+class ICrySizer;
 namespace stl
 {
 	template <class T>
@@ -64,21 +65,13 @@ namespace stl
 		{
 			(void)hint;
 			ScopedSwitchToGlobalHeap useGlobalHeap;
-#if defined(NOT_USE_CRY_MEMORY_MANAGER)
 			return static_cast<pointer>(CryModuleMalloc(n * sizeof(T)));
-#else
-			return static_cast<pointer>(CryModuleMalloc(n * sizeof(T), eCryModule));
-#endif
 		}
 
 		void deallocate(pointer p, size_type n = 1)
 		{
 			(void)n;
-#if defined(NOT_USE_CRY_MEMORY_MANAGER)
 			CryModuleFree(p);
-#else
-			CryModuleFree(p, eCryModule);
-#endif
 		}
 
 		size_type max_size() const throw()

@@ -39,7 +39,8 @@ struct TangData
 #define FSM_VOXELS        4
 #define FSM_CREATE_DEVICE_MESH 8
 #define FSM_SETMESH_ASYNC 16
-
+#define FSM_SUPPORT_HW_TESSELATION 32
+#define FSM_IGNORE_TEXELDENSITY	64
 
 // Invalidate video buffer flags
 #define FMINV_STREAM      1
@@ -107,7 +108,7 @@ UNIQUE_IFACE struct IRenderMesh
 		SPipTangents *pTangents;
 		uint16* pIndices;
 		int nIndexCount;
-		eRenderPrimitiveType nPrimetiveType;
+		PublicRenderPrimitiveType nPrimetiveType;
 		int nRenderChunkCount;
 		int nClientTextureBindID;
 		bool bOnlyVideoBuffer;
@@ -115,7 +116,7 @@ UNIQUE_IFACE struct IRenderMesh
 		bool bLockForThreadAccess;
 
 		SInitParamerers() : eVertexFormat(eVF_P3F_C4B_T2F),eType(eRMT_Static),pVertBuffer(0),nVertexCount(0),pTangents(0),pIndices(0),nIndexCount(0),
-			nPrimetiveType(eptTriangleList),nRenderChunkCount(0),nClientTextureBindID(0),bOnlyVideoBuffer(false),bPrecache(true),bLockForThreadAccess(false) {}
+			nPrimetiveType(prtTriangleList),nRenderChunkCount(0),nClientTextureBindID(0),bOnlyVideoBuffer(false),bPrecache(true),bLockForThreadAccess(false) {}
 	};
 
   //////////////////////////////////////////////////////////////////////////
@@ -222,6 +223,9 @@ UNIQUE_IFACE struct IRenderMesh
 
 	virtual void LockForThreadAccess() = 0;
 	virtual void UnLockForThreadAccess()= 0;
+
+	virtual void SetTesselatedRenderMeshVersion(IRenderMesh * pTesselated) = 0;
+	virtual IRenderMesh * GetTesselatedRenderMeshVersion() = 0;
 };
 
 struct SBufferStream

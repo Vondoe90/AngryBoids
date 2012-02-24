@@ -25,214 +25,207 @@ namespace spline
 	// FinalizingSpline
 	//////////////////////////////////////////////////////////////////////////
 
-	template <class Source>
-	class	FinalizingSpline
+	template <class Source, class Final>
+	class	FinalizingSpline: public CBaseSplineInterpolator<typename Source::value_type, Source>
 	{
 	public:
 		using_type(Source, value_type);
 		using_type(Source, key_type);
+		using_type(ISplineInterpolator, ValueType)
 
-		// Adaptors for base spline functions.
-		int num_keys() const
-			{ return m_pSource->num_keys(); }
-		void resize( int num )
-			{ m_pSource->resize(num); }
-		int insert_key( float t, const value_type& val )
-			{ return m_pSource->insert_key(t, val); }
-		void erase( int key )
-			{ m_pSource->erase(key); }
-		void find_keys_in_range(float startTime, float endTime, int& firstFoundKey, int& numFoundKeys) const
-			{ m_pSource->find_keys_in_range(startTime, endTime, firstFoundKey, numFoundKeys); }
-		void remove_keys_in_range(float startTime, float endTime)
-			{ m_pSource->remove_keys_in_range(startTime, endTime); }
-		key_type&	key( int n )
-			{ return m_pSource->key(n); }
-		const key_type& key( int n ) const
-			{ return m_pSource->key(n); }
-		void SetModified( bool bOn, bool bSort = false )
-			{ m_pSource->SetModified(bOn, bSort ); }
+		FinalizingSpline()
+			: m_pFinal(0)
+		{}
 
-		bool is_updated() const
+		void SetFinal( Final* pFinal )
 		{
-			return !m_pSource || m_pSource->is_updated();
+			m_pFinal = pFinal;
+			m_pFinal->to_source(*this);
+			Source::SetModified(false); 
 		}
 
-		void finalize()
-		{
-			// Optimise by removing source spline data.
-			// Any further spline updates will crash 
-			// (we could assert for non-null pointer, but crashing has the same effect).
-			m_pSource = 0;
-		}
-		bool is_finalized() const
-		{
-			return !m_pSource;
-		}
-
-		void GetMemoryUsage(ICrySizer* pSizer, bool bSelf = false) const
-		{
-			if (bSelf && !pSizer->AddObjectSize(this))
-				return;
-			pSizer->AddObject(m_pSource);
-		}
-
-	protected:
-
-		deep_ptr<Source,true>		m_pSource;
-	};
-
-	//////////////////////////////////////////////////////////////////////////
-	// LookupTableSpline
-	//////////////////////////////////////////////////////////////////////////
-	
-	template <class S, class value_type, const int nMAX_ENTRIES>
-	class	LookupTableSplineInterpolater
-	{
-	public:
-		ILINE static void fast_interpolate( float t, value_type& val, S *m_table)
-		{
-			t *= nMAX_ENTRIES - 1.0f;
-			float frac = t - floorf(t);
-			int idx = int(t);
-			val = value_type(m_table[idx]) * (1.f - frac);
-			val += value_type(m_table[idx + 1]) * frac;
-		}
-	};
-	
-#ifndef __SPU__
-	template <class value_type, const int nMAX_ENTRIES>
-	class	LookupTableSplineInterpolater <UnitFloat8, value_type, nMAX_ENTRIES>
-	{
-		enum { SHIFT_AMOUNT = 24 };
-
-	public:
-		ILINE static void fast_interpolate( float t, value_type& val, UnitFloat8 *m_table )
-		{
-			const float scale = (float)(1 << SHIFT_AMOUNT);
-			uint32 ti = uint32(t * scale * (nMAX_ENTRIES - 1.0f));
-			uint32 idx = ti >> SHIFT_AMOUNT;
-			uint32 frac = ti - (idx << SHIFT_AMOUNT);
-			uint32 vali = (uint32)m_table[idx + 1].GetStore() * frac;
-			frac = (1 << SHIFT_AMOUNT) - frac;
-			vali += (uint32)m_table[idx].GetStore() * frac;
-			val = (value_type)vali * (1.0f / (255.0f * scale));
-		}
-	};
-#endif
-
-	template <class S, class Source>
-	class	LookupTableSpline: public FinalizingSpline<Source>
-	{
-		typedef FinalizingSpline<Source> super_type;
-		using super_type::m_pSource;
-		using super_type::is_updated;
-
-		enum { nSTORE_SIZE = 128 };
-		enum { nMAX_ENTRIES = nSTORE_SIZE - 1 };
-		enum { nMIN_VALUE = nMAX_ENTRIES };
-
-	public:
-
-		using_type(super_type, value_type);
-
-		LookupTableSpline()
+		// Most spline functions use source spline (base class).
+		// interpolate() uses dest, for fidelity.
+		virtual void Interpolate( float time, ValueType &value )
 		{ 
-			init(); 
+			assert(Source::is_updated());
+			assert(m_pFinal);
+			m_pFinal->interpolate(time, *(value_type*)&value ); 
 		}
 
-		LookupTableSpline( const LookupTableSpline& other )
-			: super_type(other)
+		// Update dest when source modified.
+		// Should be called for every update to source spline.
+		virtual void SetModified( bool bOn, bool bSort = false )
 		{
-			init();
-			update();
-		}
-		void operator=( const LookupTableSpline& other )
-		{
-			super_type::operator=(other);
-			update();
+			Source::SetModified(bOn, bSort); 
+			assert(m_pFinal);
+			m_pFinal->from_source(*this);
 		}
 
-		~LookupTableSpline()
-		{
-			delete[] m_table;
-		}
-
-		void interpolate( float t, value_type& val )
-		{
-			if (!is_updated())
-				update();
-			fast_interpolate( clamp(t, 0.0f, 1.0f), val );
-		}
-
-		SPU_NO_INLINE void fast_interpolate( float t, value_type& val ) const
-		{
-			LookupTableSplineInterpolater<S, value_type, nMAX_ENTRIES>::fast_interpolate(t, val, m_table);
-		}
-
-		ILINE void min_value( value_type& val ) const
-		{
-			val = value_type(m_table[nMIN_VALUE]);
-		}
-
-		void finalize()
-		{
-			if (!is_updated())
-				update();
-			super_type::finalize();
-		}
-
-		void GetMemoryUsage(ICrySizer* pSizer, bool bSelf = false) const
-		{
-			if (bSelf && !pSizer->AddObjectSize(this))
-				return;
-			super_type::GetMemoryUsage(pSizer);
-			if (m_table)
-				pSizer->AddObject(m_table, nSTORE_SIZE * sizeof(S));
-		}
+		virtual void SerializeSpline( XmlNodeRef &node, bool bLoading )
+		{}
 
 	protected:
 
-		void update()
-		{
-			value_type minVal(1.0f);
-			if (!m_table)
-			{
-				m_table = new S[nSTORE_SIZE];
-			}
-			if (!m_pSource || m_pSource->empty())
-			{
-				for (int i=0; i<nMAX_ENTRIES; i++)
-				{
-					m_table[i] = value_type(1.f);
-				}
-			}
-			else
-			{
-				m_pSource->update();
-				for (int i=0; i<nMAX_ENTRIES; i++)
-				{
-					value_type val;
-					float t = float(i) * (1.0f/(float)(nMAX_ENTRIES-1));
-					m_pSource->interpolate(t, val);
-					minVal = min(minVal, val);
-					m_table[i] = val;
-				}
-			}
-			m_table[nMIN_VALUE] = minVal;
-		}
-
-		void init()
-		{
-			m_table = NULL;
-		}
-
-		bool is_updated() const
-		{
-			return super_type::is_updated() && m_table;
-		}
-
-		S*			m_table;
+		Final*			m_pFinal;
 	};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// OptSpline
@@ -260,6 +253,9 @@ namespace spline
 			c = s0 + v0 - v1
 			d = -s1 - v0 + v1
 
+			s0 = c + v1 - v0
+			s1 = -d + v1 - v0
+
 		For compression, all values of v and t are limited to [0..1].
 		Find the max possible slope values, such that values never exceed this range.
 
@@ -278,19 +274,18 @@ namespace spline
 			c = 1
 	*/
 
-	template<class T, class Source>
-	class	OptSpline: public FinalizingSpline<Source>
+	template<class T>
+	class	OptSpline
 	{
-		typedef OptSpline<T, Source> self_type;
-		typedef FinalizingSpline<Source> super_type;
+		typedef OptSpline<T> self_type;
 
 	public:
-		using_type(super_type, value_type);
-		using_type(super_type, key_type);
+
+		typedef T value_type;
+		typedef SplineKey<T> key_type;
+		typedef TSplineSlopes<T, key_type, true> source_spline;
 
 	protected:
-
-		using super_type::m_pSource;
 
 		static const int DIM = sizeof(value_type) / sizeof(float);
 
@@ -299,6 +294,47 @@ namespace spline
 		{
 			S	elems[DIM];
 
+			ILINE array()
+			{
+				for (int i = 0; i < DIM; i++)
+					elems[i] = 0;
+			}
+			ILINE array( value_type const& val )
+			{
+				const float* aVal = reinterpret_cast<const float*>(&val);
+				for (int i = 0; i < DIM; i++)
+					elems[i] = aVal[i];
+			}
+			ILINE array& operator=( value_type const& val )
+			{
+				new(this) array<S>(val);
+				return *this;
+			}
+
+			ILINE operator value_type() const
+			{
+				PREFAST_SUPPRESS_WARNING(6001)
+				value_type val;
+				float* aVal = reinterpret_cast<float*>(&val);
+				for (int i = 0; i < DIM; i++)
+					aVal[i] = elems[i];
+				return val;
+			}
+
+			ILINE bool operator !() const
+			{
+				for (int i = 0; i < DIM; i++)
+					if (elems[i])
+						return false;
+				return true;
+			}
+			ILINE bool operator ==(array<S> const& o) const
+			{
+				for (int i = 0; i < DIM; i++)
+					if (!(elems[i] == o.elems[i]))
+						return false;
+				return true;
+			}
 			ILINE S& operator [](int i)
 			{
 				assert(i >= 0 && i < DIM);
@@ -311,249 +347,347 @@ namespace spline
 			}
 		};
 
-		template<class S>
-		static ILINE float* farr(S* f)
-		{
-			return reinterpret_cast<float*>(f);
-		}
+		typedef TFixed<uint8,1,240> TStore;
+		typedef array< TFixed<uint8,1,240> > VStore;
+		typedef array< TFixed<int8,2,127,true> > SStore;
 
-		template<class S>
-		static ILINE const float* farr( const S* f)
+		//
+		// Element storage
+		//
+		struct Point
 		{
-			return reinterpret_cast<const float*>(f);
-		}
+			TStore	st;				// Time of this point.
+			VStore	sv;				// Value at this point.
 
-		typedef uint8 TStore;
-		typedef array<uint8> VStore;
-		typedef array<int8> SStore;
-
-		static ILINE float FromStorage( TStore store )
-		{
-			return ufrac8_to_float(store);
-		}
-		static ILINE TStore ToStorage( float val )
-		{
-			return float_to_ufrac8(val);
-		}
-		static ILINE void FromStorage( value_type& val, const VStore& store )
-		{
-			float *pF = farr(&val);
-			for (int i = 0; i < DIM; i++)
-				pF[i] = ufrac8_to_float(store[i]);
-		}
-		static ILINE void ToStorage( VStore& store, const value_type& val )
-		{
-			const float *pF = farr(&val);
-			for (int i = 0; i < DIM; i++)
-				store[i] = float_to_ufrac8( pF[i] );
-		}
-
-		struct OptElem
-		{
-			TStore	st1;				// End time of this segment.
-			VStore	sv1;				// End value of this segment.
-			SStore	svc, svd;		// Coefficients for 4 uut and 4 utt.
-
-			ILINE void eval(value_type& val, const VStore& sv0, float t) const
+			void set_key( float t, value_type v )
 			{
-				float u = 1.f - t,
-							tu4v = t*u * (4.f / 128.f);
-
-				float *pF = farr(&val);
-				for (int i = 0; i < DIM; i++)
-				{
-					float elem = (float(sv0[i]) * u + float(sv1[i]) * t) * (1.f / 255.f);
-					elem += (float(svc[i]) * u + float(svd[i]) * t) * tu4v;
-					pF[i] = elem;
-				}
-			}
-
-			// Compute coeffs based on 2 endpoints & slopes.
-			void set( float t0, value_type v0, value_type s0, float t1, value_type v1, value_type s1 )
-			{
-				assert(t0 >= 0.f && t1 > t0 && t1 <= 1.f);
-
-				st1 = ToStorage(t1);
-
-				for (int i = 0; i < DIM; i++)
-				{
-					float v0i = farr(&v0)[i], 
-								v1i = farr(&v1)[i],
-								s0i = farr(&s0)[i],
-								s1i = farr(&s1)[i];
-
-					// Store values.
-					sv1[i] = float_to_ufrac8(v1i);
-					svc[i] = float_to_ifrac8(( s0i + v0i - v1i) / 4.f);
-					svd[i] = float_to_ifrac8((-s1i - v0i + v1i) / 4.f);
-				}
+				st = t;
+				sv = v;
 			}
 		};
+
+		struct Elem: Point
+		{
+			using Point::st;	// Total BS required for idiotic gcc.
+			using Point::sv;
+
+			SStore	sc, sd;		// Coefficients for uut and utt.
+
+			// Compute coeffs based on 2 endpoints & slopes.
+			void set_slopes( value_type s0, value_type s1 )
+			{
+				value_type dv = value_type((this)[1].sv) - value_type(sv);
+				sc = s0 - dv;
+				sd = dv - s1;
+			}
+
+			ILINE void eval( value_type& val, float t ) const
+			{
+				float u = 1.f - t,
+							tu = t*u;
+
+				float* aF = reinterpret_cast<float*>(&val);
+				for (int i = 0; i < DIM; i++)
+				{
+					float elem = float(sv[i]) * u + float(this[1].sv[i]) * t;
+					elem += (float(sc[i]) * u + float(sd[i]) * t) * tu;
+					assert(elem >= 0.f && elem <= 1.f);
+					aF[i] = elem;
+				}
+			}
+
+			// Slopes
+			// v(t) = v0 u + v1 t + (c u + d t) t u
+			// v\t(t) = v1 - v0 + (d - c) t u + (d t + c u) (u-t)
+			// v\t(0) = v1 - v0 + c
+			// v\t(1) = v1 - v0 - d
+			value_type start_slope() const
+			{
+				return value_type((this)[1].sv) - value_type(sv) + value_type(sc);
+			}
+			value_type end_slope() const
+			{
+				return value_type((this)[1].sv) - value_type(sv) - value_type(sd);
+			}
+		};
+
+		struct Spline
+		{
+			uint8		nKeys;						// Total number of keys.
+			Elem		aElems[1];				// Points and slopes. Last element is just Point without slopes.
+
+			Spline()
+				: nKeys(0)
+			{
+				// Empty spline sets dummy values to max, for consistency.
+				aElems[0].st = TStore(1);
+				aElems[0].sv = value_type(1);
+			}
+
+			Spline(int nKeys)
+				: nKeys(nKeys)
+			{
+				#ifdef _DEBUG
+				if (nKeys)
+					((char*)this)[alloc_size()] = 77;
+				#endif
+			}
+
+			static size_t alloc_size( int nKeys )
+			{
+				assert(nKeys > 0);
+				return sizeof(Spline) + max(nKeys-2,0) * sizeof(Elem) + sizeof(Point);
+			}
+			size_t alloc_size() const
+			{
+				return alloc_size(nKeys);
+			}
+
+			SPU_NO_INLINE key_type key( int n ) const
+			{
+				key_type key;
+				if (n < nKeys)
+				{
+					key.time = aElems[n].st;
+					key.value = aElems[n].sv;
+
+					value_type default_slope = n > 0 && n < nKeys-1 ? 
+						minmag(key.value - value_type(aElems[n-1].sv), value_type(aElems[n+1].sv) - key.value)
+						: value_type(0.f);
+
+					if (n > 0)
+					{
+						key.ds = aElems[n-1].end_slope();
+						SStore def_d = value_type(-default_slope - value_type(aElems[n-1].sv) + key.value);
+						if (!(def_d == aElems[n-1].sd))
+							key.flags |= (SPLINE_KEY_TANGENT_LINEAR << SPLINE_KEY_TANGENT_IN_SHIFT);
+					}
+					if (n < nKeys-1)
+					{
+						key.dd = aElems[n].start_slope();
+						SStore def_c = value_type(default_slope - value_type(aElems[n+1].sv) + key.value);
+						if (!(def_c == aElems[n].sc))
+							key.flags |= (SPLINE_KEY_TANGENT_LINEAR << SPLINE_KEY_TANGENT_OUT_SHIFT);
+					}
+				}
+				return key;
+			}
+
+			SPU_NO_INLINE void interpolate( float t, value_type& val ) const
+			{
+				float prev_t = aElems[0].st;
+				if (t <= prev_t)
+					val = aElems[0].sv;
+				else
+				{
+					// Find spline segment.
+					const Elem* pEnd = aElems+nKeys-1;
+					const Elem* pElem = aElems;
+					for (; pElem < pEnd; ++pElem)
+					{
+						float cur_t = pElem[1].st;
+						if (t <= cur_t)
+						{
+							// Eval
+							pElem->eval( val, (t - prev_t) / (cur_t - prev_t) );
+							return;
+						}
+						prev_t = cur_t;
+					}
+
+					// Last point value.
+					val = pElem->sv;
+				}
+			}
+
+			SPU_NO_INLINE void min_value( value_type& val ) const
+			{
+				VStore sval = aElems[0].sv;
+				for (int n = 1; n < nKeys; n++)
+					for (int i = 0; i < DIM; i++)
+						sval[i] = min(sval[i], aElems[n].sv[i]);
+				val = sval;
+			}
+
+			SPU_NO_INLINE void max_value( value_type& val ) const
+			{
+				VStore sval = aElems[0].sv;
+				for (int n = 1; n < nKeys; n++)
+					for (int i = 0; i < DIM; i++)
+						sval[i] = max(sval[i], aElems[n].sv[i]);
+				val = sval;
+			}
+
+			void validate() const
+			{
+				#ifdef _DEBUG
+					if (nKeys)
+					{
+						assert( ((char const*)this)[alloc_size()] == 77 );
+					}
+				#endif
+			}
+		};
+
+		Spline*		m_pSpline;
+
+		static Spline& EmptySpline()
+		{
+			static Spline sEmpty;
+			return sEmpty;
+		}
+
+		void alloc(int nKeys)
+		{
+			if (nKeys)
+			{
+				size_t nAlloc = Spline::alloc_size(nKeys)
+					#ifdef _DEBUG
+						+ 1
+					#endif
+						;
+				m_pSpline = new(malloc(nAlloc)) Spline(nKeys);
+			}
+			else
+				m_pSpline = &EmptySpline();
+		}
+
+		void dealloc()
+		{
+			if (!empty())
+				free(m_pSpline);
+		}
 
 	public:
 
 		~OptSpline()
-		{ 
-			delete[] m_elems; 
+		{
+			dealloc();
 		}
+
 		OptSpline()
 		{ 
-			init(); 
+			m_pSpline = &EmptySpline();
 		}
+
 		OptSpline( const self_type& in )
-			: super_type(in)
-		{ 
-			init();
-			update();
+		{
+			if (!in.empty())
+			{
+				alloc(in.num_keys());
+				memcpy(m_pSpline, in.m_pSpline, in.m_pSpline->alloc_size());
+				m_pSpline->validate();
+			}
+			else
+				m_pSpline = &EmptySpline();
 		}
+
 		self_type& operator=( const self_type& in )
 		{
-			super_type::operator=(in);
-			init();
-			update();
+			dealloc();
+			new(this) self_type(in);
 			return *this;
 		}
 
-		void interpolate( float t, value_type& val )
+		//
+		// Adaptors for CBaseSplineInterpolator
+		//
+		bool empty() const
 		{
-			update();
-			fast_interpolate( t, val );
+			return !m_pSpline->nKeys;
+		}
+		void clear()
+		{
+			dealloc();
+			m_pSpline = &EmptySpline();
+		}
+		ILINE int num_keys() const
+		{
+			return m_pSpline->nKeys;
 		}
 
-		// Overrides.
-
-		bool is_updated() const
+		ILINE key_type key( int n ) const
 		{
-			if (m_pSource && !m_pSource->is_updated())
-				return false;
-			return !is_init();
+			return m_pSpline->key(n);
 		}
 
-		void finalize()
+		ILINE void interpolate( float t, value_type& val ) const
 		{
-			update();
-			super_type::finalize();
+			m_pSpline->interpolate( t, val );
 		}
 
-		void GetMemoryUsage(ICrySizer* pSizer, bool bSelf = false) const
+		void GetMemoryUsage(ICrySizer* pSizer) const
 		{
-			if (bSelf && !pSizer->AddObjectSize(this))
-				return;
-			super_type::GetMemoryUsage(pSizer);
-			pSizer->AddObject(m_elems, m_elemcount * sizeof(OptElem));
+			if (!empty())
+				pSizer->AddObject(m_pSpline, m_pSpline->alloc_size());
 		}
 
+		//
 		// Additional methods.
-		SPU_NO_INLINE void fast_interpolate( float t, value_type& val ) const
+		//
+		void min_value( value_type& val ) const
 		{
-			assert(is_updated());
+			return m_pSpline->min_value(val);
+		}
+		void max_value( value_type& val ) const
+		{
+			return m_pSpline->min_value(val);
+		}
 
-			float prev_t = FromStorage(m_time0);
-			if (t <= prev_t)
-				FromStorage(val, m_value0);
-			else
-			{
-				// Find spline segment.
-				VStore prev_val = m_value0;
-				for_ptr (const OptElem, it, m_elems, m_elems+m_elemcount)
+		void from_source( source_spline& source )
+		{
+			dealloc();
+			source.update();
+			int nKeys = source.num_keys();
+
+			// Check for trivial spline.
+			bool is_default = true;
+			for (int i = 0; i < nKeys; i++)
+				if (source.value(i) != value_type(1))
 				{
-					float cur_t = FromStorage(it->st1);
-					if (t <= cur_t)
-					{
-						// Eval
-						it->eval( val, prev_val, (t - prev_t) / (cur_t - prev_t) );
-						return;
-					}
-					prev_t = cur_t;
-					prev_val = it->sv1;
+					is_default = false;
+					break;
 				}
+			if (is_default)
+				nKeys = 0;
 
-				// Last point value.
-				FromStorage(val, prev_val);
-			}
-		}
-
-		SPU_NO_INLINE void min_value( value_type& val ) const
-		{
-			non_const(*this).update();
-			VStore sval = m_value0;
-			for_ptr (const OptElem, it, m_elems, m_elems+m_elemcount)
-				for (int i = 0; i < DIM; i++)
-					sval[i] = min(sval[i], it->sv1[i]);
-			FromStorage(val, sval);
-		}
-
-		SPU_NO_INLINE void max_value( value_type& val ) const
-		{
-			non_const(*this).update();
-			VStore sval = m_value0;
-			for_ptr (const OptElem, it, m_elems, m_elems+m_elemcount)
-				for (int i = 0; i < DIM; i++)
-					sval[i] = max(sval[i], it->sv1[i]);
-			FromStorage(val, sval);
-		}
-
-	protected:
-
-		void init()
-		{
-			m_elems = 0;
-			m_elemcount = 0;
-			m_time0 = 0;
-			ToStorage(m_value0, value_type(1.f));
-		}
-
-		bool is_init() const
-		{
-			return m_elemcount == 0 && m_time0 == 0;
-		}
-
-		void update()
-		{
-#if !defined(__SPU__) // on SPU we never will call update
-			if (is_updated())
-				return;
-
-			if (!m_pSource)
-				return;
-
-			m_pSource->update();
-
-			delete[] m_elems;
-			bool has_data = false;
-
-			int num_keys = m_pSource->num_keys();
-			ToStorage(m_value0, num_keys > 0 ? m_pSource->key(0).value : value_type(1.f));
-			if (num_keys > 1)
+			alloc(nKeys);
+			if (nKeys)
 			{
-				m_time0 = ToStorage(m_pSource->key(0).time);
-				m_elemcount = check_cast<uint8>(num_keys-1);
-				m_elems = new OptElem[m_elemcount];
-				for (int i = 0; i < m_elemcount; i++)
+				// First set key values, then compute slope coefficients.
+				for (int i = 0; i < nKeys; i++)
+					m_pSpline->aElems[i].set_key( source.time(i), source.value(i) );
+				for (int i = 0; i < nKeys-1; i++)
+					m_pSpline->aElems[i].set_slopes( source.dd(i), source.ds(i+1) );
+
+#ifdef _DEBUG
+				for (int i = 0; i < num_keys(); i++)
 				{
-					// Coefficients for each key.
-					const key_type& key = m_pSource->key(i);
-					const key_type& next_key = m_pSource->key(i+1);
-					if (key.value != next_key.value)
-						has_data = true;
-					m_elems[i].set( key.time, key.value, key.dd, next_key.time, next_key.value, next_key.ds );
+					key_type k0 = source.key(i);
+					key_type k1 = key(i);
+					assert(TStore(k0.time) == TStore(k1.time));
+					assert(VStore(k0.value) == VStore(k1.value));
+					/*
+					k0.flags &= (SPLINE_KEY_TANGENT_IN_MASK | SPLINE_KEY_TANGENT_OUT_MASK);
+					if (i == 0)
+						k0.flags &= ~SPLINE_KEY_TANGENT_IN_MASK;
+					if (i == nKeys-1)
+						k0.flags &= ~SPLINE_KEY_TANGENT_OUT_MASK;
+					assert(k0.flags == k1.flags);
+					*/
 				}
-				if (!has_data)
-					delete[] m_elems;
-			}
-			if (!has_data)
-			{
-				m_elems = 0;
-				m_elemcount = 0;
-				m_time0 = ToStorage(1.f);
-			}
 #endif
+			}
 		}
 
-		OptElem*			m_elems;			// Manually maintain array, saves a few bytes compared to standard containers.
-		uint8					m_elemcount;	// Will combine with m_value0 for TStore types we use.
-		TStore				m_time0;
-		VStore				m_value0;
+		void to_source( source_spline& source ) const
+		{
+			int nKeys = num_keys();
+			source.resize(nKeys);
+			for (int i = 0; i < nKeys; i++)
+				source.set_key(i, key(i));
+			source.update();
+		}
 	};
 };
 

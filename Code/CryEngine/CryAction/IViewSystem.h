@@ -153,7 +153,7 @@ struct SViewParams
 	
 	//view shake status
 	bool  groundOnly;
-	float shakingRatio;//whats the ammount of shake, from 0.0 to 1.0
+	float shakingRatio;//whats the amount of shake, from 0.0 to 1.0
 	Quat currentShakeQuat;//what the current angular shake
 	Vec3 currentShakeShift;//what is the current translational shake
 

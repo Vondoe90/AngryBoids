@@ -10,8 +10,8 @@
 
 
 
-
 typedef int index_t;
+enum { PHYS_MAX_INDICES = 1<<30 };
 
 
 namespace primitives {
@@ -70,8 +70,7 @@ namespace primitives {
 			return *this;
 		}
 
-		float getheight(int ix,int iy) const 
-		{ 
+		ILINE float getheight(int ix,int iy) const { 
 			float result; 
 
 
@@ -80,7 +79,7 @@ namespace primitives {
 
       return result*heightscale;
 		}
-		int gettype(int ix,int iy) const {
+		ILINE int gettype(int ix,int iy) const {
 			int itype = 
 
 

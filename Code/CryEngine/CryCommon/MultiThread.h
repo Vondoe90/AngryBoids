@@ -16,6 +16,10 @@
 #define __MultiThread_h__
 #pragma once
 
+
+
+
+
 #define WRITE_LOCK_VAL (1<<16)
 
 
@@ -109,6 +113,10 @@ typedef SAtomicVar<float> TFloatAtomic;
 		long   CryInterlockedExchangeAdd(long volatile * lpAddend, long Value);
 		long	 CryInterlockedCompareExchange(long volatile * dst, long exchange, long comperand);
 		void*	 CryInterlockedCompareExchangePointer(void* volatile * dst, void* exchange, void* comperand);
+		int64  CryInterlockedCompareExchange64( volatile int64 *addr, int64 exchange, int64 comperand );
+	#endif
+	#if defined(LINUX64)
+	unsigned char CryInterlockedCompareExchange128( int64 volatile *dst, int64 exchangehigh, int64 exchangelow, int64* comperand );
 	#endif
 	void*  CryCreateCriticalSection();
   void   CryCreateCriticalSectionInplace(void*);
@@ -790,6 +798,14 @@ struct WriteLockCond
 	int iActive;
 };
 
+#if !defined(PS3) && !defined(LINUX)
+ILINE int64 CryInterlockedCompareExchange64( volatile int64 *addr, int64 exchange, int64 compare )
+{
+	return _InterlockedCompareExchange64( (volatile int64*)addr, exchange,compare);
+}
+#endif
+
+
 //////////////////////////////////////////////////////////////////////////
 
 
@@ -903,6 +919,164 @@ struct WriteLockCond
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+struct Lock_dummy_param{};
+
+struct NoLock {
+	NoLock(unsigned int& rw) {}
+	NoLock(int& rw, int bActive=1) {}
+	NoLock(volatile int& rw, int bActive=1) {}
+	NoLock(Lock_dummy_param) {}
+  NoLock() { 
+
+
+
+  }
+	void SetActive(int = 0) {}
+
+
+
+
+};
+
+#if defined(EXCLUDE_PHYSICS_THREAD) 
+# if EMBED_PHYSICS_AS_FIBER
+   ILINE void SolveContention() { 
+#if !defined(__SPU__)
+		 JobManager::Fiber::SwitchFiberDirect();
+#endif 
+	 }
+  ILINE void SpinLock(volatile int *pLock,int checkVal,int setVal) { *(int*)pLock=setVal; } 
+	ILINE void AtomicAdd(volatile int *pVal, int iAdd) {	*(int*)pVal+=iAdd; }
+	ILINE void AtomicAdd(volatile unsigned int *pVal, int iAdd) { *(unsigned int*)pVal+=iAdd; }
+  ILINE void JobSpinLock(volatile int *pLock,int checkVal,int setVal) { 
+    while(CryInterlockedCompareExchange((long volatile * )pLock,(long)setVal,(long)checkVal)!=checkVal) SolveContention(); 
+  } 
+# else
+	 ILINE void SpinLock(volatile int *pLock,int checkVal,int setVal) { *(int*)pLock=setVal; } 
+	 ILINE void AtomicAdd(volatile int *pVal, int iAdd) {	*(int*)pVal+=iAdd; }
+	 ILINE void AtomicAdd(volatile unsigned int *pVal, int iAdd) { *(unsigned int*)pVal+=iAdd; }
+   ILINE void JobSpinLock(volatile int *pLock,int checkVal,int setVal) { CrySpinLock(pLock,checkVal,setVal); } 
+# endif 
+#else
+	ILINE void SpinLock(volatile int *pLock,int checkVal,int setVal) { CrySpinLock(pLock,checkVal,setVal); } 
+	ILINE void AtomicAdd(volatile int *pVal, int iAdd) {	CryInterlockedAdd(pVal,iAdd); }
+	ILINE void AtomicAdd(volatile unsigned int *pVal, int iAdd) { CryInterlockedAdd((volatile int*)pVal,iAdd); }
+
+  ILINE void JobSpinLock(volatile int *pLock,int checkVal,int setVal) { SpinLock(pLock,checkVal,setVal); } 
+#endif
+
+ILINE void JobAtomicAdd(volatile int *pVal, int iAdd) {	CryInterlockedAdd(pVal,iAdd); }
+ILINE void JobAtomicAdd(volatile unsigned int *pVal, int iAdd) { CryInterlockedAdd((volatile int*)pVal,iAdd); }
+
+
+// Definitions of default locking primitives for all platforms except PS3 
+#if !defined(PS3) 
+  typedef ReadLock JobReadLock;
+  typedef ReadLockCond JobReadLockCond;
+  typedef WriteLock JobWriteLock;
+  typedef WriteLockCond JobWriteLockCond;
+  typedef ReadLock JobReadLockPlatf1;
+  typedef WriteLock JobWriteLockPlatf1;
+
+	#define ReadLockPlatf0 ReadLock
+	#define WriteLockPlatf0 WriteLock
+	#define ReadLockCondPlatf0 ReadLockCond
+	#define WriteLockCondPlatf0 WriteLockCond
+	#define ReadLockPlatf1 NoLock
+	#define WriteLockPlatf1 NoLock
+	#define ReadLockCondPlatf1 NoLock
+	#define WriteLockCondPlatf1 NoLock
+// Definitions of ps3 locking primitives
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif
 #endif//JOB_LIB_COMP
+
 
 #endif // __MultiThread_h__

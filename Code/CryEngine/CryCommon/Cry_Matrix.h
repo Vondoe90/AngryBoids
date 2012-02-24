@@ -61,11 +61,11 @@ template<typename F> struct Diag33_tpl {
 	{
 		if (sizeof(F)==4)
 		{
-			uint32* p=(uint32*)&x;	p[0]=F32NAN;	p[1]=F32NAN;	p[2]=F32NAN;
+			uint32* p=alias_cast<uint32*>(&x);	p[0]=F32NAN;	p[1]=F32NAN;	p[2]=F32NAN;
 		}
 		if (sizeof(F)==8)
 		{
-			uint64* p=(uint64*)&x;	p[0]=F64NAN;	p[1]=F64NAN;	p[2]=F64NAN;
+			uint64* p=alias_cast<uint64*>(&x);	p[0]=F64NAN;	p[1]=F64NAN;	p[2]=F64NAN;
 		}
 	}
 #else
@@ -218,14 +218,14 @@ template<typename F> struct Matrix33_tpl
 	{
 		if (sizeof(F)==4)
 		{
-			uint32* p=(uint32*)&m00;
+			uint32* p=alias_cast<uint32*>(&m00);
 			p[0]=F32NAN;	p[1]=F32NAN;	p[2]=F32NAN;
 			p[3]=F32NAN;	p[4]=F32NAN;	p[5]=F32NAN;
 			p[6]=F32NAN;	p[7]=F32NAN;	p[8]=F32NAN;
 		}
 		if (sizeof(F)==8)
 		{
-			uint64* p=(uint64*)&m00;
+			uint64* p=alias_cast<uint64*>(&m00);
 			p[0]=F64NAN;	p[1]=F64NAN;	p[2]=F64NAN;
 			p[3]=F64NAN;	p[4]=F64NAN;	p[5]=F64NAN;
 			p[6]=F64NAN;	p[7]=F64NAN;	p[8]=F64NAN;
@@ -1163,14 +1163,14 @@ template <typename F, class A=XMVec4A> struct Matrix34_tpl
 	{
 		if (sizeof(F)==4)
 		{
-			uint32* p=(uint32*)&m00;
+			uint32* p=alias_cast<uint32*>(&m00);
 			p[ 0]=F32NAN;	p[ 1]=F32NAN;	p[ 2]=F32NAN;	p[ 3]=F32NAN;
 			p[ 4]=F32NAN;	p[ 5]=F32NAN;	p[ 6]=F32NAN;	p[ 7]=F32NAN;
 			p[ 8]=F32NAN;	p[ 9]=F32NAN;	p[10]=F32NAN;	p[11]=F32NAN;
 		}
 		if (sizeof(F)==8)
 		{
-			uint64* p=(uint64*)&m00;
+			uint64* p=alias_cast<uint64*>(&m00);
 			p[ 0]=F64NAN;	p[ 1]=F64NAN;	p[ 2]=F64NAN;	p[ 3]=F64NAN;
 			p[ 4]=F64NAN;	p[ 5]=F64NAN;	p[ 6]=F64NAN;	p[ 7]=F64NAN;
 			p[ 8]=F64NAN;	p[ 9]=F64NAN;	p[10]=F64NAN;	p[11]=F64NAN;
@@ -2001,7 +2001,7 @@ template<typename F, class A=XMVec4A> struct Matrix44_tpl
 	{
 		if (sizeof(F)==4)
 		{
-			uint32* p=(uint32*)&m00;
+			uint32* p=alias_cast<uint32*>(&m00);
 			p[ 0]=F32NAN;	p[ 1]=F32NAN;	p[ 2]=F32NAN;	p[ 3]=F32NAN;
 			p[ 4]=F32NAN;	p[ 5]=F32NAN;	p[ 6]=F32NAN;	p[ 7]=F32NAN;
 			p[ 8]=F32NAN;	p[ 9]=F32NAN;	p[10]=F32NAN;	p[11]=F32NAN;
@@ -2009,7 +2009,7 @@ template<typename F, class A=XMVec4A> struct Matrix44_tpl
 		}
 		if (sizeof(F)==8)
 		{
-			uint64* p=(uint64*)&m00;
+			uint64* p=alias_cast<uint64*>(&m00);
 			p[ 0]=F64NAN;	p[ 1]=F64NAN;	p[ 2]=F64NAN;	p[ 3]=F64NAN;
 			p[ 4]=F64NAN;	p[ 5]=F64NAN;	p[ 6]=F64NAN;	p[ 7]=F64NAN;
 			p[ 8]=F64NAN;	p[ 9]=F64NAN;	p[10]=F64NAN;	p[11]=F64NAN;
@@ -2202,9 +2202,11 @@ template<typename F, class A=XMVec4A> struct Matrix44_tpl
 
 	/*!
 	*
-	* calculate a real inversion of a Matrix44.
-	* an inverse-matrix is an UnDo-matrix for all kind of transformations 
-	* 
+	* Calculate a real inversion of a Matrix44.
+	*
+	* Uses Cramer's Rule which is faster (branchless) but numerically more unstable
+	* than other methods like Gaussian Elimination.
+	*
 	*  Example 1:
 	*		Matrix44 im44;
 	*		im44.Invert();
@@ -2216,7 +2218,7 @@ template<typename F, class A=XMVec4A> struct Matrix44_tpl
 		F	tmp[12];
 		Matrix44_tpl<F>	m=*this;
 
-		/* calculate pairs for first 8 elements (cofactors) */
+		// Calculate pairs for first 8 elements (cofactors)
 		tmp[0] = m.m22 * m.m33;
 		tmp[1] = m.m32 * m.m23;
 		tmp[2] = m.m12 * m.m33;
@@ -2230,7 +2232,7 @@ template<typename F, class A=XMVec4A> struct Matrix44_tpl
 		tmp[10]= m.m02 * m.m13;
 		tmp[11]= m.m12 * m.m03;
 
-		/* calculate first 8 elements (cofactors) */
+		// Calculate first 8 elements (cofactors)
 		m00 = tmp[0]*m.m11 + tmp[3]*m.m21 + tmp[ 4]*m.m31;
 		m00-= tmp[1]*m.m11 + tmp[2]*m.m21 + tmp[ 5]*m.m31;
 		m01 = tmp[1]*m.m01 + tmp[6]*m.m21 + tmp[ 9]*m.m31;
@@ -2248,7 +2250,7 @@ template<typename F, class A=XMVec4A> struct Matrix44_tpl
 		m13 = tmp[4]*m.m00 + tmp[9]*m.m10 + tmp[10]*m.m20;
 		m13-= tmp[5]*m.m00 + tmp[8]*m.m10 + tmp[11]*m.m20;
 
-		/* calculate pairs for second 8 elements (cofactors) */
+		// Calculate pairs for second 8 elements (cofactors)
 		tmp[ 0] = m.m20*m.m31;
 		tmp[ 1] = m.m30*m.m21;
 		tmp[ 2] = m.m10*m.m31;
@@ -2262,7 +2264,7 @@ template<typename F, class A=XMVec4A> struct Matrix44_tpl
 		tmp[10] = m.m00*m.m11;
 		tmp[11] = m.m10*m.m01;
 
-		/* calculate second 8 elements (cofactors) */
+		// Calculate second 8 elements (cofactors)
 		m20 = tmp[ 0]*m.m13 + tmp[ 3]*m.m23 + tmp[ 4]*m.m33;
 		m20-= tmp[ 1]*m.m13 + tmp[ 2]*m.m23 + tmp[ 5]*m.m33;
 		m21 = tmp[ 1]*m.m03 + tmp[ 6]*m.m23 + tmp[ 9]*m.m33;
@@ -2280,11 +2282,11 @@ template<typename F, class A=XMVec4A> struct Matrix44_tpl
 		m33 = tmp[10]*m.m22 + tmp[ 4]*m.m02 + tmp[ 9]*m.m12;
 		m33-= tmp[ 8]*m.m12 + tmp[11]*m.m22 + tmp[ 5]*m.m02;
 
-		/* calculate determinant */
+		// Calculate determinant
 		F det=(m.m00*m00+m.m10*m01+m.m20*m02+m.m30*m03);
 		//if (fabs_tpl(det)<0.0001f) assert(0);	
 
-		//devide the cofactor-matrix by the determinat
+		// Divide the cofactor-matrix by the determinant
 		F idet=(F)1.0/det;
 		m00*=idet; m01*=idet; m02*=idet; m03*=idet;
 		m10*=idet; m11*=idet; m12*=idet; m13*=idet;
@@ -2357,6 +2359,7 @@ template<typename F, class A=XMVec4A> struct Matrix44_tpl
 	ILINE F& operator () (uint32 i, uint32 j)	{	assert ((i<4) && (j<4));	F* p_data=(F*)(&m00);		return p_data[i*4+j];	}
 
 	ILINE void SetRow(int i, const Vec3_tpl<F> &v)	{	assert(i<4);	F* p=(F*)(&m00);	p[0+4*i]=v.x;	p[1+4*i]=v.y;	p[2+4*i]=v.z;		}
+  ILINE void SetRow4(int i, const Vec4_tpl<F> &v)	{	assert(i<4);	F* p=(F*)(&m00);	p[0+4*i]=v.x;	p[1+4*i]=v.y;	p[2+4*i]=v.z;	p[3+4*i]=v.w;	}
 	ILINE const Vec3_tpl<F>& GetRow(int i) const	{	assert(i<4); return *(const Vec3_tpl<F>*)(&m00 + 4*i);	}
 	
 	ILINE void SetColumn(int i, const Vec3_tpl<F> &v)	{	assert(i<4);	F* p=(F*)(&m00);	p[i+4*0]=v.x;	p[i+4*1]=v.y;	p[i+4*2]=v.z;		}
@@ -2582,10 +2585,6 @@ ILINE Vec4_tpl<F1> operator*(const Vec4_tpl<F1> &v, const Matrix44_tpl<F2, B> &m
 
 
 
-
-//union used to signal gcc aliasing (instead of c-style reinterpret_casts)
-typedef union {Matrix44A *pM; Vec4 *pV;} conv_m44a_vec4_union;
-typedef union {Matrix44 *pM; Vec4 *pV;} conv_m44_vec4_union;
 
 #endif //MATRIX_H
 

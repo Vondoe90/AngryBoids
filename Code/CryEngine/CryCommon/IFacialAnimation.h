@@ -538,6 +538,8 @@ UNIQUE_IFACE struct IFacialAnimSequence
 	virtual void AddRef() = 0;
 	virtual void Release() = 0;
 
+	virtual bool StartStreaming( const char* sFilename ) = 0;
+
 	// Changes sequence name.
 	virtual void SetName( const char *sNewName ) = 0;
 	// Retrieve sequence name.

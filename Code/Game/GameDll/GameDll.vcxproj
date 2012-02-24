@@ -154,6 +154,7 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(TargetDir)CryGame.pdb</ProgramDatabaseFile>
       <LinkErrorReporting>PromptImmediately</LinkErrorReporting>
+      <BaseAddress>@$(SolutionDir)BaseAddress.$(Platform).txt,GameDll</BaseAddress>
     </Link>
     <PostBuildEvent>
       <Command>if exist f:\Games\cemono\Bin32 copy $(TargetPath) f:\Games\cemono\Bin32</Command>
@@ -185,6 +186,7 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(TargetDir)CryGame.pdb</ProgramDatabaseFile>
       <LinkErrorReporting>PromptImmediately</LinkErrorReporting>
+      <BaseAddress>@$(SolutionDir)BaseAddress.$(Platform).txt,GameDll</BaseAddress>
     </Link>
     <PostBuildEvent>
       <Command>if exist f:\Games\cemono\Bin32 copy $(TargetPath) f:\Games\cemono\Bin32</Command>
@@ -193,7 +195,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GAMEDLL_EXPORTS;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GAMEDLL_EXPORTS;_RELEASE;_FORCEDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryMono\MonoDll\Headers;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
@@ -216,14 +218,14 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <BaseAddress>0x39000000</BaseAddress>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <BaseAddress>@$(SolutionDir)BaseAddress.$(Platform).txt,GameDll</BaseAddress>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GAMEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GAMEDLL_EXPORTS;_RELEASE;_FORCEDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <AdditionalIncludeDirectories>.\;..\..\CryEngine\CryAction;..\..\CryEngine\CryCommon;..\..\CryMono\MonoDll\Headers;..\..\SDKs\boost\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -236,6 +238,8 @@
       <AdditionalDependencies>
       </AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <BaseAddress>@$(SolutionDir)BaseAddress.$(Platform).txt,GameDll</BaseAddress>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

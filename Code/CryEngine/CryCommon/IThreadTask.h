@@ -87,7 +87,11 @@ struct SThreadTaskInfo : public CMultiThreadRefCount
 	SThreadTaskInfo() : m_pThread(NULL), m_pTask(NULL) { m_params.nFlags = 0; m_params.nPreferedThread = -1; }
 };
 
+#if !defined(DEDICATED_SERVER)
 #define MAX_TASK_THREADS_COUNT 4
+#else
+#define MAX_TASK_THREADS_COUNT 1
+#endif // !defined(DEDICATED_SERVER)
 
 // Might be changed to uint64 etc in the future
 typedef uint32 ThreadPoolAffinityMask;

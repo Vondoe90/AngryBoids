@@ -427,17 +427,19 @@ struct SActionEvent
 };
 
 // We must take care of order in which listeners are called.
-// Priority order is from low to high.
-// As an example, menu must follow hud as it must be drawn on top of the rest.
-enum EFRAMEWORKLISTENERPRIORITY
+// Listeners are called in the order of the enum (default, then Game, then HUD, then Menu)
+enum EFrameworkListenerPriority
 {
 	// Default priority should not be used unless you don't care about order (it will be called first)
-	FRAMEWORKLISTENERPRIORITY_DEFAULT,
+	eFLPriority_Default = 0,
 
 	// Add your order somewhere here if you need to be called between one of them
-	FRAMEWORKLISTENERPRIORITY_GAME,
-	FRAMEWORKLISTENERPRIORITY_HUD,
-	FRAMEWORKLISTENERPRIORITY_MENU
+	eFLPriority_Game,
+	eFLPriority_HUD,
+	eFLPriority_Menu,
+
+	// Must be last
+	eFLPriority_Count,
 };
 
 struct IGameFrameworkListener
@@ -635,6 +637,7 @@ UNIQUE_IFACE struct IGameFramework
 
 	// Description:
 	//		Returns a pointer to the IMaterialEffects interface.
+	//		On a Dedicated Server it will return NULL.
 	// Return Value:
 	//		Pointer to IMaterialEffects interface.
 	virtual IMaterialEffects *GetIMaterialEffects() = 0;
@@ -912,7 +915,7 @@ UNIQUE_IFACE struct IGameFramework
 	virtual void	RemoveBreakEventListener(IBreakEventListener * pListener) = 0;
 
 
-	virtual void RegisterListener		(IGameFrameworkListener *pGameFrameworkListener, const char * name,EFRAMEWORKLISTENERPRIORITY eFrameworkListenerPriority) = 0;
+	virtual void RegisterListener		(IGameFrameworkListener *pGameFrameworkListener, const char * name,EFrameworkListenerPriority eFrameworkListenerPriority) = 0;
 	virtual void UnregisterListener	(IGameFrameworkListener *pGameFrameworkListener) = 0;
 
 	virtual INetNub * GetServerNetNub() = 0;

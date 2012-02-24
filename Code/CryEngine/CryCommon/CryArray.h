@@ -53,7 +53,7 @@ void move_init(T& dest, T& source)
 /*---------------------------------------------------------------------------
 Public classes:
 
-		Array<T>
+		Array<T,I,STORAGE>
 		StaticArray<T, nSIZE>
 		DynArrayRef<T>
 		DynArray<T>
@@ -129,7 +129,7 @@ namespace NArray
 	}
 
 	//---------------------------------------------------------------------------
-	// Array<T,S>: Non-growing array.
+	// Array<T,I,S>: Non-growing array.
 	// S serves as base class, and implements storage scheme: begin(), size()
 
 	template<class T, class I = int> struct ArrayStorage;
@@ -158,6 +158,9 @@ struct Array: S
 
 	// Construction.
 	Array()
+		{}
+
+	Array(type_zero)
 		{}
 
 	// Forward single- and double-argument constructors.
@@ -211,21 +214,21 @@ struct Array: S
 	} )
 
 	// Conversion to canonical array type.
-	operator Array<T>()
-		{ return Array<T>(begin(), size()); }
-	operator Array<const T>() const
-		{ return Array<const T>(begin(), size()); }
+	operator Array<T,I>()
+		{ return Array<T,I>(begin(), size()); }
+	operator Array<const T,I>() const
+		{ return Array<const T,I>(begin(), size()); }
 
 	// Additional conversion via operator() to full or sub array.
-	Array<T> operator ()(size_type i = 0, size_type count = -1)
+	Array<T,I> operator ()(size_type i = 0, size_type count = -1)
 	{
 		assert(i >= 0 && i+count <= size());
-		return Array<T>( SPU_MAIN_PTR(begin()+i), count >= 0 ? count : size()-i);
+		return Array<T,I>( SPU_MAIN_PTR(begin()+i), count >= 0 ? count : size()-i);
 	}
-	Array<const T> operator ()(size_type i = 0, size_type count = -1) const
+	Array<const T,I> operator ()(size_type i = 0, size_type count = -1) const
 	{
 		assert(i >= 0 && i+count <= size());
-		return Array<const T>(begin()+i, count >= 0 ? count : size()-i);
+		return Array<const T,I>(begin()+i, count >= 0 ? count : size()-i);
 	}
 
 	// Basic element assignment functions.
@@ -237,7 +240,7 @@ struct Array: S
 			*it = val;
 	}
 
-	void assign(Array<const T> array)
+	void assign(Array<const T,I> array)
 	{
 		assert(array.size() == size());
 		const T* src = array.begin();
@@ -245,7 +248,7 @@ struct Array: S
 			*it = *src++;
 	}
 
-	Array<T>& operator = (Array<const T> array)
+	Array<T,I,S>& operator = (Array<const T,I> array)
 	{
 		assign(array);
 		return *this;
@@ -255,9 +258,9 @@ struct Array: S
 // Type-inferring constructor.
 
 template<class T, class I>
-inline Array<T> ArrayT(T* elems, I count)
+inline Array<T,I> ArrayT(T* elems, I count)
 {
-	return Array<T>(elems, count);
+	return Array<T,I>(elems, count);
 }
 
 //---------------------------------------------------------------------------
@@ -461,11 +464,11 @@ struct DynArray: DynArrayRef<T,I,S>
 	}
 
 	// Copying from a generic array type.
-	DynArray(Array<const T> a)
+	DynArray(Array<const T,I> a)
 	{
 		push_back(a);
 	}
-	SPU_NO_INLINE self_type& operator =(Array<const T> a)
+	SPU_NO_INLINE self_type& operator =(Array<const T,I> a)
 	{
 		if (a.begin() >= begin() && a.end() <= end())
 		{
@@ -506,11 +509,11 @@ struct DynArray: DynArrayRef<T,I,S>
 	// Init/assign from basic storage type.
 	inline DynArray(const S& a)
 	{
-		push_back(Array<const T>(a.begin(), a.size()));
+		push_back(Array<const T,I>(a.begin(), a.size()));
 	}
 	inline self_type& operator =(const S& a)
 	{
-		return *this = Array<const T>(a.begin(), a.size());
+		return *this = Array<const T,I>(a.begin(), a.size());
 	}
 
 	inline ~DynArray()
@@ -538,9 +541,9 @@ struct DynArray: DynArrayRef<T,I,S>
 	{
 		return expand_raw(end(), count);
 	}
-	Array<T> append_raw(size_type count = 1)
+	Array<T,I> append_raw(size_type count = 1)
 	{
-		return Array<T>(expand_raw(end(), count), count);
+		return Array<T,I>(expand_raw(end(), count), count);
 	}
 	iterator grow(size_type count)
 	{
@@ -582,7 +585,7 @@ struct DynArray: DynArrayRef<T,I,S>
 
   void assign(const_iterator start, const_iterator finish)
 	{
-		*this = Array<const T>(start, finish);
+		*this = Array<const T,I>(start, finish);
 	}
 
 	iterator push_back()
@@ -593,12 +596,12 @@ struct DynArray: DynArrayRef<T,I,S>
 	{ 
 		return grow(1, val);
 	}
-	iterator push_back(Array<const T> array)
+	iterator push_back(Array<const T,I> array)
 	{
 		return init(append_raw(array.size()), array.begin());
 	}
 
-	SPU_NO_INLINE Array<T> insert_raw(iterator pos, size_type count = 1)
+	SPU_NO_INLINE Array<T,I> insert_raw(iterator pos, size_type count = 1)
 	{
 		// Grow array if needed, return iterator to inserted raw elems.
 		pos = expand_raw(pos, count);
@@ -620,7 +623,7 @@ struct DynArray: DynArrayRef<T,I,S>
 		while (dest-- > pos)
 			S::destroy(dest);
 
-		return Array<T>(pos, count);
+		return Array<T,I>(pos, count);
 	}
 
 	iterator insert(iterator it, size_type count = 1)
@@ -635,13 +638,13 @@ struct DynArray: DynArrayRef<T,I,S>
 	{
 		return init(insert_raw(it, count), val);
 	}
-	iterator insert(iterator it, Array<const T> array)
+	iterator insert(iterator it, Array<const T,I> array)
 	{
 		return init(insert_raw(it, array.size()), array.begin());
 	}
 	iterator insert(iterator it, const_iterator start, const_iterator finish)
 	{
-		return insert( it, Array<T>(start, check_cast<size_type>(finish-start)) );
+		return insert( it, Array<T,I>(start, check_cast<size_type>(finish-start)) );
 	}
 
 	void pop_back(size_type count = 1)
@@ -705,7 +708,7 @@ protected:
 	//
 	// Raw element construct/destruct functions.
 	//
-	static void destroy(Array<T> range)
+	static void destroy(Array<T,I> range)
 	{
 		// Destroy in reverse order, to complement construction order.
 		for (iterator it = range.end(); it-- > range.begin(); )
@@ -717,21 +720,21 @@ protected:
 		destroy(*this);
 	}
 
-	static iterator init(Array<T> range)
+	static iterator init(Array<T,I> range)
 	{
 		for_array_ptr (T, it, range)
 			S::init(it);
 		return range.begin();
 	}
 
-	static iterator init(Array<T> range, const T& val)
+	static iterator init(Array<T,I> range, const T& val)
 	{
 		for_array_ptr (T, it, range)
 			S::init(it, val);
 		return range.begin();
 	}
 
-	static iterator init(Array<T> range, const T* source)
+	static iterator init(Array<T,I> range, const T* source)
 	{
 		assert(source + range.size() <= range.begin() || source >= range.end());
 		for_array_ptr (T, it, range)
@@ -849,7 +852,7 @@ struct Alloc
 namespace NArray
 {
 	//---------------------------------------------------------------------------
-	// FastDynStorage: STORAGE scheme for Array<T,STORAGE> and descendents.
+	// FastDynStorage: STORAGE scheme for Array<T,I,STORAGE> and descendents.
 	// Simple extension to ArrayStorage: size & capacity fields are inline, 3 words storage, fast access.
 
 	template<class T, class I = int, class A = NAlloc::StandardAlloc>
@@ -937,7 +940,7 @@ namespace NArray
 	};
 
 	//---------------------------------------------------------------------------
-	// SmallDynStorage: STORAGE scheme for Array<T,STORAGE> and descendants.
+	// SmallDynStorage: STORAGE scheme for Array<T,I,STORAGE> and descendants.
 	// Array is just a single pointer, size and capacity information stored before the array data.
 	// Slightly slower than FastDynStorage, optimal for saving space, especially when array likely to be empty.
 

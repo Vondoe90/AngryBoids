@@ -522,8 +522,8 @@ inline cstr DisplayName(cstr name)
 		return name;
 }
 
-CStructInfo::CStructInfo( cstr name, size_t size, size_t num_vars, CVarInfo* vars, CTypeInfo const* template_type )
-: CTypeInfo(name, size), Vars(vars, check_cast<int>(num_vars)), pTemplateType(template_type), HasBitfields(false)
+CStructInfo::CStructInfo( cstr name, size_t size, Array<CVarInfo> vars, Array<CTypeInfo const*> templates )
+: CTypeInfo(name, size), Vars(vars), TemplateTypes(templates), HasBitfields(false)
 {
 	// Process and validate offsets and sizes.
 	if (Vars.size() > 0)
@@ -738,7 +738,7 @@ string CStructInfo::ToString(const void* data, FToString flags, const void* def_
 		if (!var.bBaseClass)
 		{
 			// Nested named struct.
-			string substr = var.ToString(data, flags.Sub(false), def_data);
+			string substr = var.ToString(data, FToString(flags).Sub_(0), def_data);
 			if (substr.find(',') != string::npos)
 			{
 				// Encase nested composite types in parens.
@@ -752,11 +752,11 @@ string CStructInfo::ToString(const void* data, FToString flags, const void* def_
 		else
 		{
 			// Nameless base struct. Treat children as inline.
-			str += var.ToString(data, flags.Sub(true), def_data);
+			str += var.ToString(data, FToString(flags).Sub_(1), def_data);
 		}
 	}
 
-	if (flags._TruncateSub && !flags._Sub)
+	if (flags.TruncateSub && !flags.Sub)
 		StripCommas(str);
 	return str;
 }
@@ -817,7 +817,7 @@ static int VarFromString(const CTypeInfo::CVarInfo& Var, void* data, cstr& str, 
 		int nErrors = 0;
 		for AllSubVars(pVar, Var.Type)
 		{
-			if (!*str && flags._SkipEmpty)
+			if (!*str && flags.SkipEmpty)
 				break;
 			nErrors += VarFromString(*pVar, data, str, flags, tempstr);
 		}
@@ -829,7 +829,7 @@ static int VarFromString(const CTypeInfo::CVarInfo& Var, void* data, cstr& str, 
 		cstr substr = ParseElement(str, tempstr);
 		if (!substr)
 		{
-			if (flags._SkipEmpty)
+			if (flags.SkipEmpty)
 				return 0;
 			substr = "";
 		}
@@ -844,7 +844,7 @@ bool CStructInfo::FromString(void* data, cstr str, FFromString flags) const
 
 	for (int v = 0; v < Vars.size(); v++)
 	{
-		if (!*str && flags._SkipEmpty)
+		if (!*str && flags.SkipEmpty)
 			break;
 		nErrors += VarFromString(Vars[v], data, str, flags, tempstr);
 	}
@@ -1039,9 +1039,18 @@ bool CStructInfo::IsCompatibleType( CTypeInfo const& Info ) const
 	if (this == &Info)
 		return true;
 
-	// Check template type compatibility.
-	if (pTemplateType && strcmp(Name, Info.Name) == 0)
-		return true;
+	if (!TemplateTypes.empty() && Info.IsTemplate() && strcmp(Name, Info.Name) == 0)
+	{
+		CTypeInfo const* const* pA = NextTemplateType(0);
+		CTypeInfo const* const* pB = Info.NextTemplateType(0);
+
+		while (pA && pB && (*pA)->IsType(**pB))
+		{
+			pA = Info.NextTemplateType(pA);
+			pB = Info.NextTemplateType(pB);
+		}
+		return !pA && !pB;
+	}
 
 	return false;
 }
@@ -1152,7 +1161,7 @@ string CEnumInfo::ToString(const void* data, FToString flags, const void* def_da
 {
 	int val = ReadInt(data, Size);
 
-	if (flags._SkipDefault)
+	if (flags.SkipDefault)
 	{
 		int def_val = def_data ? ReadInt(def_data, Size) : 0;
 		if (val == def_val)
@@ -1183,7 +1192,7 @@ bool CEnumInfo::FromString(void* data, cstr str, FFromString flags) const
 {
 	if (!*str)
 	{
-		if (flags._SkipEmpty)
+		if (flags.SkipEmpty)
 			return true;
 		return WriteInt(data, Size, 0);
 	}

@@ -10,6 +10,7 @@
 
 #include <smartptr.h>
 #include "Endian.h"
+#include "ISystem.h"
 
 struct IResourceList; 
 struct _finddata_t;
@@ -23,7 +24,8 @@ struct ICryArchive: public _reference_target_t
 	{
 		METHOD_STORE    = 0,
 		METHOD_COMPRESS = 8,
-		METHOD_DEFLATE  = 8
+		METHOD_DEFLATE  = 8,
+		METHOD_COMPRESS_AND_ENCRYPT = 11
 	};
 
 	// Compression levels
@@ -80,6 +82,11 @@ struct ICryArchive: public _reference_target_t
 		//Override pak - paks opened with this flag go at the end of the list and contents will be found before other paks
 		//Used for patching
 		FLAGS_OVERRIDE_PAK = BIT(9),
+
+		// Disable a pak file without unloading it, this flag is used in combination with patches and multiplayer
+		// to ensure that specific paks stay in the position(to keep the same priority) but beeing disabled
+		// when running multiplayer
+		FLAGS_DISABLE_PAK = BIT(10),
 	};
 
 	virtual ~ICryArchive(){}
@@ -171,6 +178,12 @@ struct ICryArchive: public _reference_target_t
 	//   SetFlags, GetFlags
 	virtual bool ResetFlags(unsigned nFlagsToSet) = 0;
 
+	// Summary:
+	//   Control if files in this pack can be accessed
+	// Returns:
+	//   true if archive state was changed
+	virtual bool SetPackAccessible( bool bAccessible ) = 0;
+		
 	// Summary:
 	//   Determines if the archive is read only.
 	// Returns:
@@ -320,6 +333,14 @@ UNIQUE_IFACE struct ICryPak
 	virtual bool OpenPacks(const char* pBindingRoot, const char *pWildcard, unsigned nFlags = FLAGS_PATH_REAL)=0;
 	// closes pack files by the path and wildcard
 	virtual bool ClosePacks(const char* pWildcard, unsigned nFlags = FLAGS_PATH_REAL) = 0;
+	//returns if a pak exists matching the wildcard
+	virtual bool FindPacks(const char *pWildcardIn) = 0;
+
+	// Set access status of a pak files with a wildcard
+	virtual bool SetPacksAccessible( bool bAccessible, const char* pWildcard, unsigned nFlags = FLAGS_PATH_REAL) =0;
+	
+	// Set access status of a pack file
+	virtual bool SetPackAccessible( bool bAccessible, const char* pName, unsigned nFlags = FLAGS_PATH_REAL) =0;
 
 	// Load or unload pak file completely to memory.
 	virtual bool LoadPakToMemory( const char *pName,unsigned int nPathFlags,bool bLoadToMemory ) = 0;
@@ -350,6 +371,11 @@ UNIQUE_IFACE struct ICryPak
 	virtual void SetGameFolder(const char* szFolder)=0;
 	virtual const char* GetGameFolder() const=0;
 
+	// Set and Get the localization folder name (Languages, Localization, ...)
+	virtual void SetLocalizationFolder(char const* const sLocalizationFolder) = 0;
+	virtual char const* const GetLocalizationFolder() const = 0;
+
+	// Only returns useful results on a dedicated server at present - and only if the pak is already opened
 	virtual void GetCachedPakCDROffsetSize(const char* szName,uint32 &offset,uint32 &size)=0;
 
 	struct PakInfo
@@ -604,12 +630,6 @@ struct IResourceList : public _reference_target_t
 	// Return memory usage stats.
 	virtual void GetMemoryStatistics(class ICrySizer *pSizer) = 0;
 };
-
-//////////////////////////////////////////////////////////////////////////
-// Include File helpers.
-//////////////////////////////////////////////////////////////////////////
-#include "CryPath.h"
-#include "CryFile.h"
 
 //////////////////////////////////////////////////////////////////////
 
@@ -935,6 +955,13 @@ private:
 //////////////////////////////////////////////////////////////////////////
 
 #if !defined(RESOURCE_COMPILER)
+
+//////////////////////////////////////////////////////////////////////////
+// Include File helpers.
+//////////////////////////////////////////////////////////////////////////
+#include "CryPath.h"
+#include "CryFile.h"
+
 //////////////////////////////////////////////////////////////////////////
 // Helper class that can be used to recusrively scan the directory.
 //////////////////////////////////////////////////////////////////////////

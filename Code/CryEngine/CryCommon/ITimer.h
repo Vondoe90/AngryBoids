@@ -136,6 +136,12 @@ struct ITimer
 	virtual float TicksToMillis(int64 ticks) = 0;
 
 	// Summary 
+	//	Convert from ticks (QueryPerformanceCounter) to nanoseconds
+	//  useable by CTimeValue.SetValue()
+	//
+	virtual int64 TicksToNanos(int64 ticks) = 0;
+	
+	// Summary 
 	//	Create a new timer of the same type
 	//
 	virtual ITimer* CreateNewTimer() = 0;

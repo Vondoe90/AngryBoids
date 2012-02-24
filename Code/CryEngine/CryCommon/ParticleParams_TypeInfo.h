@@ -27,46 +27,52 @@
 #include "Name_TypeInfo.h"
 #include "CryTypeInfo.h"
 
-// Implementation of TCurveSpline<T> functions.
+///////////////////////////////////////////////////////////////////////
+// Implementation of TCurve<> functions.
 
 	// Helper class for serialization.
-	template<class T>
+
+	template<class S>
 	struct SplineElem
 	{
-		float fTime;
-		T			Value;
-		int		nFlags;
+		UnitFloat8	time;
+		S						value;
+		int					flags;
+
 		STRUCT_INFO
 	};
 
 	// Manually define type info.
-	STRUCT_INFO_T_BEGIN(SplineElem, class, T)
-		VAR_INFO(fTime)
-		VAR_INFO(Value)
-		VAR_INFO(nFlags)
-	STRUCT_INFO_T_END(SplineElem, class, T)
+	STRUCT_INFO_T_BEGIN(SplineElem, class, S)
+		VAR_INFO(time)
+		VAR_INFO(value)
+		VAR_INFO(flags)
+	STRUCT_INFO_T_END(SplineElem, class, S)
 
 
 	template<class S>
 	string TCurve<S>::ToString( FToString flags ) const
 	{
 		string str;
-		for (int i = 0; i < this->num_keys(); i++)
+		for (int i = 0; i < num_keys(); i++)
 		{
 			if (i > 0)
 				str += ";";
-			SplineElem<S> elem = { this->key(i).time, this->key(i).value, this->key(i).flags };
+			key_type k = key(i);
+			SplineElem<S> elem = { k.time, k.value, k.flags };
 			str += ::TypeInfo(&elem).ToString(&elem, flags);
 		}
 		return str;
 	}
 
 	template<class S>
-	bool TCurve<S>::FromString( cstr str, FFromString flags )
+	bool TCurve<S>::FromString( cstr str_in, FFromString flags )
 	{
 		CryStackStringT<char,256> strTemp;
 
-		this->resize(0);
+		source_spline source;
+
+		cstr str = str_in;
 		while (*str)
 		{
 			// Extract element string.
@@ -83,41 +89,68 @@
 				str = "";
 
 			// Parse element.
-			SplineElem<T> elem = { 0.f, T(0.f), 0 };
+			SplineElem<S> elem = { 0, S(0), 0 };
 			if (!::TypeInfo(&elem).FromString(&elem, strElem))
 				return false;
 
-			// Fix any values somehow erroneously serialised.
-			Limit(elem.fTime, 0.f, 1.f);
-			if (max(elem.Value, T(0.f)) != elem.Value
-			|| min(elem.Value, T(1.f)) != elem.Value)
-				elem.Value = T(0.f);
-			if (elem.nFlags & SPLINE_KEY_TANGENT_UNIFY_MASK)
-				// Obsolete convention, now slope type settable per side.
-				elem.nFlags |= (SPLINE_KEY_TANGENT_LINEAR << SPLINE_KEY_TANGENT_IN_SHIFT) 
-										| (SPLINE_KEY_TANGENT_LINEAR << SPLINE_KEY_TANGENT_OUT_SHIFT);
-			elem.nFlags &= (SPLINE_KEY_TANGENT_IN_MASK | SPLINE_KEY_TANGENT_OUT_MASK);
+			spline::SplineKey<T> key;
+			key.time = elem.time;
+			key.value = elem.value;
+			key.flags = elem.flags;
 
-			int nKey = insert_key(elem.fTime, elem.Value);
-			this->key(nKey).flags = elem.nFlags;
+			source.insert_key(key);
 		};
 
-		this->update();
-		if (flags._Finalize)
-			this->finalize();
+		from_source(source);
+
 		return true;
 	}
 
 	template<class S>
-	void TCurve<S>::SerializeSpline( XmlNodeRef &node, bool bLoading )
+	struct TCurve<S>::CCustomInfo: CStructInfo
 	{
-		if (bLoading)
-			FromString( node->getAttr( "Keys" ) );
-		else
-			node->setAttr( "Keys", ToString(FToString().SkipDefault().TruncateSub()) );
-	}
+		typedef spline::FinalizingSpline< typename TCurve<S>::source_spline, TCurve<S> > TIndirectSpline;
 
+		CCustomInfo()
+			: CStructInfo("TCurve<>", sizeof(TThis), ZERO, TypeInfoArray1((S*)0))
+		{}
+		virtual string ToString(const void* data, FToString flags = 0, const void* def_data = 0) const
+		{
+			return ((const TThis*)data)->ToString(flags);
+		}
+		virtual bool FromString(void* data, cstr str, FFromString flags = 0) const
+		{
+			return ((TThis*)data)->FromString(str, flags);
+		}
+		virtual bool ToValue(const void* data, void* value, const CTypeInfo& typeVal) const
+		{
+			if (typeVal.IsType<ISplineInterpolator*>())
+			{
+				TCurve<S>* pSource = (TCurve<S>*)data;
+				TIndirectSpline*& pDest = *(TIndirectSpline**)value;
+				if (!pDest)
+					pDest = new TIndirectSpline;
+				pDest->SetFinal(pSource);
+				return true;
+			}
+			return false;
+		}
+		virtual bool ValueEqual(const void* data, const void* def_data = 0) const
+		{
+			// Don't support full equality test, just comparison against default data.
+			if (!def_data || ((const TThis*)def_data)->IsIdentity())
+				return ((const TThis*)data)->IsIdentity();
+			return false;
+		}
+		virtual void GetMemoryUsage(ICrySizer* pSizer, const void* data) const
+		{	
+			((TThis*)data)->GetMemoryUsage(pSizer);		
+		}
+	};
+
+///////////////////////////////////////////////////////////////////////
 // Implementation of CSurfaceTypeIndex::TypeInfo
+
 const CTypeInfo& CSurfaceTypeIndex::TypeInfo() const
 {
 	struct SurfaceEnums: DynArray<CEnumInfo::CEnumElem>

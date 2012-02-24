@@ -7,11 +7,12 @@
 struct IFactionMap
 {
 	virtual ~IFactionMap(){}
-	enum ReactionType
+	
+	enum EReactionType
 	{
-		Hostile = 0, // intentionally from most-hostile to most-friendly
-		Neutral,
-		Friendly,
+		eRT_Hostile = 0, // intentionally from most-hostile to most-friendly
+		eRT_Neutral,
+		eRT_Friendly,
 	};
 
 	enum
@@ -23,8 +24,8 @@ struct IFactionMap
 	virtual const char* GetFactionName(uint8 fraction) const = 0;
 	virtual uint8 GetFactionID(const char* name) const = 0;
 
-	virtual void SetReaction(uint8 factionOne, uint8 factionTwo, IFactionMap::ReactionType reaction) = 0;
-	virtual IFactionMap::ReactionType GetReaction(uint8 factionOne, uint8 factionTwo) const = 0;
+	virtual void SetReaction(uint8 factionOne, uint8 factionTwo, IFactionMap::EReactionType reaction) = 0;
+	virtual IFactionMap::EReactionType GetReaction(uint8 factionOne, uint8 factionTwo) const = 0;
 };
 
 #endif

@@ -402,6 +402,22 @@ UNIQUE_IFACE struct IConsole
 	virtual const char* FindKeyBind( const char *sCmd ) const = 0;
 
 	//////////////////////////////////////////////////////////////////////////
+	// Hashing of cvars (for anti-cheat). Separates setting of range, calculation,
+  // and retrieval of result so calculation can be done at a known safe point
+  // (e.g end of frame) when we know cvars won't be modified or in temporary state
+
+  // Get Number of cvars that can be hashed
+	virtual int GetNumCheatVars() = 0;
+  // Set the range of cvars
+  virtual void SetCheatVarHashRange( size_t firstVar, size_t lastVar ) = 0;
+  // Calculate the hash from current cvars
+  virtual void CalcCheatVarHash() = 0;
+  // Since hash is calculated async, check if it's completed
+  virtual bool IsHashCalculated() = 0;
+  // Get the hash calculated
+  virtual uint32 GetCheatVarHash() = 0;
+
+	//////////////////////////////////////////////////////////////////////////
 	// Console variable sink.
 	// Adds a new console variables sink callback.
 	virtual void AddConsoleVarSink( IConsoleVarSink *pSink )=0;

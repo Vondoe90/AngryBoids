@@ -28,9 +28,13 @@
 ILINE uint8 countLeadingZeros32( uint32 x)
 {
 	long result;
+#if defined(__SNC__)
+	result = __cntlzw(x);
+#else
 	__asm__ ("cntlzw %0, %1" 
 			/* outputs:  */ : "=r" (result) 
 			/* inputs:   */ : "r" (x));
+#endif
 	return result;
 }
 

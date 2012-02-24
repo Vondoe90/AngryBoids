@@ -114,6 +114,7 @@ public:
 	VIRTUAL void CreateLobbySession( const SGameStartParams* pGameStartParams ) {;}
 	VIRTUAL void DeleteLobbySession() {;}
 
+	virtual void RegisterGameFlowNodes() {}
 	// ~IGame
 
   void BlockingProcess(BlockingConditionFunction f);

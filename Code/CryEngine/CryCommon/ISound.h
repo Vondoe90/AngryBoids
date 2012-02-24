@@ -50,7 +50,6 @@ struct	ISoundSystem_WorkInProgress;
 struct	SSoundBufferInfo;
 struct	IVisArea;
 
-
 #ifndef EXCLUDE_SCALEFORM_SDK
 namespace CryVideoSoundSystem
 {
@@ -151,7 +150,7 @@ typedef uint32	tSoundID;
 #define FLAG_SOUND_START_PAUSED								BIT(20) // Start the sound paused, so an additional call to unpause is needed.
 #define FLAG_SOUND_VOICE											BIT(21) // Sound used as a voice (sub-titles and lip sync can be applied).
 #define FLAG_SOUND_EVENT											BIT(22) // This sound is a sound event.
-#define FLAG_SOUND_PARAM_DOPPLER_ABS					BIT(23)	// This sound has a doppler parameter (relative to world).
+#define FLAG_SOUND_LISTENER_DIST_CHANGED      BIT(23)	// This flag indicates whether the distance between active listener and this sound has changed.
 #define FLAG_SOUND_PARAM_DOPPLER_REL					BIT(24)	// This sound has a doppler parameter (relative to listener).
 #define FLAG_SOUND_PARAM_SPREAD								BIT(25) // This sound has a spread parameter.
 #define FLAG_SOUND_PARAM_SQUELCH							BIT(26) // This sound has a radio squelch parameter.
@@ -393,23 +392,6 @@ typedef struct IListener
 	virtual void SetVisArea(IVisArea* pVArea) = 0;
 
 } IListener;
-
-
-// Description:
-//	 These values are used with CS_FX_Enable to enable DirectX 8 FX for a channel.
-enum SOUND_FX_MODES
-{
-    S_FX_CHORUS,
-    S_FX_COMPRESSOR,
-    S_FX_DISTORTION,
-    S_FX_ECHO,
-    S_FX_FLANGER,
-    S_FX_GARGLE,
-    S_FX_I3DL2REVERB,
-    S_FX_PARAMEQ,
-    S_FX_WAVES_REVERB
-};
-
 
 // Description:
 //	 Sound events sent to callback that can registered to every sound.
@@ -826,7 +808,6 @@ enum EAudioFileCacheType
 	eAFCT_GAME_HINT_NO_SERIALIZE,
 	eAFCT_GAME_HINT_ALL,
 	eAFCT_MUSIC,
-	eAFCT_MUSIC_MP,
 	eAFCT_FSB_HEADER,
 	eAFCT_ALL
 };
@@ -840,11 +821,12 @@ enum EAudioFileCacheState
 	eAFCS_MEMALLOCFAIL        = BIT(3),
 	eAFCS_REMOVABLE           = BIT(4),
 	eAFCS_LOADING             = BIT(5),
-	eAFCS_QUEUED_FOR_PRELOAD  = BIT(6),
-	eAFCS_QUEUED_FOR_UNLOAD   = BIT(7),
-	eAFCS_PRELOADED           = BIT(8),
-	eAFCS_VIRTUAL             = BIT(9),
-	eAFCS_REMOVE_AFTER_UNLOAD = BIT(10)
+	eAFCS_QUEUED_FOR_CACHING  = BIT(6),
+	eAFCS_QUEUED_FOR_PRELOAD  = BIT(7),
+	eAFCS_QUEUED_FOR_UNLOAD   = BIT(8),
+	eAFCS_PRELOADED           = BIT(9),
+	eAFCS_VIRTUAL             = BIT(10),
+	eAFCS_REMOVE_AFTER_UNLOAD = BIT(11)
 };
 
 // Summary:
@@ -1292,19 +1274,6 @@ struct ISoundSystem_Extended : public ISoundSystem
 	//	 Returns true if sound is being debugged.
 	virtual bool DebuggingSound() = 0;	
 	virtual bool IsNullImplementation() const = 0;
-
-	//////////////////////////////////////////////////////////////////////////
-	// VIDEO PLAYBACK
-	//////////////////////////////////////////////////////////////////////////
-
-	// Return Value:
-	//	 The output handle if possible, else NULL.
-	//	 The MasterVoice handle on Xbox360 if possible, else NULL.
-	// Arguments:
-	//	 HandleType		- Will specify if this a pointer to DirectX LPDIRECTSOUND or a WINMM handle
-	//					  Will be eOUTPUT_MAX if invalid
-	virtual void	GetOutputHandle( void **pHandle, void **pHandle2, EOutputHandle *HandleType)	const = 0;
-
 
 	//////////////////////////////////////////////////////////////////////////
 	// FUNCTIONALITY

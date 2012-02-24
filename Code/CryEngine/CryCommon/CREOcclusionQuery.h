@@ -7,6 +7,7 @@
 class CREOcclusionQuery : public CRendElementBase
 {
   friend class CRender3D;
+	bool m_bSucceeded;
 public:
 
   int m_nVisSamples;
@@ -41,14 +42,16 @@ public:
     mfUpdateFlags(FCEF_TRANSFORM);
   }
 
-  bool RT_ReadResult_Try();
+  bool RT_ReadResult_Try(uint32 nDefaultNumSamples);
+
+	ILINE bool HasSucceeded() const { return m_bSucceeded; }
 
   virtual ~CREOcclusionQuery();
 
   virtual void mfPrepare(bool bCheckOverflow);
   virtual bool mfDraw(CShader *ef, SShaderPass *sfm);
   virtual void mfReset();
-	virtual bool mfReadResult_Try();
+	virtual bool mfReadResult_Try(uint32 nDefaultNumSamples = 1);
 	virtual bool mfReadResult_Now();
 
 	virtual void GetMemoryUsage(ICrySizer *pSizer) const 

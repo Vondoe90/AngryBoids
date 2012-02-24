@@ -19,12 +19,18 @@
 
 #include <ISystem.h>
 #include <ICryPak.h>
+#include <IConsole.h>
 
 namespace PathUtil
 {
 	inline string GetGameFolder() 
 	{
 		return (gEnv->pCryPak->GetGameFolder());
+	}
+
+	inline string GetLocalizationFolder()
+	{
+		return gEnv->pCryPak->GetLocalizationFolder();
 	}
 
 	//! Convert a path to the uniform form.
@@ -64,6 +70,15 @@ namespace PathUtil
     }
     return strPath;
   }
+
+	//! Convert a path to lowercase form
+	inline string ToLower( const string& strPath )
+	{
+		string path = strPath;
+		path.MakeLower();
+		return path;
+	}
+
 
 	//! Split full file name to path and filename
 	//! @param filepath [IN] Full file name including path.

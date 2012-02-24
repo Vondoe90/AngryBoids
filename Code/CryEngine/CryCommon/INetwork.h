@@ -85,6 +85,10 @@ struct INetSendable;
 struct SNetProfileStackEntry;
 struct ICryLobby;
 
+#if defined(DEDICATED_SERVER) 
+struct IDefenceContext;
+#endif
+
 class CNetSerialize;
 
 typedef _smart_ptr<IRMIMessageBody> IRMIMessageBodyPtr;
@@ -1510,6 +1514,9 @@ struct INetChannel : public INetMessageSink
 
 	virtual void SetMigratingChannel(bool bIsMigrating) = 0;
 	virtual bool IsMigratingChannel() const = 0;
+#if defined(DEDICATED_SERVER)
+  virtual IDefenceContext * GetDefenceContext() = 0;
+#endif
 };
 
 UNIQUE_IFACE struct IGameSecurity

@@ -231,6 +231,7 @@ UNIQUE_IFACE struct IStatInstGroup
     bComplexBending = 0;
 		bCastShadow = 0;
 		bRecvShadow = 0;
+		bRecvDecals = true;
 		bPrecShadow = true;
 		bUseAlphaBlending = 0;
 		fSpriteDistRatio = 1.f;
@@ -266,6 +267,7 @@ UNIQUE_IFACE struct IStatInstGroup
   bool  bComplexBending;
 	bool	bCastShadow;
 	bool	bRecvShadow;
+	bool	bRecvDecals;
 	bool	bPrecShadow;
 	bool	bUseAlphaBlending;
 	float fSpriteDistRatio;
@@ -1256,10 +1258,10 @@ UNIQUE_IFACE struct I3DEngine : public IProcess
 	virtual bool InitLevelForEditor(const char * szFolderName, const char * szMissionName) = 0;
 
 	// Summary:
-	//   Clears all rendering resources, all objects, characters and materials, voxels and terrain.
+	//     Handles any work needed at start of new frame.
 	// Notes:
-	//   Should always be called before LoadLevel, and also before loading textures from a script.
-	virtual void UnloadLevel()=0;
+	//     Should be called for every frame.
+	virtual void OnFrameStart() = 0;
 
 	// Description:
 	//    Must be called after the game completely finishes loading the level.
@@ -1271,10 +1273,11 @@ UNIQUE_IFACE struct I3DEngine : public IProcess
 	virtual void PostLoadLevel() = 0;
 
 	// Summary:
-	//     Handles any work needed at start of new frame.
+	//   Clears all rendering resources, all objects, characters and materials, voxels and terrain.
 	// Notes:
-	//     Should be called for every frame.
-	virtual void OnFrameStart() = 0;
+	//   Should always be called before LoadLevel, and also before loading textures from a script.
+	virtual void UnloadLevel()=0;
+
 
 	// Summary:
 	//     Updates the 3D Engine.
@@ -1287,6 +1290,12 @@ UNIQUE_IFACE struct I3DEngine : public IProcess
 	// Notes:
 	//     Only valid during 3dengine::Render call, makes sense only for internal debugging
 	virtual const CCamera & GetCurrentCamera() = 0;
+
+	// Summary:
+	//     Deletes the 3D Engine instance.
+	virtual void Release() = 0;
+
+	virtual void DummyFunctionTwo() = 0;
 
 	// Summary:
 	//     Draws the world.
@@ -1308,10 +1317,6 @@ UNIQUE_IFACE struct I3DEngine : public IProcess
 	// Summary:
 	//     Shuts down the 3D Engine.
 	virtual void ShutDown() = 0;
-
-	// Summary:
-	//     Deletes the 3D Engine instance.
-	virtual void Release() = 0;
 
 	// Summary:
 	//     Loads a static object from a CGF file.
@@ -1461,8 +1466,19 @@ UNIQUE_IFACE struct I3DEngine : public IProcess
 	virtual float GetBottomLevel(const Vec3 & referencePos, int objflags) = 0;
 
 	// Summary:
-	//     Gets the water level for a specified position.
+	//     Gets the ocean water level. Fastest option, always prefer is only ocean height required.
 	// Notes:
+	//     This function will take into account just the global water level.
+	// Return Value:
+	//     A float value which indicate the water level. In case no water was 
+	//     found at the specified location, the value WATER_LEVEL_UNKNOWN will 
+	//     be returned.
+	virtual float GetWaterLevel() = 0;
+
+	// Summary:
+	//     Gets the closest walkable bottom z straight beneath the given reference position.
+	//				- Use with caution the accurate query - SLOW
+	// Notes:	
 	//     This function will take into account both the global water level and any water volume present.
 	//     Function is provided twice for performance with diff. arguments.
 	// Arguments:
@@ -1472,18 +1488,18 @@ UNIQUE_IFACE struct I3DEngine : public IProcess
 	//     A float value which indicate the water level. In case no water was 
 	//     found at the specified location, the value WATER_LEVEL_UNKNOWN will 
 	//     be returned.
-	virtual float GetWaterLevel(const Vec3 * pvPos, Vec3 * pvFlowDir = NULL) = 0;
-	virtual float GetWaterLevel() = 0;
+	virtual float GetWaterLevel(const Vec3 * pvPos, Vec3 * pvFlowDir = NULL, bool bAccurate = false) = 0;
 
 	// Summary:
 	//     Gets the ocean water level for a specified position.
+	//				- Use with caution the accurate query - SLOW
 	// Notes:
 	//     This function only takes into account ocean water.
 	// Arguments:
 	//     pCurrPos - Position to check water level
 	// Return Value:
 	//     A float value which indicate the water level.
-	virtual float GetOceanWaterLevel( const Vec3 &pCurrPos ) const = 0;
+	virtual float GetAccurateOceanHeight( const Vec3 &pCurrPos ) const = 0;
 
 	// Summary:
 	//     Gets caustics parameters.
@@ -1635,8 +1651,8 @@ UNIQUE_IFACE struct I3DEngine : public IProcess
 	//   value - becomes clamped in range 0.01 .. 100
 	virtual void SetHDRDynamicMultiplier( const float value ) = 0;
 
-  virtual void SetRenderIntoShadowmap( bool bSet ) = 0;
-  virtual bool GetRenderIntoShadowmap() const = 0;
+  virtual void SetRenderIntoShadowmap( int nLod ) = 0;
+  virtual bool _IsRenderIntoShadowmap() const = 0;
 
 	// allows to modify material on render nodes at run-time (make sure it is properly restored back)
 	virtual void SetRenderNodeMaterialAtPosition( EERType eNodeType, const Vec3 & vPos, IMaterial * pMat ) = 0;
@@ -2099,7 +2115,7 @@ UNIQUE_IFACE struct I3DEngine : public IProcess
 
 	virtual int32 GetPostEffectID(const char* pPostEffectName) = 0;
 
-	virtual void ResetPostEffects() const = 0;
+	virtual void ResetPostEffects(bool bOnSpecChange = false) const = 0;
 
 	virtual void SetShadowsGSMCache(bool bCache) = 0;
     
@@ -2417,6 +2433,8 @@ UNIQUE_IFACE struct I3DEngine : public IProcess
 
 	// Return true if terrain texture streaming takes place
 	virtual bool IsTerrainTextureStreamingInProgress() = 0;
+
+	static const int LOCAL_LIGHT_SHADOW = 0x8;
 };
 
 //==============================================================================================

@@ -30,6 +30,7 @@
 #include "ICryPak.h"
 #include "ISaveGame.h"
 #include "ITestSystem.h"
+#include "CryListenerSet.h"
 
 struct IFlowSystem;
 struct IGameTokenSystem;
@@ -99,7 +100,6 @@ class CAIProxyManager;
 class CForceFeedBackSystem;
 class CCryActionPhysicQueues;
 class CNetworkStallTickerThread;
-class CFlashUIActionEvents;
 
 class CCharacterPartsManager;
 
@@ -114,6 +114,10 @@ struct IGameSessionHandler;
 struct IAnimationGraphState;
 struct IRealtimeRemoteUpdate;
 struct ISerializeHelper;
+
+#if defined(OPEN_AUTOMATE)
+class OATester;
+#endif
 
 class CCryAction :
 	public IGameFramework
@@ -316,7 +320,7 @@ public:
 	void OnBreakEvent(uint16 uBreakEventIndex);
 	void OnPartRemoveEvent(int32 iPartRemoveEventIndex);
 
-	VIRTUAL void RegisterListener		(IGameFrameworkListener *pGameFrameworkListener, const char *name, EFRAMEWORKLISTENERPRIORITY eFrameworkListenerPriority);
+	VIRTUAL void RegisterListener		(IGameFrameworkListener *pGameFrameworkListener, const char *name, EFrameworkListenerPriority eFrameworkListenerPriority);
 	VIRTUAL void UnregisterListener	(IGameFrameworkListener *pGameFrameworkListener);
 
 	CDialogSystem* GetDialogSystem() { return m_pDialogSystem; }
@@ -406,6 +410,7 @@ private:
 	static void DisconnectCmd(IConsoleCmdArgs* args);
 	static void DisconnectChannelCmd(IConsoleCmdArgs* args);
 	static void StatusCmd(IConsoleCmdArgs* args);
+	static void LegacyStatusCmd(IConsoleCmdArgs* args);
 	static void VersionCmd(IConsoleCmdArgs* args);
 	static void SaveTagCmd(IConsoleCmdArgs* args);
 	static void LoadTagCmd(IConsoleCmdArgs* args);
@@ -413,10 +418,15 @@ private:
 	static void GenStringsSaveGameCmd(IConsoleCmdArgs* args);
 	static void LoadGameCmd(IConsoleCmdArgs* args);
   static void KickPlayerCmd(IConsoleCmdArgs* args);
+  static void LegacyKickPlayerCmd(IConsoleCmdArgs* args);
   static void KickPlayerByIdCmd(IConsoleCmdArgs* args);
+  static void LegacyKickPlayerByIdCmd(IConsoleCmdArgs* args);
 	static void BanPlayerCmd(IConsoleCmdArgs* args);
+	static void LegacyBanPlayerCmd(IConsoleCmdArgs* args);
 	static void BanStatusCmd(IConsoleCmdArgs* args);
+	static void LegacyBanStatusCmd(IConsoleCmdArgs* args);
 	static void UnbanPlayerCmd(IConsoleCmdArgs* args);
+	static void LegacyUnbanPlayerCmd(IConsoleCmdArgs* args);
 	static void OpenURLCmd(IConsoleCmdArgs* args);
 	static void TestResetCmd(IConsoleCmdArgs* args);
 	static void ReloadVoiceLibraryCmd(IConsoleCmdArgs* args);
@@ -537,7 +547,6 @@ private:
 	CommunicationVoiceLibrary *m_pCommunicationVoiceLibrary;
 	CIKTargetSystem					*m_pIKTargetSystem;
 	CIKInteractionManager		*m_pIKInteractionManager;
-	CFlashUIActionEvents* m_pFlashUIActionEvents;
 
 	CGameStatsConfig	*m_pGameStatsConfig;
 
@@ -557,6 +566,10 @@ private:
 
 	// TimeDemo recorder.
 	CTimeDemoRecorder *m_pTimeDemoRecorder;
+
+#if defined(OPEN_AUTOMATE)
+	OATester* m_pOATester;
+#endif
 
 	// game queries
 	CGameQueryListener*m_pGameQueryListener;
@@ -639,20 +652,10 @@ private:
 	};
 	SLocalAllocs* m_pLocalAllocs;
 
-	struct SGameFrameworkListener
-	{
-		IGameFrameworkListener * pListener;
-		CryStackStringT<char, 64> name;
-		EFRAMEWORKLISTENERPRIORITY eFrameworkListenerPriority;
-		SGameFrameworkListener() : pListener(0), eFrameworkListenerPriority(FRAMEWORKLISTENERPRIORITY_DEFAULT) {}
-		void GetMemoryUsage(ICrySizer *pSizer) const{}
-	};
+	CListenerSet<IGameFrameworkListener*> * m_pGFListeners[eFLPriority_Count];
 
-	typedef std::vector<SGameFrameworkListener> TGameFrameworkListeners;
-	TGameFrameworkListeners *m_pGFListeners;
 	IBreakEventListener *m_pBreakEventListener;
-	std::vector<bool> m_validListeners;
-
+	
 	int m_VoiceRecordingEnabled;
 
 	bool m_bAllowSave;

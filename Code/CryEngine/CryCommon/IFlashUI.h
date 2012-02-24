@@ -20,6 +20,8 @@
 #include <CryExtension/CryCreateClassInstance.h>
 #include <IFlashPlayer.h>
 #include <IFlowSystem.h>
+#include <CryName.h>
+#include "functor.h"
 
 #define IFlashUIExtensionName "FlashUI"
 
@@ -320,41 +322,45 @@ typedef CConfigurableVariant<TUIDataTypes, sizeof(void*), SUIConversion> TUIData
 
 struct SUIArguments
 {
-	SUIArguments() : m_cDelimiter( UIARGS_DEFAULT_DELIMITER ), m_Dirty(eBDF_None) {};
+	SUIArguments() : m_cDelimiter( UIARGS_DEFAULT_DELIMITER ), m_Dirty(eBDF_Delimiter) {};
 	template <class T>
-	SUIArguments( const T* argStringList ) : m_cDelimiter( UIARGS_DEFAULT_DELIMITER ) { SetArguments( argStringList ); }
+	SUIArguments( const T* argStringList, bool bufferStr = false ) : m_cDelimiter( UIARGS_DEFAULT_DELIMITER ) { SetArguments( argStringList, bufferStr ); }
 	SUIArguments( const SFlashVarValue* vArgs, int iNumArgs ) : m_cDelimiter( UIARGS_DEFAULT_DELIMITER) { SetArguments( vArgs, iNumArgs ); }
 	SUIArguments( const TUIData& data ) : m_cDelimiter( UIARGS_DEFAULT_DELIMITER ) { AddArgument( data ); }
 
 	template <class T>
-	void SetArguments( const T* argStringList )
+	void SetArguments( const T* argStringList, bool bufferStr = false )
 	{
 		Clear();
-		AddArguments( argStringList );
+		AddArguments( argStringList, bufferStr );
 	}
 
 
 	template <class T>
-	void AddArguments( const T* argStringList )
+	void AddArguments( const T* argStringList, bool bufferStr = false )
 	{
-		CryStringT<T> delimiter_str = GetDelimiter<T>();
-		CryStringT<T> str = argStringList;
-		while ( str.length() > 0 ) 
+		const CryStringT<T>& delimiter = GetDelimiter<T>();
+		const T* delimiter_str = delimiter.c_str();
+		const int delimiter_len = delimiter.length();
+		const T* found = argStringList;
+		while ( *found ) 
 		{
-			typename CryStringT<T>::size_type loc = str.find( delimiter_str, 0 );
-			if ( loc != CryStringT<T>::npos )
+			const T* next = StrStrTmpl(found, delimiter_str);
+			if ( next )
 			{
-				CryStringT<T> arg = str.substr( 0, loc );
-				AddArgument( arg );
-				str = str.substr( loc + delimiter_str.length() );
+				((T*)next)[0] = 0;
+				AddArgument( found );
+				((T*)next)[0] = delimiter_str[0];
+				found = next + delimiter_len;
 			}
 			else
 			{
-				AddArgument( str );
+				AddArgument( found );
 				break;
 			}
 		}
-		setStringBuffer( argStringList );
+		if (bufferStr)
+			setStringBuffer( argStringList );
 	}
 
 	void SetArguments( const SFlashVarValue* vArgs, int iNumArgs )
@@ -365,20 +371,21 @@ struct SUIArguments
 
 	void AddArguments( const SFlashVarValue* vArgs, int iNumArgs )
 	{
+		m_ArgList.reserve( m_ArgList.size() + iNumArgs );
 		for (int i = 0; i < iNumArgs; ++i)
 		{
 			switch( vArgs[i].GetType() )
 			{
-			case SFlashVarValue::eBool:					AddArgument( vArgs[i].GetBool() );									break;
-			case SFlashVarValue::eInt:					AddArgument( vArgs[i].GetInt() );										break;
-			case SFlashVarValue::eUInt:					AddArgument( vArgs[i].GetUInt() );									break;
-			case SFlashVarValue::eFloat:				AddArgument( vArgs[i].GetFloat() );									break;
-			case SFlashVarValue::eDouble:				AddArgument( (float) vArgs[i].GetDouble() );				break;
-			case SFlashVarValue::eConstStrPtr:	AddArgument( string(vArgs[i].GetConstStrPtr()) );		break;
-			case SFlashVarValue::eConstWstrPtr:	AddArgument( wstring(vArgs[i].GetConstWstrPtr()) );	break;
-			case SFlashVarValue::eNull:					AddArgument( string("NULL") );											break;
-			case SFlashVarValue::eObject:				AddArgument( string("OBJECT") );										break;
-			case SFlashVarValue::eUndefined:		AddArgument( string("UNDEFINED") );									break;
+			case SFlashVarValue::eBool:					AddArgument( vArgs[i].GetBool() );						break;
+			case SFlashVarValue::eInt:					AddArgument( vArgs[i].GetInt() );							break;
+			case SFlashVarValue::eUInt:					AddArgument( vArgs[i].GetUInt() );						break;
+			case SFlashVarValue::eFloat:				AddArgument( vArgs[i].GetFloat() );						break;
+			case SFlashVarValue::eDouble:				AddArgument( (float) vArgs[i].GetDouble() );	break;
+			case SFlashVarValue::eConstStrPtr:	AddArgument( vArgs[i].GetConstStrPtr() );			break;
+			case SFlashVarValue::eConstWstrPtr:	AddArgument( vArgs[i].GetConstWstrPtr() );		break;
+			case SFlashVarValue::eNull:					AddArgument( "NULL" );												break;
+			case SFlashVarValue::eObject:				AddArgument( "OBJECT" );											break;
+			case SFlashVarValue::eUndefined:		AddArgument( "UNDEFINED" );										break;
 			}
 		}
 	}
@@ -390,6 +397,13 @@ struct SUIArguments
 		m_Dirty = eBDF_ALL;
 	}
 
+	template< class T >
+	inline void AddArgument( const T* str )
+	{
+		AddArgument( CryStringT<T>(str) );
+	}
+
+
 	inline void Clear()
 	{
 		m_ArgList.clear();
@@ -397,10 +411,18 @@ struct SUIArguments
 	}
 
 	template< class T >
-	static SUIArguments Create(const T& arg)
+	static SUIArguments Create( const T& arg )
 	{
 		SUIArguments args;
 		args.AddArgument(arg);
+		return args;
+	}
+
+	template< class T >
+	static SUIArguments Create( const T* str )
+	{
+		SUIArguments args;
+		args.AddArgument(str);
 		return args;
 	}
 
@@ -428,9 +450,15 @@ struct SUIArguments
 	{ 
 		if ( delimiter != m_cDelimiter )
 		{
-			m_Dirty |= eBDF_String | eBDF_WString;
+			m_Dirty |= eBDF_String | eBDF_WString | eBDF_Delimiter;
 		}
 		m_cDelimiter = delimiter; 
+	}
+
+	template < class T >
+	inline const T* StrStrTmpl( const T* str1, const T* str2 )
+	{
+		return strstr(str1, str2);
 	}
 
 private:
@@ -442,11 +470,12 @@ private:
 	
 	enum EBufferDirtyFlag
 	{
-		eBDF_None 		= 0x0,
-		eBDF_String 	= 0x1,
-		eBDF_WString 	= 0x2,
-		eBDF_FlashVar	= 0x4,
-		eBDF_ALL 			= 0x7
+		eBDF_None      = 0x00,
+		eBDF_String    = 0x01,
+		eBDF_WString   = 0x02,
+		eBDF_FlashVar  = 0x04,
+		eBDF_Delimiter = 0x08,
+		eBDF_ALL       = 0xFF,
 	};
 	mutable uint m_Dirty;
 
@@ -527,7 +556,7 @@ private:
 	}
 
 	template <class T>
-	inline const T* updateStringBuffer(CryStringT<T>& buffer, uint flag) const
+	inline const T* updateStringBuffer( CryStringT<T>& buffer, uint flag ) const
 	{
 		if (m_Dirty & flag)
 		{
@@ -547,37 +576,47 @@ private:
 	}
 
 	template <class T>
-	inline const CryStringT<T> GetDelimiter() const
+	inline const CryStringT<T>& GetDelimiter() const
 	{
-		TUIData delimiter(m_cDelimiter);
-		CryStringT<T> delimiter_str;
-		delimiter.GetValueWithConversion(delimiter_str);
+		static CryStringT<T> delimiter_str;
+		if (m_Dirty & eBDF_Delimiter)
+		{
+			m_Dirty &= ~eBDF_Delimiter;
+			TUIData delimiter(m_cDelimiter);
+			delimiter.GetValueWithConversion(delimiter_str);
+		}
 		return delimiter_str;
 	}
 
 	template <class T>
-	inline void setStringBuffer(const T* str) {}
+	inline void setStringBuffer( const T* str ) { assert(false); }
 };
 
 // Specialize in global scope
 template <>
-inline const CryStringT<char> SUIArguments::GetDelimiter() const
+inline const CryStringT<char>& SUIArguments::GetDelimiter() const
 {
 	return m_cDelimiter;
 }
 
 template <>
-inline void SUIArguments::setStringBuffer(const char* str)
+inline void SUIArguments::setStringBuffer( const char* str )
 {
 	m_sArgStringBuffer = str;
 	m_Dirty &= ~eBDF_String;
 }
 
 template <>
-inline void SUIArguments::setStringBuffer(const wchar_t* str)
+inline void SUIArguments::setStringBuffer( const wchar_t* str )
 {
 	m_sArgWStringBuffer = str;
 	m_Dirty &= ~eBDF_WString;
+}
+
+template <>
+inline const wchar_t* SUIArguments::StrStrTmpl( const wchar_t* str1, const wchar_t* str2 )
+{
+	return wcsstr(str1, str2);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -585,77 +624,86 @@ inline void SUIArguments::setStringBuffer(const wchar_t* str)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SUIParameterDesc
 {
-	SUIParameterDesc() : sName("undefined"), sDisplayName("undefined"), sDesc("undefined") {} 
-	SUIParameterDesc( string name, string displ, string desc) : sName(name), sDisplayName(displ), sDesc(desc) {}
-	string sName;
-	string sDisplayName;
-	string sDesc;
+	enum EUIParameterType
+	{
+		eUIPT_Any,
+		eUIPT_Bool,
+		eUIPT_Int,
+		eUIPT_Float,
+		eUIPT_String,
+	};
+
+	SUIParameterDesc() : sName("undefined"), sDisplayName("undefined"), sDesc("undefined"), eType(eUIPT_Any) {} 
+	SUIParameterDesc( const char*  name, const char*  displ, const char*  desc, EUIParameterType type = eUIPT_Any) : sName(name), sDisplayName(displ), sDesc(desc), eType(type) {}
+	const char* sName;
+	const char* sDisplayName;
+	const char* sDesc;
+	EUIParameterType eType;
 
 	inline bool operator==( const SUIParameterDesc& other ) const
 	{
-		return sName == other.sName;
+		return strcmp(sName, other.sName) == 0;
 	}
 };
 typedef DynArray< SUIParameterDesc > TUIParams;
 
 struct SUIEventDesc : public SUIParameterDesc
 {
-	SUIEventDesc() : IsDynamic(false) {}
-	SUIEventDesc( string name, string displ, string desc, bool isDyn = false ) : SUIParameterDesc( name, displ, desc ), IsDynamic(isDyn) {}
+	SUIEventDesc() : IsDynamic(false), sDynamicName("Array"), sDynamicDesc("") {}
+	SUIEventDesc( const char*  name, const char*  displ, const char*  desc, bool isDyn = false, const char* dynName="Array", const char* dynDesc="" ) : SUIParameterDesc( name, displ, desc ), IsDynamic(isDyn), sDynamicName(dynName), sDynamicDesc(dynDesc) {}
 	TUIParams Params;
 	bool IsDynamic;
+	const char* sDynamicName;
+	const char* sDynamicDesc;
 
 	inline bool operator==( const SUIEventDesc& other ) const
 	{		
-		bool res = sName == other.sName && IsDynamic == other.IsDynamic && Params.size() == other.Params.size();
+		bool res = strcmp(sName, other.sName) == 0 && IsDynamic == other.IsDynamic && Params.size() == other.Params.size();
 		for ( int i = 0; i < Params.size() && res; ++i)
 		{
 			res &= Params[i] == other.Params[i];
 		}
 		return res;
 	}
+
+	inline void SetDynamic( const char* name, const char* desc )
+	{
+		IsDynamic = true;
+		sDynamicName = name;
+		sDynamicDesc = desc;
+	}
 };
 typedef DynArray< SUIEventDesc > TUIEvents;
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////// Dyn Texture Interface /////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-struct IUITexture
-{
-	virtual void SetFlashPlayer( IFlashPlayer* pFlashPlayer ) = 0;
-	virtual void SetVisible( bool bVisible ) = 0;
-	virtual void ElementRemoved() = 0;
-
-protected:
-  virtual ~IUITexture() {}; 
-};
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////// UI Element ///////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+struct IUIElement;
+
 struct IUIElementEventListener
 {
-	virtual void OnUIEvent( const SUIEventDesc& event, const SUIArguments& args ) {}
-	virtual void OnUIEventEx( const char* fscommand, const SUIArguments& args, void* pUserData ) {}
+	virtual void OnUIEvent( IUIElement* pSender, const SUIEventDesc& event, const SUIArguments& args ) {}
+	virtual void OnUIEventEx( IUIElement* pSender, const char* fscommand, const SUIArguments& args, void* pUserData ) {}
 
-	virtual void OnInit( IFlashPlayer* pFlashPlayer ) {}
-	virtual void OnUnload() {}
-	virtual void OnSetVisible( bool bVisible ) {}
+	virtual void OnInit( IUIElement* pSender, IFlashPlayer* pFlashPlayer ) {}
+	virtual void OnUnload( IUIElement* pSender) {}
+	virtual void OnSetVisible(  IUIElement* pSender, bool bVisible ) {}
+
+	virtual void OnInstanceCreated( IUIElement* pSender, IUIElement* pNewInstance ) {}
+	virtual void OnInstanceDestroyed( IUIElement* pSender, IUIElement* pDeletedInstance ) {}
 protected:
   virtual ~IUIElementEventListener() {}; 
 };
 
-struct IUIElement;
 UNIQUE_IFACE struct IUIElementIterator
 {
 	virtual ~IUIElementIterator() {}
 
 	virtual void AddRef() = 0;
 	virtual void Release() = 0;
+
 	virtual IUIElement* Next() = 0;
+	virtual int GetCount() const = 0;
 };
 TYPEDEF_AUTOPTR(IUIElementIterator);
 typedef IUIElementIterator_AutoPtr IUIElementIteratorPtr;
@@ -725,6 +773,7 @@ UNIQUE_IFACE struct IUIElement
 		eFUI_CONTROLLER_INPUT  = 0x0020,
 		eFUI_EVENTS_EXCLUSIVE  = 0x0040,
 		eFUI_RENDER_LOCKLESS   = 0x0080,
+		eFUI_FIXED_PROJ_DEPTH  = 0x0100,
 		eFUI_MASK_PER_INSTANCE = 0x0FFF,
 
 		// flags per UIElement
@@ -740,6 +789,14 @@ UNIQUE_IFACE struct IUIElement
 		eCIE_Right,
 		eCIE_Action,
 		eCIE_Back,
+		eCIE_Start,
+		eCIE_Select,
+		eCIE_ShoulderL1,
+		eCIE_ShoulderL2,
+		eCIE_ShoulderR1,
+		eCIE_ShoulderR2,
+		eCIE_Button3,
+		eCIE_Button4,
 	};
 
 	enum EControllerInputState
@@ -750,10 +807,15 @@ UNIQUE_IFACE struct IUIElement
 
 	virtual ~IUIElement() {}
 
+	virtual void AddRef() = 0;
+	virtual void Release() = 0;
+
 	// instances
 	virtual uint GetInstanceID() const = 0;
 	virtual IUIElement* GetInstance( uint instanceID ) = 0;
 	virtual IUIElementIteratorPtr GetInstances() const = 0;
+	virtual bool DestroyInstance( uint instanceID ) = 0;
+	virtual bool DestroyThis() = 0;
 
 	// common
 	virtual void SetName( const char* name ) = 0;
@@ -770,15 +832,14 @@ UNIQUE_IFACE struct IUIElement
 	virtual void Reload( bool bAllInstances = false ) = 0;
 	virtual bool IsInit() const = 0;
 
+	virtual bool IsDeleted() const = 0;
+
 	virtual void UnloadBootStrapper() = 0;
 	virtual void ReloadBootStrapper() = 0;
 
 	virtual void Update( float fDeltaTime ) = 0;
 	virtual void Render() = 0;
 	virtual void RenderLockless() = 0;
-
-	virtual void RenderLoadtimeThread() = 0;
-	virtual void UpdateLoadtimeThread(float fDeltaTime) = 0;
 
 	// visibility
 	virtual void RequestHide() = 0;
@@ -801,6 +862,9 @@ UNIQUE_IFACE struct IUIElement
 	// raw IFlashPlayer
 	virtual IFlashPlayer* GetFlashPlayer() = 0;
 
+	// will call AddRef to the IFlashPlayer! make sure to release it once it is not needed anymore!
+	virtual IFlashPlayer* GetFlashPlayerThreadSafe() = 0;
+
 	// definitions
 	virtual const SUIParameterDesc* GetVariableDesc( int index ) const = 0;
 	virtual const SUIParameterDesc* GetVariableDesc( const char* varName ) const = 0;
@@ -814,6 +878,10 @@ UNIQUE_IFACE struct IUIElement
 	virtual const SUIParameterDesc* GetMovieClipDesc( const char* movieClipName ) const = 0;
 	virtual int GetMovieClipCount() const = 0;
 
+	virtual const SUIParameterDesc* GetMovieClipTmplDesc( int index ) const = 0;
+	virtual const SUIParameterDesc* GetMovieClipTmplDesc( const char* movieClipTmplName ) const = 0;
+	virtual int GetMovieClipTmplCount() const = 0;
+
 	virtual const SUIEventDesc* GetEventDesc( int index ) const = 0;
 	virtual const SUIEventDesc* GetEventDesc( const char* eventName ) const = 0;
 	virtual int GetEventCount() const = 0;
@@ -823,11 +891,12 @@ UNIQUE_IFACE struct IUIElement
 	virtual int GetFunctionCount() const = 0;
 
 	virtual void UpdateViewPort() = 0;
+	virtual void GetViewPort( int &x, int &y, int &width, int &height, float& aspectRatio ) = 0;
 
 	virtual bool Serialize( XmlNodeRef& xmlNode, bool bIsLoading ) = 0;
 
 	// event listener
-	virtual void AddEventListener( IUIElementEventListener* pListener ) = 0;
+	virtual void AddEventListener( IUIElementEventListener* pListener, const char* name ) = 0;
 	virtual void RemoveEventListener( IUIElementEventListener* pListener ) = 0;
 
 	// functions and objects
@@ -837,17 +906,24 @@ UNIQUE_IFACE struct IUIElement
 	virtual IFlashVariableObject* GetMovieClip( const char* movieClipName ) = 0;
 	virtual IFlashVariableObject* GetMovieClip( const SUIParameterDesc* pMovieClipDesc ) = 0;
 
+	virtual IFlashVariableObject* CreateMovieClip( SUIParameterDesc& newInstanceDesc, const char* movieClipTemplate, const SUIArguments& args = SUIArguments(), const char* mcInstanceName = NULL ) = 0;
+	virtual IFlashVariableObject* CreateMovieClip( SUIParameterDesc& newInstanceDesc, const SUIParameterDesc* pMovieClipTemplateDesc, const SUIArguments& args = SUIArguments(), const char* mcInstanceName = NULL ) = 0;
+
 	virtual bool SetVariable( const char* varName, const TUIData& value ) = 0;
 	virtual bool SetVariable( const SUIParameterDesc* pVarDesc, const TUIData& value ) = 0;
 
 	virtual bool GetVariable( const char* varName, TUIData& valueOut ) = 0;
 	virtual bool GetVariable( const SUIParameterDesc* pVarDesc, TUIData& valueOut ) = 0;
 
+	virtual bool CreateVariable( const char* varName, const TUIData& value ) = 0;
+
 	virtual bool SetArray( const char* arrayName, const SUIArguments& values ) = 0;
 	virtual bool SetArray( const SUIParameterDesc* pArrayDesc, const SUIArguments& values ) = 0;
 
 	virtual bool GetArray( const char* arrayName, SUIArguments& valuesOut ) = 0;
 	virtual bool GetArray( const SUIParameterDesc* pArrayDesc, SUIArguments& valuesOut ) = 0;
+
+	virtual bool CreateArray( const char* arrayName, const SUIArguments& values ) = 0;
 
 	template <class T>
 	inline bool SetVar( const char* varName, const T& value)
@@ -874,12 +950,14 @@ UNIQUE_IFACE struct IUIElement
 	virtual void LoadTexIntoMc( const SUIParameterDesc* pMovieClipDesc, ITexture* pTexture ) = 0;
 
 	// dynamic textures
-	virtual void AddTexture( IUITexture* pTexture ) = 0;
-	virtual void RemoveTexture( IUITexture* pTexture ) = 0;
+	virtual void AddTexture( IDynTextureSource* pDynTexture ) = 0;
+	virtual void RemoveTexture( IDynTextureSource* pDynTexture ) = 0;
+	virtual int GetNumExtTextures() const = 0;
 
 	// input events
-	virtual void SendCursorEvent( SFlashCursorEvent::ECursorState evt, int iX, int iY ) = 0;
-	virtual void SendKeyEvent( SFlashKeyEvent evt ) = 0;
+	virtual void SendCursorEvent( SFlashCursorEvent::ECursorState evt, int iX, int iY, int iButton = 0, float fWheel = 0.f ) = 0;
+	virtual void SendKeyEvent( const SFlashKeyEvent& evt ) = 0;
+	virtual void SendCharEvent( const SFlashCharEvent& charEvent ) = 0;
 	virtual void SendControllerEvent( EControllerInputEvent event, EControllerInputState state ) = 0;
 
 	virtual void GetMemoryUsage(ICrySizer * s) const = 0;
@@ -897,6 +975,7 @@ UNIQUE_IFACE struct IUIAction
 	virtual void SetName( const char* name ) = 0;
 
 	virtual bool Init() = 0;
+	virtual bool IsDeleted() const = 0;
 
 	virtual IFlowGraphPtr GetFlowGraph() const = 0;
 
@@ -922,7 +1001,7 @@ UNIQUE_IFACE struct IUIActionManager
 	virtual void EndAction( IUIAction* pAction, const SUIArguments& args ) = 0;
 	virtual void EnableAction( IUIAction* pAction, bool bEnable ) = 0;
 
-	virtual void AddListener( IUIActionListener* pListener ) = 0;
+	virtual void AddListener( IUIActionListener* pListener, const char* name ) = 0;
 	virtual void RemoveListener( IUIActionListener* pListener ) = 0;
 
 	virtual void GetMemoryUsage(ICrySizer * s) const = 0;
@@ -960,7 +1039,7 @@ UNIQUE_IFACE struct IUIEventSystem
 
 	virtual uint RegisterEvent( const SUIEventDesc& eventDesc ) = 0;
 
-	virtual void RegisterListener( IUIEventListener* pListener ) = 0;
+	virtual void RegisterListener( IUIEventListener* pListener, const char* name ) = 0;
 	virtual void UnregisterListener( IUIEventListener* pListener ) = 0;
 
 	virtual void SendEvent( const SUIEvent& event ) = 0;
@@ -1011,6 +1090,27 @@ private:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////// UI Interface ///////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+struct IVirtualKeyboardEvents;
+
+struct IUIModule
+{
+	virtual ~IUIModule() {};
+
+	// called once on initialization of the UISystem
+	virtual void Init() {};
+
+	// called once on shutdown of the UISystem
+	virtual void Shutdown() {};
+
+	// called if gfx_reload_all command was issued
+	virtual void Reload() {};
+
+	// called on FlashUI reset (unload level etc.)
+	virtual void Reset() {};
+
+	virtual void Update(float fDelta) {};
+};
+
 UNIQUE_IFACE struct IFlashUI : public ICryUnknown
 {
 	CRYINTERFACE_DECLARE( IFlashUI, 0xE1161004DA5B4F04, 0x9DFF8FC0EACE3BD4 )
@@ -1047,18 +1147,70 @@ public:
 	virtual int GetUIActionCount() const = 0;
 
 	virtual IUIActionManager* GetUIActionManager() const = 0;
+
+	// updates all UIAction flowgraphs
+	// will update all FGs in a loop until all event stacks are flushed
 	virtual void UpdateFG() = 0;
+
+	virtual void RegisterModule( IUIModule* pModule, const char* name ) = 0;
+	virtual void UnregisterModule( IUIModule* pModule ) = 0;
+
+
+	// only valid in editor, also only used by UI Editor to prevent stack overflow while FG is not updated.
+	virtual void EnableEventStack( bool bEnable ) = 0;
 
 	// event system to auto create flownodes for communication between flash and c++
 	virtual IUIEventSystem* CreateEventSystem( const char* name, IUIEventSystem::EEventSystemType eType ) = 0;
 	virtual IUIEventSystem* GetEventSystem( const char* name, IUIEventSystem::EEventSystemType eType ) = 0;
 	virtual IUIEventSystemIteratorPtr CreateEventSystemIterator( IUIEventSystem::EEventSystemType eType ) = 0; 
 
+	// input events
 	virtual void DispatchControllerEvent( IUIElement::EControllerInputEvent event, IUIElement::EControllerInputState state ) = 0;
+	virtual void SendFlashMouseEvent( SFlashCursorEvent::ECursorState evt, int iX, int iY, int iButton = 0, float fWheel = 0.f, bool bFromController = false ) = 0;
+	virtual bool DisplayVirtualKeyboard( unsigned int flags, const wchar_t* title, const wchar_t* initialInput, int maxInputLength, IVirtualKeyboardEvents *pInCallback ) = 0;
+	virtual bool IsVirtualKeyboardRunning() = 0;
+	virtual bool CancelVirtualKeyboard() = 0;
 
+	// used by scaleform to validate if texture is preloaded (only debug/profile)
 	virtual void CheckPreloadedTexture(ITexture* pTexture) const = 0;
 
+	// memory statistics
 	virtual void GetMemoryStatistics(ICrySizer * s) const = 0;
+
+	// screen size stuff for UI Emulator (Sandbox) only!
+	virtual void GetScreenSize(int &width, int &height) = 0;
+	typedef Functor2< int&, int& > TEditorScreenSizeCallback;
+	virtual void SetEditorScreenSizeCallback(TEditorScreenSizeCallback& cb) = 0;
+	virtual void RemoveEditorScreenSizeCallback() = 0;
+
+	// plattform stuff for UI Emulator (Sandbox) only!
+	enum EPlatformUI
+	{
+		ePUI_PC = 0,
+		ePUI_X360,
+		ePUI_PS3,
+	};
+	typedef Functor0wRet< EPlatformUI > TEditorPlatformCallback;
+	virtual void SetEditorPlatformCallback(TEditorPlatformCallback& cb) = 0;
+	virtual void RemoveEditorPlatformCallback() = 0;
+
+	// logging listener for UI Emulator (Sandbox) only!
+	enum ELogEventLevel
+	{
+		eLEL_Log = 0,
+		eLEL_Warning,
+		eLEL_Error,
+	};
+
+	struct SUILogEvent
+	{
+		string Message;
+		ELogEventLevel Level;
+	};
+
+	typedef Functor1< const SUILogEvent& > TEditorUILogEventCallback;
+	virtual void SetEditorUILogEventCallback(TEditorUILogEventCallback& cb) = 0;
+	virtual void RemoveEditorUILogEventCallback() = 0;
 };
 
 DECLARE_BOOST_POINTERS( IFlashUI );
@@ -1070,5 +1222,245 @@ static IFlashUIPtr GetIFlashUIPtr()
 		CryCreateClassInstance(IFlashUIExtensionName, pFlashUI);
 	return pFlashUI;
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////// Lookup Table ///////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+template <class Base, class IDD>
+struct SUIItemLookupSet
+{
+	typedef std::vector< Base > TITems;
+	typedef std::map< CCryName, int > TLookup;
+	typedef typename TITems::iterator iterator;
+	typedef typename TITems::const_iterator const_iterator;
+	typedef typename TITems::reverse_iterator reverse_iterator;
+	typedef typename TITems::const_reverse_iterator const_reverse_iterator;
+	typedef typename TITems::size_type size_type;
+	typedef typename TITems::value_type value_type;
+
+	inline Base& operator[](int __n)
+	{
+		return m_Items[__n];
+	}
+
+	inline Base* operator()(CCryName __name)
+	{
+		typename TLookup::iterator it = m_Lookup.find(__name);
+		return it != m_Lookup.end() ? &m_Items[it->second] : NULL;
+	}
+
+	inline const Base& operator[](int __n) const
+	{
+		return m_Items[__n];
+	}
+
+	inline const Base* operator()(CCryName __name) const
+	{
+		typename TLookup::const_iterator it = m_Lookup.find(__name);
+		return it != m_Lookup.end() ? &m_Items[it->second] : NULL;
+	}
+
+	void push_back(const Base& item)
+	{
+		IDD id(item);
+		assert(m_Lookup[id.Id()] == NULL);
+		m_Lookup[id.Id()] = m_Items.size();
+		m_Items.push_back(item);
+	}
+
+	void remove(const Base& item)
+	{
+		IDD id(item);
+		typename TLookup::iterator it =  m_Lookup.find(id.Id());
+		if (it != m_Lookup.end())
+		{
+			for (typename TLookup::iterator nextIt = it; nextIt != m_Lookup.end(); ++nextIt)
+				nextIt->second--;
+			m_Lookup.erase(it);
+			for (typename TITems::iterator it = m_Items.begin(); it != m_Items.end(); ++it)
+			{
+				if (*it == item)
+				{
+					m_Items.erase(it);
+					return;
+				}
+			}
+		}
+		assert(false);
+	}
+
+	void clear()
+	{
+		m_Items.clear();
+		m_Lookup.clear();
+	}
+
+	inline size_type size() const { return m_Items.size(); }
+
+	inline iterator begin() { return m_Items.begin(); }
+	inline iterator end() { return m_Items.end(); }
+	inline const_iterator begin() const { return m_Items.begin(); }
+	inline const_iterator end() const { return m_Items.end(); }
+	inline reverse_iterator rbegin() { return m_Items.rbegin(); }
+	inline reverse_iterator rend() { return m_Items.rend(); }
+	inline const_reverse_iterator rbegin() const { return m_Items.rbegin(); }
+	inline const_reverse_iterator rend() const { return m_Items.rend(); }
+	inline size_type capacity() const { return m_Items.capacity(); }
+
+private:
+	TITems m_Items;
+	TLookup m_Lookup;
+};
+
+#define LOOKUP_IDD_PTR(type, fct) struct IDD##type { \
+	IDD##type(type* p) : m_p(p) {} \
+	inline const char* Id() const{ return m_p->fct; } \
+	type* m_p; \
+};
+
+#define LOOKUP_IDD(type, fct) struct IDD##type { \
+	IDD##type(const type& p) : m_o(p) {} \
+	inline const char* Id() const{ return m_o.fct; } \
+	type m_o; \
+};
+
+LOOKUP_IDD_PTR(IUIElement, GetName());
+LOOKUP_IDD_PTR(IUIAction, GetName());
+LOOKUP_IDD(SUIParameterDesc, sDisplayName);
+LOOKUP_IDD(SUIEventDesc, sDisplayName);
+
+typedef SUIItemLookupSet<IUIElement*, IDDIUIElement> TUIElementsLookup;
+typedef SUIItemLookupSet<IUIAction*, IDDIUIAction> TUIActionsLookup;
+typedef SUIItemLookupSet<SUIParameterDesc, IDDSUIParameterDesc> TUIParamsLookup;
+typedef SUIItemLookupSet<SUIEventDesc, IDDSUIEventDesc> TUIEventsLookup;
+
+// ---------------------------------------------------------------
+// -------------------- per instance call ------------------------
+// ---------------------------------------------------------------
+template <class T>
+struct SPerInstanceCallBase
+{
+	typedef Functor2< IUIElement*, T > TCallback;
+
+	bool Execute(IUIElement* pBaseElement, int instanceId, const TCallback& cb, T data, bool bAllowMultiInstances = true)
+	{
+		CRY_ASSERT_MESSAGE( pBaseElement, "NULL pointer passed!" );
+		if ( pBaseElement )
+		{
+			if ( instanceId < 0 )
+			{
+				CRY_ASSERT_MESSAGE( bAllowMultiInstances, "SPerInstanceCallBase is used on multiple instances, but bAllowMultiInstances is set to false!" );
+				if (!bAllowMultiInstances)
+					return false;
+
+				IUIElementIteratorPtr instances = pBaseElement->GetInstances();
+				while ( IUIElement* pInstance = instances->Next() )
+				{
+					// instanceId < -1 == only call instances that are initialized
+					if (instanceId < -1 && !pInstance->IsInit())
+						continue;
+
+					cb(pInstance, data);
+				}
+			}
+			else
+			{
+				IUIElement* pInstance = pBaseElement->GetInstance( (uint) instanceId );
+				if ( pInstance )
+					cb(pInstance, data);
+			}
+			return true;
+		}
+		return false;
+	}
+};
+
+// ---------------------------------------------------------------
+struct SPerInstanceCall0
+{
+	typedef Functor1< IUIElement* > TCallback;
+
+	bool Execute(IUIElement* pBaseElement, int instanceId, const TCallback& cb, bool bAllowMultiInstances = true )
+	{
+		SPerInstanceCallBase< const TCallback& > base;
+		return base.Execute(pBaseElement, instanceId, functor(*this, &SPerInstanceCall0::_cb), cb, bAllowMultiInstances);
+	}
+
+private:
+	void _cb(IUIElement* pInstance, const TCallback& cb) { cb(pInstance); }
+};
+
+// ---------------------------------------------------------------
+template <class T>
+struct SPerInstanceCall1 : public SPerInstanceCallBase< T >
+{
+};
+
+// ---------------------------------------------------------------
+template <class T1, class T2>
+struct SPerInstanceCall2
+{
+	typedef Functor3< IUIElement*, T1, T2 > TCallback;
+
+	struct SCallData
+	{
+		SCallData(const TCallback& _cb, T1 _arg1, T2 _arg2) : cb(_cb), arg1(_arg1), arg2(_arg2) {}
+		const TCallback& cb; T1 arg1; T2 arg2;
+	};
+
+	bool Execute(IUIElement* pBaseElement, int instanceId, const TCallback& cb, T1 arg1, T2 arg2, bool bAllowMultiInstances = true)
+	{
+		SPerInstanceCallBase< const SCallData& > base;
+		return base.Execute(pBaseElement, instanceId, functor(*this, &SPerInstanceCall2::_cb), SCallData(cb, arg1, arg2), bAllowMultiInstances);
+	}
+
+private:
+	void _cb(IUIElement* pInstance, const SCallData& data) { data.cb(pInstance, data.arg1, data.arg2); }
+};
+
+// ---------------------------------------------------------------
+template <class T1, class T2, class T3>
+struct SPerInstanceCall3
+{
+	typedef Functor4< IUIElement*, T1, T2, T3 > TCallback;
+
+	struct SCallData
+	{
+		SCallData(const TCallback& _cb, T1 _arg1, T2 _arg2, T3 _arg3) : cb(_cb), arg1(_arg1), arg2(_arg2), arg3(_arg3) {}
+		const TCallback& cb; T1 arg1; T2 arg2; T3 arg3;
+	};
+
+	bool Execute(IUIElement* pBaseElement, int instanceId, const TCallback& cb, T1 arg1, T2 arg2, T3 arg3, bool bAllowMultiInstances = true)
+	{
+		SPerInstanceCallBase< const SCallData& > base;
+		return base.Execute(pBaseElement, instanceId, functor(*this, &SPerInstanceCall3::_cb), SCallData(cb, arg1, arg2, arg3), bAllowMultiInstances);
+	}
+
+private:
+	void _cb(IUIElement* pInstance, const SCallData& data) { data.cb(pInstance, data.arg1, data.arg2, data.arg3); }
+};
+
+// ---------------------------------------------------------------
+template <class T1, class T2, class T3, class T4>
+struct SPerInstanceCall4
+{
+	typedef Functor5< IUIElement*, T1, T2, T3, T4 > TCallback;
+
+	struct SCallData
+	{
+		SCallData(const TCallback& _cb, T1 _arg1, T2 _arg2, T3 _arg3, T4 _arg4) : cb(_cb), arg1(_arg1), arg2(_arg2), arg3(_arg3), arg4(_arg4) {}
+		const TCallback& cb; T1 arg1; T2 arg2; T3 arg3; T4 arg4;
+	};
+
+	bool Execute(IUIElement* pBaseElement, int instanceId, const TCallback& cb, T1 arg1, T2 arg2, T3 arg3, T4 arg4, bool bAllowMultiInstances = true)
+	{
+		SPerInstanceCallBase< const SCallData& > base;
+		return base.Execute(pBaseElement, instanceId, functor(*this, &SPerInstanceCall4::_cb), SCallData(cb, arg1, arg2, arg3, arg4), bAllowMultiInstances);
+	}
+
+private:
+	void _cb(IUIElement* pInstance, const SCallData& data) { data.cb(pInstance, data.arg1, data.arg2, data.arg3, data.arg4); }
+};
 
 #endif

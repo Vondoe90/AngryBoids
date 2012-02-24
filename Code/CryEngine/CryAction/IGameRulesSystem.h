@@ -134,6 +134,8 @@ struct HitInfo
 
 	float		armorHeating; // dynamic pierceability reduction
 	int			penetrationCount; // number of surfaces the bullet has penetrated
+	bool    forceLocalKill; // forces the hit to kill the victim + start hitdeathreaction/ragdoll NOT NET SERIALISED
+	float		impulseScale; // If this is non zero, this impulse will be applied to the partId set below.
 
 	HitInfo()
 		: shooterId(0),
@@ -162,7 +164,9 @@ struct HitInfo
 		explosion(false),
 		projectileClassId(~uint16(0)),
 		weaponClassId(~uint16(0)),
-		penetrationCount(0)
+		penetrationCount(0),
+		forceLocalKill(false),
+		impulseScale(0)
 	{}
 
 	HitInfo(EntityId shtId, EntityId trgId, EntityId wpnId, float dmg, float rd, int mat, int part, int typ)
@@ -192,7 +196,9 @@ struct HitInfo
 		explosion(false),
 		projectileClassId(~uint16(0)),
 		weaponClassId(~uint16(0)),
-		penetrationCount(0)
+		penetrationCount(0),
+		forceLocalKill(false),
+		impulseScale(0)
 	{}
 
 	HitInfo(EntityId shtId, EntityId trgId, EntityId wpnId, float dmg, float rd, int mat, int part, int typ, const Vec3 &p, const Vec3 &d, const Vec3 &n)
@@ -222,7 +228,9 @@ struct HitInfo
 		explosion(false),
 		projectileClassId(~uint16(0)),
 		weaponClassId(~uint16(0)),
-		penetrationCount(0)
+		penetrationCount(0),
+		forceLocalKill(false),
+		impulseScale(0)
 	{}
 
 	// not all fields are serialized because this is used only for sending data over the net
@@ -248,6 +256,7 @@ struct HitInfo
 		ser.Value("projectileClass", projectileClassId, 'ui16');
 		ser.Value("weaponClass", weaponClassId, 'ui16');
 		ser.Value("penetrationCount",penetrationCount,'ui8');
+		ser.Value("impulseScale", impulseScale, 'iii');
 	}
 
 	void GetMemoryUsage( ICrySizer *pSizer ) const
@@ -727,6 +736,12 @@ struct IGameRules : public IGameObjectExtension
 	//  pEvent - physics event containing the necessary info
 	virtual bool OnCollision(const SGameCollision& event) = 0;
 
+	// Summary
+	//		Gets called when two entities collide, and determines if AI should receive stiulus
+	// Parameters
+	//  pEvent - physics event containing the necessary info
+	virtual void OnCollision_NotifyAI( const EventPhys * pEvent ) = 0;	
+	
 	// allows gamerules to extend the 'status' command
 	virtual void ShowStatus() = 0;
 

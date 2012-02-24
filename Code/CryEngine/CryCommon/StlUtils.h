@@ -19,7 +19,7 @@
 #include <hash_map>
 #undef std__hash_map
 #define std__hash_map stdext::hash_map
-#elif defined(LINUX)
+#elif defined(LINUX) && !defined(USING_STLPORT)
 #include "platform.h"
 #include <ext/hash_map>
 #define std__hash_map __gnu_cxx::hash_map
@@ -566,6 +566,22 @@ namespace stl
 		{	// test if _Keyval1 ordered before _Keyval2
 			_Predicate comp;
 			return (comp(_Keyval1, _Keyval2));
+		}
+	};
+
+	// Partial template specialisation of hash_compare for std::pair.
+	template <typename FIRST, typename SECOND, class COMPARE> struct hash_compare<std::pair<FIRST, SECOND>, COMPARE>
+	{
+		enum { bucket_size = 4, min_buckets = 8 };
+
+		inline size_t operator () (const std::pair<FIRST, SECOND> &rhs) const
+		{
+			return hash_compare<FIRST>()(rhs.first) ^ hash_compare<SECOND>()(rhs.second);
+		}
+
+		inline bool operator() (const std::pair<FIRST, SECOND> &lhs, const std::pair<FIRST, SECOND> &rhs) const
+		{
+			return COMPARE()(lhs, rhs);
 		}
 	};
 

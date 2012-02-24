@@ -8,10 +8,9 @@
 #  include <sys/types.h>
 #  include <sys/time.h>
 #  include <pthread.h>
+#  include <semaphore.h>
 #  include <sched.h>
 #endif
-
-
 
 
 
@@ -54,12 +53,15 @@ protected:
   pthread_mutexattr_t m_Attr;
 };
 
+
 template<int PthreadMutexType> class _PthreadLockBase
 {
-	static _PthreadLockAttr<PthreadMutexType> m_Attr;
-
 protected:
-	static pthread_mutexattr_t &GetAttr() { return m_Attr.m_Attr; }
+	static pthread_mutexattr_t &GetAttr() 
+	{ 
+		static _PthreadLockAttr<PthreadMutexType> m_Attr(0);
+		return m_Attr.m_Attr; 
+	}
 };
 
 template<class LockClass, int PthreadMutexType> class _PthreadLock
@@ -265,6 +267,35 @@ public:
 
 #endif // LINUX
 #endif // !defined _CRYTHREAD_HAVE_LOCK
+
+#if !defined(__SPU__)
+class CrySemaphore
+{
+public:
+	ILINE CrySemaphore(int nMaximumCount)
+	{
+		sem_init(&m_Semaphore,0,0);
+	}
+
+	ILINE ~CrySemaphore()
+	{
+		sem_destroy(&m_Semaphore);			
+	}
+
+	ILINE void Acquire()
+	{
+		sem_wait(&m_Semaphore);
+	}
+
+	ILINE void Release()
+	{
+		sem_post(&m_Semaphore);
+	}
+
+private:
+	sem_t m_Semaphore;
+};
+#endif
 
 #if !defined _CRYTHREAD_HAVE_RWLOCK && !defined __SPU__
 class CryRWLock

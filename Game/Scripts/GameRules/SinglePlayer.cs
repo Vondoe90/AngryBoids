@@ -8,7 +8,7 @@ using System.Linq;
 namespace CryGameCode
 {
     [DefaultGamemodeAttribute]
-	public class SinglePlayer : GameRulesBase
+	public class SinglePlayer : BaseGameRules
 	{
         public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
         {

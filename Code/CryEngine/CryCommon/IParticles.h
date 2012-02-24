@@ -22,6 +22,8 @@
 #include <IEntityRenderState.h>
 #include <TimeValue.h>
 
+#define USE_JOB_SYSTEM_FOR_PARTICLES
+
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
@@ -30,7 +32,7 @@ enum EParticleEmitterFlags
 {
 	ePEF_Independent = BIT(0),			// Not controlled by entity.
 	ePEF_Nowhere = BIT(1),					// Not in scene (e.g. rendered in editor window)
-	ePEF_TemporaryEffect = BIT(2),	// Has temporary programmatically created IParticleEffect.
+	ePEF_TemporaryEffect = BIT(2),	// Has temporary programatically created IParticleEffect.
 
 	ePEF_Custom = BIT(16),					// Any bits above and including this one can be used for game specific purposes
 };
@@ -64,6 +66,7 @@ struct SpawnParams
 	EGeomType	eAttachType;			// What type of object particles emitted from.
 	EGeomForm	eAttachForm;			// What aspect of shape emitted from.
 	bool			bCountPerUnit;		// Multiply particle count also by geometry extent (length/area/volume).
+	bool      bEnableSound;     // Controls whether to play sound events or not.
 	float			fCountScale;			// Multiple for particle count (on top of bCountPerUnit if set).
 	float			fSizeScale;				// Multiple for all effect sizes.
 	float			fSpeedScale;			// Multiple for particle emission speed.
@@ -80,6 +83,7 @@ struct SpawnParams
 		fSpeedScale = 1;
 		fPulsePeriod = 0;
 		fStrength = -1;
+		bEnableSound = true;
 	}
 };
 
@@ -140,11 +144,11 @@ UNIQUE_IFACE struct IParticleEffect : public _i_reference_target_t
 	// Summary:
 	// 		Spawns this effect.
 	// Arguments:
-	//    mLoc - World location to place emitter.
-	//		bIndependent - Serialize independently
+	//    qLoc - World location to place emitter.
+	//		uEmitterFlags - EParticleEmitterFlags
 	// Return Value:
 	//     The spawned emitter, or 0 if unable.
-	virtual struct IParticleEmitter* Spawn( const QuatTS& qLoc, uint uEmitterFlags = 0 ) = 0;
+	virtual struct IParticleEmitter* Spawn( const QuatTS& qLoc, uint uEmitterFlags = 0, const SpawnParams* pSpawnParams = NULL ) = 0;
 
 	// Compatibility versions.
 	IParticleEmitter* Spawn( const Matrix34& mLoc, uint uEmitterFlags = 0 )
@@ -364,7 +368,7 @@ UNIQUE_IFACE struct IParticleEmitter : public CMultiThreadRefCount, public IRend
 	//       pPhysEnt	- A physical entity which controls the particle. If 0, uses emitter settings to physicalise or move particle.
 	virtual void EmitParticle( IStatObj* pStatObj = NULL, IPhysicalEntity* pPhysEnt = NULL, QuatTS* pLocation = NULL, Vec3* pVel = NULL ) = 0;
 
-	virtual bool UpdateStreamableComponents( float fImportance, Matrix34A& objMatrix, IRenderNode* pRenderNode, float fEntDistance, bool bFullUpdate ) = 0;
+	virtual bool UpdateStreamableComponents( float fImportance, Matrix34A& objMatrix, IRenderNode* pRenderNode, float fEntDistance, bool bFullUpdate, int nLod ) = 0;
 
 	// Summary:
 	//		 Get the Entity ID that this particle emitter is attached to
@@ -544,7 +548,7 @@ struct IParticleManager
 	//		 Params - Programmatic particle params.
 	// Return Value:
 	//     A pointer to an object derived from IParticleEmitter
-	virtual IParticleEmitter* CreateEmitter( Matrix34 const& mLoc, const ParticleParams& Params, uint uEmitterFlags = 0 ) = 0;
+	virtual IParticleEmitter* CreateEmitter( Matrix34 const& mLoc, const ParticleParams& Params, uint uEmitterFlags = 0, const SpawnParams* pSpawnParams = NULL ) = 0;
 
 	// Summary:
 	//     Deletes a specified particle emitter.
@@ -577,6 +581,13 @@ struct IParticleManager
 	virtual void Serialize( TSerialize ser ) = 0;
 	virtual void PostSerialize( bool bReading ) = 0;
 
+	// Prepare all date for SPU Particle*::Render Tasks
+	virtual void PrepareForRender() = 0;
+
+	// Finish up all Particle*::Render Tasks
+	virtual void FinishRender() = 0;
+
+
 	// Summary:
 	//     Set the timer used to update the particle system
 	// Arguments:
@@ -587,10 +598,10 @@ struct IParticleManager
 	virtual void GetMemoryUsage( ICrySizer* pSizer ) const = 0;
 	virtual void GetCounts( SParticleCounts& counts ) = 0;
 	
-	//PerfHUD
+	// PerfHUD
 	virtual void CreatePerfHUDWidget() = 0;
 
-	//Collect stats
+	// Collect stats
 	virtual void CollectStats() = 0;
 
 	// Summary:
@@ -616,6 +627,7 @@ struct IParticleManager
 	// Get number of Ticks accumulated over this frame
 	virtual uint64 NumFrameSyncTicks() const =0;
 
+	virtual void SyncComputeVerticesJobQueues() = 0;
 };
 
 #if defined(ENABLE_LW_PROFILERS) && !defined(__SPU__)
@@ -625,7 +637,7 @@ public:
 	CParticleLightProfileSection() 
 	: m_nTicks( CryGetTicks() ) 
 #   if EMBED_PHYSICS_AS_FIBER
-		, m_nYields(NPPU::FiberYieldTime())
+	, m_nYields(JobManager::Fiber::FiberYieldTime())
 #   else 
 		, m_nYields()
 #   endif 
@@ -638,7 +650,7 @@ public:
 	{ 
 		IParticleManager *pPartMan = gEnv->p3DEngine->GetParticleManager();
 #   if EMBED_PHYSICS_AS_FIBER
-		uint64 nYields = NPPU::FiberYieldTime(); 
+		uint64 nYields = JobManager::Fiber::FiberYieldTime(); 
 #   else 
 		uint64 nYields = 0ULL; 
 #   endif 
@@ -661,7 +673,7 @@ public:
 	CParticleLightProfileSectionSyncTime() 
 	: m_nTicks( CryGetTicks() ) 
 #   if EMBED_PHYSICS_AS_FIBER
-		, m_nYields(NPPU::FiberYieldTime())
+		, m_nYields(JobManager::Fiber::FiberYieldTime())
 #   else 
 		, m_nYields()
 #   endif 
@@ -670,7 +682,7 @@ public:
 	{ 
 		IParticleManager *pPartMan = gEnv->p3DEngine->GetParticleManager();
 #   if EMBED_PHYSICS_AS_FIBER
-		uint64 nYields = NPPU::FiberYieldTime(); 
+		uint64 nYields = JobManager::Fiber::FiberYieldTime(); 
 #   else 
 		uint64 nYields = 0ULL; 
 #   endif 

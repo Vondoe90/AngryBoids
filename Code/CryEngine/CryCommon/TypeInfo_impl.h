@@ -38,6 +38,7 @@
 	#define TYPE_INFO_NAME_T(n)							#n "<>"
 
 	#define ARRAY_COUNT(arr)	(sizeof(arr) / sizeof *(arr))
+	#define ARRAY_VAR(arr)		ArrayT(arr, (int)ARRAY_COUNT(arr))
 
 	// Set of template functions for automatically returning the base element type for any scalar or array variable.
 
@@ -101,14 +102,11 @@
 		const CTypeInfo& T::TypeInfo() const {					\
 			static CStructInfo::CVarInfo Vars[] = {				\
 
-	#define STRUCT_INFO_END_FULL(T, NameT, TType)																		\
-			};																																					\
-			static CStructInfo Info(NameT, sizeof(T), ARRAY_COUNT(Vars), Vars, TType);	\
-			return Info;																																\
-		}
-
 	#define STRUCT_INFO_END(T) \
-		STRUCT_INFO_END_FULL(T, #T, 0)
+			}; \
+			static CStructInfo Info(#T, sizeof(T), ARRAY_VAR(Vars)); \
+			return Info; \
+		}
 
 	#define BASE_INFO_ATTRS(BaseType, Attrs) \
 		{ uint32((char*)static_cast<const BaseType*>(this) - (char*)this), ::TypeInfo((const BaseType*)this), 1, \
@@ -135,22 +133,33 @@
 
 	// Template versions
 
+	template<class T>
+	Array<CTypeInfo const*> TypeInfoArray1(T const* pt)
+	{
+		static CTypeInfo const* s_info = &::TypeInfo(pt);
+		return ArrayT(&s_info, 1);
+	}
+
 	#define STRUCT_INFO_T_BEGIN(T, Key, Arg)	\
 		template<Key Arg> STRUCT_INFO_BEGIN(T<Arg>)
 
 	#define STRUCT_INFO_T_END(T, Key, Arg) \
-		STRUCT_INFO_END_FULL(T, #T "<>", &::TypeInfo((Arg*)0))
+			}; \
+			static CStructInfo Info(#T "<>", sizeof(T<Arg>), ARRAY_VAR(Vars), TypeInfoArray1((Arg*)0));	\
+			return Info; \
+		}
 
 	#define STRUCT_INFO_T2_BEGIN(T, Key1, Arg1, Key2, Arg2)		\
 		template<Key1 Arg1, Key2 Arg2>													\
 		const CTypeInfo& T<Arg1,Arg2>::TypeInfo() const {				\
 			static CStructInfo::CVarInfo Vars[] = {								\
 
-	#define STRUCT_INFO_T2_END(T, Key1, Arg1, Key2, Arg2)																							\
-			};																																														\
-			static CStructInfo Info(#T "<>", sizeof(T<Arg1,Arg2>), ARRAY_COUNT(Vars), Vars, &::TypeInfo((Arg1*)0));	\
-			return Info;																																									\
-		}																																																\
+	#define STRUCT_INFO_T2_END(T, Key1, Arg1, Key2, Arg2) \
+			}; \
+			static CTypeInfo const* TemplateTypes[] = { &::TypeInfo((Arg1*)0), &::TypeInfo((Arg2*)0) }; \
+			static CStructInfo Info(#T "<>", sizeof(T<Arg1,Arg2>), ARRAY_VAR(Vars), ARRAY_VAR(TemplateTypes)); \
+			return Info; \
+		}
 
 	#define STRUCT_INFO_T_INSTANTIATE(T, TArgs)	\
 		template const CTypeInfo& T TArgs::TypeInfo() const;

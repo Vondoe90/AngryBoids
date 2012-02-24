@@ -21,13 +21,32 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "NetHelpers.h"
+
+enum EDataProbeCodeInfo
+{
+  DATAPROBE_CRC32 = 0,
+  DATAPROBE_CRC64 = 1,
+  DATAPROBE_ADLER32 = 2,
+  DATAPROBE_PURE_CRC32 = 3,
+  DATAPROBE_MD5 = 4,
+};
+
+enum EDataProbeContextType
+{
+  EDataProbeContextType_FileCheck = 1,
+  EDataProbeContextType_CvarCheck = 2,
+};
+
+// how long to wait for client response before giving up
+#define DATAPROBE_TIMEOUT_SECONDS 60
 
 struct SDataProbeContext
 {
-	// Folder name to check.
-	string sFolder;
+	// Folder name to check. Can't use string as it may not have thread safe ref counting
+	CryStringLocalT<char> sFolder;
 	// Filename to check.
-	string sFilename;
+	CryStringLocalT<char> sFilename;
 	void *pBuffer;
 	void *pModuleBaseAddress;
 	unsigned int nOffset;
@@ -36,6 +55,11 @@ struct SDataProbeContext
 	unsigned int nCodeInfo;
 	// Resulting code.
 	uint64 nCode;
+  // context type
+  unsigned int nCtxType;
+	// indicates we only want header offsets for this file
+	bool bHeaderOnly;
+
 
 	SDataProbeContext()
 	{
@@ -43,6 +67,8 @@ struct SDataProbeContext
 		pModuleBaseAddress = 0;
 		nOffset = nSize = nCodeInfo = 0;
 		nCode = 0;
+    nCtxType = 0;
+		bHeaderOnly=false;
 	}
 };
 
@@ -94,6 +120,22 @@ UNIQUE_IFACE struct IDataProbe
 	virtual	void RandSeed( uint32 seed ) = 0;
 	virtual	uint32 GetRand() = 0;
 	virtual	float GetRand( float fMin,float fMax ) = 0;
+};
+
+struct IDefenceContext : public INetMessageSink
+{
+  inline virtual ~IDefenceContext() {}
+  virtual void AddProtectedFile( const string&, bool headerOnly ) = 0;
+  virtual void ClearProtectedFiles() = 0;
+  virtual bool HasRemoteDef( const SNetMessageDef * pDef ) = 0;
+
+  // true once there's no outstanding validation requests
+  virtual bool CanRemove() = 0;
+
+  virtual void StartCvarRequests() = 0;
+  virtual void EndCvarRequests() = 0;
+
+	virtual void Abort() = 0;
 };
 
 #endif // __IDataProbe_h__

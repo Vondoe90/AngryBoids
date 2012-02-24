@@ -639,6 +639,17 @@ public:
 		}
 	}
 
+	void ReallocStream( int stream, void * pNewData, int nNewCount )
+	{
+		ReallocStream( stream, nNewCount );
+
+		void* pStream;
+		int nElementSize;
+		GetStreamInfo( stream, pStream, nElementSize );
+
+		memcpy(pStream, pNewData, nElementSize*nNewCount);
+	}
+
 	// Set stream size.
 	void ReallocStream( int stream,int nNewCount )
 	{
@@ -1323,7 +1334,7 @@ private:
 	// Set stream size.
 	void SetStreamData( int stream,void *pStream,int nNewCount )
 	{
-		if (stream < 0 && stream >= LAST_STREAM)
+		if (stream < 0 || stream >= LAST_STREAM)
 		{
 			assert(0);
 			return;

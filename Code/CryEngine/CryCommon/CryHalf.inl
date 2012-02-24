@@ -265,6 +265,10 @@ struct CryHalf4
 		w = Half4.w;
 		return *this;
 	}
+	bool operator !=(const CryHalf4& rhs) const
+	{
+		return x != rhs.x || y != rhs.y || z != rhs.z || w != rhs.w;
+	}
 
 	void GetMemoryUsage(ICrySizer* pSizer) const {}
 

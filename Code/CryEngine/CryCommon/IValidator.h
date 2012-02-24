@@ -69,13 +69,14 @@ enum EValidatorFlags
 	VALIDATOR_FLAG_SCRIPT		= 0x0004,		// Problem with script.
 	VALIDATOR_FLAG_SOUND		= 0x0008,		// Problem with sound.
 	VALIDATOR_FLAG_AI				= 0x0010,		// Problem with AI.
+	VALIDATOR_FLAG_LOG_ASSET_SCOPE = 0x0020, // Log asset scope with the warning.
 };
 
 struct SValidatorRecord
 {
-	//! Severety of this error.
+	//! Severity of this error.
 	EValidatorSeverity severity;
-	//! In which module error occured.
+	//! In which module error occurred.
 	EValidatorModule module;
 	//! Error Text.
 	const char *text;
@@ -83,6 +84,8 @@ struct SValidatorRecord
 	const char *file;
 	//! Additional description for this error.
 	const char *description;
+	//! Asset scope sring
+	const char *assetScope;
 	//! Flags that suggest kind of error.
 	int flags;
 
@@ -92,6 +95,7 @@ struct SValidatorRecord
 		module = VALIDATOR_MODULE_UNKNOWN;
 		text = NULL;
 		file = NULL;
+		assetScope = NULL;
 		description = NULL;
 		severity = VALIDATOR_WARNING;
 		flags = 0;

@@ -557,6 +557,7 @@ struct SFoliageInfoCGF
 struct CExportInfoCGF
 {
 	bool bMergeAllNodes;
+	bool bUseCustomNormals;
 	bool bCompiledCGF;
 	bool bHavePhysicsProxy;
 	bool bHaveAutoLods;
@@ -564,9 +565,12 @@ struct CExportInfoCGF
 
 	bool bFromColladaXSI;
 	bool bFromColladaMAX;
+	bool bFromColladaMAYA;
 
 	unsigned int rc_version[4]; // Resource compiler version.
 	char rc_version_string[16]; // Version as a string.
+
+	unsigned int authorToolVersion;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -581,6 +585,7 @@ public:
 		strncpy_s(m_filename, sizeof(m_filename), filename, _TRUNCATE);
 		memset(&m_exportInfo, 0, sizeof(m_exportInfo));
 		m_exportInfo.bMergeAllNodes = true;
+		m_exportInfo.bUseCustomNormals = false;
 		m_pCommonMaterial = 0;
 		m_bConsoleFormat = false;
 		m_pOwnChunkFile = 0;

@@ -21,18 +21,8 @@
 #define __RESOURCECOMPILERHELPER_H__
 #pragma once
 
-//#ifndef NOT_USE_CRY_STRING
-//	#include <platform.h>														// string
-//#endif
-
-#include <map>
-
-
-#if defined(WIN32) || defined(WIN64)
-//#include <windows.h>														// HWND
-#endif
-
-#include "EngineSettingsManager.h"
+#include "SettingsManagerHelpers.h"
+#include <stdio.h>     // strlen()
 
 
 class IResourceCompilerListener
@@ -48,6 +38,9 @@ public:
 	virtual void OnRCMessage(MessageSeverity severity, const char* text) = 0;
 	virtual ~IResourceCompilerListener(){}
 };
+
+
+class CEngineSettingsManager;
 
 enum ERcExitCode
 {
@@ -76,116 +69,33 @@ public:
 		eRcExePath_settingsManager
 	};
 
-#if (defined(WIN32) || defined(WIN64))				// run compiler only on developer platform
+#if (CRY_ENABLE_RC_HELPER)				// run compiler only on developer platform
 
 	// Loads EngineSettingsManager to get settings information
-	CResourceCompilerHelper(const TCHAR* moduleName=NULL);
+	CResourceCompilerHelper(const wchar_t* moduleName=0);
 
 	~CResourceCompilerHelper();
 
 #if defined(_ICRY_PAK_HDR_)
-
 	// checks file date and existence
 	// Return:
-	//   destination filename that should be loaded
-	string ProcessIfNeeded( const TCHAR *szFilePath )
-	{
-		string sFileToLoad=szFilePath;
-
-		string ext = GetExt(sFileToLoad);
-
-		string sDestFile = GetOutputFilename(sFileToLoad.c_str());
-
-		for(uint32 dwIndex=0;;++dwIndex)		// check for all input files
-		{
-			string sSrcFile = GetInputFilename(sFileToLoad.c_str(),dwIndex);
-
-			if(sSrcFile.empty())
-				break;					// last input file
-
-			// compile if there is no destination
-			// compare date of destination and source , recompile if needed
-			// load dds header, check hash-value of the compile settings in the dds file, recompile if needed (not done yet)
-
-			CDebugAllowFileAccess dafa;
-			FILE* pDestFile = gEnv->pCryPak->FOpen(sDestFile.c_str(),_T("rb"));
-			FILE* pSrcFile = gEnv->pCryPak->FOpen(sSrcFile.c_str(),_T("rb"));
-			dafa.End();
-
-			// files from the pak file do not count as date comparison do not seem to work there
-			if(pDestFile)
-			if(gEnv->pCryPak->IsInPak(pDestFile))
-			{
-				gEnv->pCryPak->FClose(pDestFile);pDestFile=0;
-			}
-
-			bool bInvokeResourceCompiler=false;
-
-			// is there no destination file?
-			if(pSrcFile && !pDestFile)
-					bInvokeResourceCompiler=true;
-
-			// if both files exist, is the source file newer?
-			if(pDestFile && pSrcFile)
-			{
-				bInvokeResourceCompiler=true;
-
-				ICryPak::FileTime timeSrc = gEnv->pCryPak->GetModificationTime(pSrcFile);
-				ICryPak::FileTime timeDest = gEnv->pCryPak->GetModificationTime(pDestFile);
-
-				if(timeDest>=timeSrc)
-					bInvokeResourceCompiler=false;
-			}
-
-			if(pDestFile)
-			{
-				gEnv->pCryPak->FClose(pDestFile);pDestFile=0;
-			}
-			if(pSrcFile)
-			{
-				gEnv->pCryPak->FClose(pSrcFile);pSrcFile=0;
-			}
-
-			if(bInvokeResourceCompiler)
-			{
-				// Adjust filename so that they are global.
-				char sFullSrcFilename[MAX_PATH];
-				char sFullTrgFilename[MAX_PATH];
-				gEnv->pCryPak->AdjustFileName( sSrcFile.c_str(),sFullSrcFilename,0 );
-				gEnv->pCryPak->AdjustFileName( sDestFile.c_str(),sFullTrgFilename,0 );
-				// call rc.exe
-				if(!InvokeResourceCompiler(sFullSrcFilename,sFullTrgFilename,"",false))		// false=no window
-				{
-					m_bErrorFlag=true;
-					assert(!pSrcFile);assert(!pDestFile);		// internal error
-					return szFilePath;	// rc failed
-				}
-			}
-
-			assert(!pSrcFile);assert(!pDestFile);		// internal error
-		}
-		return sDestFile;	// load without using RC (e.g. TGA)
-	}
-
+	//   fills processedFilename[] with name of the file that should be loaded
+	void ProcessIfNeeded(
+		const char* originalFilename, 
+		char* processedFilename, 
+		size_t processedFilenameSizeInBytes);
 #endif // _ICRY_PAK_HDR_
 
-	tstring GetRootPath(bool pullFromRegistry);
+	void GetRootPathUtf16(bool pullFromRegistry, SettingsManagerHelpers::CWCharBuffer wbuffer);
+	void GetRootPathAscii(bool pullFromRegistry, SettingsManagerHelpers::CCharBuffer buffer);
 
 	void ResourceCompilerUI( void* hParent );
-
-	// Arguments:
-	//   szExtension e.g. "tif"
-	bool IsSourceFormat( const TCHAR *szExtension ) const;
-
-	// Arguments:
-	//   szExtension e.g. "dds"
-	bool IsDestinationFormat( const TCHAR *szExtension ) const;
 
 	bool IsPrefer32Bit();
 
 	CEngineSettingsManager* GetSettingsManager();
 
-	tstring GetEditorExecutable();
+	void GetEditorExecutable(SettingsManagerHelpers::CWCharBuffer wbuffer);
 
 	bool IsError() const;
 
@@ -195,44 +105,58 @@ public:
 	//   szAdditionalSettings - 0 or e.g. "/refresh" or "/refresh /xyz=56"
 	//
 	ERcCallResult CallResourceCompiler(
-		const TCHAR* szFileName=NULL, 
-		const TCHAR* szAdditionalSettings=NULL, 
-		IResourceCompilerListener* listener=NULL, 
+		const char* szFileName=0, 
+		const char* szAdditionalSettings=0, 
+		IResourceCompilerListener* listener=0, 
 		bool bMayShowWindow=true, 
-		bool bUseQuota=true, 
 		ERcExePath rcExePath=eRcExePath_registry, 
 		bool bSilent=false,
 		bool bNoUserDialog=false,
-		const TCHAR* szWorkingDirectory=NULL);
+		const wchar_t* szWorkingDirectory=0);
 
-	void* CallEditor( void* hParent, const TCHAR * pWndName, const TCHAR * pFlag );
+	void* AsyncCallResourceCompiler(
+		const char* szFileName=0, 
+		const char* szAdditionalSettings=0, 
+		bool bMayShowWindow=true, 
+		ERcExePath rcExePath=eRcExePath_registry, 
+		bool bSilent=false,
+		bool bNoUserDialog=false,
+		const wchar_t* szWorkingDirectory=0);
+
+	void* CallEditor(
+		void* hParent,
+		const char* pWndName,
+		const char* pFlag);
 
 private:
 	bool m_bErrorFlag;
 
 private:
+#if defined(_ICRY_PAK_HDR_)
 	// Arguments:
 	//   szFilePath - could be source or destination filename
 	//   dwIndex - used to iterator through all input filenames, start with 0 and increment by 1
 	// Return:
-	//   "" if that was the last input format, a valid filename otherwise
-	tstring GetInputFilename( const TCHAR *szFilePath, const unsigned int dwIndex ) const;	
+	//   fills inputFilename[] with a filename (or empty string if  that was the last input format)
+	static void CResourceCompilerHelper::GetInputFilename(
+		const char* filename, 
+		const unsigned int index,
+		char* inputFilename, 
+		size_t inputFilenameSizeInBytes);
+#endif
 
 	// Arguments:
 	//   szDataFolder usually DATA_FOLDER = "Game"
-	bool InvokeResourceCompiler( const TCHAR *szSrcFile, const TCHAR *szDestFile, const TCHAR *szDataFolder, const bool bWindow ) const; 
+	bool InvokeResourceCompiler( const char *szSrcFile, const bool bWindow ) const; 
 
-	// parses a file and stores all flags in a private key-value-map
-	bool LoadValuesFromConfigFile(const TCHAR* szFileName);
+#endif // CRY_ENABLE_RC_HELPER
 
-#endif // defined(WIN32) && !defined(WIN64)
-
-public:
+private:
 	// little helper function (to stay independent)
-	static const TCHAR* GetExtension( const TCHAR *in )
+	static const char* GetExtension(const char* in)
 	{
-		const size_t len = _tcsclen(in);
-		for(const TCHAR* p = in + len-1; p >= in; --p)
+		const size_t len = strlen(in);
+		for(const char* p = in + len-1; p >= in; --p)
 		{
 			switch(*p)
 			{
@@ -247,59 +171,63 @@ public:
 			}
 		}
 		return 0;
-	}
+	}	
 
 	// little helper function (to stay independent)
-	static tstring ReplaceExtension( const TCHAR *path, const TCHAR *new_ext )
+	static void ReplaceExtension(const char* path, const char* new_ext, char* buffer, size_t bufferSizeInBytes)
 	{
-		const TCHAR* const ext = GetExtension(path);
-
-		if(ext)
-			return tstring(path,ext)+new_ext;
-		else
-			return tstring(path)+_T(".")+new_ext;
-	}
-
-	// Arguments:
-	//   szFilePath - could be source or destination filename
-	static tstring GetOutputFilename( const TCHAR *szFilePath )
-	{
-		const TCHAR* const ext = GetExtension(szFilePath);
-
+		const char* const ext = GetExtension(path);
+    
+		SettingsManagerHelpers::CFixedString<char, 512> p;
 		if(ext)
 		{
-			if(_tcsicmp(ext,_T("tif"))==0)
-				return ReplaceExtension(szFilePath,_T("dds"));
-			if(_tcsicmp(ext,_T("srf"))==0)
-				return ReplaceExtension(szFilePath,_T("dds"));
+			p.set(path, ext - path);
+			p.append(new_ext);
+		}
+		else
+		{
+			p.set(path);
+			p.append(".");
+			p.append(new_ext);
+		}
+    
+		strncpy_s(buffer, bufferSizeInBytes, p.c_str(), _TRUNCATE);
+	}
+
+public:
+	// Arguments:
+	//   szFilePath - could be source or destination filename
+	static void GetOutputFilename(const char* szFilePath, char* buffer, size_t bufferSizeInBytes)
+	{
+		const char* const ext = GetExtension(szFilePath);
+
+		if (ext)
+		{
+			if (stricmp(ext, "tif") == 0 ||
+				stricmp(ext, "srf") == 0)
+			{
+				ReplaceExtension(szFilePath, "dds", buffer, bufferSizeInBytes);
+				return;
+			}
 		}
 
-		return szFilePath;
+		strncpy_s(buffer, bufferSizeInBytes, szFilePath, _TRUNCATE);
 	}
 
 	// only for image formats supported by the resource compiler
 	// Arguments:
 	//   szExtension - e.g. ".tif", can be 0
-	static bool IsImageFormat( const TCHAR *szExtension )
+	static bool IsImageFormat(const char* szExtension)
 	{
-		if(szExtension)
+		if (szExtension)
 		{
-			if(   _tcsicmp(szExtension,_T("dds"))==0    // DirectX surface format
-			   || _tcsicmp(szExtension,_T("tif"))==0)   // Crytek resource compiler image input format	
+			if (stricmp(szExtension, "dds") == 0   ||  // DirectX surface format
+				stricmp(szExtension, "tif") == 0)      // Crytek resource compiler image input format	
 			{
 				return true;
 			}
 		}
-
 		return false;
-	}
-
-	//! Extract extension from full specified file path (copy to keep ResourceCompilerHelper independent from other code - needed as it is used in many projects)
-	inline static tstring GetExt( const tstring &filepath )
-	{
-		const TCHAR* const ext = GetExtension(filepath.c_str());
-
-		return ext ? tstring(ext) : tstring();
 	}
 };
 

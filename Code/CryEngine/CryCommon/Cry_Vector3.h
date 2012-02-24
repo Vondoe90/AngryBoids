@@ -100,11 +100,11 @@ template <typename F> struct Vec3_tpl
 	{
 		if (sizeof(F)==4)
 		{
-			uint32* p=(uint32*)&x;		p[0]=F32NAN;	p[1]=F32NAN; p[2]=F32NAN;
+			uint32* p=alias_cast<uint32*>(&x);		p[0]=F32NAN;	p[1]=F32NAN; p[2]=F32NAN;
 		}
 		if (sizeof(F)==8)
 		{
-			uint64* p=(uint64*)&x;		p[0]=F64NAN;	p[1]=F64NAN; p[2]=F64NAN;
+			uint64* p=alias_cast<uint64*>(&x);		p[0]=F64NAN;	p[1]=F64NAN; p[2]=F64NAN;
 		}
 	}
 #else
@@ -507,6 +507,13 @@ template <typename F> struct Vec3_tpl
 		//    XMStoreFloat3(&v.m, Norm);
 		//    return v;
 		//#endif
+	}
+
+	//! return a normalized vector
+	ILINE Vec3_tpl GetNormalizedFast() const 
+	{ 
+		F fInvLen = isqrt_fast_tpl( x*x+y*y+z*z );
+		return *this * fInvLen;
 	}
 
 	//! return a safely normalized vector - returns safe vector (should be normalised) if original is zero length
@@ -1173,11 +1180,11 @@ template <typename F> struct Vec4_tpl
 	{
 		if (sizeof(F)==4)
 		{
-			uint32* p=(uint32*)&x;		p[0]=F32NAN;	p[1]=F32NAN; p[2]=F32NAN; p[3]=F32NAN;
+			uint32* p=alias_cast<uint32*>(&x);		p[0]=F32NAN;	p[1]=F32NAN; p[2]=F32NAN; p[3]=F32NAN;
 		}
 		if (sizeof(F)==8)
 		{
-			uint64* p=(uint64*)&x;		p[0]=F64NAN;	p[1]=F64NAN; p[2]=F64NAN; p[3]=F64NAN;
+			uint64* p=alias_cast<uint64*>(&x);		p[0]=F64NAN;	p[1]=F64NAN; p[2]=F64NAN; p[3]=F64NAN;
 		}
 
 	}
@@ -1468,11 +1475,11 @@ template <typename F> struct Ang3_tpl
 	{
 		if (sizeof(F)==4)
 		{
-			uint32* p=(uint32*)&x;		p[0]=F32NAN;	p[1]=F32NAN; p[2]=F32NAN;
+			uint32* p=alias_cast<uint32*>(&x);		p[0]=F32NAN;	p[1]=F32NAN; p[2]=F32NAN;
 		}
 		if (sizeof(F)==8)
 		{
-			uint64* p=(uint64*)&x;		p[0]=F64NAN;	p[1]=F64NAN; p[2]=F64NAN;
+			uint64* p=alias_cast<uint64*>(&x);		p[0]=F64NAN;	p[1]=F64NAN; p[2]=F64NAN;
 		}
 	}
 #else
@@ -1758,11 +1765,11 @@ template<typename F> struct Plane_tpl
 	{
 		if (sizeof(F)==4)
 		{
-			uint32* p=(uint32*)&n.x;		p[0]=F32NAN;	p[1]=F32NAN; p[2]=F32NAN; p[3]=F32NAN;
+			uint32* p=alias_cast<uint32*>(&n.x);		p[0]=F32NAN;	p[1]=F32NAN; p[2]=F32NAN; p[3]=F32NAN;
 		}
 		if (sizeof(F)==8)
 		{
-			uint64* p=(uint64*)&n.x;		p[0]=F64NAN;	p[1]=F64NAN; p[2]=F64NAN; p[3]=F64NAN;
+			uint64* p=alias_cast<uint64*>(&n.x);		p[0]=F64NAN;	p[1]=F64NAN; p[2]=F64NAN; p[3]=F64NAN;
 		}
 	}
 #else

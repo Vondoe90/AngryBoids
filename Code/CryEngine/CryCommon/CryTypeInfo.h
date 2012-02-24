@@ -35,28 +35,34 @@ bool FromString(CCryName& val, const char* s);
 
 #define OPT_STRUCT(Struc) \
 	typedef Struc TThis; \
-	Struc(int init = 0) { memset(this, -init, sizeof(*this)); }
+	Struc() { memset(this, -init, sizeof(*this)); }
 
 #define VAR_OPT(Type, Var) \
-	Type _##Var; \
-	TThis Var(Type const& v) const { TThis t = *this; t._##Var = v; return t; }
+	Type Var; \
+	TThis& Var##_(Type const& val) { Var = val; return *this; }
+
+#define BIT_STRUCT(Struc,Int) \
+	typedef Struc TThis; typedef Int TInt; \
+	TInt Mask() const { return *(const TInt*)this; } \
+	TInt& Mask() { assert(sizeof(TThis) == sizeof(TInt)); return *(TInt*)this; } \
+	Struc(TInt init = 0) { Mask() = init; }
 
 #define BIT_OPT(Var) \
-	int _##Var: 1; \
-	TThis Var(int v = 1) const { TThis t = *this; t._##Var = v; return t; }
+	TInt Var: 1; \
+	TThis& Var##_(int val = 1) { Var = val; return *this; }
 
 // Specify options for converting data to/from strings
 struct FToString
 {
-	OPT_STRUCT(FToString)
+	BIT_STRUCT(FToString,uint8)
 	BIT_OPT(SkipDefault)		// Omit default values on writing.
-	BIT_OPT(TruncateSub)		// Remove trailing empty sub-vaules.
+	BIT_OPT(TruncateSub)		// Remove trailing empty sub-values.
 	BIT_OPT(Sub)						// Write sub-structures (internal usage).
 };
 
 struct FFromString
 {
-	OPT_STRUCT(FFromString)
+	BIT_STRUCT(FFromString,uint8)
 	BIT_OPT(SkipEmpty)			// Do not set values from empty strings (otherwise, set to zero).
 	BIT_OPT(Finalize)				// Optimize data after reading, allow no more write access.
 };
@@ -85,12 +91,14 @@ enum ENumericLimit
 
 struct CTypeInfo
 {
-	virtual ~CTypeInfo(){}
 	cstr		Name;
 	size_t	Size;
 
 	CTypeInfo( cstr name, size_t size )
 		: Name(name), Size(size) {}
+
+	virtual ~CTypeInfo()
+		{}
 
 	//
 	// Inheritance.
@@ -127,7 +135,7 @@ struct CTypeInfo
 		{ return FromValue(data, &value, TypeInfo(&value)); }
 
 	virtual bool ValueEqual(const void* data, const void* def_data = 0) const
-		{ return ToString(data, FToString().SkipDefault().TruncateSub(), def_data).empty(); }
+		{ return ToString(data, FToString().SkipDefault_().TruncateSub_(), def_data).empty(); }
 
 	virtual bool GetLimit(ENumericLimit eLimit, float& fVal) const
 		{ return false; }
@@ -212,12 +220,21 @@ struct CTypeInfo
 	};
 
 	// Structure var iteration.
-	virtual const CVarInfo* NextSubVar(const CVarInfo* pPrev) const		{ return 0; }
-	inline bool HasSubVars() const  { return NextSubVar(0) != 0; }
-	#define AllSubVars( pVar, Info ) (const CTypeInfo::CVarInfo* pVar = 0; pVar = (Info).NextSubVar(pVar); )
+	virtual CVarInfo const* NextSubVar(CVarInfo const* pPrev) const
+		{ return 0; }
+	inline bool HasSubVars() const
+		{ return NextSubVar(0) != 0; }
+	#define AllSubVars( pVar, Info ) \
+		(const CTypeInfo::CVarInfo* pVar = 0; pVar = (Info).NextSubVar(pVar); )
 
 	// Named var search.
-	virtual const CVarInfo* FindSubVar(cstr name) const  { return 0; }
+	virtual const CVarInfo* FindSubVar(cstr name) const
+		{ return 0; }
+
+	virtual CTypeInfo const* const* NextTemplateType(CTypeInfo const* const* pPrev) const
+		{ return 0; }
+	inline bool IsTemplate() const
+		{ return NextTemplateType(0) != 0; }
 
 	//
 	// String enumeration interface.

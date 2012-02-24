@@ -8,7 +8,7 @@
 struct IBlackBoard;
 struct VisionID;
 
-typedef enum EBehaviorEvent
+enum EBehaviorEvent
 {
 	BehaviorStarted,
 	BehaviorInterrupted,

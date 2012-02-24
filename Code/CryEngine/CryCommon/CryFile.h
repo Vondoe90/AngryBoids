@@ -19,6 +19,8 @@
 
 #include <ISystem.h>
 #include <ICryPak.h>
+#include <IConsole.h>
+#include "CryPath.h"
 
 //////////////////////////////////////////////////////////////////////////
 // Defines for CryEngine filetypes extensions.
@@ -35,6 +37,8 @@
 #define CRY_XML_FILE_EXT                         "xml"
 #define CRY_CHARACTER_PARTS_FILE_EXT             "cpf"
 #define CRY_CHARACTER_PARAM_FILE_EXT             "chrparams"
+//////////////////////////////////////////////////////////////////////////
+#define CRYFILE_MAX_PATH                         260
 //////////////////////////////////////////////////////////////////////////
 
 inline const char* CryGetExt( const char *filepath )
@@ -174,7 +178,7 @@ public:
 	const char* GetPakPath() const;
 
 private:
-	char m_filename[260];
+	char m_filename[CRYFILE_MAX_PATH];
 	FILE *m_file;
 	ICryPak *m_pIPak;
 };
@@ -217,10 +221,34 @@ inline CCryFile::~CCryFile()
 //	 ICryPak::EFOpenFlags
 inline bool CCryFile::Open( const char *filename, const char *mode,int nOpenFlagsEx )
 {
+	char tempfilename[CRYFILE_MAX_PATH];
+	strncpy_s( tempfilename,filename,_TRUNCATE );
+
+#if !defined ( _RELEASE )
+	if ( gEnv && gEnv->IsEditor() )
+	{
+		ICVar * const pCvar = gEnv->pConsole->GetCVar("ed_lowercasepaths");
+		if ( pCvar )
+		{
+			const int lowercasePaths = pCvar->GetIVal();
+			if ( lowercasePaths )
+			{
+				const string lowerString = PathUtil::ToLower(tempfilename);
+				strncpy_s( tempfilename,lowerString.c_str(),_TRUNCATE );
+			}
+		}
+	}
+#endif
 	if (m_file)
+	{
 		Close();
-	strncpy_s( m_filename,filename,_TRUNCATE );
-	m_file = m_pIPak ? m_pIPak->FOpen( filename,mode,nOpenFlagsEx ) : fopen( filename,mode );
+	}
+	strncpy_s( m_filename,tempfilename,_TRUNCATE );
+
+
+
+	
+	m_file = m_pIPak ? m_pIPak->FOpen( tempfilename,mode,nOpenFlagsEx ) : fopen( tempfilename,mode );
 	return m_file != NULL;
 }
 

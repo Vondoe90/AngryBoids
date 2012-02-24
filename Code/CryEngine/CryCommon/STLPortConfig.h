@@ -16,8 +16,12 @@
 #pragma once
 
 // Temporary here
-#define _CRT_SECURE_NO_DEPRECATE
-#define _CRT_NONSTDC_NO_DEPRECATE
+#ifndef _CRT_SECURE_NO_DEPRECATE
+# define _CRT_SECURE_NO_DEPRECATE
+#endif
+#ifndef _CRT_NONSTDC_NO_DEPRECATE
+# define _CRT_NONSTDC_NO_DEPRECATE
+#endif
 
 // Microsoft Debug STL turned off so we can use intermixed debug/release versions of DLL.
 #undef _HAS_ITERATOR_DEBUGGING

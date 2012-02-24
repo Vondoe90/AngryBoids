@@ -49,6 +49,40 @@ struct ICryVoice
 	// userID			- The CryUserID of the user
 	// return			- true if a microphone is connected
 	virtual bool	IsMicrophoneConnected(CryUserID userID) = 0;
+
+
+	// EnablePushToTalk
+	// Enables Push-to-talk functionality for microphone. Currently only supported on PC.
+	// localUser	- The pad number of the local user.
+	// bSet				- Enabled true or false.
+	virtual void	EnablePushToTalk(uint32 localUser, bool bSet) = 0;
+
+	// IsPushToTalkedEnabled
+	// Is Push-to-talk mode enabled?
+	// return			- true or false
+	virtual bool	IsPushToTalkEnabled(uint32 localUser) = 0;
+
+	// PushToTalkButtonDown
+	// Mark the push-to-talk button as depressed
+	// localUser	- The pad number of the local user.
+	virtual void	PushToTalkButtonDown(uint32 localUser) = 0;
+	
+	// PushToTalkButtonUp
+	// Mark the push-to-talk button as released
+	// localUser	- The pad number of the local user.
+	virtual void	PushToTalkButtonUp(uint32 localUser) = 0;
+
+	// SetVoicePlaybackVolume
+	// Set the playback volume for voice communications
+	// localUser	- The pad number of the local user.
+	// volume			- The volume. 0.0 to 1.0
+	virtual void SetVoicePlaybackVolume(uint32 localUser, float volume) = 0;
+
+	// GetVoicePlaybackVolume
+	// Get the playback volume for voice communications
+	// localUser	- The pad number of the local user.
+	// return			- volume. 0.0 to 1.0
+	virtual float GetVoicePlaybackVolume(uint32 localUser) = 0;
 };
 
 #endif // __ICRYVOICE_H__

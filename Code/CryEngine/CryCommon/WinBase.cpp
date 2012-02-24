@@ -859,7 +859,10 @@ void InitFileList(void)
 void InitFileList(void) { }
 #endif
 
-inline void WrappedF_InitCWD()
+#if !defined(_LIB)
+inline 
+#endif
+void WrappedF_InitCWD()
 {
 #if defined(LINUX)
 	if (getcwd(fopenwrapper_basedir, fopenwrapper_basedir_maxsize) == NULL)
@@ -869,31 +872,24 @@ inline void WrappedF_InitCWD()
 	}
 	fopenwrapper_basedir[fopenwrapper_basedir_maxsize - 1] = 0;
 
-	// Move up to parent of BinXX directory.
-	// /home/user/depot/Main/Build/Linux-Arc/Bin -> /home/user/depot/Main
-	// [K01]: comment below code till real build
-	/*
 	char *ptr = strrchr(fopenwrapper_basedir, '/');
 	if (ptr != NULL)
 	{
 		bool upOneDir = false;
-		if (strcasecmp(ptr, "/Bin32") == 0)
+
+		if (strcasecmp(ptr, "/BinLinux") == 0)
 			upOneDir = true;
-		else if (strcasecmp(ptr, "/Bin64") == 0)
-			upOneDir = true;
+
+///		if (strcasecmp(ptr, "/Bin32") == 0)
+///			upOneDir = true;
+///		else if (strcasecmp(ptr, "/Bin64") == 0)
+///			upOneDir = true;
 			
 		if (upOneDir)
 		{
 			*ptr = '\0';
-			chdir(fopenwrapper_basedir);
+			int result = chdir(fopenwrapper_basedir);
 		}
-	}*/
-	SetModulePath(fopenwrapper_basedir);
-	char *ptr = strstr(fopenwrapper_basedir, "/Build");
-	if (ptr != NULL)
-	{
-		*ptr = '\0';
-		chdir(fopenwrapper_basedir);
 	}
 #endif
 }
@@ -2159,8 +2155,14 @@ static bool FixOnePathElement(char *path)
 			if (strcasecmp(dent->d_name, name) == 0)
 			{
 				strcpy(name, dent->d_name);
+#if defined(_DEBUG)
+				if (found)
+					CryFatalError("\"%s/%s\" exists one more.check it!", parent, dent->d_name);
+				found = true;
+#else
 				found = true;
 				break;
+#endif
 			}
 		}
 		
@@ -2180,13 +2182,12 @@ const bool GetFilenameNoCase
 	assert(file);
 	assert(pAdjustedFilename);
 	strcpy(pAdjustedFilename, file);
-#ifndef PS3
+
 	// Fix the dirname case.
 	const int cLen = strlen(file);
 	for (int i = 0; i<cLen; ++i) 
 		if(pAdjustedFilename[i] == '\\') 
 			pAdjustedFilename[i] = '/';
-#endif
 	char *slash;
 	const char *dirname;
 	char *name;
@@ -2225,18 +2226,12 @@ const bool GetFilenameNoCase
 	bool found = false;
 	bool skipScan = false;
 #if defined(USE_FILE_MAP)
-
-
-
-	const bool skipInitial = false;
-
 	bool dirty = false;
 	int dirIndex = -1;
 	FileNode *dirNode = NULL;
 	if (strrchr(dirname, '/') > dirname)
 	{
-		FileNode *parentDirNode = FileNode::FindExact(
-				dirname, dirIndex, &dirty, skipInitial);
+		FileNode *parentDirNode = FileNode::FindExact( dirname, dirIndex, &dirty, false );
 		if (dirty)
 		{
 			if (parentDirNode != NULL && dirIndex != -1)
@@ -3225,6 +3220,26 @@ long	CryInterlockedCompareExchange(long volatile * dst, long exchange, long comp
 	);
 	return r;
 }
+
+int64 CryInterlockedCompareExchange64( volatile int64 *addr, int64 exchange, int64 comperand )
+{
+#if defined(LINUX64)
+	// This is OK, because long is signed int64 on Linux x86_64
+	return CryInterlockedCompareExchange(addr, exchange, comperand);
+#else
+	#error CryInterlockedCompareExchange64 is not implemented
+#endif
+}
+
+#if defined(LINUX64)
+unsigned char CryInterlockedCompareExchange128( int64 volatile *dst, int64 exchangehigh, int64 exchangelow, int64* comperand )
+{
+	CryDebugBreak();
+	int *null = NULL;
+	*null = 0xdead;
+	return 0;
+}
+#endif 
 
 unsigned int CryGetCurrentThreadId()
 {

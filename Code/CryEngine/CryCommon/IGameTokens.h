@@ -22,10 +22,9 @@
 
 enum EGameTokenFlags
 {
-	EGAME_TOKEN_MODIFIED     = 0x01,    // Token is modified from its default value.
-// not used anymore
-//	EGAME_TOKEN_FROMSAVEGAME = 0x02,    // This token was read from the Save game.
-	EGAME_TOKEN_LOCALONLY		 = 0x04,		// This token will not be synchronized to clients	
+		EGAME_TOKEN_MODIFIED     = 0x01,    // Token is modified from its default value.
+		EGAME_TOKEN_GRAPHVARIABLE= 0x02,		// Token is constrained to the flowgraph it appears in
+		EGAME_TOKEN_LOCALONLY		 = 0x04,		// This token will not be synchronized to clients	
 };
 
 #ifndef _RELEASE

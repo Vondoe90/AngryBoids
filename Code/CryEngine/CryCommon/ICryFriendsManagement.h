@@ -198,6 +198,10 @@ struct ICryFriendsManagement
 	// pCbArg			- Pointer to application-specified data that is passed to the callback
 	// return			- eCLE_Success if function successfully started or an error code if function failed to start
 	virtual ECryLobbyError FriendsManagementGetStatus(uint32 user, CryUserID* pUserIDs, uint32 numUserIDs, CryLobbyTaskID* pTaskID, CryFriendsManagementStatusCallback pCb, void* pCbArg) = 0;
+
+	// CancelTask
+	// Cancels a task
+	virtual void CancelTask(CryLobbyTaskID) = 0;
 };
 
 #endif //__ICRYFRIENDSMANAGEMENT_H__ 

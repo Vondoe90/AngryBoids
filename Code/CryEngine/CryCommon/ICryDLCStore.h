@@ -20,6 +20,8 @@
 
 #if USE_CRYLOBBY_GAMESPY
 
+#include <CryArray.h>
+
 
 typedef uint32								CryDLCOrderHandle;
 const CryDLCOrderHandle				CryDLCOrderInvalidHandle = 0xFFFFFFFF;
@@ -154,8 +156,8 @@ struct SCryDLCItemInfo
 	wstring														culture;
 	wstring														price;
 	bool															allowQuantity;
-	std::vector< CryDLCCategoryID >		categories;
-	std::vector< CryDLCImageID >			images;
+	DynArray< CryDLCCategoryID >		categories;
+	DynArray< CryDLCImageID >			images;
 };
 
 
@@ -478,6 +480,15 @@ struct ICryDLCStore
 	virtual ECryLobbyError	UserDownloadItem( CryUserID userID, CryDLCDownloadableID downloadableID, CryLobbyTaskID* pTaskID, CryDLCUserDownloadItemCallback cb, void* pCbArg ) = 0;
 
 	// Description:
+	//	 Cancel the download of the currently downloading item
+	// Arguments:
+	//	 userID - user whose download will be stopped
+	// Return:
+	//	 eCLE_Success if their is a download to cancel, otherwise an error.
+	virtual ECryLobbyError	UserCancelActiveDownload( CryUserID userID ) = 0;
+
+
+	// Description:
 	//	 Are any downloads in progress?
 	// Return:
 	//	 true if any downloads are in progress
@@ -632,6 +643,26 @@ struct ICryDLCStore
 	// Return:
 	//	 eCLE_Success if task was started successfully, otherwise an error.
 	virtual ECryLobbyError	OrderFree( CryDLCOrderHandle orderHandle, CryLobbyTaskID* pTaskID, CryDLCCallback cb, void* pCbArg  ) = 0;
+
+	// Description:
+	//	 Get an image name from an image ID.
+	// Arguments:
+	//	 imageID - image ID
+	//	 pImageName - image name
+	//	 cb - callback
+	//	 pCbArg - callback argument
+	// Return:
+	//	 eCLE_Success if successful, otherwise an error.
+	virtual ECryLobbyError	GetImageNameFromImageID( CryDLCImageID imageID, CryStringT< wchar_t >* pImageName ) = 0;
+
+	// Description:
+	//		Get a real id for a dlc item, that consistently uniquely identifies it
+	// Arguments:
+	//	item - the item id to convert
+	//	idOut - the converted item id
+	// Return:
+	//	eCLE_Success if the access was successful, otherwise an error
+	virtual ECryLobbyError	GetRealDLCItemID( CryDLCItemID itemID, uint32* idOut ) = 0;
 };
 
 

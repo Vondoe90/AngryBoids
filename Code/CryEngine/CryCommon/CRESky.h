@@ -64,6 +64,9 @@ public:
 	{
 		pSizer->AddObject(this, sizeof(*this));
 	}
+
+	void GenerateSkyDomeTextures(int32 width, int32 height);
+
 public:
 	const SSkyLightRenderParams* m_pRenderParams;
 	int m_moonTexId;
@@ -72,7 +75,6 @@ public:
 
 private:
 	void Init();
-	void GenerateSkyDomeTextures(int32 width, int32 height);
 
 private:
 	int m_skyDomeTextureLastTimeStamp;

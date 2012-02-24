@@ -11,7 +11,6 @@ Revision history:
 #ifndef __CREPOSTPROCESS_H__
 #define __CREPOSTPROCESS_H__
 
-class CREPostProcessData;
 
 class CREPostProcess : public CRendElementBase
 {
@@ -37,7 +36,11 @@ public:
 	virtual int32 mfGetPostEffectID(const char* pPostEffectName) const;
 
   // Reset all post processing effects
-  virtual void mfReset();  
+  virtual void Reset(bool bOnSpecChange = false);
+	virtual void mfReset()
+	{
+		Reset();
+	}
 
   virtual void AddLight( CDLight &pLight );
 
@@ -45,9 +48,6 @@ public:
 	{
 		pSizer->AddObject(this, sizeof(*this));
 	}
-private:
-
-  CREPostProcessData *m_pREData;
 };
 
 #endif

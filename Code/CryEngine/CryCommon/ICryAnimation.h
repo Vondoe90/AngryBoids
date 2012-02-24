@@ -1058,7 +1058,7 @@ UNIQUE_IFACE struct ISkeletonPose
 	// USE THIS INSTEAD:
 
 	// New LookIK
-	virtual void SetLookIK(uint32 ik, f32 FOR, const Vec3& LookAtTarget, uint32 layer = 15, const char* lookPose = NULL, f32 smoothTime = 0.2f ) = 0;
+	virtual void SetLookIK(uint32 ik, f32 FOR, const Vec3& LookAtTarget,const f32 *customBlends=0, bool allowAdditionalTransforms=true, bool ignoreAimBlend=false) = 0;
 	virtual uint8 IsLookIKEnabled() = 0;
 
 	// Ground Alignment
@@ -1309,7 +1309,7 @@ public:
 	CAnimationLightProfileSection() 
 	: m_nTicks( CryGetTicks() )
 #   if EMBED_PHYSICS_AS_FIBER
-		, m_nYields(NPPU::FiberYieldTime())
+		, m_nYields(JobManager::Fiber::FiberYieldTime())
 #   else 
 		, m_nYields()
 #   endif 
@@ -1323,7 +1323,7 @@ public:
 	{ 
 		ICharacterManager *pCharacterManager = gEnv->pCharacterManager;
 #   if EMBED_PHYSICS_AS_FIBER
-		uint64 nYields = NPPU::FiberYieldTime(); 
+		uint64 nYields = JobManager::Fiber::FiberYieldTime(); 
 #   else 
 		uint64 nYields = 0ULL; 
 #   endif 
@@ -1347,7 +1347,7 @@ public:
 	CAnimationLightSyncProfileSection() 
 		: m_nTicks( CryGetTicks() ) 
 #   if EMBED_PHYSICS_AS_FIBER
-		, m_nYields(NPPU::FiberYieldTime())
+		, m_nYields(JobManager::Fiber::FiberYieldTime())
 #   else 
 		, m_nYields()
 #   endif 
@@ -1356,7 +1356,7 @@ public:
 	{ 
 		ICharacterManager *pCharacterManager = gEnv->pCharacterManager;
 #   if EMBED_PHYSICS_AS_FIBER
-		uint64 nYields = NPPU::FiberYieldTime(); 
+		uint64 nYields = JobManager::Fiber::FiberYieldTime(); 
 #   else 
 		uint64 nYields = 0ULL; 
 #   endif 

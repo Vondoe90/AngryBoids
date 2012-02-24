@@ -80,7 +80,7 @@ enum AnimParamType
 	APARAM_DEPTH_OF_FIELD  = 30, //!< Camera depth of filed
 	APARAM_FOCUS_DISTANCE  =31, //!< Camera focus distance
 	APARAM_FOCUS_RANGE     =32, //!< Camera focus range
-	APARAM_BLUR_AMMOUNT    =33, //!< Camera blur amount
+	APARAM_BLUR_AMOUNT    =33, //!< Camera blur amount
 
 	APARAM_CAPTURE		= 34, //!< Capturing
 
@@ -421,7 +421,7 @@ struct IAnimTrack : public _i_reference_target_t
 	virtual void SetValue( float time,const Quat &value,bool bDefault=false ) = 0;
 	virtual void SetValue( float time,const bool &value,bool bDefault=false ) = 0;
 
-	// Only for position tracks, offset all track keys by this ammount.
+	// Only for position tracks, offset all track keys by this amount.
 	virtual void OffsetKeyPosition( const Vec3 &value ) = 0;
 
 	/** Assign active time range for this track.
@@ -759,7 +759,10 @@ struct ITrackEventListener
 	{
 		TER_ADDED,
 		TER_REMOVED,
+		TER_RENAMED,
 		TER_TRIGGERED,
+		TER_MOVED_UP,
+		TER_MOVED_DOWN,
 	};
 
 	// Description:
@@ -834,6 +837,7 @@ UNIQUE_IFACE struct IAnimSequence : public _i_reference_target_t
 		NO_SPEED      = BIT(13), //!< Cannot modify sequence speed - TODO: add interface control if required
 		TIMEWARP_IN_FIXEDTIMESTEP	= BIT(14), //!< Timewarping will work with a fixed time step.
 		EARLY_MOVIE_UPDATE				= BIT(15), //!< Turn the 'sys_earlyMovieUpdate' on during the sequence.
+		LIGHT_ANIMATION_SET       = BIT(16), //!< A special unique sequence for light animations 
 	};
 
 	//! Get the full name of this sequence. (ex. "Demo/Cinematic1/Intro" This is unique across the movie system.)
@@ -842,6 +846,8 @@ UNIQUE_IFACE struct IAnimSequence : public _i_reference_target_t
 	virtual void SetName( const char *name) = 0;
 	//! Get the name of this sequence. (ex. "Intro" in the same case as above)
 	virtual const char* GetName() const = 0;
+	//! Get the ID (unique in a level and consistent across renaming) of this sequence.
+	virtual uint32 GetId () const = 0;
 
 	// Description:
 	//     Get the parent group of this sequence.
@@ -971,6 +977,9 @@ UNIQUE_IFACE struct IAnimSequence : public _i_reference_target_t
 	//  Adds/removes track events in sequence.
 	virtual bool AddTrackEvent(const char* szEvent) = 0;
 	virtual bool RemoveTrackEvent(const char* szEvent) = 0;
+	virtual bool RenameTrackEvent(const char* szEvent, const char* szNewEvent) = 0;
+	virtual bool MoveUpTrackEvent(const char* szEvent) = 0;
+	virtual bool MoveDownTrackEvent(const char* szEvent) = 0;
 	virtual void ClearTrackEvents() = 0;
 
 	// Summary:
@@ -1046,10 +1055,11 @@ UNIQUE_IFACE struct IMovieSystem
 	virtual void DeleteSequenceGroup( IAnimSequenceGroup *pGroup ) = 0;
 	virtual IAnimSequenceGroup* FindSequenceGroup( const char *path ) const = 0;
 
-	virtual IAnimSequence* CreateSequence( const char *sequence, IAnimSequenceGroup *pParentGroup=NULL ) = 0;
+	virtual IAnimSequence* CreateSequence( const char *sequence, IAnimSequenceGroup *pParentGroup=NULL, bool bLoad=false ) = 0;
 	virtual IAnimSequence* LoadSequence( XmlNodeRef &xmlNode, bool bLoadEmpty=true ) = 0;
 	virtual void RemoveSequence( IAnimSequence *seq ) = 0;
-	virtual IAnimSequence* FindSequence( const char *sequence ) = 0;
+	virtual IAnimSequence* FindSequence( const char *sequence ) const = 0;
+	virtual IAnimSequence* FindSequenceById( uint32 id ) const = 0;
 	virtual IAnimSequence* GetSequence(int i) const = 0;
 	virtual int GetNumSequences() const = 0;
 	virtual IAnimSequence* GetPlayingSequence(int i) const = 0;
@@ -1268,6 +1278,9 @@ UNIQUE_IFACE struct IMovieSystem
 
 	virtual void EnableBatchRenderMode(bool bOn) = 0;
 	virtual bool IsInBatchRenderMode() const = 0;
+
+	virtual int GetEntityNodeParamCount() const = 0;
+	virtual bool GetEntityNodeParamInfo( int nIndex, IAnimNode::SParamInfo& info ) const = 0;
 };
 
 inline void SAnimContext::Serialize(XmlNodeRef& xmlNode, bool bLoading)

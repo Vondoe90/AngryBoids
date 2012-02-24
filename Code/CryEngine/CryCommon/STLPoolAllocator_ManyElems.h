@@ -62,11 +62,7 @@ namespace stl
 			}
 			else
 			{
-#if defined(NOT_USE_CRY_MEMORY_MANAGER)
 				return static_cast<pointer>(CryModuleMalloc( n * sizeof(T) ));
-#else
-				return static_cast<pointer>(CryModuleMalloc( n * sizeof(T), eCryModule ));
-#endif
 			}
 		}
 
@@ -78,11 +74,7 @@ namespace stl
 				STLPoolAllocator_ManyElemsStatic<LargeAllocationSizeThreshold, L, A>::allocator->Deallocate(p);
 			else
 			{
-#if defined(NOT_USE_CRY_MEMORY_MANAGER)
 				CryModuleFree( p );
-#else
-				CryModuleFree( p, eCryModule );
-#endif
 			}
 		}
 	};

@@ -18,15 +18,6 @@
 
 #include <CrySizer.h>
 
-enum ESplineType
-{
-	ESPLINE_LINEAR,
-	ESPLINE_CATMULLROM,
-	ESPLINE_HERMIT,
-	ESPLINE_TCB,
-	ESPLINE_BEZIER
-};
-
 //////////////////////////////////////////////////////////////////////////
 
 // These flags are mostly applicable for hermit based splines.
@@ -63,23 +54,20 @@ enum ESplineKeyFlags
 
 // Return value closest to 0 if same sign, or 0 if opposite.
 template<class T>
-inline T minmag( T const& a, T const& b)
+inline T minmag(T const& a, T const& b)
 {
 	if ( a*b <= T(0.f) )
 		return T(0.f);
 	else if (a < T(0.f))
-		return max(a,b);
+		return max(a, b);
 	else
-		return min(a,b);
+		return min(a, b);
 }
 
-template<>
-inline Vec3 minmag( Vec3 const& a, Vec3 const& b )
+template<class T>
+inline Vec3_tpl<T> minmag( Vec3_tpl<T> const& a, Vec3_tpl<T> const& b )
 {
-	Vec3 m;
-	for (int i = 0; i < 3; i++)
-		m[i] = minmag(a[i], b[i]);
-	return m;
+	return Vec3_tpl<T>( minmag(a.x, b.x), minmag(a.y, b.y), minmag(a.z, b.z) );
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -103,9 +91,6 @@ struct ISplineInterpolator
 
 	// Dimension of the spline from 0 to 3, number of parameters used in ValueType.
 	virtual int GetNumDimensions() = 0;
-
-	// Get Spline type 
-	virtual ESplineType GetSplineType() = 0;
 
 	// Insert`s a new key, returns index of the key.
 	virtual int  InsertKey( float time,ValueType value ) = 0;
@@ -449,6 +434,7 @@ namespace spline
 		ILINE bool empty() const         { return m_keys.empty(); };		// Check if curve empty (no keys).
 		ILINE int num_keys() const       { return (int)m_keys.size(); };		// Return number of keys in curve.
 
+		ILINE void set_key( int n, const key_type& key )		{ m_keys[n] = key; }		// Set n key values.
 		ILINE key_type&	key( int n )     { return m_keys[n]; };				// Return n key.
 		ILINE float&	time( int n )      { return m_keys[n].time; };	// Shortcut to key n time.
 		ILINE value_type&	value( int n ) { return m_keys[n].value; };	// Shortcut to key n value.
@@ -516,42 +502,6 @@ namespace spline
 			return insert_key( key );
 		}
 
-		ILINE void find_keys_in_range(float startTime, float endTime, int& firstFoundKey, int& numFoundKeys) const
-		{
-			int count = num_keys();
-			int start = 0;
-			int end = count;
-			for (int i = 0; i < count; ++i)
-			{
-				float keyTime = m_keys[i].time;
-				if (keyTime < startTime)
-					start = i + 1;
-				if (keyTime > endTime && end > i)
-					end = i;
-			}
-			if (start < end)
-			{
-				firstFoundKey = start;
-				numFoundKeys = end - start;
-			}
-			else
-			{
-				firstFoundKey = -1;
-				numFoundKeys = 0;
-			}
-		}
-
-		ILINE void remove_keys_in_range(float startTime, float endTime)
-		{
-			int firstFoundKey, numFoundKeys;
-			find_keys_in_range(startTime, endTime, firstFoundKey, numFoundKeys);
-			if (numFoundKeys)
-			{
-				m_keys.erase(m_keys.begin() + firstFoundKey, m_keys.begin() + firstFoundKey+numFoundKeys);
-				SetModified(true);
-			}
-		}
-
 		inline void update()
 		{
 			if (m_flags&MODIFIED)
@@ -609,6 +559,18 @@ namespace spline
 			return sizeof(*this) + mem_size();
 		}
 
+		void swap(TSpline<KeyType, BasisType>& b)
+		{
+			using std::swap;
+
+			m_keys.swap(b.m_keys);
+			swap(m_flags, b.m_flags);
+			swap(m_ORT, b.m_ORT);
+			swap(m_curr, b.m_curr);
+			swap(m_rangeStart, b.m_rangeStart);
+			swap(m_rangeEnd, b.m_rangeEnd);
+		}
+
 		//////////////////////////////////////////////////////////////////////////
 		// This two functions must be overridden in derived spline classes.
 		//////////////////////////////////////////////////////////////////////////
@@ -626,7 +588,7 @@ namespace spline
 		}
 
 	protected:
-		DynArray<key_type>	m_keys;	// List of keys.
+		DynArray<key_type>	m_keys;		// List of keys.
 		uint8			m_flags;
 		uint8			m_ORT;							// Out-Of-Range type.
 		int16			m_curr;							// Current key in track.
@@ -676,9 +638,10 @@ namespace spline
 		using_type(super_type, value_type);
 		static const bool clamp_range = bCLAMP;
 
+
 		void comp_deriv()
 		{
-			this->SetModified( false );
+			this->SetModified(false);
 
 			int last = this->num_keys()-1;
 			if (last <= 0)
@@ -729,7 +692,6 @@ namespace spline
 				k0.dd = (0.5f)*(this->value(1) - this->value(0));
 				k1.ds = (0.5f)*(this->value(last) - this->value(last-1));
 				Zero(k1.dd);
-
 				for (int i = 1; i < (this->num_keys()-1); ++i)
 				{
 					key_type &key = this->key(i);
@@ -1014,6 +976,9 @@ namespace spline
 	class CBaseSplineInterpolator : public ISplineInterpolator, public spline_type
 	{
 	public:
+		using spline_type::num_keys;
+		using_type(spline_type, key_type)
+
 		static const int DIM = sizeof(value_type) / sizeof(ElemType);
 
 		//////////////////////////////////////////////////////////////////////////
@@ -1021,10 +986,11 @@ namespace spline
 		inline void FromValueType( ValueType v, value_type& t ) { t = *(value_type*)v; }
 		//////////////////////////////////////////////////////////////////////////
 
-		virtual ESplineType GetSplineType() 
-		{ 
-			return ESPLINE_CATMULLROM; 
+		virtual void SetModified(bool b, bool bSort = false)
+		{
+			spline_type::SetModified(b, bSort);
 		}
+
 		virtual int GetNumDimensions()
 		{
 			assert(sizeof(value_type) % sizeof(ElemType) == 0);
@@ -1033,22 +999,52 @@ namespace spline
 
 		virtual int InsertKey( float t,ValueType val )
 		{
-			value_type value;
-			FromValueType( val, value );
-			return insert_key( t, value );
+			key_type key;
+			key.time = t;
+			key.value = *(value_type*)val;
+			int n = insert_key( key );
+			SetModified(true, true);
+			return n;
 		}
 		virtual void RemoveKey( int key )
 		{
 			if (key >= 0 && key < this->num_keys())
+			{
 				this->erase( key );
+				SetModified(true);
+			}
 		}
 		virtual void FindKeysInRange(float startTime, float endTime, int& firstFoundKey, int& numFoundKeys)
 		{
-			this->find_keys_in_range(startTime, endTime, firstFoundKey, numFoundKeys);
+			int count = num_keys();
+			int start = 0;
+			int end = count;
+			for (int i = 0; i < count; ++i)
+			{
+				float keyTime = this->key(i).time;
+				if (keyTime < startTime)
+					start = i + 1;
+				if (keyTime > endTime && end > i)
+					end = i;
+			}
+			if (start < end)
+			{
+				firstFoundKey = start;
+				numFoundKeys = end - start;
+			}
+			else
+			{
+				firstFoundKey = -1;
+				numFoundKeys = 0;
+			}
 		}
 		virtual void RemoveKeysInRange(float startTime, float endTime)
 		{
-			this->remove_keys_in_range(startTime, endTime);
+			int firstFoundKey, numFoundKeys;
+			FindKeysInRange(startTime, endTime, firstFoundKey, numFoundKeys);
+			while (numFoundKeys-- > 0)
+				this->erase(firstFoundKey++);
+			SetModified(true);
 		}
 		virtual int GetKeyCount() 
 		{ 
@@ -1064,58 +1060,68 @@ namespace spline
 		{
 			if (key >= 0 && key < this->num_keys())
 			{
-				ToValueType( this->key(key).value, val );
+				*(value_type*)val = this->key(key).value;
 				return true;
 			}
 			return false;
 		}
+
 		virtual void SetKeyValue( int k,ValueType val )
 		{
 			if (k >= 0 && k < this->num_keys())
 			{
-				FromValueType( val,this->key(k).value );
-				this->SetModified(true);
+				key_type key = this->key(k);
+				key.value = *(value_type*)val;
+				this->set_key(k, key);
+				SetModified(true);
 			}
 		}
 		virtual void SetKeyTime( int k,float fTime )
 		{
 			if (k >= 0 && k < this->num_keys())
 			{
-				this->key(k).time = fTime;
-				this->SetModified(true,true);
+				key_type key = this->key(k);
+				key.time = fTime;
+				this->set_key(k, key);
+				SetModified(true,true);
 			}
 		}
 		virtual void  SetKeyInTangent( int k,ValueType tin )
 		{
 			if (k >= 0 && k < this->num_keys())
 			{
-				FromValueType( tin,this->key(k).ds );
-				this->SetModified(true);
+				key_type key = this->key(k);
+				key.ds = *(value_type*)tin;
+				this->set_key(k, key);
+				SetModified(true);
 			}
 		}
 		virtual void  SetKeyOutTangent( int k,ValueType tout )
 		{
 			if (k >= 0 && k < this->num_keys())
 			{
-				FromValueType( tout,this->key(k).dd );
-				this->SetModified(true);
+				key_type key = this->key(k);
+				key.dd = *(value_type*)tout;
+				this->set_key(k, key);
+				SetModified(true);
 			}
 		}
 		virtual void  SetKeyTangents( int k,ValueType tin,ValueType tout )
 		{
 			if (k >= 0 && k < this->num_keys())
 			{
-				FromValueType( tin,this->key(k).ds );
-				FromValueType( tout,this->key(k).dd );
-				this->SetModified(true);
+				key_type key = this->key(k);
+				key.ds = *(value_type*)tin;
+				this->set_key(k, key);
+				SetModified(true);
 			}
 		}
 		virtual bool GetKeyTangents( int k,ValueType &tin,ValueType &tout )
 		{
 			if (k >= 0 && k < this->num_keys())
 			{
-				ToValueType( this->key(k).ds,tin );
-				ToValueType( this->key(k).dd,tout );
+				*(value_type*)tin = this->key(k).ds;
+				*(value_type*)tout = this->key(k).dd;
 				return true;
 			}
 			else
@@ -1125,8 +1131,10 @@ namespace spline
 		{
 			if (k >= 0 && k < this->num_keys())
 			{
-				this->key(k).flags = flags;
-				this->SetModified(true);
+				key_type key = this->key(k);
+				key.flags = flags;
+				this->set_key(k, key);
+				SetModified(true);
 			}
 		}
 		virtual int   GetKeyFlags( int k )
