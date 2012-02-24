@@ -13,7 +13,7 @@ namespace CryGameCode.Entities
 				return;
 
 			Camera.Position = Target.Position - new Vec3(5, 5, 5);
-			Camera.ViewDir = new Vec3(0, 0, 0);
+			Camera.Angles = new Vec3(0, 0, 0);
 		}
 	}
 }
