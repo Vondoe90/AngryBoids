@@ -9,20 +9,24 @@ namespace CryGameCode.Entities
 			if(Target == null)
 				return;
 
-			Camera.Position = Target.Position + new Vec3(0, 0, 10);
-			Camera.Angles = new Vec3(0, 0, 0);
+			ViewParams.idTarget = 0;
+			ViewParams.position = Target.Position + new Vec3(0, 0, 100);
+			ViewParams.rotation = new Quat(new Vec3(0, 0, 0));
 
-			Renderer.Camera = Camera;
+			Renderer.ViewParams = ViewParams;
 		}
 
 		public override void OnSpawn()
 		{
-			Camera = new Camera { FieldOfView = 60 };
+			ViewParams = Renderer.ViewParams;
 
-			Renderer.Camera = Camera;
+			ViewParams.fov = (float)Math.DegToRad(60);
+			ViewParams.idTarget = 0;
+
+			Renderer.ViewParams = ViewParams;
 		}
 
-		public Camera Camera;
+		public ViewParams ViewParams;
 		public Player Target { get; set; }
 	}
 }

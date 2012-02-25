@@ -1203,9 +1203,9 @@
             <param name="height">The height to render the texture at.</param>
             <param name="textureId">The ID of the texture (obtained using Renderer.LoadTexture(path)).</param>
         </member>
-        <member name="P:CryEngine.Renderer.Camera">
+        <member name="P:CryEngine.Renderer.ViewParams">
             <summary>
-            The camera that the engine is currently using.
+            The currently active vuiew params
             </summary>
         </member>
         <member name="P:CryEngine.Renderer.ScreenHeight">
@@ -1216,6 +1216,71 @@
         <member name="P:CryEngine.Renderer.ScreenWidth">
             <summary>
             The height of the screen in pixels.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.position">
+            <summary>
+            view position
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.rotation">
+            <summary>
+            view orientation
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.nearplane">
+            <summary>
+            custom near clipping plane, 0 means use engine defaults
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.groundOnly">
+            <summary>
+            view shake status
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.shakingRatio">
+            <summary>
+            whats the amount of shake, from 0.0 to 1.0
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.currentShakeQuat">
+            <summary>
+            what the current angular shake
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.currentShakeShift">
+            <summary>
+            what is the current translational shake
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.idTarget">
+            <summary>
+            Who we're watching. 0 == nobody.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.targetPos">
+            <summary>
+            Where the target was.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.frameTime">
+            <summary>
+            current dt.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.angleVel">
+            <summary>
+            previous rate of change of angle.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.vel">
+            <summary>
+            previous rate of change of dist between target and camera.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.dist">
+            <summary>
+            previous dist of cam from target
             </summary>
         </member>
         <member name="T:CryEngine.Arduino.ArduinoHelper">
