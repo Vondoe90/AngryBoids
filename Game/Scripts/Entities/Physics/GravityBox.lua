@@ -52,7 +52,9 @@ end
 ------------------------------------------------------------------------------------------------------
 -- OnReset called only by the editor.
 ------------------------------------------------------------------------------------------------------
-function GravityBox:OnReset()
+function GravityBox:OnReset()	
+	self.bActive = self.Properties.bActive;
+	self:PhysicalizeThis();
 end
 
 ------------------------------------------------------------------------------------------------------
@@ -67,6 +69,9 @@ function GravityBox:PhysicalizeThis()
 		Area.falloff = Properties.Falloff;
 		Area.gravity = Properties.Gravity;
 		self:Physicalize( 0,PE_AREA,self._PhysTable );
+		self:SetPhysicParams(PHYSICPARAM_FOREIGNDATA,{foreignData = ZEROG_AREA_ID});
+	else
+		self:DestroyPhysics();
 	end
 end
 
@@ -75,6 +80,7 @@ function GravityBox:Event_Activate()
 	if (self.bActive ~= 1) then
 		self.bActive = 1;
 		self:PhysicalizeThis();
+		BroadcastEvent(self, "Activate");
 	end
 end
 
@@ -84,6 +90,7 @@ function GravityBox:Event_Deactivate()
 	if (self.bActive ~= 0) then
 		self.bActive = 0;
 		self:PhysicalizeThis();
+		BroadcastEvent(self, "Deactivate");
 	end
 end
 

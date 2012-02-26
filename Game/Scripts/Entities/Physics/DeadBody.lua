@@ -36,9 +36,9 @@ DeadBody = {
 
 	Properties = {
 		soclasses_SmartObjectClass = "",
-		bResting = 1,
+		bResting = 0,
 		
-		object_Model = "objects/characters/neutral_male/sdk_character_male.cdf",	
+		object_Model = "objects/characters/neutral_male/sdk_character_male_v2.cdf",	
 		lying_gravityz = -5.0,
 		lying_damping = 1.5,
 		bCollidesWithPlayers = 0,
@@ -144,15 +144,7 @@ end
 --------------------------------------------------------------------------------------------------------
 function DeadBody:PhysicalizeThis()
 	local Properties = self.Properties;
-	local status = 1;
-
-	local bPushableByPlayers = Properties.bPushableByPlayers;
-	local bCollidesWithPlayers = Properties.bCollidesWithPlayers;
-	if (status == 1) then
-		bPushableByPlayers = 0;
-		bCollidesWithPlayers = 0;
-	end
-	
+		
 	self.PhysParams.mass = Properties.Mass;
 	
 	self:Physicalize( 0, PE_ARTICULATED, self.PhysParams );
@@ -169,13 +161,11 @@ function DeadBody:PhysicalizeThis()
 	self:SetPhysicParams(PHYSICPARAM_SIMULATION, self.DeadBodyParams);
 	self:SetPhysicParams(PHYSICPARAM_ARTICULATED, self.DeadBodyParams);
 	
-	local flagstab = { flags_mask=geom_colltype_player, flags=geom_colltype_player*bCollidesWithPlayers };
-	if (status == 1) then
-		flagstab.flags_mask = geom_colltype_explosion + geom_colltype_ray + geom_colltype_foliage_proxy + geom_colltype_player;
-	end
+	local flagstab = { flags_mask=geom_colltype_player, flags=geom_colltype_player*Properties.bCollidesWithPlayers };
+	flagstab.flags_mask = geom_colltype_explosion + geom_colltype_ray + geom_colltype_foliage_proxy + geom_colltype_player;
 	self:SetPhysicParams(PHYSICPARAM_PART_FLAGS, flagstab);
 	flagstab.flags_mask = pef_pushable_by_players;
-	flagstab.flags = pef_pushable_by_players*bPushableByPlayers;
+	flagstab.flags = pef_pushable_by_players*Properties.bPushableByPlayers;
 	self:SetPhysicParams(PHYSICPARAM_FLAGS, flagstab);
 	if (Properties.bResting == 1) then
 		self:AwakePhysics(0);

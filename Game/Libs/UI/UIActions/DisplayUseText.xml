@@ -1,21 +1,14 @@
 <Graph Description="" Group="" enabled="1" MultiPlayer="ClientServer">
  <Nodes>
-  <Node Id="1" Class="UI:Action:Start" pos="-220,-10,0" flags="0"/>
-  <Node Id="3" Class="UI:Action:End" pos="160,-10,0" flags="0">
-   <Inputs Args=""/>
+  <Node Id="1" Class="UI:Action:Start" pos="-140,164,0" flags="0">
+   <Inputs UseAsState="1"/>
   </Node>
-  <Node Id="5" Name="This_action_is_triggered_whenever_a_usable_object_is_close_to_display_the_&quot;UseText&quot;_in_HUD" Class="_commentbox" pos="-291,-93.999969,0" flags="0">
-   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
-   <ResizeBorder X="0" Y="0" Width="714" Height="447"/>
-   <NodeSize Width="822.104" Height="474.39063"/>
-  </Node>
-  <Node Id="6" Class="UI:Functions:HUDMain:UpdateUseTxt" pos="-40,100,0" flags="0">
-   <Inputs instanceID="0"/>
+  <Node Id="2" Class="UI:Action:End" pos="80,230,0" flags="0">
+   <Inputs UseAsState="1" Args=""/>
   </Node>
  </Nodes>
  <Edges>
-  <Edge nodeIn="3" nodeOut="1" portIn="EndAction" portOut="StartAction" enabled="1"/>
-  <Edge nodeIn="6" nodeOut="1" portIn="UseText" portOut="Args" enabled="1"/>
-  <Edge nodeIn="6" nodeOut="1" portIn="Call" portOut="StartAction" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="1" portIn="EndAction" portOut="StartAction" enabled="1"/>
  </Edges>
+ <GraphTokens />
 </Graph>

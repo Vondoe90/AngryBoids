@@ -1,0 +1,9 @@
+<ReactionsPreloadList>
+	<Entry reactionsFile="Libs/HitDeathReactionsData/HitDeathReactions_AlienGrunt.xml"/>
+	<Entry reactionsFile="Libs/HitDeathReactionsData/HitDeathReactions_AlienHeavy.xml"/>
+	<Entry reactionsFile="Libs/HitDeathReactionsData/HitDeathReactions_AlienPinger.xml"/>
+	<Entry reactionsFile="Libs/HitDeathReactionsData/HitDeathReactions_AlienStalker.xml"/>
+	<Entry reactionsFile="Libs/HitDeathReactionsData/HitDeathReactions_CryNetOps.xml"/>
+	<Entry reactionsFile="Libs/HitDeathReactionsData/HitDeathReactions_Default.xml"/>
+	<Entry reactionsFile="Libs/HitDeathReactionsData/HitDeathReactions_PlayerSP.xml"/>
+</ReactionsPreloadList>

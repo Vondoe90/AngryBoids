@@ -1,7 +1,7 @@
-<Vehicle name="Abrams" actionMap="landvehicle">
+<Vehicle name="Abrams">
  <Physics pushable="0">
   <Buoyancy waterDensity="150" waterResistance="2500"/>
-  <Simulation maxTimeStep="0.02" minEnergy="0.01" maxLoggedCollisions="2"/>
+  <Simulation maxTimeStep="0.02" minEnergy="0.0099999998" maxLoggedCollisions="2"/>
  </Physics>
  <Damages submergedRatioMax="0.89999998" submergedDamageMult="0.5" collDamageThreshold="600" groundCollisionMinMult="1" groundCollisionMaxMult="1" groundCollisionMinSpeed="18" groundCollisionMaxSpeed="18">
   <DamageMultipliers>
@@ -10,13 +10,12 @@
    <DamageMultiplier damageType="fire" multiplier="0.1"/>
    <DamageMultiplier damageType="collision" multiplier="0.25"/>
    <DamageMultiplier damageType="explosion" multiplier="1" splash="0.5"/>
-   <DamageMultiplier damageType="frag" multiplier="0.1" splash="0"/>
-   <DamageMultiplier damageType="rocket" multiplier="10"/>
+   <DamageMultiplier damageType="rocket" multiplier="1.25"/>
   </DamageMultipliers>
   <DamagesGroups>
    <DamagesGroup name="Destroy" useTemplate="TankDestroy">
     <DamagesSubGroups>
-     <DamagesSubGroup delay="0" randomness="0.5">
+     <DamagesSubGroup delay="0" randomness="0.0">
       <DamageBehaviors>
        <DamageBehavior class="Impulse" damageRatioMin="1" ignoreVehicleDestruction="1">
         <Impulse forceMin="3" forceMax="4" direction="0,0,1" momentum="0.5,0.5,0"/>
@@ -29,9 +28,6 @@
  </Damages>
  <Components>
   <Component name="hull" damageMax="750" position="0,0,0" size="1,1,1" useBoundsFromParts="0" id="idHull">
-   <DamageMultipliers>
-    <DamageMultiplier damageType="fire" multiplier="0.25"/>
-   </DamageMultipliers>
    <DamageBehaviors>
     <DamageBehavior class="Group" damageRatioMin="1">
      <Group name="Destroy"/>
@@ -49,10 +45,12 @@
     </DamageBehavior>
    </DamageBehaviors>
   </Component>
-  <Component name="engine" damageMax="10" position="-0.00050000002,-2.9993999,1.1501" size="1,1,1" useBoundsFromParts="0" hullAffection="1" id="idEngine">
+  <Component name="engine" damageMax="100" position="0,-3.7,1.25" size="1,1,1" useBoundsFromParts="0" hullAffection="2" id="idEngine">
    <DamageMultipliers>
+    <DamageMultiplier damageType="bullet" multiplier="0.05"/>
     <DamageMultiplier damageType="fire" multiplier="0.5"/>
-    <DamageMultiplier damageType="melee" multiplier="0.050000001"/>
+	<DamageMultiplier damageType="rocket" multiplier="3" splash="0.075"/>
+	<DamageMultiplier damageType="explosion" multiplier="3" splash="0.075"/>
    </DamageMultipliers>
    <DamageBehaviors>
     <DamageBehavior class="Effect" ignoreVehicleDestruction="1">
@@ -61,9 +59,12 @@
     <DamageBehavior class="Effect" damageRatioMin="0.5" damageRatioMax="0.75">
      <Effect effect="EngineDamaged50" disableAfterExplosion="1"/>
     </DamageBehavior>
-    <DamageBehavior class="Effect" damageRatioMin="0.75">
+    <DamageBehavior class="Effect" damageRatioMin="0.75" damageRatioMax="">
      <Effect effect="EngineDamaged75" disableAfterExplosion="1"/>
     </DamageBehavior>
+	<DamageBehavior class="Burn" damageRatioMin="0.5">
+	 <Burn damage="1" helper="engineSmokeOut" interval="0.5" radius="5" selfDamage="1.5"/>
+	</DamageBehavior>
     <DamageBehavior class="MovementNotification" damageRatioMin="1"/>
    </DamageBehaviors>
   </Component>
@@ -109,32 +110,32 @@
     </DamageBehavior>
    </DamageBehaviors>
   </Component>
-  <Component name="headLightLeft" size="0.2,0.2,0.2" position="-0.875,3.9,1.25" damageMax="50.0" hullAffection="0.0">
+  <Component name="headLightLeft" damageMax="50" position="-0.875,3.9000001,1.25" size="1,1,1" useBoundsFromParts="0" hullAffection="0">
    <DamageBehaviors>
-	<DamageBehavior class="Effect">
-	 <Effect effect="DestroyHeadLightLeft" />
-	</DamageBehavior>
+    <DamageBehavior class="Effect">
+     <Effect effect="DestroyHeadLightLeft"/>
+    </DamageBehavior>
    </DamageBehaviors>
   </Component>
-  <Component name="headLightRight" size="0.2,0.2,0.2" position="0.875,3.9,1.25" damageMax="50.0" hullAffection="0.0">
+  <Component name="headLightRight" damageMax="50" position="0.875,3.9000001,1.25" size="1,1,1" useBoundsFromParts="0" hullAffection="0">
    <DamageBehaviors>
-	<DamageBehavior class="Effect">
-	 <Effect effect="DestroyHeadLightRight" />
-	</DamageBehavior>
+    <DamageBehavior class="Effect">
+     <Effect effect="DestroyHeadLightRight"/>
+    </DamageBehavior>
    </DamageBehaviors>
   </Component>
-  <Component name="brakeLightLeft" size="0.2,0.2,0.2" position="-1.65,-3.9,1.625" damageMax="50.0" hullAffection="0.0">
+  <Component name="brakeLightLeft" damageMax="50" position="-1.65,-3.9000001,1.625" size="1,1,1" useBoundsFromParts="0" hullAffection="0">
    <DamageBehaviors>
-	<DamageBehavior class="Effect">
-	 <Effect effect="DestroyBrakeLightLeft" />
-	</DamageBehavior>
+    <DamageBehavior class="Effect">
+     <Effect effect="DestroyBrakeLightLeft"/>
+    </DamageBehavior>
    </DamageBehaviors>
   </Component>
-  <Component name="brakeLightRight" size="0.2,0.2,0.2" position="1.65,-3.9,1.625" damageMax="50.0" hullAffection="0.0">
+  <Component name="brakeLightRight" damageMax="50" position="1.65,-3.9000001,1.625" size="1,1,1" useBoundsFromParts="0" hullAffection="0">
    <DamageBehaviors>
-	<DamageBehavior class="Effect">
-	 <Effect effect="DestroyBrakeLightRight" />
-	</DamageBehavior>
+    <DamageBehavior class="Effect">
+     <Effect effect="DestroyBrakeLightRight"/>
+    </DamageBehavior>
    </DamageBehaviors>
   </Component>
  </Components>
@@ -229,17 +230,22 @@
   <Part name="headLightRight" class="Light" component="headLightRight" helper="headLightRight">
    <Light type="HeadLightFlare"/>
   </Part>
-  <Part name="rearLightLeft" class="Light" component="rearLightsLeft" helper="rearLightLeft">
+  <Part name="rearLightLeft" class="Light" component="brakeLightLeft" helper="rearLightLeft">
    <Light type="Brake"/>
   </Part>
-  <Part name="rearLightRight" class="Light" component="rearLightsRight" helper="rearLightRight">
+  <Part name="rearLightRight" class="Light" component="brakeLightRight" helper="rearLightRight">
    <Light type="Brake"/>
+  </Part>
+  <Part name="reverseLightLeft" class="Light" component="brakeLightLeft" helper="reverseLightLeft">
+	<Light type="Reverse"/>
+  </Part>
+  <Part name="reverseLightRight" class="Light" component="brakeLightRight" helper="reverseLightRight">
+	<Light type="Reverse"/>
   </Part>
  </Parts>
  <Helpers>
   <Helper name="driverEnterPos" position="2.5,-0.38229999,0.50300002" direction="0,1,0" part="tank" id="idHelperDriverEnter"/>
   <Helper name="gunnerEnterPos" position="2.5,-1.3584,0.49900001" direction="0,1,0" part="tank"/>
-  <Helper name="engineSmokeOut" position="0.052700002,-3.9995,1.1390001" direction="0,0,1" part="tank"/>
   <Helper name="burningPos" position="0,-1.335,1.699" direction="0,0,1" part="tank"/>
   <Helper name="ai_anchor1" position="-0.034299999,-6.9184999,0.64899999" direction="0,1,0" part="tank"/>
   <Helper name="ai_anchor2" position="-2.925,-3.582,0.77499998" direction="0.9659,-0.259,0" part="tank"/>
@@ -249,46 +255,54 @@
   <Helper name="hull_burning" position="-1.5613,2.6284001,1.439" direction="0,1,0" part="tank"/>
   <Helper name="headLightLeft" position="0.90990001,3.9001,1.23" direction="0,1,0" part="tank"/>
   <Helper name="headLightRight" position="-0.91030002,3.9001,1.23" direction="0,1,0" part="tank"/>
-  <Helper name="headLightCenter" position="0,3.6638,1.2740999" direction="0,1,0" part="tank"/>
+  <Helper name="headLightCenter" position="0,4,1.274" direction="0,0.95779997,-0.28729999" part="tank"/>
   <Helper name="rearLightLeft" position="-1.6102,-3.9298999,1.6" direction="0,-1,0" part="tank"/>
   <Helper name="rearLightRight" position="1.6097,-3.9298999,1.6" direction="0,-1,0" part="tank"/>
+  <Helper name="reverseLightLeft" position="-1.6102,-3.9298999,1.5" direction="0,-1,0" part="tank"/>
+  <Helper name="reverseLightRight" position="1.6097,-3.9298999,1.5" direction="0,-1,0" part="tank"/>
   <Helper name="centerPos" position="0,-0.99239999,1.1682" direction="0,1,0" part="tank"/>
-  <Helper name="exhaust" position="-0.43180001,-4.0742002,1.1621" direction="0,-1,0" part="tank"/>
+  <Helper name="exhaust" position="-0.7,-4.0742002,1.1621" direction="0,-1,0" part="tank"/>
+  <Helper name="engineSmokeOut" position="-0.15,-3.9995,1.1390001" direction="0,-1,0" part="tank"/>
   <Helper name="cannonOut" position="-0.0634,5.9910002,1.8238" direction="0,1,0" part="cannon"/>
   <Helper name="coaxOut" position="0.2473,2.9558001,1.9658999" direction="0,1,0" part="cannon"/>
   <Helper name="cannonViewPos" position="-0.4492,1.7483,2.3740001" direction="0,1,0" part="cannon_base"/>
-  <Helper name="gunnerEyePos" position="0.3779,-0.032000002,2.8840001" direction="0,1,0" part="shiten"/>
+  <Helper name="gunnerEyePos" position="0.3779,-0.032000002,2.8840001" direction="0,1,0" part=""/>
   <Helper name="driverSitPos" position="0.74150002,-1.2349,2.0105" direction="0,1,0" part="turret"/>
   <Helper name="gunnerSitPos" position="0.40000001,-0.17,2" direction="0,1,0" part="turret"/>
   <Helper name="turretPos" position="-0.0013,0.1204,1.584" direction="0,1,0" part="turret"/>
  </Helpers>
  <Seats>
-  <Seat name="driver" part="" enterHelper="driverEnterPos" sitHelper="driverSitPos" isDriver="1" isPassengerShielded="1" isPassengerHidden="1" AimPart="cannon_base" seatGroupIndex="1" actionMap="vehicle_driver" explosionShakeMult="0.2">
+  <Seat name="driver" part="" enterHelper="driverEnterPos" sitHelper="driverSitPos" isDriver="1" isPassengerShielded="1" isPassengerHidden="1" AimPart="cannon_base" seatGroupIndex="1" actionMap="vehicle_driver" explosionShakeMult="0.2" id="idDriverSeat">
    <Views>
-    <View class="FirstPerson" canRotate="0">
+    <View class="FirstPerson" canRotate="0" rotationMin="-10,0,-180" rotationMax="50,0,180" id="idDriverMouseLookFP">
      <SteerThirdPerson />
      <FirstPerson helper="cannonViewPos" frameObject=""/>
     </View>
-    <View class="ActionThirdPerson" canRotate="0">
-     <ActionThirdPerson cameraPosOffset="0,-4.5,0.5" cameraAimOffset="0,3,0" lagSpeed="5" velocityMult="0,0.050000001,1"/>
+    <View class="ActionThirdPerson" canRotate="0" id="idDriverMouseLookATP">
+     <ActionThirdPerson cameraPosOffset="0,-6,1" cameraAimOffset="0,0,-1" lagSpeed="5" velocityMult="0,0.050000001,1" id="idDriverMouseLookTP_View"/>
     </View>
+	<View class="ThirdPerson" canRotate="0" id="idDriverMouseLookTP">
+	 <ThirdPerson distance="7" heightoffset="0.5" speed="50"/>
+	</View>
    </Views>
    <SeatActions>
     <SeatAction class="RotateTurret">
      <RotateTurret>
-      <Pitch part="cannon_base" speed="80" accel="0">
+      <Pitch part="cannon_base" speed="160" accel="0" worldSpace="0" id="idTurretPitchDriver">
        <Limits>
         <Limit value="-10"/>
         <Limit value="35"/>
-       </Limits>
+        <Limit value="0"/>
+			 </Limits>
       </Pitch>
-      <Yaw part="turret" speed="80" accel="0"/>
+      <Yaw part="turret" speed="160" accel="0" worldSpace="0" id="idTurretYawDriver"/>
+	  <RotationTest helper1="cannon_base" helper2="cannonOut" radius="0.25"/>
      </RotateTurret>
     </SeatAction>
     <SeatAction class="Weapons">
-     <Weapons isSecondary="0">
+     <Weapons isSecondary="0" useWeaponDirection="1">
       <Weapons>
-       <Weapon class="TankCannon" part="cannon" id="idWeaponDriver">
+       <Weapon class="TankCannon" part="cannon" id="idWeaponPrimaryDriver">
         <Helpers>
          <Helper value="cannonOut"/>
         </Helpers>
@@ -312,18 +326,26 @@
       </LightParts>
      </Lights>
     </SeatAction>
-	 <SeatAction class="Lights">
-		<Lights activation="brake">
-			<LightParts>
-				<LightPart value="rearLightLeft"/>
-				<LightPart value="rearLightRight"/>
-			</LightParts>
-		</Lights>
+    <SeatAction class="Lights">
+     <Lights activation="brake">
+      <LightParts>
+       <LightPart value="rearLightLeft"/>
+       <LightPart value="rearLightRight"/>
+      </LightParts>
+     </Lights>
+    </SeatAction>
+	<SeatAction class="Lights">
+	 <Lights activation="reverse">
+	  <LightParts>
+	   <LightPart value="reverseLightLeft"/>
+	   <LightPart value="reverseLightRight"/>
+	  </LightParts>
+	 </Lights>
 	</SeatAction>
     <SeatAction class="Weapons">
-     <Weapons isSecondary="1">
+     <Weapons isSecondary="1" useWeaponDirection="1">
       <Weapons>
-       <Weapon class="AsianCoaxialGun" part="cannon_base">
+       <Weapon class="AsianCoaxialGun" part="cannon_base" id="idWeaponSecondaryDriver">
         <Helpers>
          <Helper value="coaxOut"/>
         </Helpers>
@@ -334,14 +356,60 @@
    </SeatActions>
    <Sounds inout="0" mood="1"/>
   </Seat>
-  <Seat name="gunner" part="" enterHelper="gunnerEnterPos" exitHelper="gunnerEnterPos" sitHelper="gunnerSitPos" isDriver="0" AimPart="" seatGroupIndex="2">
+  <Seat name="gunner" part="" enterHelper="gunnerEnterPos" exitHelper="gunnerEnterPos" sitHelper="gunnerSitPos" isDriver="0" AimPart="tank" seatGroupIndex="2" actionMap="vehicle_driver" id="idGunnerSeat">
    <Views>
-    <View class="FirstPerson" canRotate="1" rotationMin="-45,0,-70" rotationMax="25,0,70">
+    <View class="FirstPerson" canRotate="1" rotationMin="-10,0,-180" rotationMax="50,0,180" id="idGunnerSeatFPView">
      <SteerThirdPerson />
-     <FirstPerson helper=""/>
+     <FirstPerson helper="cannonViewPos" frameObject=""/>
     </View>
+		 <View class="ThirdPerson" canRotate="1" id="idGunnerSeatTPView">
+			 <ThirdPerson distance="10" heightoffset="0.5" speed="50"/>
+		 </View>
    </Views>
-   <SeatActions />
+   <SeatActions>
+    <SeatAction class="RotateTurret">
+     <RotateTurret>
+      <Pitch part="" speed="160" accel="0" worldSpace="1" id="idTurretPitchGunner">
+       <Limits>
+        <Limit value="-10"/>
+        <Limit value="35"/>
+		<Limit value="0"/>
+       </Limits>
+      </Pitch>
+      <Yaw part="" speed="160" accel="0" worldSpace="1" id="idTurretYawGunner"/>
+	  <RotationTest helper1="cannon_base" helper2="cannonOut" radius="0.25"/>
+     </RotateTurret>
+    </SeatAction>
+    <SeatAction class="Weapons">
+     <Weapons isSecondary="0" useWeaponDirection="1">
+      <Weapons>
+       <Weapon class="" part="cannon" id="idWeaponPrimaryGunner">
+        <Helpers>
+         <Helper value="cannonOut"/>
+        </Helpers>
+        <Actions>
+         <Action name="fire">
+          <Animations>
+           <Animation name="cannon_fire" id="idCannonFireAnim"/>
+          </Animations>
+         </Action>
+        </Actions>
+       </Weapon>
+      </Weapons>
+     </Weapons>
+    </SeatAction>
+    <SeatAction class="Weapons">
+     <Weapons isSecondary="1" useWeaponDirection="1">
+      <Weapons>
+       <Weapon class="" part="cannon_base" id="idWeaponSecondaryGunner">
+        <Helpers>
+         <Helper value="coaxOut"/>
+        </Helpers>
+       </Weapon>
+      </Weapons>
+     </Weapons>
+    </SeatAction>
+   </SeatActions>
    <Sounds inout="0" mood="1"/>
   </Seat>
  </Seats>
@@ -353,53 +421,8 @@
   </SeatGroup>
  </SeatGroups>
  <MovementParams>
-  <Tank
-	  pedalSpeed="7"
-	  pedalThreshold="0"
-	  steerSpeed="8"
-	  steerSpeedRelax="5"
-	  steerLimit="1"
-	  latFricMin="0.40000001"
-	  latFricMinSteer="0.1"
-	  latFricMax="1.2"
-	  latSlipMin="0.89999998"
-	  latSlipMax="2.5999999"
-	  rpmInterpSpeed="2"
-	  rpmRelaxSpeed="2"
-	  rpmGearShiftSpeed="2"
-	  steeringImpulseMin="1"
-	  steeringImpulseMax="2"
-	  steeringImpulseRelaxMin="4"
-	  steeringImpulseRelaxMax="6">
-   <Wheeled
-	   axleFriction="600"
-	   axleFrictionMax="6000"
-	   brakeTorque="6000"
-	   clutchSpeed="8"
-	   damping="0.02"
-	   engineIdleRPM="700"
-	   engineMaxRPM="2650"
-	   engineMinRPM="200"
-	   enginePower="800"
-	   engineShiftDownRPM="1200"
-	   engineShiftUpRPM="2000"
-	   engineStartRPM="700"
-	   stabilizer="0.1"
-	   stabiMin="0"
-	   stabiMax="0.25"
-	   minBrakingFriction="1.2"
-	   maxSteer="0.78500003"
-	   maxSpeed="16"
-	   maxTimeStep="0.02"
-	   minEnergy="0.0099999998"
-	   slipThreshold="0.050000001"
-	   gearDirSwitchRPM="2500"
-	   dynFriction="1"
-	   steerTrackNeutralTurn="0.78500003"
-	   pullTilt="7"
-	   latFriction="0.5"
-	   maxGear="0"
-	   id="idWheeledProps">
+  <Tank pedalSpeed="7" pedalThreshold="0" steerSpeed="8" steerSpeedRelax="5" steerLimit="1" latFricMin="0.40000001" latFricMinSteer="0.1" latFricMax="1.2" latSlipMin="0.89999998" latSlipMax="2.5999999" rpmInterpSpeed="2" rpmRelaxSpeed="2" rpmGearShiftSpeed="2" steeringImpulseMin="1" steeringImpulseMax="2" steeringImpulseRelaxMin="4" steeringImpulseRelaxMax="6">
+   <Wheeled axleFriction="600" axleFrictionMax="6000" brakeTorque="6000" clutchSpeed="8" damping="0.02" engineIdleRPM="700" engineMaxRPM="2650" engineMinRPM="200" enginePower="800" engineShiftDownRPM="1200" engineShiftUpRPM="2000" engineStartRPM="700" stabilizer="0.1" stabiMin="0" stabiMax="0.25" minBrakingFriction="1.2" maxSteer="0.78500003" maxSpeed="16" maxTimeStep="0.02" minEnergy="0.0099999998" slipThreshold="0.050000001" gearDirSwitchRPM="2500" dynFriction="1" steerTrackNeutralTurn="0.78500003" pullTilt="7" latFriction="0.5" maxGear="0" id="idWheeledProps">
     <gearRatios>
      <gearRatio value="-16"/>
      <gearRatio value="0"/>
@@ -408,41 +431,27 @@
      <gearRatio value="8.5"/>
      <gearRatio value="7"/>
     </gearRatios>
+	<Boost endurance="8" regeneration="8" strength="10" />
    </Wheeled>
    <SoundParams engineSoundPosition="engineSmokeOut" runSoundDelay="1.5" rpmPitchSpeed="0" roadBumpMinSusp="8" roadBumpMinSpeed="8" roadBumpIntensity="0.30000001"/>
   </Tank>
  </MovementParams>
- <Particles>
+ <Particles mfxRow="vfx_Abrams">
   <Exhaust insideWater="0" outsideWater="1">
    <Helpers>
     <Helper value="exhaust"/>
    </Helpers>
-   <EngineStart effect="vehicle_fx.abrams.EngineStart"/>
-   <EngineStop effect="vehicle_fx.abrams.EngineStop"/>
-   <EngineRunning
-	   effect="vehicle_fx.abrams.EngineRunning"
-	   boostEffect="vehicle_fx.vehicle_exhaust.heavy_boost"
-	   baseSizeScale="1"
-	   minSpeed="0"
-	   minSpeedSizeScale="0.80000001"
-	   minSpeedCountScale="1"
-	   maxSpeed="15"
-	   maxSpeedSizeScale="1.3"
-	   maxSpeedCountScale="1.3"
-	   minPower="0"
-	   minPowerSizeScale="1"
-	   minPowerCountScale="1"
-	   maxPower="1"
-	   maxPowerSizeScale="1"
-	   maxPowerCountScale="1"/>
+   <EngineStart effect="Vehicles.Abrams.Engine.Start"/>
+   <EngineStop effect="Vehicles.Abrams.Engine.Stop"/>
+   <EngineRunning effect="Vehicles.Abrams.Engine.Running" boostEffect="Vehicles.Abrams.Engine.Boost" baseSizeScale="1" minSpeed="0" minSpeedSizeScale="0.80000001" minSpeedCountScale="1" maxSpeed="15" maxSpeedSizeScale="1.3" maxSpeedCountScale="1.3" minPower="0" minPowerSizeScale="1" minPowerCountScale="1" maxPower="1" maxPowerSizeScale="1" maxPowerCountScale="1"/>
   </Exhaust>
   <DamageEffects>
-   <DamageEffect name="EngineDamaged50" helper="engineSmokeOut" effect="vehicle_fx.abrams.EngineDamaged50"/>
-   <DamageEffect name="EngineDamaged75" helper="engineSmokeOut" effect="vehicle_fx.abrams.EngineDamaged75"/>
-   <DamageEffect name="HullDamaged50" helper="hull_burning" effect="vehicle_fx.abrams.HullDamaged50"/>
-   <DamageEffect name="HullDamaged75" helper="hull_burning" effect="vehicle_fx.abrams.HullDamaged75"/>
-   <DamageEffect name="VehicleDestroyed" helper="burningPos" effect="vehicle_fx.abrams.VehicleDestroyed" gravityDirection="0,0,1"/>
-   <DamageEffect name="VehicleFlipped" helper="centerPos" effect="vehicle_fx.abrams.VehicleFlipped"/>
+   <DamageEffect name="EngineDamaged50" helper="engineSmokeOut" effect="Vehicles.Abrams.Damage.Engine_50"/>
+   <DamageEffect name="EngineDamaged75" helper="engineSmokeOut" effect="Vehicles.Abrams.Damage.Engine_75"/>
+   <DamageEffect name="HullDamaged50" helper="hull_burning" effect="Vehicles.Abrams.Damage.Hull_50"/>
+   <DamageEffect name="HullDamaged75" helper="hull_burning" effect="Vehicles.Abrams.Damage.Hull_75"/>
+   <DamageEffect name="VehicleDestroyed" helper="burningPos" effect="Vehicles.Abrams.Damage.Destroyed" gravityDirection="0,0,1"/>
+   <DamageEffect name="VehicleFlipped" helper="centerPos" effect="Vehicles.Abrams.Damage.Flipped"/>
   </DamageEffects>
   <EnvironmentLayers>
    <EnvironmentLayer minSpeed="0.5" minSpeedSizeScale="1" minSpeedCountScale="1" maxSpeed="20" maxSpeedSizeScale="1" maxSpeedCountScale="1">
@@ -476,16 +485,34 @@
   </EnvironmentLayers>
  </Particles>
  <Animations>
+  <Animation name="cannon_fire" part="tank">
+   <States>
+    <State name="shoot" animation="cannon_recoil" isLooped="0" speedDefault="0.5"/>
+   </States>
+  </Animation>
  </Animations>
- <Inventory>
-  <AmmoTypes>
-   <Ammo type="bullet" capacity="1000"/>
-   <Ammo type="tank125" capacity="50"/>
-  </AmmoTypes>
- </Inventory>
  <Paints />
  <WheelMaster>
   <SubPartWheel axle="0" density="100" damping="-0.30000001" driving="0" lenMax="0.40000001" maxFriction="1.2" minFriction="1.2" stiffness="0" suspLength="0.34999999" rayCast="0"/>
  </WheelMaster>
- <Modifications />
+ <Modifications>
+  <Modification name="mp">
+   <Elems>
+    <Elem idRef="idTurretPitchDriver" name="part" value=""/>
+    <Elem idRef="idTurretYawDriver" name="part" value=""/>
+    <Elem idRef="idWeaponPrimaryDriver" name="class" value=""/>
+    <Elem idRef="idWeaponSecondaryDriver" name="class" value=""/>
+    <Elem idRef="idTurretPitchGunner" name="part" value="cannon_base"/>
+    <Elem idRef="idTurretYawGunner" name="part" value="turret"/>
+    <Elem idRef="idWeaponPrimaryGunner" name="class" value="TankCannon"/>
+    <Elem idRef="idWeaponSecondaryGunner" name="class" value="AsianCoaxialGun"/>
+    <Elem idRef="idDriverMouseLookFP" name="canRotate" value="1"/>
+    <Elem idRef="idDriverMouseLookTP" name="canRotate" value="1"/>
+    <Elem idRef="idDriverSeat" name="AimPart" value="tank"/>
+    <Elem idRef="idGunnerSeat" name="AimPart" value="cannon"/>
+		<Elem idRef="idGunnerSeatFPView" name="canRotate" value="0"/>
+    <Elem idRef="idGunnerSeatTPView" name="canRotate" value="0"/>
+	 </Elems>
+  </Modification>
+ </Modifications>
 </Vehicle>

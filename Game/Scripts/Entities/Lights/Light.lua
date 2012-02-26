@@ -12,8 +12,16 @@ Light =
 			fAnimationSpeed = 1,
 			nAnimationPhase = 0,
 			fCoronaScale = 1,
+			fCoronaIntensity = 1;
 			fCoronaDistSizeFactor = 1,
 			fCoronaDistIntensityFactor = 1,
+			fShaftSrcSize = 19.0,
+			fShaftLength = 95.0, 
+			fShaftBrightness = 10.0, 
+			fShaftBlendFactor = 10.0,
+			fShaftDecayFactor = 88.0,
+			nCoronaShaftsMinSpec = 3,  -- 0-low   1-med   2-high   3-v.high
+			nLensGhostsMinSpec = 3,   -- 0-low   1-med   2-high   3-v.high
 			texture_AttenuationMap = "",
 		},
 		Projector =
@@ -49,7 +57,7 @@ Light =
 
 	Editor=
 	{
-		Model="Editor/Objects/Light_Omni.cgf",
+		--Model="Editor/Objects/Light_Omni.cgf",
 		--Icon="Light.tif",
 		Icon="Light.bmp",
 		ShowBounds=0,
@@ -131,8 +139,16 @@ function Light:LoadLightToSlot( nSlot )
 	local lt = self._LightTable;
 	lt.style = Style.nLightStyle;
 	lt.corona_scale = Style.fCoronaScale;
+	lt.corona_intensity = Style.fCoronaIntensity;
 	lt.corona_dist_size_factor = Style.fCoronaDistSizeFactor;
 	lt.corona_dist_intensity_factor = Style.fCoronaDistIntensityFactor;
+	lt.shaft_src_size = Style.fShaftSrcSize;
+	lt.shaft_length = Style.fShaftLength;
+	lt.shaft_brightness = Style.fShaftBrightness;
+	lt.shaft_blend_factor = Style.fShaftBlendFactor;
+	lt.shaft_decay_factor = Style.fShaftDecayFactor;
+	lt.corona_shafts_min_spec = Style.nCoronaShaftsMinSpec;
+	lt.lens_ghosts_min_spec = Style.nLensGhostsMinSpec;
 	lt.rotation = Style.Rotation;
 	lt.anim_speed = Style.fAnimationSpeed;
 	lt.anim_phase = Style.nAnimationPhase;

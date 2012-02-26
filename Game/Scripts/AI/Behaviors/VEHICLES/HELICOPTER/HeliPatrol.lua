@@ -9,7 +9,7 @@ local Behavior = CreateAIBehavior("HeliPatrol", "HeliBase",
 	--------------------------------------------------------------------------
 	Constructor = function ( self, entity, data )
 
-		-- called when the behaviour is selected
+		-- called when the behavior is selected
 		-- the extra data is from the signal that caused the behavior transition
 		entity.AI.vOrgPatrollPosition = {};
 		CopyVector( entity.AI.vOrgPatrollPosition, entity:GetPos() );
@@ -49,7 +49,7 @@ local Behavior = CreateAIBehavior("HeliPatrol", "HeliBase",
 
 	---------------------------------------------
 	Destructor = function ( self, entity, data )
-		-- called when the behaviour is de-selected
+		-- called when the behavior is de-selected
 		-- the extra data is from the signal that is causing the behavior transition
 	end,
 
@@ -105,7 +105,7 @@ local Behavior = CreateAIBehavior("HeliPatrol", "HeliBase",
 	---------------------------------------------
 	OnEnemyDamage = function ( self, entity, sender, data )
 
-		if ( AIBehaviour.HELIDEFAULT:heliCheckDamageRatio( entity ) == true ) then
+		if ( AIBehavior.HELIDEFAULT:heliCheckDamageRatio( entity ) == true ) then
 			return;
 		end
 		local target = AI.GetAttentionTargetEntity( entity.id );
@@ -114,7 +114,7 @@ local Behavior = CreateAIBehavior("HeliPatrol", "HeliBase",
 			return;
 		end
 
-		if ( AIBehaviour.HELIDEFAULT:heliCheckDamage( entity, data ) == false ) then
+		if ( AIBehavior.HELIDEFAULT:heliCheckDamage( entity, data ) == false ) then
 			return;
 		end
 
@@ -139,17 +139,17 @@ local Behavior = CreateAIBehavior("HeliPatrol", "HeliBase",
 				NormalizeVector( vDir );
 				FastScaleVector( vDir, vDir, ( distance - 100 ) );
 				FastSumVectors( vCheckPos, vDir, entity:GetPos() );
-				AIBehaviour.HELIDEFAULT:GetAimingPosition2( entity, vCheckPos, targetEntity:GetPos() );
+				AIBehavior.HELIDEFAULT:GetAimingPosition2( entity, vCheckPos, targetEntity:GetPos() );
 
 				FastSumVectors( vMid, vCheckPos, entity:GetPos() );
 				FastScaleVector( vMid, vMid, 0.5 );
 
 				local index = 1;
-				AIBehaviour.HELIDEFAULT:heliAddPathLine( entity, vMid, index );
+				AIBehavior.HELIDEFAULT:heliAddPathLine( entity, vMid, index );
 				index = index + 1;
-				AIBehaviour.HELIDEFAULT:heliAddPathLine( entity, vCheckPos, index );
+				AIBehavior.HELIDEFAULT:heliAddPathLine( entity, vCheckPos, index );
 
-				if ( AIBehaviour.HELIDEFAULT:heliCommitPathLine( entity, index, false ) == false ) then
+				if ( AIBehavior.HELIDEFAULT:heliCommitPathLine( entity, index, false ) == false ) then
 					return;
 				end
 
@@ -209,7 +209,7 @@ local Behavior = CreateAIBehavior("HeliPatrol", "HeliBase",
 	HELI_COMBAT_PATROL = function ( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 			self:OnEnemySeen( entity, 0.0 );
 		end
 
@@ -224,12 +224,12 @@ local Behavior = CreateAIBehavior("HeliPatrol", "HeliBase",
 		
 			-- if too far away from the original position
 			local index = 1;
-			AIBehaviour.HELIDEFAULT:heliAddPathLine( entity, entity:GetPos(), index );
+			AIBehavior.HELIDEFAULT:heliAddPathLine( entity, entity:GetPos(), index );
 			index = index + 1;
 			vMyPos.z =vMyPos.z + 30.0;
 
-			AIBehaviour.HELIDEFAULT:heliAddPathLine( entity, vMyPos, index );
-			if ( AIBehaviour.HELIDEFAULT:heliCommitPathLine( entity, index, false ) == false ) then
+			AIBehavior.HELIDEFAULT:heliAddPathLine( entity, vMyPos, index );
+			if ( AIBehavior.HELIDEFAULT:heliCommitPathLine( entity, index, false ) == false ) then
 				AI.Signal(SIGNALFILTER_SENDER,1,"TO_HELI_ATTACK", entity.id);
 				return;
 			end
@@ -249,18 +249,18 @@ local Behavior = CreateAIBehavior("HeliPatrol", "HeliBase",
 			end
 
 			local index = 1;
-			AIBehaviour.HELIDEFAULT:heliAddPathLine( entity, entity:GetPos(), index );
+			AIBehavior.HELIDEFAULT:heliAddPathLine( entity, entity:GetPos(), index );
 			index = index + 1;
-			AIBehaviour.HELIDEFAULT:heliAddPathLine( entity, entity.AI.vOrgPatrollPosition, index );
-			if ( AIBehaviour.HELIDEFAULT:heliCommitPathLine( entity, index, false ) == false ) then
+			AIBehavior.HELIDEFAULT:heliAddPathLine( entity, entity.AI.vOrgPatrollPosition, index );
+			if ( AIBehavior.HELIDEFAULT:heliCommitPathLine( entity, index, false ) == false ) then
 				AI.Signal(SIGNALFILTER_SENDER,1,"TO_HELI_ATTACK", entity.id);
 				return;
 			end
 			
 		else
 
-			local index = AIBehaviour.HELIDEFAULT:heliMakePathCircle2( entity, 60.0, 1.0 );
-			if ( AIBehaviour.HELIDEFAULT:heliCommitPathLine( entity,  index, true ) == false ) then
+			local index = AIBehavior.HELIDEFAULT:heliMakePathCircle2( entity, 60.0, 1.0 );
+			if ( AIBehavior.HELIDEFAULT:heliCommitPathLine( entity,  index, true ) == false ) then
 				AI.Signal(SIGNALFILTER_SENDER,1,"TO_HELI_ATTACK", entity.id);
 				return;
 			end

@@ -1,7 +1,7 @@
 --------------------------------------------------
 --   Created By: Matthew Jack
 --   Description: 
---		Combat test behaviour
+--		Combat test behavior
 --    Tests AI combat-oriented building blocks
 
 
@@ -11,7 +11,7 @@ local Behavior = CreateAIBehavior("TestCombat",
 	
 	-----------------------------------------------
 	go_idle = function (self, entity)
-		-- To transistion back to the idle test behaviour
+		-- To transistion back to the idle test behavior
 	end,
 	
 	-----------------------------------------------

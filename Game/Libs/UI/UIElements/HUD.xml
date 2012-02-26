@@ -1,141 +1,104 @@
 <UIElements name="Menus">
 
-  <UIElement name="HUDMain" render_lockless="1">
+  <UIElement name="HUD2D" render_lockless="1">
     
-    <GFx file="MainHUD.gfx" layer="0">
+    <GFx file="HUD_2D.gfx" layer="0">
+      <Constraints>
+         <Align mode="dynamic" valign="center" halign="center" scale="0" max="0" />
+      </Constraints>
+    </GFx>
+	
+    <functions>
+	
+      <function name="SetWeapon" funcname="setWeapon">
+        <param name="WeaponName" desc="" type="string"/>
+        <param name="Zoomed" desc="" type="bool" />
+      </function>
+	  
+       <function name="OnShoot" funcname="onShoot"/>
+
+      <function name="SetZoomMode" funcname="setZoomStep">
+        <param name="Step" desc="" type="int" />
+      </function>
+
+      <function name="SetZoomDistance" funcname="setZoomDistance">
+        <param name="distance" desc="" type="int" />
+      </function>
+
+    </functions>
+	
+  </UIElement>
+    
+
+  <UIElement name="HUD3D" render_lockless="0">
+    
+    <GFx file="HUD_3D.gfx" layer="0">
       <Constraints>
         <Align mode="fullscreen" />
       </Constraints>
     </GFx>
-  
-   <MovieClips>
-	<movieclip name="EntityTag" instancename="CenterPanel.EntityTag"/>
-   </MovieClips>  
-  
-    <functions>
     
+    <functions>
       <!-- Health -->	
       <function name="SetHealth" funcname="setHealth">
-        <param name="Health" desc="Players current health"/>
-      </function>
-      <function name="SetDeath" funcname="setDeath">
-        <param name="IsDeath" desc="True if player is dead"/>
-      </function>
-      <function name="SetSpecator" funcname="setSpecator">
-        <param name="IsSpecator" desc="rue if player is in specator mode"/>
+        <param name="Health" desc="Players current health" type="int" />
       </function>
       
       <!-- Weapons -->	
       <function name="SetAmmo" funcname="setAmmo">
-        <param name="Ammo" desc=""/>
+        <param name="Ammo" desc="" type="int" />
       </function>
       
       <function name="SetWeapon" funcname="setWeapon">
-        <param name="WeaponName" desc=""/>
-        <param name="AmmoTypeName" desc=""/>
-        <param name="MaxAmmo" desc=""/>
-        <param name="IsMelee" desc=""/>
+        <param name="WeaponName" desc="" type="string"/>
+        <param name="AmmoTypeName" desc="" type="string" />
+        <param name="IsMelee" desc="" type="bool" />
+        <param name="PoolAmmo" desc="" type="int" />
+        <param name="MaxAmmo" desc="" type="int" />
       </function>
 
-      <function name="OnShoot" funcname="onShoot"/>
-  
-      <function name="SetZoom" funcname="setZoom">
-        <param name="Zoomed" desc=""/>
+      <!-- Video -->
+      <function name="PlayVideo" funcname="playVideo">
+        <param name="Movie" desc="Path to movie file" type="string"/>
       </function>
+     	
+      <!-- Message -->
+      <function name="DisplayMessage" funcname="displayMessage">
+        <param name="Message" desc="" type="string"/>
+      </function>
+ 
+       <function name="HideMessage" funcname="hideMessage"/>
 
-      <function name="SetThirdPerson" funcname="setThirdPerson">
-        <param name="IsThirdPerson" desc=""/>
-      </function>
-      
-      <!-- Minimap -->	
-      <function name="SetupMap" funcname="setMiniMap" >
-        <param name="MapFile" desc="Filename of map dds file"/>
-        <param name="Width" desc=""/>
-        <param name="Height" desc=""/>
+      <!-- Radar -->
+      <function name="SetupMap" funcname="setupMiniMap" >
+        <param name="MapFile" desc="Filename of map dds file" type="string"/>
+        <param name="Width" desc="" type="int"/>
+        <param name="Height" desc="" type="int"/>
       </function>
       
       <function name="ScaleMap" funcname="scaleMap">
-        <param name="Factor" desc="scale factor"/>
+        <param name="Factor" desc="scale factor" type="float"/>
       </function>
       
       <function name="SetPlayerPos" funcname="setPlayerPos">
-        <param name="X" desc="Scaled player x pos ( 0 to 1 )"/>
-        <param name="Y" desc="Scaled player y pos ( 0 to 1 )"/>
-        <param name="Rot" desc="Player rotation in degree"/>
+        <param name="X" desc="Scaled player x pos ( 0 to 1 )" type="float"/>
+        <param name="Y" desc="Scaled player y pos ( 0 to 1 )" type="float"/>
+        <param name="Rot" desc="Player rotation in degree" type="int"/>
       </function>
 
-      <function name="AddMinimapItem" funcname="addMiniMapItem">
-        <param name="ID" desc="Item ID"/>
-        <param name="Type" desc="Item type as string"/>
-      </function>
-
-      <function name="RemoveMinimapItem" funcname="removeMiniMapItem">
-        <param name="ID" desc="Item ID"/>
-        <param name="Type" desc="Item type as string"/>
-      </function>
-      
-      <function name="UpdateMinimapItem" funcname="updateMiniMapItem">
-        <param name="ID" desc="Item ID"/>
-        <param name="PosX" desc="Scaled item x pos ( 0 to 1 )"/>
-        <param name="PosY" desc="Scaled item y pos ( 0 to 1 )"/>
-        <param name="Rot" desc="Item rotation in degree"/>
-        <param name="Health" desc="Item health"/>
-        <param name="Info" desc="Item info string"/>
-      </function>
-
-      <!-- Objectives -->	
-      <function name="ShowObjectives" funcname="setMissionObjectivesVisible">
-        <param name="Visible" desc="Visibility of mission objectives"/>
+      <!-- MP Messages -->
+      <function name="AddMpMessage" funcname="addMessageItem">
+        <param name="MsgType" desc="can be 'kill', 'join' or 'left'" type="string"/>
+        <param name="Str1" desc="First string (usually player name)" type="string"/>
+        <param name="Str2" desc="Second string in case of 'kill' name of killed player" type="string"/>
       </function>
 	  
-      <function name="AddObjective" funcname="addMissionObjective">
-        <param name="ID" desc="ID of the objective"/>
-        <param name="Name" desc="Name of the objective"/>
-        <param name="Desc" desc="Description of the objective"/>
-        <param name="State" desc="State of the objective"/>
-      </function>
-	  
-      <function name="RemoveObjective" funcname="removeMissionObjective">
-        <param name="ID" desc="ID of the objective"/>
-      </function>
-	  
-      <function name="UpdateObjective" funcname="updateMissionObjective">
-        <param name="ID" desc="ID of the objective"/>
-        <param name="State" desc="State of the objective"/>
-      </function>
-	  
-      <function name="ClearObjectives" funcname="clearAllMissionObjectives" />	  
-	  
-      <!-- Useable text -->	
-      <function name="UpdateUseTxt" funcname="updateUseText">
-        <param name="UseText" desc="Text for use object, '' will disable use text!"/>
-      </function>
-	  
-      <!-- Pickable text -->	
-      <function name="UpdatePickupTxt" funcname="updatePickupText">
-        <param name="PickupText" desc="Text for pickup object, '' will disable pickup text!"/>
-      </function>
-	  
-	<!-- Binoculars-->
-
-	<function name="BinocularHUDVisibility" funcname="setBinocularHUDVisibility">
-		<param name="Visible" desc="visibility state of binocular HUD"/>
-	</function>
-
-	<function name="setBinocularZoom" funcname="setBinocularZoom">
-		<param name="Zoomlevel" desc="Current Zoom Level"/>
-	</function>
-
-	<function name="setBinocularDistance" funcname="setBinocularDistance">
-		<param name="Distance" desc="Distance from Current focus target"/>
-	</function>
-
-	<function name="setBinocularsMode" funcname="setBinocularsMode">
-		<param name="intViewmode" desc="Current Viewmode: Normal or Night vision"/>
-	</function>
-	
    </functions>
     
+    <events>
+      <event name="OnTransmissionDone" fscommand="onVideoStop" desc="" />
+    </events> 
+ 	
   </UIElement>
   
 </UIElements>

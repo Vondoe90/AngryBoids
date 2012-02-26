@@ -541,14 +541,14 @@ function MakeSpawnable( entity )
 	
 	local _OnDestroy = entity.OnDestroy;
 	
-	function entity:OnDestroy()
+	function entity:OnDestroy(...)
 		-- System.Log("OnDestroy"..tostring(self.id));
 		if self.whoSpawnedMe then
 			-- inform that I'm dead
 			self.whoSpawnedMe:NotifyRemoval(self.id);
 		end
 		if _OnDestroy then
-			_OnDestroy(self);
+			_OnDestroy(self, ...);
  		end
 	end
 
@@ -558,13 +558,15 @@ function MakeSpawnable( entity )
 		if (self.spawnedEntity and self.spawnedEntity == spawnedEntityId) then
  			--System.Log("...Cleared");
 			self.spawnedEntity = nil;
+			self.lastSpawnedEntity = nil;
 		end
 	end		
 		
 	-- override some functions to have our code called also
 	local _OnReset = entity.OnReset;
-	function entity:OnReset()
+	function entity:OnReset(...)
 		--System.Log("reset");
+		self.lastSpawnedEntity = nil;
 		if self.spawnedEntity then
 			System.RemoveEntity(self.spawnedEntity);
 			self.spawnedEntity = nil;
@@ -573,23 +575,28 @@ function MakeSpawnable( entity )
 			System.RemoveEntity( self.id );
 			return
 		end
-		_OnReset(self);
+		_OnReset(self, ...);
 	end
 	
 	local _OnEditorSetGameMode = entity.OnEditorSetGameMode;
-	function entity:OnEditorSetGameMode(inGame)
+	function entity:OnEditorSetGameMode(...)
+	  self.lastSpawnedEntity = nil;
 		if self.spawnedEntity then
 			self.spawnedEntity = nil;
 		end
 		
 		if (_OnEditorSetGameMode) then
-			_OnEditorSetGameMode(self);
+			_OnEditorSetGameMode(self, ...);
 		end
 	end
 	
 	-- allow flowgraph forwarding
 	function entity:GetFlowgraphForwardingEntity()
-		return self.spawnedEntity
+		if (self.spawnedEntity) then
+			return self.spawnedEntity;
+		else
+		  return self.lastSpawnedEntity;
+		end
 	end
 	-- OnSpawned event
 	function entity:Event_Spawned()
@@ -648,15 +655,27 @@ function MakeSpawnable( entity )
 
 	-- spawn event
 	function entity:Event_Spawn()
+	
+		local entityIdDone = self:Event_Spawn_Internal();
+		
+		-- the entity needs the output being activated, is not enough to just activate the output on the entity that spawnedMe, because the flowgraph could be already forwarded to the newly spawned entity (if the entity does not have the flowgraph asociated, the output event will be just ignored)
+		if (entityIdDone ~= self.id) then
+				self:ActivateOutput("Spawned", self.id);
+		end
+		
+	end
+	
+	
+	function entity:Event_Spawn_Internal()
 		if self.whoSpawnedMe then
 			-- we were spawned (and not placed on a level)...
 			-- GetForwardingEntity will make sure that this event
 			-- is sent here first, but this event *MUST* be handled
 			-- by our spawner
-			self.whoSpawnedMe:Event_Spawn()
+			return self.whoSpawnedMe:Event_Spawn_Internal()
 		else
 			if self.spawnedEntity then
-				return
+				return nil
 			end
 			local params = {
 				class = self.class;
@@ -679,6 +698,7 @@ function MakeSpawnable( entity )
 			local ent = System.SpawnEntity(params, self.id)
 			if ent then
 				self.spawnedEntity = ent.id
+				self.lastSpawnedEntity = ent.id;
 				if not ent.Events then ent.Events = {} end
 				local evts = ent.Events
 				for name, data in pairs(self.FlowEvents.Outputs) do
@@ -686,9 +706,12 @@ function MakeSpawnable( entity )
 					table.insert(evts[name], {self.id, name})
 				end
 				ent.whoSpawnedMe = self;
+				
+				ent:SetupTerritoryAndWave();
 		
 				--self:Event_Spawned();
 				self:ActivateOutput("Spawned", ent.id);
+				return self.id;
 			end
 		end
 	end
@@ -711,6 +734,7 @@ function MakeSpawnable( entity )
 		local ent = System.SpawnEntity(params, self.id)
 		if ent then
 			self.spawnedEntity = ent.id
+			self.lastSpawnedEntity = ent.id;
 			if not ent.Events then ent.Events = {} end
 			local evts = ent.Events
 			for name, data in pairs(self.FlowEvents.Outputs) do

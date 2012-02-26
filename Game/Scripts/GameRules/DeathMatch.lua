@@ -15,9 +15,9 @@
 --  - 05/11/2009   12:00 : Modified by Mathieu Pinard and Pau Novau
 --
 ----------------------------------------------------------------------------------------------------
-Script.LoadScript( "scripts/gamerules/campaign.lua", 1, 1 );
+Script.LoadScript( "scripts/gamerules/singleplayer.lua", 1, 1 );
 --------------------------------------------------------------------------
-DeathMatch = new( Campaign );
+DeathMatch = new( SinglePlayer );
 DeathMatch.States = { "Reset", "PreGame", "InGame", "PostGame", };
 
 ----------------------------------------------------------------------------------------------------
@@ -231,7 +231,7 @@ end
 ----------------------------------------------------------------------------------------------------
 function DeathMatch.Server:OnInit()
 	SimpleLog( "[ DeathMatch ] Server:OnInit" );
-	Campaign.Server.OnInit( self );
+	SinglePlayer.Server.OnInit( self );
 	
 	self.isServer = CryAction.IsServer();
 	self.isClient = CryAction.IsClient();
@@ -281,6 +281,16 @@ function DeathMatch.Server:OnReset()
 end
 
 ----------------------------------------------------------------------------------------------------
+function DeathMatch.Server:OnVehicleSubmerged(entityId, ratio)
+	local vehicle = System.GetEntity(entityId);
+	if (vehicle and vehicle.vehicle) then
+		NotifyDeathToTerritoryAndWave(vehicle);
+		vehicle.vehicle:Destroy();
+		BroadcastEvent(vehicle, "Dead");
+	end
+end
+
+----------------------------------------------------------------------------------------------------
 function DeathMatch.Client:OnReset()
 	SimpleLog( "[ DeathMatch ] Client:OnReset" );
 end
@@ -290,7 +300,8 @@ function DeathMatch:RestartGame( forceInGame )
 	SimpleLog( "[ DeathMatch ] RestartGame" );	
 	self:GotoState( "Reset" );
 
-	self.game:ResetEntities();
+	-- evgeny: Don't reset again; it breaks stuff
+	--self.game:ResetEntities();
 
 	if ( forceInGame ) then
 		self.forceInGame = true;
@@ -333,6 +344,7 @@ end
 
 ----------------------------------------------------------------------------------------------------
 function DeathMatch.Server:OnClientConnect(channelId, reset, name)
+	local player;
 	local player = self:SpawnPlayer( channelId, name );
 	
 	local channelOnHold = CryAction.IsChannelOnHold( channelId )
@@ -435,7 +447,7 @@ end
 ----------------------------------------------------------------------------------------------------
 function DeathMatch.Client:OnUpdate( frameTime )
 	SimpleLog( "[ DeathMatch ] Client:OnUpdate" );
-	Campaign.Client.OnUpdate( self, frameTime );
+	SinglePlayer.Client.OnUpdate( self, frameTime );
 	
 	self:UpdateScores();
 end
@@ -570,26 +582,23 @@ end
 ----------------------------------------------------------------------------------------------------
 function DeathMatch:CalcExplosionDamage( entity, explosion, obstruction )
 	SimpleLog( "[ DeathMatch ] CalcExplosionDamage" );
-	local newDamage = Campaign.CalcExplosionDamage( self, entity, explosion, obstruction );
+	local newDamage = SinglePlayer.CalcExplosionDamage( self, entity, explosion, obstruction );
 
 	return newDamage;
 end
 
 ----------------------------------------------------------------------------------------------------
 function DeathMatch.Server:OnPlayerKilled(hit)
-	SimpleLog( "[ DeathMatch ] Server:OnPlayerKilled" );
-	local target=hit.target;
-	target.deathTime=_time;
-	target.deathPos=target:GetWorldPos(target.deathPos);
-	
-	self.game:KillPlayer(hit.targetId, true, true, hit.shooterId, hit.weaponId, hit.damage, hit.materialId, hit.typeId, hit.dir);
 	self:ProcessScores(hit);
+	hit.target:Kill(true, hit.shooterId, hit.weaponId);
+	-- disallow ragdollization while in vehicles so they can play animations. Ragdoll will be triggered by other means
+	local bRagdoll = not hit.target or not hit.target:IsOnVehicle(); 
+	self.game:KillPlayer(hit.targetId, true, bRagdoll, hit.shooterId, hit.weaponId, hit.damage, hit.partId, hit.typeId, hit.dir, hit.projectileId or NULL_ENTITY, hit.weaponClassId, hit.projectileClassId);
 end
 
 ----------------------------------------------------------------------------------------------------
 function DeathMatch.Client:OnKill( playerId, shooterId, weaponClassName, damage, material, hit_type )
 	SimpleLog( "[ DeathMatch ] Client:OnKill" );
-	--TODO: Show FX depending on hit type?
 end
 
 ----------------------------------------------------------------------------------------------------
@@ -764,6 +773,11 @@ function DeathMatch:ReviveAllPlayers(keepEquip)
 end
 
 ----------------------------------------------------------------------------------------------------
+function DeathMatch:Friendly(entityId1, entityId2)
+	return (entityId1 == entityId2);
+end
+
+----------------------------------------------------------------------------------------------------
 function DeathMatch:DefaultState(cs, state)
 	local default=self[cs];
 	self[cs][state]={
@@ -901,17 +915,6 @@ end
 function DeathMatch.Client.PostGame:OnEndState()
 	SimpleLog( "[ DeathMatch ] Client.PostGame:OnEndState" );
 	self:EndGame(false);
-end
-
-----------------------------------------------------------------------------------------------------
-function DeathMatch.Server:OnPlayerKilled(hit)
-	SimpleLog( "[ DeathMatch ] OnPlayerKilled" );
-	local target=hit.target;
-	target.deathTime=_time;
-	target.deathPos=target:GetWorldPos(target.deathPos);
-	
-	self.game:KillPlayer(hit.targetId, true, true, hit.shooterId, hit.weaponId, hit.damage, hit.materialId, hit.typeId, hit.dir);
-	self:ProcessScores(hit);
 end
 
 ----------------------------------------------------------------------------------------------------

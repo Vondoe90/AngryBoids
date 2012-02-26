@@ -1,9 +1,9 @@
 -----------------------------------------------------------
--- Cover3 Interested Behaviour
+-- Cover3 Interested Behavior
 -----------------------------------------------------------
 -- Created: Matthew Jack 12-10-2009
--- Description: Based on the Cover2 behaviour,
---              reapplied to use behaviour trees
+-- Description: Based on the Cover2 behavior,
+--              reapplied to use behavior trees
 -----------------------------------------------------------
 
 local Behavior = CreateAIBehavior("Cover3Interested",
@@ -25,7 +25,7 @@ local Behavior = CreateAIBehavior("Cover3Interested",
 		
 		-- Search at least 10s.
 		entity.AI.allowLeave = false;
-		entity.AI.searchTimer = Script.SetTimerForFunction(10*1000.0,"AIBehaviour.Cover2Interested.SEARCH_TIMER",entity);
+		entity.AI.searchTimer = Script.SetTimerForFunction(10*1000.0,"AIBehavior.Cover2Interested.SEARCH_TIMER",entity);
 
 	end,
 	

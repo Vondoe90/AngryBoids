@@ -1,0 +1,47 @@
+<Graph Description="" Group="HUD" enabled="1" MultiPlayer="ClientServer">
+ <Nodes>
+  <Node Id="14" Class="Minimap:PlayerPos" pos="-270,20,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="16" Class="UI:Functions:HUD3D:SetupMap" pos="-100,-80,0" flags="0">
+   <Inputs instanceID="-1" MapFile="" Width="0" Height="0"/>
+  </Node>
+  <Node Id="17" Class="Minimap:MapInfo" pos="-270,-80,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="18" Class="UI:Functions:HUD3D:SetPlayerPos" pos="-100,20,0" flags="0">
+   <Inputs instanceID="-1" X="0" Y="0" Rot="0"/>
+  </Node>
+  <Node Id="27" Class="UI:Action:Start" pos="-490,-80,0" flags="0">
+   <Inputs UseAsState="1"/>
+  </Node>
+  <Node Id="29" Class="UI:Action:End" pos="-270,140,0" flags="0">
+   <Inputs UseAsState="1" Args=""/>
+  </Node>
+  <Node Id="30" Name="Setup_and_update_minimap" Class="_commentbox" pos="-533,-158.73959,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="739.09088" Height="359.0303"/>
+   <NodeSize Width="739.09088" Height="386.42093"/>
+  </Node>
+  <Node Id="31" Name="Start_this_action_will_enable_updated" Class="_comment" pos="-520,-110,0" flags="0"/>
+  <Node Id="32" Name="On_level_end_stop_this_action" Class="_comment" pos="-520,100,0" flags="0"/>
+  <Node Id="286" Class="UI:Events:System:OnGameplayEnded" pos="-520,140,0" flags="1">
+   <Inputs Port="-1" Idx=""/>
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="18" nodeOut="14" portIn="Call" portOut="OnPosChange" enabled="1"/>
+  <Edge nodeIn="18" nodeOut="14" portIn="X" portOut="PosX" enabled="1"/>
+  <Edge nodeIn="18" nodeOut="14" portIn="Y" portOut="PosY" enabled="1"/>
+  <Edge nodeIn="18" nodeOut="14" portIn="Rot" portOut="Rotation" enabled="1"/>
+  <Edge nodeIn="16" nodeOut="17" portIn="Height" portOut="Height" enabled="1"/>
+  <Edge nodeIn="16" nodeOut="17" portIn="MapFile" portOut="MapFile" enabled="1"/>
+  <Edge nodeIn="16" nodeOut="17" portIn="Call" portOut="OnGet" enabled="1"/>
+  <Edge nodeIn="16" nodeOut="17" portIn="Width" portOut="Width" enabled="1"/>
+  <Edge nodeIn="14" nodeOut="27" portIn="Enable" portOut="StartAction" enabled="1"/>
+  <Edge nodeIn="14" nodeOut="27" portIn="Get" portOut="StartAction" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="27" portIn="Get" portOut="StartAction" enabled="1"/>
+  <Edge nodeIn="29" nodeOut="286" portIn="EndAction" portOut="onEvent" enabled="1"/>
+ </Edges>
+ <GraphTokens />
+</Graph>

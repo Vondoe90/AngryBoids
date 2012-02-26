@@ -41,11 +41,11 @@ DestroyableObject =
 			bBullet		 = 1,
 			bOther	   = 1,
 		},
-		
+
 		DamageMultipliers = 
 		{
-		  fCollision = 1.0,
-		  fBullet    = 1.0,		  
+			fCollision = 1.0,
+			fBullet    = 1.0,
 		},
 
 		Breakage =																							-- => BreakToPieces
@@ -124,6 +124,7 @@ DestroyableObject =
 	Editor={
 		Icon = "physicsobject.bmp",
 		IconOnTop=1,
+    IsScalable = false,
 	}
 }
 
@@ -625,7 +626,7 @@ DestroyableObject.Server.Dead =
 ----------------------------------------------------------------------------------------------------
 function DestroyableObject:Event_Hit( sender )
 	BroadcastEvent( self,"Hit" );
-end
+	end
 
 function DestroyableObject:Event_Reset( sender )
 	self:OnReset();
@@ -726,9 +727,9 @@ end
 
 ------------------------------------------------------------------------------------------------------
 function DestroyableObject:RestorePhysicalState()
-	if( not self.initPos ) then 
-		return;
-	end
+  if( not self.initPos ) then 
+    return;
+  end
   
 	self:KillTimer(0);
 
@@ -738,12 +739,12 @@ function DestroyableObject:RestorePhysicalState()
 
 	self:RemoveEffect();
 	self.bReloadGeoms = 1;
-	self:Reload();
+  self:Reload();
 	self:AwakePhysics(0);
 
-	self:SetPos(self.initPos);
-	self:SetWorldAngles(self.initRot);
-	self:SetScale(self.initScale);
+  self:SetPos(self.initPos);
+  self:SetWorldAngles(self.initRot);
+  self:SetScale(self.initScale);
 
 end
 

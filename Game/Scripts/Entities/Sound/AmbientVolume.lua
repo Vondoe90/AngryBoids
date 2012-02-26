@@ -306,7 +306,6 @@ AmbientVolume["Client"] = {
 	end,
 	
 	OnUnBindThis = function(self)
-		System.LogToConsole("OnUnBindThis-Client");
 		self:Stop();
 		self.inside = 0;
 	end,	

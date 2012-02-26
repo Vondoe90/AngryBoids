@@ -42,15 +42,6 @@
 	</Sound>
 </Effect>
 
-<Effect name="mud">
-	<Sound>
-	<Name>sounds/physics:footsteps/player:mud</Name>
-	</Sound>
-	<Particle>
-		<Name minscale="0.9" maxscale="0.9" maxscaledist="100">collisions.footsteps.mud</Name>
-	</Particle>
-</Effect>
-
 <Effect name="dirt">
 	<Sound>
 	<Name>sounds/physics:footsteps/player:dirt</Name>
@@ -106,24 +97,6 @@
 	<Sound>
 	<Name>sounds/physics:footsteps/player:metal_thin</Name>
 	</Sound>
-</Effect>
-
-<Effect name="water_shallow">
-	<Sound>
-	<Name>sounds/physics:footsteps/player:water_shallow</Name>
-	</Sound>
-	<Particle>
-		<Name minscale="0.5" maxscale="0.5" maxscaledist="1">collisions.footsteps.water_shallow</Name>
-	</Particle>
-</Effect>
-
-<Effect name="water_deep">
-	<Sound>
-	<Name>sounds/physics:footsteps/player:water_deep</Name>
-	</Sound>
-	<Particle>
-		<Name minscale="0.5" maxscale="0.5" maxscaledist="1">collisions.footsteps.water_shallow</Name>
-	</Particle>
 </Effect>
 
 </FXLib>

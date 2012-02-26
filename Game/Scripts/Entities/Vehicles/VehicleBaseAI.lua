@@ -40,9 +40,7 @@ VehicleBaseAI =
 		leaderName = "",
 		followDistance = 5.0,
 		bSpeciesHostility = 1,
-		attackrange = 100,
 		commrange = 100,
-		accuracy = 1,
 		Perception =
 		{
 			--how visible am I
@@ -101,7 +99,7 @@ VehicleBaseAI =
 	AIFireProperties = {
 	},
 	AISoundRadius = 120,
-	hidesUser=1,	
+	hidesUser=0,
 
 	-- now fast I forget the target (S-O-M speed)
 	forgetTimeTarget = 16.0,
@@ -127,8 +125,8 @@ function VehicleBaseAI:AIDriver( enable )
 		end;
 	AI.LogEvent(" >>>> VehicleBaseAI:AIDriver enabling "..self:GetName());			
 		self:TriggerEvent(AIEVENT_DRIVER_IN);
-		if(self.Behaviour and self.Behaviour.Constructor) then 
-			self.Behaviour:Constructor(self);
+		if(self.Behavior and self.Behavior.Constructor) then 
+			self.Behavior:Constructor(self);
 		end
 		self:EnableMountedWeapons(false);
 		return 1

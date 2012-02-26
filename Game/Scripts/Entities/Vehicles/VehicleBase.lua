@@ -375,6 +375,11 @@ end
 --------------------------------------------------------------------------
 function VehicleBase:ResetVehicleBase()
 	self.State.pos = self:GetWorldPos(self.State.pos);
+
+	-- To support spawn at the initial (rather than current) position and orientation
+	self.InitialPosition = self:GetPos();
+	self.InitialOrientation = {};
+	CopyVector(self.InitialOrientation, self:GetDirectionVector(1));
 	
 	-- disable the AI driver.
 	if (self.AIDriver) then
@@ -637,7 +642,7 @@ function VehicleBase:UpdateRadar(radarContact)
 					return false;
 				end			
 
-				local alertness = driver.Behaviour.alertness;
+				local alertness = driver.Behavior.alertness;
 					
 				if (g_localActor) then
 					local targetName = nil
@@ -829,14 +834,21 @@ function VehicleBase.Server:OnHit(hit)
 		if (hit.shooter and self.Properties.species ~= hit.shooter.Properties.species) then
 		  CopyVector(g_SignalData.point, hit.shooter:GetWorldPos());
 			AI.Signal(SIGNALFILTER_SENDER,0,"OnEnemyDamage",self.id,g_SignalData);
-		elseif (self.Behaviour and self.Behaviour.OnFriendlyDamage ~= nil) then
+		elseif (self.Behavior and self.Behavior.OnFriendlyDamage ~= nil) then
 			AI.Signal(SIGNALFILTER_SENDER,0,"OnFriendlyDamage",self.id,g_SignalData);
 		else
 			AI.Signal(SIGNALFILTER_SENDER,0,"OnDamage",self.id,g_SignalData);
 		end
 	end
 	
-	return self.vehicle:IsDestroyed();
+	local isDestroyed = self.vehicle:IsDestroyed();
+	
+	if (isDestroyed) then
+		NotifyDeathToTerritoryAndWave(self);
+		BroadcastEvent(self, "Dead");
+	end
+	
+	return isDestroyed;
 end
 
 --------------------------------------------------------------------------
@@ -957,7 +969,6 @@ end
 function VehicleBase:OnActorChangeSeat(passengerId, exiting)
 
 	-- ai specific
-	Log("ai changed a seat");
 	local seat = self:GetSeat(passengerId);
 	if (not seat) then
 		Log("Error: VehicleBase:OnActorChangeSeat() could not find passenger id %s on the vehicle", tostring(passengerId));
@@ -1149,4 +1160,28 @@ function VehicleBase:GetForeignCollisionMult(entity, hit)
   end
   
   return mult;
+end
+
+--------------------------------------------------------------------------
+function VehicleBase:SetupTerritoryAndWave(territory, wave)
+
+	if (territory and territory ~= "") then
+		self.PropertiesInstance.AITerritoryAndWave.aiterritory_Territory = territory;
+	end
+	
+	if (wave and wave ~= "") then
+		self.PropertiesInstance.AITerritoryAndWave.aiwave_Wave = wave;
+	end
+
+	AI_Utils:SetupTerritory(self);
+	AI_Utils:SetupStandby(self);
+	
+end
+
+
+--------------------------------------------------------------------------
+function VehicleBase:Event_Dead(sender)
+	if (sender and sender.id == self.spawnedEntity) then
+		self.spawnedEntity = nil;
+	end
 end

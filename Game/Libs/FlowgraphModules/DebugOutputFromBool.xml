@@ -1,0 +1,67 @@
+<Graph isModule="1" moduleName="DebugOutputFromBool" Description="" Group="" enabled="1" MultiPlayer="ClientServer">
+ <ModuleInputsOutputs>
+  <Port Name="Result" Type="6" Input="1"/>
+  <Port Name="DisplayTime" Type="2" Input="1"/>
+  <Port Name="PosX" Type="2" Input="1"/>
+  <Port Name="PosY" Type="2" Input="1"/>
+  <Port Name="Message" Type="5" Input="1"/>
+ </ModuleInputsOutputs>
+ <Nodes>
+  <Node Id="1" Class="Module:Start_DebugOutputFromBool" pos="30,90,0" flags="0"/>
+  <Node Id="2" Class="Module:End_DebugOutputFromBool" pos="820,-10,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="17" Class="Math:FromBoolean" pos="350,-30,0" flags="0">
+   <Inputs Value="0"/>
+  </Node>
+  <Node Id="19" Class="HUD:DisplayDebugMessage" pos="820,250,0" flags="0">
+   <Inputs entityId="0" message="SUCCESS..." DisplayTime="0" posX="50" posY="100" fontSize="3" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="22" Class="HUD:DisplayDebugMessage" pos="820,70,0" flags="0">
+   <Inputs entityId="0" message="SUCCESS..." DisplayTime="0" posX="50" posY="50" fontSize="3" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="24" Class="Math:Add" pos="370,340,0" flags="0">
+   <Inputs A="0" B="50"/>
+  </Node>
+  <Node Id="26" Class="String:Concat" pos="680,530,0" flags="0">
+   <Inputs String1="" String2=""/>
+  </Node>
+  <Node Id="28" Class="String:SetString" pos="370,510,0" flags="1">
+   <Inputs In="$3SUCCEEDED..."/>
+  </Node>
+  <Node Id="29" Class="String:SetString" pos="370,580,0" flags="0">
+   <Inputs In="$4FAILED..."/>
+  </Node>
+  <Node Id="31" Class="Logic:Any" pos="540,530,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="32" Class="Time:Delay" pos="350,-110,0" flags="0">
+   <Inputs delay="1"/>
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="17" nodeOut="1" portIn="Value" portOut="Result" enabled="1"/>
+  <Edge nodeIn="19" nodeOut="1" portIn="DisplayTime" portOut="DisplayTime" enabled="1"/>
+  <Edge nodeIn="19" nodeOut="1" portIn="posX" portOut="PosX" enabled="1"/>
+  <Edge nodeIn="22" nodeOut="1" portIn="DisplayTime" portOut="DisplayTime" enabled="1"/>
+  <Edge nodeIn="22" nodeOut="1" portIn="posX" portOut="PosX" enabled="1"/>
+  <Edge nodeIn="22" nodeOut="1" portIn="posY" portOut="PosY" enabled="1"/>
+  <Edge nodeIn="24" nodeOut="1" portIn="A" portOut="PosY" enabled="1"/>
+  <Edge nodeIn="26" nodeOut="1" portIn="String1" portOut="Message" enabled="1"/>
+  <Edge nodeIn="32" nodeOut="1" portIn="delay" portOut="DisplayTime" enabled="1"/>
+  <Edge nodeIn="32" nodeOut="1" portIn="in" portOut="Start" enabled="1"/>
+  <Edge nodeIn="19" nodeOut="17" portIn="Show" portOut="False" enabled="1"/>
+  <Edge nodeIn="22" nodeOut="17" portIn="Show" portOut="True" enabled="1"/>
+  <Edge nodeIn="28" nodeOut="17" portIn="Set" portOut="True" enabled="1"/>
+  <Edge nodeIn="29" nodeOut="17" portIn="Set" portOut="False" enabled="1"/>
+  <Edge nodeIn="19" nodeOut="24" portIn="posY" portOut="out" enabled="1"/>
+  <Edge nodeIn="19" nodeOut="26" portIn="message" portOut="Out" enabled="1"/>
+  <Edge nodeIn="22" nodeOut="26" portIn="message" portOut="Out" enabled="1"/>
+  <Edge nodeIn="31" nodeOut="28" portIn="in1" portOut="Out" enabled="1"/>
+  <Edge nodeIn="31" nodeOut="29" portIn="in2" portOut="Out" enabled="1"/>
+  <Edge nodeIn="26" nodeOut="31" portIn="Set" portOut="out" enabled="1"/>
+  <Edge nodeIn="26" nodeOut="31" portIn="String2" portOut="out" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="32" portIn="Success" portOut="out" enabled="1"/>
+ </Edges>
+ <GraphTokens />
+</Graph>

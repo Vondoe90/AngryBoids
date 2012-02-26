@@ -23,7 +23,7 @@ local Behavior = CreateAIBehavior("Cover2InterestedST",
 		
 		-- Search at least 10s.
 		entity.AI.allowLeave = false;
-		entity.AI.searchTimer = Script.SetTimerForFunction(10*1000.0,"AIBehaviour.Cover2Interested.SEARCH_TIMER",entity);
+		entity.AI.searchTimer = Script.SetTimerForFunction(10*1000.0,"AIBehavior.Cover2Interested.SEARCH_TIMER",entity);
 
 	end,
 	

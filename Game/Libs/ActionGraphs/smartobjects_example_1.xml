@@ -1,0 +1,25 @@
+<Graph Description="" Group="" enabled="1" MultiPlayer="ClientServer">
+ <Nodes>
+  <Node Id="1" Class="AI:ActionStart" pos="-170,-70,0" flags="0"/>
+  <Node Id="2" Class="AI:ActionEnd" pos="430,-30,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="5" Class="Time:Delay" pos="110,40,0" flags="0">
+   <Inputs delay="2"/>
+  </Node>
+  <Node Id="6" Class="Physics:ActionImpulse" pos="110,-70,0" flags="0">
+   <Inputs entityId="0" impulse="0,0,750" angImpulse="0,0,0" Point="0,0,0" partIndex="0"/>
+  </Node>
+  <Node Id="7" Name="User_will_get_pushed_up_in_the_air" Class="_commentbox" pos="-193,-216,0" flags="1">
+   <Inputs TextSize="2" Color="0.27451,0.352941,0.705882" DisplayFilled="1"/>
+   <ResizeBorder X="0" Y="0" Width="748" Height="321"/>
+   <NodeSize Width="748" Height="357.52084"/>
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="5" nodeOut="1" portIn="in" portOut="UserId" enabled="1"/>
+  <Edge nodeIn="6" nodeOut="1" portIn="activate" portOut="UserId" enabled="1"/>
+  <Edge nodeIn="6" nodeOut="1" portIn="entityId" portOut="UserId" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="5" portIn="end" portOut="out" enabled="1"/>
+ </Edges>
+</Graph>

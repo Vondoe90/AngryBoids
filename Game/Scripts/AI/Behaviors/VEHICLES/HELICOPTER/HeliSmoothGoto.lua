@@ -99,20 +99,20 @@ local Behavior = CreateAIBehavior("HeliSmoothGoto", "HeliBase",
 			local shortname = string.sub(name,1,nameLength-1);
 			local index = 1;
 
-			AIBehaviour.HELIDEFAULT:heliAddPathLine( entity, entity:GetPos(), index );
+			AIBehavior.HELIDEFAULT:heliAddPathLine( entity, entity:GetPos(), index );
 			
 			for i = 1,8 do
 				name = shortname..tostring(i);
 				local tagEntity = System.GetEntityByName( name );
 				if ( tagEntity ) then
 					index = index + 1;
-					AIBehaviour.HELIDEFAULT:heliAddPathLine( entity, tagEntity:GetPos(), index );
+					AIBehavior.HELIDEFAULT:heliAddPathLine( entity, tagEntity:GetPos(), index );
 				else
 					break;
 				end
 			end
 			if ( index > 1 ) then
-				if ( AIBehaviour.HELIDEFAULT:heliCommitPathLineNoCheck( entity, index, true ) == true ) then
+				if ( AIBehavior.HELIDEFAULT:heliCommitPathLineNoCheck( entity, index, true ) == true ) then
 					AI.CreateGoalPipe("heliSmoothGoto");
 					AI.PushGoal("heliSmoothGoto","followpath", 1, false, false, false, 0, 10, true );
 					AI.PushGoal("heliSmoothGoto","signal",1,1,"TO_HELI_IDLE",SIGNALFILTER_SENDER);

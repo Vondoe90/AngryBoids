@@ -5,7 +5,7 @@
 -----------------------------------------------------------
 -- Created: Matthew Jack 12-10-2009
 -- Description: Based on the Cover2 character, now with
---              behaviour trees
+--              behavior trees
 -----------------------------------------------------------
 
 AICharacter.Cover3 = {

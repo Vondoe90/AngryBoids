@@ -2,6 +2,7 @@
 
 	<!-- always preloaded (level and main menu) -->
 	<Common>
+			<Preload file="Libs/UI/Textures/*"/>
 	</Common>
 		
 	<!-- only preloaded when enter the main menu -->
@@ -14,8 +15,6 @@
 	
 		<!-- only preloaded when loading a level -->
 		<Common>
-			<Preload file="Libs/UI/weapon_*"/>
-			<Preload file="Libs/UI/hand*"/>
 		</Common>
 		
 		<!-- per level -->

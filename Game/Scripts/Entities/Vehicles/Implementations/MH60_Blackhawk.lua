@@ -40,7 +40,6 @@ MH60_Blackhawk.AIProperties =
   Properties = 
   {
     aicharacter_character = "Heli",
-    attackrange = 320,
   },
   
   AIMovementAbility = 

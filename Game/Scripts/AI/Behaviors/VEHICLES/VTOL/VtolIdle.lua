@@ -5,7 +5,7 @@ local Behavior = CreateAIBehavior("VtolIdle", "HeliIdle",
 	---------------------------------------------
 	Constructor = function( self , entity )
 		
-		AIBehaviour.HeliIdle:Constructor( entity );
+		AIBehavior.HeliIdle:Constructor( entity );
 
 		for i,seat in pairs(entity.Seats) do
 			if( seat.passengerId ) then
@@ -41,7 +41,7 @@ local Behavior = CreateAIBehavior("VtolIdle", "HeliIdle",
 	end,
 
 	OnEnemySeen = function( self, entity, fDistance )
-		AIBehaviour.HELIDEFAULT:heliRequest2ndGunnerShoot( entity );
+		AIBehavior.HELIDEFAULT:heliRequest2ndGunnerShoot( entity );
 	end,
 
 	VTOL_DOOR_OPEN = function( self, entity, sender, data )
@@ -72,7 +72,7 @@ local Behavior = CreateAIBehavior("VtolIdle", "HeliIdle",
 
 	VTOL_GUNNER_START = function( self, entity, sender, data )
 
-		AIBehaviour.HELIDEFAULT:heliRequest2ndGunnerShoot( entity );
+		AIBehavior.HELIDEFAULT:heliRequest2ndGunnerShoot( entity );
 
 	end,
 

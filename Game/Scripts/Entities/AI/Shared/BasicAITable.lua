@@ -34,12 +34,9 @@ BasicAITable = {
 	Properties = {
 
 		rank = 4,
-		special = 0,
 
-		attackrange = 70,
-		reaction = 1,	-- time to startr shooting with nominal accuracy
+		reaction = 1,	-- time to start shooting with nominal accuracy
 		commrange = 30.0,
-		accuracy = 1.0,
 		
 		bFactionHostility = 1,
 		fGroupHostility = 0,
@@ -101,7 +98,7 @@ BasicAITable = {
 			-- Flag indicating that the agent has thermal vision.
 			bThermalVision = 0,
 			-- controls how often targets can be switched, 
-			-- this parameter corresponds to minimum ammount of time the agent will hold aquired target before selectng another one
+			-- this parameter corresponds to minimum amount of time the agent will hold aquired target before selectng another one
 			-- default = 0 
 			persistence = 0,
 			-- controls how long the attention target have had to be invisible to make the player stunts effective again

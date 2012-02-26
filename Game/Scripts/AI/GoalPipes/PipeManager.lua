@@ -37,6 +37,8 @@ function PipeManager:CreateGoalPipes()
 	-- Specific (Xml)
 	AI.LoadGoalPipes("Scripts/AI/GoalPipes/GoalPipesFogOfWar.xml");
 	AI.LoadGoalPipes("Scripts/AI/GoalPipes/GoalPipesBasicAI.xml");
+	AI.LoadGoalPipes("Scripts/AI/GoalPipes/GoalPipesCivilian.xml");	
+	
 	self:CreateAISystemGoalPipes();
 
 end

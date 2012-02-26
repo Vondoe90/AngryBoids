@@ -37,7 +37,7 @@
 		</Contains>
 	</Definition>
 
-	<Definition name="VehiclePartDetached" emptyClass="VehiclePartDetached" maxSize="16">
+	<Definition name="VehiclePartDetached" emptyClass="VehiclePartDetached" maxSize="16" defaultBookmarked="0">
 		<Contains>
 			<Class>VehiclePartDetached</Class>
 		</Contains>

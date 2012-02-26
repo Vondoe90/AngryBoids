@@ -4,7 +4,7 @@
 --------------------------------------------------------------------------
 --	$Id$
 --	$DateTime$
---   Description: the base idle (default) behaviour for humans. All the human classes should derive their 
+--   Description: the base idle (default) behavior for humans. All the human classes should derive their 
 --	idles from this
 --  
 --------------------------------------------------------------------------
@@ -68,7 +68,7 @@ local Behavior = CreateAIBehavior("HBaseIdle",
 	--------------------------------------------
 	MOUNTED_WEAPON_DAMAGE_ALERT = function(self,entity,sender,data)
 		-- data: see OnEnemyDamage
-		AIBehaviour.HBaseIdle:OnEnemyDamage(entity,sender,data);
+		AIBehavior.HBaseIdle:OnEnemyDamage(entity,sender,data);
 		AI.Signal(SIGNALFILTER_SENDER,0,"GO_TO_ALERT",entity.id);
 	end,
 	--------------------------------------------------
@@ -174,7 +174,7 @@ local Behavior = CreateAIBehavior("HBaseIdle",
 	OnBodyFallSound = function(self, entity, sender, data)
 
 		-- ignore this if current behavior is alerted
-		if(entity.Behaviour.alertness and entity.Behaviour.alertness>0) then return end
+		if(entity.Behavior.alertness and entity.Behavior.alertness>0) then return end
 
 		-- approach the location
 		local deadPos = sender:GetWorldPos();
@@ -354,7 +354,9 @@ AI.LogEvent(">>>> ORDER_ENTER_VEHICLE ");
 	---------------------------------------------
 	-- being shot with the sleep bullet	
 	OnFallAndPlay	= function( self, entity, data )
-		AI.SetRefPointPosition(entity.id, data.point);
+		if(data~=nil)then
+			AI.SetRefPointPosition(entity.id, data.point);
+		end
 		if (entity.DoPainSounds) then
 			entity:DoPainSounds();
 		end
@@ -368,7 +370,7 @@ AI.LogEvent(">>>> ORDER_ENTER_VEHICLE ");
 	--------------------------------------------------
 	CIVILIAN_SPOTTED_ENEMY = function( self, entity, sender )
 		g_SignalData.id = entity.id;
-		local al = entity.Behaviour.alertness;
+		local al = entity.Behavior.alertness;
 		if(al==nil or al==0) then 
 			AI.ModifySmartObjectStates(entity.id,"WaitingCivilian");
 			AI.Signal(SIGNALFILTER_SENDER,1,"COME_HERE",sender.id,g_SignalData);

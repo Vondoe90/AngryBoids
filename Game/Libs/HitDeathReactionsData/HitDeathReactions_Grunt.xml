@@ -1,0 +1,206 @@
+<!-- DeathHitReactions Params
+
+	ToDo: Add params description here. For now, check Scripts/GameRules/HitDeathReactions_Defs.xml (right click 
+	on the file name in UE32 to open it) for the expected  format in this file and all the properties currently 
+	managed by the default validation and execution code
+ -->
+ 
+<!-- DTD for defining part categories and avoid duplication as much as possible -->
+<!DOCTYPE HitDeathReactions_CryNetOps [
+	<!-- Internal General XML Entity to store groups -->
+	
+	<!ENTITY RunningSpeed '
+		1.5
+	'>
+			
+	<!-- part groups -->
+	<!ENTITY RightLeg '
+		<Part value="Bip01 R Thigh"/>
+		<Part value="Bip01 R Calf"/>
+		<Part value="Bip01 R Foot"/>
+	'>	
+	
+	<!ENTITY LeftLeg '
+		<Part value="Bip01 L Thigh"/>
+		<Part value="Bip01 L Calf"/>
+		<Part value="Bip01 L Foot"/>
+	'>	
+	
+	<!ENTITY Legs '
+		&RightLeg;
+		&LeftLeg;
+	'>	
+	
+	<!ENTITY LeftArm '
+		<Part value="Bip01 L UpperArm"/>
+		<Part value="Bip01 L ForeArm"/>
+	'>	
+	
+	<!ENTITY RightArm '
+		<Part value="Bip01 R UpperArm"/>
+		<Part value="Bip01 R ForeArm"/>
+	'>	
+	
+	<!ENTITY Arms '
+		&LeftArm;
+		&RightArm;
+	'>	
+	
+	<!ENTITY UpperTorso '
+		<Part value="Bip01 Head"/>
+		<Part value="Bip01 Spine1"/>
+		&Arms;
+	'>
+	
+	<!ENTITY LowerTorso '
+		<Part value="Bip01 Spine"/>
+		<Part value="Bip01 Pelvis"/>
+	'>
+
+	<!ENTITY Torso '
+		&UpperTorso;
+		&LowerTorso;
+	'>
+	
+	<!-- Stance groups -->
+	<!ENTITY StandingStances '
+		<Stance value="STANCE_STAND"/>
+		<Stance value="STANCE_RELAXED"/>
+		<Stance value="STANCE_STEALTH"/>
+		<Stance value="STANCE_ALERTED"/>
+	'>
+	
+]>
+
+<DeathHitReactionsParams>
+	<HitDeathReactionsConfig collReactionStartDist="0.4" maxRagdolImpulse="1000"/>
+	
+	<!-- HIT REACTIONS -->
+	<HitReactionParams>
+	
+		<!-- HIT REACTIONS LEG SHOTS-->
+		<HitReactionParam animName="stand_tac_hit_front_legs_3p_02" shotOrigin="forward" probabilityPercent="0.5">
+			<AllowedStances>
+				<Stance value="STANCE_STAND"/>
+			</AllowedStances>
+			<AllowedParts>
+				&Legs;
+			</AllowedParts>
+		</HitReactionParam>
+				
+		<HitReactionParam animName="stand_tac_hit_back_legs_3p_01" shotOrigin="back">
+			<AllowedStances>
+				<Stance value="STANCE_STAND"/>
+			</AllowedStances>
+			<AllowedParts>
+				&Legs;
+			</AllowedParts>
+		</HitReactionParam>
+				
+		<HitReactionParam animName="stand_tac_hit_lft_legs_3p_01" shotOrigin="left">
+			<AllowedStances>
+				<Stance value="STANCE_STAND"/>
+			</AllowedStances>
+			<AllowedParts>
+				&Legs;
+			</AllowedParts>
+		</HitReactionParam>
+		
+		<HitReactionParam animName="stand_tac_hit_rgt_legs_3p_01" shotOrigin="right">
+			<AllowedStances>
+				<Stance value="STANCE_STAND"/>
+			</AllowedStances>
+			<AllowedParts>
+				&Legs;
+			</AllowedParts>
+		</HitReactionParam>
+		
+		<!-- STAND STANCE RUNNING REACTIONS -->
+		<HitReactionParam minimumSpeed="&RunningSpeed;" animName="stand_tac_hitRunForward_torsoStumble_01" shotOrigin="forward" probabilityPercent="0.5" ragdollOnCollision="1">
+			<AllowedStances>
+				<Stance value="STANCE_STAND"/>
+			</AllowedStances>
+		</HitReactionParam>
+		
+		<HitReactionParam minimumSpeed="&RunningSpeed;" animName="stand_tac_hitRunForward_torsoStumble_02" shotOrigin="back">
+			<AllowedStances>
+				<Stance value="STANCE_STAND"/>
+			</AllowedStances>
+		</HitReactionParam>						
+		
+		<HitReactionParam minimumSpeed="&RunningSpeed;" animName="stand_tac_hitRunForward_lft_torso_3p_01" shotOrigin="left">
+			<AllowedStances>
+				<Stance value="STANCE_STAND"/>
+			</AllowedStances>
+		</HitReactionParam>						
+		
+		<HitReactionParam minimumSpeed="&RunningSpeed;" animName="stand_tac_hitRunForward_rgt_torso_3p_01" shotOrigin="right">
+			<AllowedStances>
+				<Stance value="STANCE_STAND"/>
+			</AllowedStances>
+		</HitReactionParam>	
+						
+		<!-- STAND STANCE REACTIONS -->
+		<HitReactionParam animName="stand_tac_hit_front_torso_3p_01" shotOrigin="forward" probabilityPercent="0.5" ragdollOnCollision="1">
+			<AllowedStances>
+				<Stance value="STANCE_STAND"/>
+			</AllowedStances>
+		</HitReactionParam>
+		
+		<HitReactionParam animName="stand_tac_hit_back_torso_3p_01" shotOrigin="back">
+			<AllowedStances>
+				<Stance value="STANCE_STAND"/>
+			</AllowedStances>
+		</HitReactionParam>						
+		
+		<HitReactionParam animName="stand_tac_hit_lft_torso_3p_01" shotOrigin="left">
+			<AllowedStances>
+				<Stance value="STANCE_STAND"/>
+			</AllowedStances>
+		</HitReactionParam>						
+		
+		<HitReactionParam animName="stand_tac_hit_rgt_torso_3p_01" shotOrigin="right">
+			<AllowedStances>
+				<Stance value="STANCE_STAND"/>
+			</AllowedStances>
+		</HitReactionParam>	
+												
+	</HitReactionParams>
+	
+	<!-- These are reactions to collision with the environment while playing a hit reaction -->
+	<!-- DON'T MODIFY collision reactions without talking with the programmer in charge of the system -->
+	<CollisionReactionParams>
+		<!-- THE FIRST REACTION COLLISION SHOULD ALWAYS BE A FALL AND PLAY ONE, OTHERWISE ragdollOnCollision 
+		PROPERTY WON'T TRIGGER ANY RAGDOLL IN HIT REACTIONS -->
+		<!-- Fall and Play collision -->
+		<CollisionReaction reactionFunc="FallAndPlay_Reaction"/>
+	
+		<!-- front collision -->
+		<CollisionReaction animName="stand_tac_hitColl_front_torso_3p_01" snapOrientationAngle="0">
+		</CollisionReaction>
+		
+		<!-- right side collision -->
+		<CollisionReaction animName="stand_tac_hitColl_rgt_torso_3p_01" snapOrientationAngle="90">
+		</CollisionReaction>
+		
+		<!-- left side collision -->
+		<CollisionReaction animName="stand_tac_hitColl_lft_torso_3p_01" snapOrientationAngle="-90">
+		</CollisionReaction>
+		
+		<!-- back collision -->
+		<CollisionReaction animName="stand_tac_hitColl_back_torso_3p_01" snapOrientationAngle="180">
+		</CollisionReaction>
+		
+		<!-- crouch right collision -->
+		<CollisionReaction animName="crouch_tac_hitColl_rgt_torso_3p_01" snapOrientationAngle="90">
+		</CollisionReaction>
+		
+		<!-- crouch left collision -->
+		<CollisionReaction animName="crouch_tac_hitColl_lft_torso_3p_01" snapOrientationAngle="-90">
+		</CollisionReaction>
+		
+		<!-- crouch back collision -->
+		<CollisionReaction animName="crouch_tac_hitColl_back_torso_3p_01" snapOrientationAngle="180">
+		</CollisionReaction>
+	</CollisionReactionParams>
+</DeathHitReactionsParams>

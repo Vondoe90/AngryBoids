@@ -366,6 +366,7 @@
 		<Particle>
 			<Name>collisions.small.rock</Name>
 		</Particle>
+	</Effect>
 	<Effect name="rock_soil">
 		<Sound>
 			<Name>sounds/physics:collisions/materials:rock_on_soil</Name>
@@ -373,7 +374,7 @@
 		<Particle>
 			<Name>collisions.small.soil</Name>
 		</Particle>
-	</Effect>	</Effect>
+	</Effect>
 	<Effect name="rock_grass">
 		<Sound>
 			<Name>sounds/physics:collisions/materials:rock_on_grass_tall</Name>

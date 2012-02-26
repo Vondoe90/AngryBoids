@@ -59,7 +59,12 @@
             Automagically registers scriptbind methods to rid us of having to add them in both C# and C++.
             </summary>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.OnUpdate(System.Single)">
+        <member name="M:CryEngine.ScriptCompiler.Update">
+            <summary>
+            Called once per frame.
+            </summary>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.PostUpdate(System.Single)">
             <summary>
             Called once per frame.
             </summary>
@@ -177,6 +182,12 @@
             <summary>
             Contains the entities registered with mono.
             EntityId, Entity are stored in here. EntityId is also stored within Entity, but storing it seperately here provides for fast lookup and rids of us too many foreach loops.
+            </summary>
+        </member>
+        <member name="F:CryEngine.EntitySystem.spawnedEntities">
+            <summary>
+            Contains entities spawned using EntitySystem.SpawnEntity.
+            Necessary to update scripts.
             </summary>
         </member>
         <member name="T:CryEngine.EntityFlags">
@@ -1202,11 +1213,6 @@
             <param name="width">The width to render the texture at.</param>
             <param name="height">The height to render the texture at.</param>
             <param name="textureId">The ID of the texture (obtained using Renderer.LoadTexture(path)).</param>
-        </member>
-        <member name="P:CryEngine.Renderer.ViewParams">
-            <summary>
-            The currently active vuiew params
-            </summary>
         </member>
         <member name="P:CryEngine.Renderer.ScreenHeight">
             <summary>

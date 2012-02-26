@@ -36,10 +36,19 @@
   </Platform>
   <GameHints>
 <!-- WEAPONS -->  
-    <scar>
+    <scar_fp>
       <File name="sounds/weapons/weapons_scar.fsb" />
       <File name="sounds/weapons/weapons_accessories.fsb" />
-    </scar>
+    </scar_fp>
+	<scar_3p>
+      <File name="sounds/weapons/weapons_scar_3p.fsb" />
+	</scar_3p>
+	<rocketlauncher_fp>
+      <File name="sounds/weapons/weapons_law.fsb" />
+    </rocketlauncher_fp>
+	<rocketlauncher_3p>
+      <File name="sounds/weapons/weapons_law_3p.fsb" />
+    </rocketlauncher_3p>	
 <!-- VEHICLES -->
     <abrams>
       <File name="sounds/vehicles/vehicles_abrams.fsb" />

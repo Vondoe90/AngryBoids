@@ -16,7 +16,7 @@ ReverbVolume = {
 		reverbpresetReverbPreset="",
 		OuterRadius=2,
 		Environment=1,
-		bFullEffectWhenInside=1, --used for Reverb-Morphing
+		bFullEffectWhenInside=0, --used for Reverb-Morphing
 		bEnabled=1,
 	},
 	bstarted=0,
@@ -211,22 +211,15 @@ ReverbVolume.Client={
 	end,
 		--OnMove = function(self)
 		--end,
-	OnEnterNearArea = function(self, player, nAreaID, fFade )
-		--System.LogToConsole("OnEnterNEARArea-Client Fade:"..tostring(fFade).." player: "..tostring(player.id));
-		if (g_localActorId ~= player.id and player.class~="CameraSource") then	return end;		    
-		--System.LogToConsole("OnEnterNEARArea-Client Fade:"..tostring(fFade).." player: "..tostring(player.id));
+	OnLocalClientEnterNearArea = function(self, player, nAreaID, fFade )
 	  ReverbVolume.RegisterReverb(self,player);
 	end,
 	
-	OnMoveNearArea = function(self,player,areaId,fFade,fDistsq )
-		if (g_localActorId ~= player.id and player.class~="CameraSource") then	return end;	    
-		--System.LogToConsole("OnMoveNEARArea-Client fDistsq:"..tostring(fDistsq).." player: "..tostring(player.id));
+	OnLocalClientMoveNearArea = function(self,player,areaId,fFade,fDistsq )
 	  ReverbVolume.UpdateReverb(self,player,fFade,fDistsq);
 	end,	
 	
-	OnEnterArea = function(self,player,areaId,fFade )
-		--System.LogToConsole("OnEnterArea-Client");
-		if (g_localActorId ~= player.id and player.class~="CameraSource") then	return end;		    
+	OnLocalClientEnterArea = function(self,player,areaId,fFade )
 	  self.inside = 1;
 	  self.fFadeValue = 0;
 	  ReverbVolume.RegisterReverb(self,player);
@@ -234,8 +227,6 @@ ReverbVolume.Client={
 	end,
 	
 	OnSoundEnterArea = function(self)
-		--System.LogToConsole("OnEnterArea-Client");
-		if (g_localActorId ~= player.id and player.class~="CameraSource") then	return end;	 
 	  --self.inside = 1;
 	  --self.fFadeValue = 0;
 	  --ReverbVolume.RegisterReverb(self,player,areaId);
@@ -247,10 +238,7 @@ ReverbVolume.Client={
 	end,
 	
 	
-	OnProceedFadeArea = function(self, player, areaId, fExternalFade)
-	  --System.LogToConsole("OnMoveInsideArea-Client Fade:"..tostring(fFade));
-		if (g_localActorId ~= player.id and player.class~="CameraSource") then	return end;		    	  
-	  
+	OnLocalClientProceedFadeArea = function(self, player, areaId, fExternalFade)
 	  -- fExternalFade holds the fade value which was calculated by an inner, higher priority area
 	  -- in the AreaManager to fade out the outer sound dependant on the biggest effect radius of all attached entities
 	  
@@ -263,14 +251,11 @@ ReverbVolume.Client={
 	  end
 	end,
 	
-	OnLeaveArea = function(self, player, nAreaID, fFade)
-		--System.LogToConsole("OnLeaveNearArea-Client");
-		if (g_localActorId ~= player.id and player.class~="CameraSource") then	return end;	   
+	OnLocalClientLeaveArea = function(self, player, nAreaID, fFade)
 		self.inside = 0;
 	end,	
 	
-	OnLeaveNearArea = function(self, player, nAreaID, fFade)
-		if (g_localActorId ~= player.id and player.class~="CameraSource") then	return end;	 
+	OnLocalClientLeaveNearArea = function(self, player, nAreaID, fFade)
 	  ReverbVolume.UnregisterReverb(self,player);
 	  self.inside = 0;
 	end,

@@ -1,36 +1,9 @@
-<EntityPrototypeLibrary Name="Props_Destroyable" SandboxVersion="3.3.7.2495">
- <EntityPrototype Name="Domestic/Explosive.Gas_Canister" Id="{1F4FFBC2-DB71-4ECF-AA0E-4FDD847A929A}" Library="Props_Destroyable" Class="DestroyableObject" Description="">
-  <Properties bAutoGenAIHidePts="0" fDamageTreshold="0" DestroyedSubObject="" DmgFactorWhenCollidingAI="1" bExplode="1" esFaction="" bInteractLargeObject="0" object_Model="objects/props/furniture/kitchen/gascanister.cgf" object_ModelDestroyed="" ModelSubObject="" bPickable="1" bPlayerOnly="0" soclasses_SmartObjectClass="" bUsable="0" UseText="">
-   <Breakage fExplodeImpulse="0" fLifeTime="10" bSurfaceEffects="1"/>
-   <DamageMultipliers fBullet="1" fCollision="1"/>
-   <Explosion Damage="250" Decal="textures/decal/explo_decal.dds" Delay="0" Effect="explosions.small_fuel_tank.gas" EffectScale="0.5" HoleSize="8" MinPhysRadius="1.5" MinRadius="2" PhysRadius="2.5" Pressure="500" Radius="2.5" SoundRadius="0" TerrainHoleSize="8">
-    <DelayEffect Effect="" bHasDelayEffect="0">
-     <Params AttachForm="none" AttachType="none" bCountPerUnit="0" CountScale="1" bPrime="0" Scale="1" bSizePerUnit="0" SpawnPeriod="0"/>
-     <vOffset x="0" y="0" z="0"/>
-     <vRotation x="0" y="0" z="0"/>
-    </DelayEffect>
-    <Direction x="0" y="0" z="1"/>
-    <vOffset x="0" y="0" z="0"/>
-   </Explosion>
-   <Health bInvulnerable="0" MaxHealth="50" bOnlyEnemyFire="0"/>
-   <Interest soaction_Action="" bInteresting="0" InterestLevel="1" Pause="15" Radius="20" bShared="0">
-    <vOffset x="0" y="0" z="0"/>
-   </Interest>
-   <Physics bActivateOnDamage="0" bCanBreakOthers="0" Density="-1" Mass="-1" bPushableByPlayers="0" bRigidBody="1" bRigidBodyActive="1" bRigidBodyAfterDeath="1">
-    <MP bDontSyncPos="0"/>
-    <Simulation damping="0.1" max_time_step="0.01" sleep_speed="0.02"/>
-   </Physics>
-   <Sounds fAISoundRadius="30" sound_Alive="" sound_Dead="" sound_Dying="" bStopSoundsOnDestroyed="1"/>
-   <Vulnerability bBullet="1" bCollision="1" bExplosion="1" bMelee="0" bOther="1"/>
-   <AdditionalArchetypeProperties PrototypeMaterial=""/>
-  </Properties>
-  <ObjectVars OutdoorOnly="0" CastShadow="1" LodRatio="100" ViewDistRatio="100" HiddenInGame="0" RecvWind="0" RenderNearest="0" NoStaticDecals="0" CreatedThroughPool="0"/>
- </EntityPrototype>
+<EntityPrototypeLibrary Name="Props_Destroyable" SandboxVersion="3.3.9.3380">
  <EntityPrototype Name="Storage.Civil_Crate_Closed" Id="{F9BBEB2E-C6E5-48D3-919E-C94216D79D1A}" Library="Props_Destroyable" Class="DestroyableObject" Description="">
-  <Properties bAutoGenAIHidePts="0" fDamageTreshold="0" DestroyedSubObject="Remain" DmgFactorWhenCollidingAI="1" bExplode="0" esFaction="" bInteractLargeObject="0" object_Model="objects/props/storage/civil/civil_box_a.cgf" object_ModelDestroyed="" ModelSubObject="Main" bPickable="0" bPlayerOnly="1" soclasses_SmartObjectClass="" bUsable="0" UseText="">
+  <Properties bAutoGenAIHidePts="0" fDamageTreshold="0" DestroyedSubObject="Remain" DmgFactorWhenCollidingAI="1" bExplode="1" esFaction="" bInteractLargeObject="0" object_Model="objects/props/storage/civil/civil_box_a.cgf" object_ModelDestroyed="" ModelSubObject="Main" bPickable="0" bPlayerOnly="1" soclasses_SmartObjectClass="" bUsable="0" UseText="">
    <Breakage fExplodeImpulse="0" fLifeTime="10" bSurfaceEffects="1"/>
    <DamageMultipliers fBullet="1" fCollision="1"/>
-   <Explosion Damage="1000" Decal="textures/decal/explo_decal.dds" Delay="0" Effect="explosions.grenade_air.explosion" EffectScale="1" HoleSize="10" MinPhysRadius="2.5" MinRadius="5" PhysRadius="5" Pressure="1000" Radius="10" SoundRadius="0" TerrainHoleSize="5">
+   <Explosion Damage="0" Decal="textures/decal/explo_decal.dds" Delay="0" Effect="explosions.barrel.wood_explode" EffectScale="1" HoleSize="10" MinPhysRadius="2.5" MinRadius="5" PhysRadius="5" Pressure="0" Radius="10" SoundRadius="0" TerrainHoleSize="5">
     <DelayEffect Effect="" bHasDelayEffect="0">
      <Params AttachForm="none" AttachType="none" bCountPerUnit="0" CountScale="1" bPrime="0" Scale="1" bSizePerUnit="0" SpawnPeriod="0"/>
      <vOffset x="0" y="0" z="0"/>
@@ -39,7 +12,7 @@
     <Direction x="0" y="0" z="1"/>
     <vOffset x="0" y="0" z="0"/>
    </Explosion>
-   <Health bInvulnerable="1" MaxHealth="500" bOnlyEnemyFire="1"/>
+   <Health bInvulnerable="0" MaxHealth="300" bOnlyEnemyFire="1"/>
    <Interest soaction_Action="" bInteresting="0" InterestLevel="1" Pause="15" Radius="20" bShared="0">
     <vOffset x="0" y="0" z="0"/>
    </Interest>
@@ -54,7 +27,7 @@
   <ObjectVars OutdoorOnly="0" CastShadow="1" LodRatio="100" ViewDistRatio="100" HiddenInGame="0" RecvWind="0" RenderNearest="0" NoStaticDecals="0" CreatedThroughPool="0"/>
  </EntityPrototype>
  <EntityPrototype Name="Lights.Mine_Lamp" Id="{A7CAA29D-5FF2-41F5-AF16-DC6405A431B6}" Library="Props_Destroyable" Class="DestroyableLight" Description="">
-  <Properties bPickable="1" bUsable="0" UseText="">
+  <Properties bPickable="0" bUsable="0" UseText="">
    <Breakage fExplodeImpulse="0" fLifeTime="10" bSurfaceEffects="1"/>
    <Damage fDamageTreshold="0" bExplode="0" fHealth="20"/>
    <DamageMultipliers fBullet="1" fCollision="1"/>
@@ -78,10 +51,10 @@
   <ObjectVars OutdoorOnly="0" CastShadow="1" LodRatio="100" ViewDistRatio="100" HiddenInGame="0" RecvWind="0" RenderNearest="0" NoStaticDecals="0" CreatedThroughPool="0"/>
  </EntityPrototype>
  <EntityPrototype Name="Storage.Wooden_Barrel_Large" Id="{006DB547-1199-4AC6-8598-2579757EFD61}" Library="Props_Destroyable" Class="DestroyableObject" Description="">
-  <Properties bAutoGenAIHidePts="0" fDamageTreshold="0" DestroyedSubObject="Remain" DmgFactorWhenCollidingAI="1" bExplode="0" esFaction="" bInteractLargeObject="0" object_Model="objects/props/misc/wooden_barrel/wooden_barrel_a.cgf" object_ModelDestroyed="" ModelSubObject="Main" bPickable="0" bPlayerOnly="1" soclasses_SmartObjectClass="" bUsable="0" UseText="">
+  <Properties bAutoGenAIHidePts="0" fDamageTreshold="0" DestroyedSubObject="Remain" DmgFactorWhenCollidingAI="1" bExplode="1" esFaction="" bInteractLargeObject="0" object_Model="objects/props/misc/wooden_barrel/wooden_barrel_a.cgf" object_ModelDestroyed="" ModelSubObject="Main" bPickable="0" bPlayerOnly="1" soclasses_SmartObjectClass="" bUsable="0" UseText="">
    <Breakage fExplodeImpulse="0" fLifeTime="10" bSurfaceEffects="1"/>
    <DamageMultipliers fBullet="1" fCollision="1"/>
-   <Explosion Damage="1000" Decal="textures/decal/explo_decal.dds" Delay="0" Effect="explosions.grenade_air.explosion" EffectScale="1" HoleSize="10" MinPhysRadius="2.5" MinRadius="5" PhysRadius="5" Pressure="1000" Radius="10" SoundRadius="0" TerrainHoleSize="5">
+   <Explosion Damage="0" Decal="textures/decal/explo_decal.dds" Delay="0" Effect="explosions.barrel.wood_explode" EffectScale="1" HoleSize="10" MinPhysRadius="2.5" MinRadius="5" PhysRadius="5" Pressure="0" Radius="10" SoundRadius="0" TerrainHoleSize="5">
     <DelayEffect Effect="" bHasDelayEffect="0">
      <Params AttachForm="none" AttachType="none" bCountPerUnit="0" CountScale="1" bPrime="0" Scale="1" bSizePerUnit="0" SpawnPeriod="0"/>
      <vOffset x="0" y="0" z="0"/>
@@ -90,7 +63,7 @@
     <Direction x="0" y="0" z="1"/>
     <vOffset x="0" y="0" z="0"/>
    </Explosion>
-   <Health bInvulnerable="1" MaxHealth="200" bOnlyEnemyFire="1"/>
+   <Health bInvulnerable="0" MaxHealth="300" bOnlyEnemyFire="1"/>
    <Interest soaction_Action="" bInteresting="0" InterestLevel="1" Pause="15" Radius="20" bShared="0">
     <vOffset x="0" y="0" z="0"/>
    </Interest>
@@ -102,13 +75,13 @@
    <Vulnerability bBullet="1" bCollision="1" bExplosion="1" bMelee="0" bOther="1"/>
    <AdditionalArchetypeProperties PrototypeMaterial=""/>
   </Properties>
-  <ObjectVars OutdoorOnly="0" CastShadow="1" LodRatio="100" ViewDistRatio="100" HiddenInGame="0" RecvWind="0" RenderNearest="0" NoStaticDecals="0" CreatedThroughPool="0"/>
+  <ObjectVars OutdoorOnly="0" CastShadow="1" LodRatio="100" ViewDistRatio="150" HiddenInGame="0" RecvWind="0" RenderNearest="0" NoStaticDecals="0" CreatedThroughPool="0"/>
  </EntityPrototype>
  <EntityPrototype Name="Storage.Wooden_Barrel_Small" Id="{1D669179-D632-4475-BD02-ACC88ED96DF8}" Library="Props_Destroyable" Class="DestroyableObject" Description="">
-  <Properties bAutoGenAIHidePts="0" fDamageTreshold="0" DestroyedSubObject="Remain" DmgFactorWhenCollidingAI="1" bExplode="0" esFaction="" bInteractLargeObject="0" object_Model="objects/props/misc/wooden_barrel/wooden_barrel_b.cgf" object_ModelDestroyed="" ModelSubObject="Main" bPickable="0" bPlayerOnly="1" soclasses_SmartObjectClass="" bUsable="0" UseText="">
+  <Properties bAutoGenAIHidePts="0" fDamageTreshold="0" DestroyedSubObject="Remain" DmgFactorWhenCollidingAI="1" bExplode="1" esFaction="" bInteractLargeObject="0" object_Model="objects/props/misc/wooden_barrel/wooden_barrel_b.cgf" object_ModelDestroyed="" ModelSubObject="Main" bPickable="0" bPlayerOnly="1" soclasses_SmartObjectClass="" bUsable="0" UseText="">
    <Breakage fExplodeImpulse="0" fLifeTime="10" bSurfaceEffects="1"/>
    <DamageMultipliers fBullet="1" fCollision="1"/>
-   <Explosion Damage="1000" Decal="textures/decal/explo_decal.dds" Delay="0" Effect="explosions.grenade_air.explosion" EffectScale="1" HoleSize="10" MinPhysRadius="2.5" MinRadius="5" PhysRadius="5" Pressure="1000" Radius="10" SoundRadius="0" TerrainHoleSize="5">
+   <Explosion Damage="0" Decal="textures/decal/explo_decal.dds" Delay="0" Effect="explosions.barrel.wood_explode" EffectScale="1" HoleSize="10" MinPhysRadius="2.5" MinRadius="5" PhysRadius="5" Pressure="0" Radius="10" SoundRadius="0" TerrainHoleSize="5">
     <DelayEffect Effect="" bHasDelayEffect="0">
      <Params AttachForm="none" AttachType="none" bCountPerUnit="0" CountScale="1" bPrime="0" Scale="1" bSizePerUnit="0" SpawnPeriod="0"/>
      <vOffset x="0" y="0" z="0"/>
@@ -117,7 +90,7 @@
     <Direction x="0" y="0" z="1"/>
     <vOffset x="0" y="0" z="0"/>
    </Explosion>
-   <Health bInvulnerable="0" MaxHealth="100" bOnlyEnemyFire="1"/>
+   <Health bInvulnerable="0" MaxHealth="250" bOnlyEnemyFire="1"/>
    <Interest soaction_Action="" bInteresting="0" InterestLevel="1" Pause="15" Radius="20" bShared="0">
     <vOffset x="0" y="0" z="0"/>
    </Interest>
@@ -129,7 +102,7 @@
    <Vulnerability bBullet="1" bCollision="1" bExplosion="1" bMelee="0" bOther="1"/>
    <AdditionalArchetypeProperties PrototypeMaterial=""/>
   </Properties>
-  <ObjectVars OutdoorOnly="0" CastShadow="1" LodRatio="100" ViewDistRatio="100" HiddenInGame="0" RecvWind="0" RenderNearest="0" NoStaticDecals="0" CreatedThroughPool="0"/>
+  <ObjectVars OutdoorOnly="0" CastShadow="1" LodRatio="80" ViewDistRatio="200" HiddenInGame="0" RecvWind="0" RenderNearest="0" NoStaticDecals="0" CreatedThroughPool="0"/>
  </EntityPrototype>
  <EntityPrototype Name="Marine.LobsterCage" Id="{73058F5F-E3F4-4855-9698-9F8AC2EFBA3B}" Library="Props_Destroyable" Class="DestroyableObject" Description="">
   <Properties bAutoGenAIHidePts="0" fDamageTreshold="0" DestroyedSubObject="" DmgFactorWhenCollidingAI="1" bExplode="0" esFaction="" bInteractLargeObject="0" object_Model="objects/props/maritime/lobster_cage/lobster_cage.cgf" object_ModelDestroyed="" ModelSubObject="" bPickable="0" bPlayerOnly="1" soclasses_SmartObjectClass="" bUsable="0" UseText="">

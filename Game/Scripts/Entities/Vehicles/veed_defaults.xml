@@ -128,7 +128,7 @@
     <MovementNotification isSteering="0" isFatal="1" />    
     <Group name="" />    
     <Destroy />
-    <BlowTire />
+    <BlowTire effect=""/>
     <Indicator>
     	<Light material="" sound="" soundRatioMin="" helper="" />
     </Indicator>

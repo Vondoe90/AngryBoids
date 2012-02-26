@@ -39,7 +39,7 @@ local Behavior = CreateAIBehavior("VtolFly", "HeliBase",
 	--------------------------------------------------------------------------
 	OnEnemySeen = function( self, entity, fDistance )
 
-		AIBehaviour.HELIDEFAULT:heliRequest2ndGunnerShoot( entity );
+		AIBehavior.HELIDEFAULT:heliRequest2ndGunnerShoot( entity );
 
 		if ( entity.AI.vehicleIgnorantIssued == true ) then
 			return;
@@ -96,11 +96,11 @@ local Behavior = CreateAIBehavior("VtolFly", "HeliBase",
 
 		if ( entity.AI.flyPathName ~=nil ) then
 			entity.AI.heliTimer4 = 1;
-			Script.SetTimerForFunction( minUpdateTime *1000, "AIBehaviour.VtolFly.VTOLFLY_SUB2", entity );
+			Script.SetTimerForFunction( minUpdateTime *1000, "AIBehavior.VtolFly.VTOLFLY_SUB2", entity );
 
 		else
 			entity.AI.heliTimer4 = 1;
-			Script.SetTimerForFunction( minUpdateTime *1000, "AIBehaviour.VtolFly.VTOLFLY_SUB", entity );
+			Script.SetTimerForFunction( minUpdateTime *1000, "AIBehavior.VtolFly.VTOLFLY_SUB", entity );
 		end
 
 	end,
@@ -135,7 +135,7 @@ local Behavior = CreateAIBehavior("VtolFly", "HeliBase",
 		end
 
 		entity.AI.heliTimer4 = 1;
-		Script.SetTimerForFunction( minUpdateTime *1000, "AIBehaviour.VtolFly.VTOLFLY_SUB", entity );
+		Script.SetTimerForFunction( minUpdateTime *1000, "AIBehavior.VtolFly.VTOLFLY_SUB", entity );
 		entity.AI.deltaTSystem = System.GetCurrTime();
 
 	--------------------------------------------------------------------------
@@ -228,7 +228,7 @@ local Behavior = CreateAIBehavior("VtolFly", "HeliBase",
 		end
 
 		entity.AI.heliTimer4 = 1;
-		Script.SetTimerForFunction( minUpdateTime *1000, "AIBehaviour.VtolFly.VTOLFLY_SUB2", entity );
+		Script.SetTimerForFunction( minUpdateTime *1000, "AIBehavior.VtolFly.VTOLFLY_SUB2", entity );
 		entity.AI.deltaTSystem = System.GetCurrTime();
 
 	--------------------------------------------------------------------------

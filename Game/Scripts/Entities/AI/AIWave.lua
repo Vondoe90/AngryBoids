@@ -265,6 +265,11 @@ function AIWave:Event_Spawn()
 				entity:Event_Spawn();
 				spawned = true;
 				Set.Remove(self.deadAIs, entity.id);
+				
+				if (entity.vehicle) then
+					-- Vehicles reset, not re-spawn, so SetupTerritory would operate on a dead vehicle, without any effect
+					Set.Add(self.liveAIs, entity.id);
+				end
 			end
 		end
 	end
@@ -476,7 +481,9 @@ end
 
 ------------------------------------------------------------------------
 function AIWave:AddNormal(entity)
-	if (IsEntityEnabled(entity)) then
+	-- evgeny: I don't remember why IsEntityEnabled(entity) is important here
+	--if (IsEntityEnabled(entity)) then
+	if (true) then
 		local name = self:GetName();
 		local territory = entity.AI.TerritoryShape;
 		local AICanBeActivated = ((not territory) or ActiveTerritories[territory]);
@@ -531,6 +538,11 @@ function AIWave:OnEntityPreparedFromPool( entity )
 			end
 			entity.spawnedEntity = nil;
 			deadEntity:Event_Spawn();
+			
+			if (deadEntity.vehicle) then
+				-- Vehicles reset, not re-spawn, so SetupTerritory would operate on a dead vehicle, without any effect
+				Set.Add(self.liveAIs, deadEntity.id);
+			end
 		end
 		Set.Remove(self.deadAIs, entityIdToSpawnFrom);
 		Set.Remove(self.toSpawnFromDeadBookmarks, entity.id );

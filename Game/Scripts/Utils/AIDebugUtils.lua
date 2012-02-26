@@ -110,26 +110,26 @@ AIDebugUtils.DecodeSignalValues = function(arg,argc)
 end
 
 
--- Install hooks on a certain behaviour, optionally for certain AIs
+-- Install hooks on a certain behavior, optionally for certain AIs
 -- Hooks report decoded paramters and signal data for every signal, straight to console
 -- Can be installed, removed, and entities specified all at runtime
-function AIDebugUtils.InstallSignalHooks( behaviour, ... )
+function AIDebugUtils.InstallSignalHooks( behavior, ... )
 	-- Get the list of entities to include, nil means "all"
 	local entityList = Set.New();
 	for i,name in ipairs(arg) do
 		Set.Add(entityList,name);
 	end
 
-	AIDebugUtils.RemoveSignalHooks( behaviour );
+	AIDebugUtils.RemoveSignalHooks( behavior );
 
-	behaviour.oldHandlers = {};
+	behavior.oldHandlers = {};
 	-- Insert a logging hook into all the above functions
-	for name,fun in pairs(behaviour) do
+	for name,fun in pairs(behavior) do
 		-- Store the original handler for later recovery
-		behaviour.oldHandlers[name] = fun;		
+		behavior.oldHandlers[name] = fun;		
 		-- Install new handler that eventually calls the old one
 		if (type(fun) == "function") then
-			behaviour[name] = function(behaviour, entity, ... )
+			behavior[name] = function(behavior, entity, ... )
 				local entityName = ( entity and entity.GetName and entity:GetName() ) or "None";
 	
 				-- Optionally, only print debugging info for given entities
@@ -147,22 +147,22 @@ function AIDebugUtils.InstallSignalHooks( behaviour, ... )
 					System.Log( s .. AIDebugUtils.DecodeSignalValues(arg,argc) );
 				end
 				
-				fun(behaviour, entity, unpack(arg));
+				fun(behavior, entity, unpack(arg));
 			end
 		end
 	end
 end
 
 
--- Remove all hooks on a certain behaviour
-function AIDebugUtils.RemoveSignalHooks( behaviour, name )
+-- Remove all hooks on a certain behavior
+function AIDebugUtils.RemoveSignalHooks( behavior, name )
 	-- Looks up original handlers from previously stored table
-	if (behaviour.oldHandlers) then
-		for name, fun in pairs (behaviour.oldHandlers) do
-			behaviour[name] = fun;
+	if (behavior.oldHandlers) then
+		for name, fun in pairs (behavior.oldHandlers) do
+			behavior[name] = fun;
 		end
 	end
-	behaviour.oldHandlers = nil;
+	behavior.oldHandlers = nil;
 end
 
 

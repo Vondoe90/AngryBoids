@@ -15,17 +15,17 @@
 		</DamagesGroup>
 		<DamagesGroup name="CarDestroy" useTemplate="VehicleDestroy">
 			<DamagesSubGroups>
-				<DamagesSubGroup delay="0.2" randomness="1">
+				<DamagesSubGroup delay="0.2" randomness="0">
 					<DamageBehaviors>
 						<DamageBehavior class="Explosion" >
-							<Explosion damage="350" helper="vehicleBurnPos" pressure="3000" radius="10" minRadius="5" physRadius="3" minPhysRadius="2.2" />
+							<Explosion damage="350" helper="vehicleBurnPos" pressure="3000" radius="20" minRadius="10" physRadius="10" minPhysRadius="5" />
 						</DamageBehavior>
 					</DamageBehaviors>
 				</DamagesSubGroup>
-				<DamagesSubGroup delay="3" randomness="0.25">
+				<DamagesSubGroup delay="0.2" randomness="1">
 					<DamageBehaviors>
 						<DamageBehavior class="Burn" >
-							<Burn damage="15" helper="vehicleBurnPos" interval="0.5" radius="3" selfDamage="15" />
+							<Burn damage="2" helper="vehicleBurnPos" interval="0.5" radius="3" selfDamage="0.0" />
 						</DamageBehavior>
 					</DamageBehaviors>
 				</DamagesSubGroup>
@@ -33,17 +33,17 @@
 		</DamagesGroup>
 		<DamagesGroup name="TankDestroy" useTemplate="VehicleDestroy">
 			<DamagesSubGroups>
-				<DamagesSubGroup delay="0.2" randomness="1">
+				<DamagesSubGroup delay="0.0" randomness="1">
 					<DamageBehaviors>
 						<DamageBehavior class="Explosion">
-							<Explosion damage="500" helper="vehicleBurnPos" pressure="4000" radius="10" minRadius="5" physRadius="3" minPhysRadius="2.2" />
+							<Explosion damage="500" helper="vehicleBurnPos" pressure="4000" radius="20" minRadius="10" physRadius="10" minPhysRadius="5" />
 						</DamageBehavior>
 					</DamageBehaviors>
 				</DamagesSubGroup>
 				<DamagesSubGroup delay="2" randomness="1">
 					<DamageBehaviors>
 						<DamageBehavior class="Burn" >
-							<Burn damage="22" helper="vehicleBurnPos" interval="0.5" radius="4" selfDamage="25" />
+							<Burn damage="2" helper="vehicleBurnPos" interval="0.5" radius="4" selfDamage="0.0" />
 						</DamageBehavior>
 					</DamageBehaviors>
 				</DamagesSubGroup>
@@ -54,16 +54,16 @@
 				<DamagesSubGroup delay="0.2" randomness="1">
 					<DamageBehaviors>
 						<DamageBehavior class="Explosion" >
-							<Explosion damage="300" helper="vehicleBurnPos" pressure="2000" radius="10" minRadius="5" physRadius="3" minPhysRadius="2.2" />
+							<Explosion damage="300" helper="vehicleBurnPos" pressure="200" radius="5" minRadius="2" physRadius="3" minPhysRadius="2.2" />
 						</DamageBehavior>
 						<DamageBehavior class="Sink" damageRatioMin="1"/>
 					</DamageBehaviors>
-				</DamagesSubGroup>				
+				</DamagesSubGroup>
 				<DamagesSubGroup delay="1" randomness="0">
-					<DamageBehaviors>						
+					<DamageBehaviors>
 						<DamageBehavior class="Sink" damageRatioMin="1"/>
 					</DamageBehaviors>
-				</DamagesSubGroup>				
+				</DamagesSubGroup>
 			</DamagesSubGroups>
 		</DamagesGroup>
 	</DamagesGroups>

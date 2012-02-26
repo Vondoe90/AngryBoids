@@ -23,7 +23,7 @@ local Behavior = CreateAIBehavior("HeliGoto", "VehicleGoto",
 			return;
 		end
 
-		if ( AIBehaviour.HELIDEFAULT:heliCheckDamage( entity, data ) == false ) then
+		if ( AIBehavior.HELIDEFAULT:heliCheckDamage( entity, data ) == false ) then
 			return;
 		end
 		AI.Signal(SIGNALFILTER_SENDER, 1, "TO_HELI_PATROL", entity.id);

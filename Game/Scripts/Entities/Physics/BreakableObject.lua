@@ -4,7 +4,7 @@ BreakableObject =
 {
 	Properties =
 	{
-		objModel = "objects/default/primitive_box.cgf",
+		objModel = "objects/default/primitive_sphere.cgf",
 		fDensity = 5000,
 		fMass = -1,
 		bResting = 0, -- If rigid body is originally in resting state.

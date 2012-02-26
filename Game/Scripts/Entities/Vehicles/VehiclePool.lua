@@ -27,6 +27,16 @@ for i,vehicle in pairs(VehicleSystem.VehicleImpls) do
   		bAutoGenAIHidePts = 0,
   		teamName = "",
   	},
+
+ 	PropertiesInstance =
+ 	{
+ 		AITerritoryAndWave =
+ 		{
+			aiterritory_Territory = "<None>",
+			aiwave_Wave           = "<None>",
+		},
+	}, 
+
   	Editor = 
 		{
 			Icon="Vehicle.bmp",
@@ -34,12 +44,19 @@ for i,vehicle in pairs(VehicleSystem.VehicleImpls) do
 		},
   		
   	Client = {},
-  	Server = {},      	
+  	
+  	Server =
+  	{
+		OnStartGame = function(self)
+		  self:SetupTerritoryAndWave();
+		end,
+  	},
   };
   
     AddHeavyObjectProperty(gVehicle);
   MakeInterestingToAI(gVehicle, 1);
 	MakeAICoverEntity(gVehicle);
+	MakeSpawnable(gVehicle)
 --------------------------------------------------------------------------		
 
   -- execute optional lua script 
@@ -174,6 +191,7 @@ for i,vehicle in pairs(VehicleSystem.VehicleImpls) do
 			DisableEngine = "bool",
 			EnableMovement = "bool",
 			DisableMovement = "bool",
+			Dead = "bool",
 		},
 	};
 	

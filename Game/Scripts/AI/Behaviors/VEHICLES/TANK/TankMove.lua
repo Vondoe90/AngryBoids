@@ -1375,14 +1375,14 @@ local Behavior = CreateAIBehavior("TankMove",
 		CopyVector( entity.AI.vDefultPos, entity:GetPos() );
 		CopyVector( entity.AI.vLastTargetPos, entity:GetPos() );
 
-		AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, true );
+		AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, true );
 
 	end,
 
 	---------------------------------------------
 	Destructor = function ( self, entity, data )
 
-		-- called when the behaviour is de-selected
+		-- called when the behavior is de-selected
 		-- the extra data is from the signal that is causing the behavior transition
 		entity:SelectPipe(0,"do_nothing");
 		entity:InsertSubpipe(0, "clear_all");
@@ -1533,7 +1533,7 @@ local Behavior = CreateAIBehavior("TankMove",
 
 --		entity:InsertSubpipe(0,"devalue_target");
 
-		entity.AI.bUseMachineGun = AIBehaviour.TANKDEFAULT:tankDoesUseMachineGun( entity );
+		entity.AI.bUseMachineGun = AIBehavior.TANKDEFAULT:tankDoesUseMachineGun( entity );
 
 		if ( entity.AI.bUseMachineGun == true ) then
 			if ( random(1,2) == 1 ) then
@@ -1605,7 +1605,7 @@ local Behavior = CreateAIBehavior("TankMove",
 
 		-- for the first action
 
-		entity.AI.bUseMachineGun = AIBehaviour.TANKDEFAULT:tankDoesUseMachineGun( entity );
+		entity.AI.bUseMachineGun = AIBehavior.TANKDEFAULT:tankDoesUseMachineGun( entity );
 
 		local vDifference ={}
 		local obstacles = checkFriendInWay( entity, vDifference );
@@ -1650,7 +1650,7 @@ local Behavior = CreateAIBehavior("TankMove",
 	TANK_MOVE_START = function( self, entity )
 
 		entity.AI.bBlockSignal = false;
-		entity.AI.bUseMachineGun = AIBehaviour.TANKDEFAULT:tankDoesUseMachineGun( entity );
+		entity.AI.bUseMachineGun = AIBehavior.TANKDEFAULT:tankDoesUseMachineGun( entity );
 		if ( entity.AI.bUseMachineGun == true ) then
 			if ( random(1,2) == 1 ) then
 				request2ndGunnerShoot( entity );
@@ -2039,7 +2039,7 @@ local Behavior = CreateAIBehavior("TankMove",
 					else
 						entity.AI.shootCounter = 21;
 					end
-					AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, bMissile );
+					AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, bMissile );
 				end
 			end
 
@@ -2095,7 +2095,7 @@ local Behavior = CreateAIBehavior("TankMove",
 			return;
 		end
 
-		entity.AI.bUseMachineGun = AIBehaviour.TANKDEFAULT:tankDoesUseMachineGun( entity );
+		entity.AI.bUseMachineGun = AIBehavior.TANKDEFAULT:tankDoesUseMachineGun( entity );
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
 		if ( target and AI.Hostile( entity.id, target.id ) ) then
@@ -2121,11 +2121,11 @@ local Behavior = CreateAIBehavior("TankMove",
 							-- entity:InsertSubpipe(0,"devalue_target");
 						else
 							entity.AI.shootCounter = 1;
-							AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, true )
+							AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, true )
 
 							if ( entity.AI.isAPC and entity.AI.isAPC == true ) then
 								if ( random(1,2)==1 ) then
-									AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, false )
+									AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, false )
 									entity.AI.shootCounter = 21;
 								end
 							end
@@ -2133,7 +2133,7 @@ local Behavior = CreateAIBehavior("TankMove",
 						end
 					else
 						entity.AI.shootCounter = 21;
-						AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, false )
+						AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, false )
 					end
 				end
 			end

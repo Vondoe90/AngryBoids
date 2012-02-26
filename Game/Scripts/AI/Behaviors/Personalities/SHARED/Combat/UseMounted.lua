@@ -16,7 +16,7 @@ local Behavior = CreateAIBehavior("UseMounted",
 		local weapon = entity.AI.current_mounted_weapon;
 		if( weapon and (not weapon.item:IsUsed())) then -- or weapon.item:GetOwnerId()==entity.id and not entity:IsUsingPipe("near_mounted_weapon"))) then 
 				-- sorry....
-			AIBehaviour.UseMounted:StartUsingMountedWeapon(entity);
+			AIBehavior.UseMounted:StartUsingMountedWeapon(entity);
 		else
 			entity:SelectPipe(0,"fire_mounted_weapon");
 		end
@@ -27,12 +27,12 @@ local Behavior = CreateAIBehavior("UseMounted",
 		AI.ChangeParameter(entity.id, AIPARAM_FIRE_TURNSPEED, 15);
 		entity.AI.SkipTargetCheck = false;
 --		-- prevent shooting a short burst when he see the player sneaking behind him
---		AIBehaviour.UseMounted:CheckTargetInRange( entity );
+--		AIBehavior.UseMounted:CheckTargetInRange( entity );
 	end,
 	
 	Destructor = function( self, entity )
 	
-		AIBehaviour.UseMountedIdle:LeaveMG(entity);	
+		AIBehavior.UseMountedIdle:LeaveMG(entity);	
  		
 		AI.ChangeParameter(entity.id, AIPARAM_AIM_TURNSPEED, entity.AI.oldAimTurnSpeed);
 		AI.ChangeParameter(entity.id, AIPARAM_FIRE_TURNSPEED, entity.AI.oldFireTurnSpeed);
@@ -64,7 +64,7 @@ local Behavior = CreateAIBehavior("UseMounted",
 		if(not entity.AI.SkipTargetCheck) then 
 			local weapon = entity.AI.current_mounted_weapon;
 			--if(not (weapon and entity:IsTargetAimable( weapon )) ) then
-			if(not (weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehaviour.DEFAULT.MaxDistanceToMountedWeapon) )) then
+			if(not (weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehavior.DEFAULT.MaxDistanceToMountedWeapon) )) then
 				--weapon.listPotentialUsers = 1; -- put any value to prevent someone else to use it
 				AI.Signal(SIGNALFILTER_SENDER,0,"LeaveMG",entity.id);
 			end
@@ -172,7 +172,7 @@ local Behavior = CreateAIBehavior("UseMounted",
 		-- leave the MG if shooter is out of range
 		if(shooter) then 
 			local weapon = entity.AI.current_mounted_weapon;
-			if(not(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehaviour.DEFAULT.MaxDistanceToMountedWeapon,shooter:GetPos()) )) then
+			if(not(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehavior.DEFAULT.MaxDistanceToMountedWeapon,shooter:GetPos()) )) then
 				AI.Signal(SIGNALFILTER_SENDER, 1, "LEAVE_MOUNTED_WEAPON",entity.id);
 				-- prevent the guy to use MG again immediately after
 				AI.ModifySmartObjectStates(entity.id,"DontUseMountedMG");
@@ -347,21 +347,21 @@ local Behavior = CreateAIBehavior("UseMounted",
 	---------------------------------------------
 	ACT_GOTO = function(self,entity,sender,data)
 		entity:SelectPipe(0,"do_nothing");
-		AIBehaviour.UseMountedIdle:LeaveMG(entity,sender);
-		AIBehaviour.DEFAULT:ACT_GOTO(entity,sender,data);
+		AIBehavior.UseMountedIdle:LeaveMG(entity,sender);
+		AIBehavior.DEFAULT:ACT_GOTO(entity,sender,data);
 	end,
 
 	---------------------------------------------
 	ACT_FOLLOWPATH = function(self,entity,sender,data)
 		entity:SelectPipe(0,"do_nothing");
-		AIBehaviour.UseMountedIdle:LeaveMG(entity,sender);
-		AIBehaviour.DEFAULT:ACT_FOLLOWPATH(entity,sender,data);
+		AIBehavior.UseMountedIdle:LeaveMG(entity,sender);
+		AIBehavior.DEFAULT:ACT_FOLLOWPATH(entity,sender,data);
 	end,
 	
 	---------------------------------------------
 	OnFallAndPlay	= function( self, entity, data )
 		AI.SetRefPointPosition(entity.id, data.point);	
-		AIBehaviour.UseMountedIdle:LeaveMG(entity,sender);
+		AIBehavior.UseMountedIdle:LeaveMG(entity,sender);
 	end,
 
 	StartUsingMountedWeapon = function(self,entity)
@@ -417,14 +417,14 @@ local Behavior = CreateAIBehavior("UseMounted",
 
 -- This method is invoked by smart object rule "/Humans/Combat/MountedMGPlayerClose".
 -- Parameter "Limits/Distance to" of this rule is big enough so that this method is called anyway.
--- The method uses another parameter for maximum distance, namely, AIBehaviour.DEFAULT.MaxDistanceToMountedWeapon
+-- The method uses another parameter for maximum distance, namely, AIBehavior.DEFAULT.MaxDistanceToMountedWeapon
 	--------------------------------------------------	
 	PLAYER_CLOSE = function(self, entity,sender,data)
 		if(data and data.id) then 
-			if(AI.Hostile(entity.id,data.id) and entity:GetDistance(data.id) <= AIBehaviour.DEFAULT.MaxDistanceToMountedWeapon) then
+			if(AI.Hostile(entity.id,data.id) and entity:GetDistance(data.id) <= AIBehavior.DEFAULT.MaxDistanceToMountedWeapon) then
 				local target = AI.GetAttentionTargetEntity(entity.id);
 				if(target and (target.id == data.id)) then 
-					AIBehaviour.UseMounted:LEAVE_MOUNTED_WEAPON(entity);
+					AIBehavior.UseMounted:LEAVE_MOUNTED_WEAPON(entity);
 				end
 			end
 		end

@@ -6,20 +6,6 @@
 	</Sound>
 </Effect>
 
-<Effect name="sand" >
-	<Sound>
-		<Name>sounds/physics:footsteps/npc:sand_dry</Name>
-	</Sound>
-	<Particle>
-		<Name minscale="0.9" maxscale="0.9" maxscaledist="100">collisions.footsteps.sand</Name>
-	</Particle>
-	<RandEffect>
-		<Decal minscale="0.14" maxscale="0.14">
-			<Material>materials/decals/footstep_sand</Material>
-		</Decal>
-	</RandEffect>
-</Effect>
-
 <Effect name="concrete">
 	<Sound><Name>sounds/physics:footsteps/npc:concrete</Name></Sound>
 </Effect>	
@@ -81,26 +67,6 @@
 
 <Effect name="rock">
 	<Sound><Name>sounds/physics:footsteps/npc:concrete</Name></Sound>
-</Effect>
-
-<Effect name="water_deep">
-	<Sound><Name>sounds/physics:footsteps/npc:water_deep</Name></Sound>
-	<Particle>
-		<Name minscale="0.5" maxscale="0.5" maxscaledist="1">collisions.footsteps.water_shallow</Name>
-	</Particle>
-</Effect>
-<Effect name="water_shallow" parent="water" >
-	<Sound><Name>sounds/physics:footsteps/npc:water_shallow</Name></Sound>
-	<Particle>
-		<Name minscale="0.5" maxscale="0.5" maxscaledist="1">collisions.footsteps.water_shallow</Name>
-	</Particle>
-</Effect>
-
-<Effect name="mud">
-	<Sound><Name>sounds/physics:footsteps/npc:mud</Name></Sound>
-	<Particle>
-		<Name minscale="0.9" maxscale="0.9" maxscaledist="100">collisions.footsteps.mud</Name>
-	</Particle>
 </Effect>
 
 <!-- to remove since Animation based Foley and Footstep System take over

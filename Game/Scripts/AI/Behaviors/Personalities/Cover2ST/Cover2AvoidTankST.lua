@@ -42,13 +42,13 @@ local Behavior = CreateAIBehavior("Cover2AvoidTankST",
 		if(entity.AI.hideCounter > 2) then
 			if(target==AITARGET_ENEMY or target==AITARGET_MEMORY) then
 				if( AI_Utils:HasRPGAttackSlot(entity) and entity.inventory:GetItemByClass("LAW") 
-						and AIBehaviour.Cover2RPGAttack.FindRPGSpot(self, entity) ~= nil) then
+						and AIBehavior.Cover2RPGAttack.FindRPGSpot(self, entity) ~= nil) then
 					AI.SetBehaviorVariable(entity.id, "AvoidTank", false);
 					AI.SetBehaviorVariable(entity.id, "RpgAttack", true);
 				else
 					-- normally this is done in constructor of Cover2Hide 
 					entity.AI.lastBulletReactionTime = _time - 10;
-					AIBehaviour.Cover2Hide.HandleThreat(self, entity);
+					AIBehavior.Cover2Hide.HandleThreat(self, entity);
 				end	
 			else
 				AI.SetBehaviorVariable(entity.id, "AvoidTank", false);
@@ -96,7 +96,7 @@ local Behavior = CreateAIBehavior("Cover2AvoidTankST",
 		entity.AI.hideTimer = nil;
 		local target = AI.GetTargetType(entity.id);
 		if(target==AITARGET_ENEMY or target==AITARGET_MEMORY) then
-			AIBehaviour.Cover2AvoidTank:HandleThreat(entity, false);
+			AIBehavior.Cover2AvoidTank:HandleThreat(entity, false);
 		else
 			AI.SetBehaviorVariable(entity.id, "AvoidTank", false);
 					AI.SetBehaviorVariable(entity.id, "Seek", true);
@@ -154,14 +154,14 @@ local Behavior = CreateAIBehavior("Cover2AvoidTankST",
 		entity:MakeAlerted();
 		entity:TriggerEvent(AIEVENT_DROPBEACON);
 		-- switch to combat only after some delay
-		entity.AI.attackTimer = Script.SetTimerForFunction(2*1000,"AIBehaviour.Cover2AvoidTank.OnAttackTimer",entity);		
+		entity.AI.attackTimer = Script.SetTimerForFunction(2*1000,"AIBehavior.Cover2AvoidTank.OnAttackTimer",entity);		
 	end,
 
 	---------------------------------------------
 	OnTankSeen = function( self, entity, fDistance )
 		self:ResetAttackDelay(entity);
 		if( AI_Utils:HasRPGAttackSlot(entity) and entity.inventory:GetItemByClass("LAW") 
-				and AIBehaviour.Cover2RPGAttack.FindRPGSpot(self, entity) ~= nil) then
+				and AIBehavior.Cover2RPGAttack.FindRPGSpot(self, entity) ~= nil) then
 			entity:Readibility("suppressing_fire",1,1,0.1,0.4);
 			AI.SetBehaviorVariable(entity.id, "AvoidTank", false);
 			AI.SetBehaviorVariable(entity.id, "RpgAttack", true);

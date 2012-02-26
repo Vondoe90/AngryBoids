@@ -85,11 +85,11 @@ local Behavior = CreateAIBehavior("HeliFly", "HeliBase",
 
 		if ( entity.AI.flyPathName ~=nil ) then
 			entity.AI.heliTimer = nil;
-			entity.AI.heliTimer = Script.SetTimerForFunction( minUpdateTime *1000, "AIBehaviour.HeliFly.VTOLFLY_SUB2", entity );
+			entity.AI.heliTimer = Script.SetTimerForFunction( minUpdateTime *1000, "AIBehavior.HeliFly.VTOLFLY_SUB2", entity );
 
 		else
 			entity.AI.heliTimer = nil;
-			entity.AI.heliTimer = Script.SetTimerForFunction( minUpdateTime *1000, "AIBehaviour.HeliFly.VTOLFLY_SUB", entity );
+			entity.AI.heliTimer = Script.SetTimerForFunction( minUpdateTime *1000, "AIBehavior.HeliFly.VTOLFLY_SUB", entity );
 		end
 
 	end,
@@ -134,7 +134,7 @@ local Behavior = CreateAIBehavior("HeliFly", "HeliBase",
 			return;
 		end
 
-		entity.AI.heliTimer = Script.SetTimerForFunction( minUpdateTime *1000, "AIBehaviour.HeliFly.VTOLFLY_SUB", entity );
+		entity.AI.heliTimer = Script.SetTimerForFunction( minUpdateTime *1000, "AIBehavior.HeliFly.VTOLFLY_SUB", entity );
 
 	--------------------------------------------------------------------------
 
@@ -250,7 +250,7 @@ local Behavior = CreateAIBehavior("HeliFly", "HeliBase",
 			return;
 		end
 
-		entity.AI.heliTimer = Script.SetTimerForFunction( minUpdateTime *1000, "AIBehaviour.HeliFly.VTOLFLY_SUB2", entity );
+		entity.AI.heliTimer = Script.SetTimerForFunction( minUpdateTime *1000, "AIBehavior.HeliFly.VTOLFLY_SUB2", entity );
 
 	--------------------------------------------------------------------------
 		if ( entity.AI.bLock == 0 ) then

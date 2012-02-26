@@ -51,17 +51,6 @@
 		</RandEffect>
 	</Effect>
 	
-	<Effect name="bf_sand_dry">
-		<Sound>
-			<Name>sounds/physics:foleys/npc:bodyfall_sand_dry</Name>
-		</Sound>
-		<RandEffect>
-			<Particle>
-				<Name minscale="1" maxscale="1.3" maxscaledist="100">collisions.bodyfall.sand</Name>
-			</Particle>
-		</RandEffect>
-	</Effect>
-	
 	<Effect name="bf_grass">
 		<Sound>
 			<Name>sounds/physics:foleys/npc:bodyfall_grass</Name>
@@ -124,17 +113,6 @@
 		<RandEffect>
 			<Particle>
 				<Name minscale="1" maxscale="1.3" maxscaledist="100">collisions.bodyfall.generic</Name>
-			</Particle>
-		</RandEffect>
-	</Effect>
-
-	<Effect name="bf_mud">
-		<Sound>
-			<Name>sounds/physics:foleys/npc:bodyfall_mud</Name>
-		</Sound>
-		<RandEffect>
-			<Particle>
-				<Name minscale="1" maxscale="1.3" maxscaledist="100">collisions.bodyfall.mud</Name>
 			</Particle>
 		</RandEffect>
 	</Effect>

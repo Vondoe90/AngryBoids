@@ -13,6 +13,8 @@ HOSTAGE_UNTIE = 5;
 --shared table for actors
 ActorShared =
 {
+	hitDeathReactionsParamsDefFile = "Scripts/GameRules/HitDeathReactions_Defs.xml",
+
 	explosion_death_impulse =
 	{ -- explosion impulse
 		headshot =
@@ -486,6 +488,8 @@ BasicActor =
 
 	Properties = 
 	{
+		fileHitDeathReactionsParamsDataFile = "Libs/HitDeathReactionsData/HitDeathReactions_Default.xml",
+		
 		soclasses_SmartObjectClass = "Actor",
 		ragdollPersistence = 0,
 		physicMassMult = 1.0,
@@ -722,7 +726,7 @@ BasicActorParams =
 				modelOffset = {x=0,y=0,z=-1},
 				viewOffset = {x=0,y=0.15,z=0.625},
 				weaponOffset = {x=0.2,y=0.0,z=1.3},
-				name = "combat",
+				name = "zerog",
 				useCapsule = 1,
 			},
 			--AI states
@@ -739,12 +743,53 @@ BasicActorParams =
 				name = "relaxed",
 				useCapsule = 1,
 			},
+			{
+				stanceId = STANCE_LOW_COVER,
+				normalSpeed = 0.5,
+				maxSpeed = 50.0,
+				heightCollider = 0.8,
+				heightPivot = 0.0,
+				size = {x=0.4,y=0.4,z=0.1},
+				modelOffset = {x=0.0,y=0.0,z=0},
+				viewOffset = {x=0,y=0.0,z=0.9},
+				weaponOffset = {x=0.2,y=0.0,z=0.85},
+
+				name = "coverLow",
+				useCapsule = 1,
+			},
+			{
+				stanceId = STANCE_HIGH_COVER,
+				normalSpeed = 1.0,
+				maxSpeed = 50.0,
+				heightCollider = 1.2,
+				heightPivot = 0.0,
+				size = {x=0.4,y=0.4,z=0.2},
+				modelOffset = {x=0,y=-0.0,z=0},
+				viewOffset = {x=0,y=0.10,z=1.7},
+				weaponOffset = {x=0.2,y=0.0,z=1.1},
+
+				name = "coverHigh",
+				useCapsule = 1,
+			},
+			{
+				stanceId = STANCE_ALERTED,
+				normalSpeed = 1.0,
+				maxSpeed = 50.0,
+				heightCollider = 1.8,
+				heightPivot = 0.0,
+				size = {x=0.9,y=0.9,z=0.1},
+				modelOffset = {x=0,y=0.0,z=0},
+				viewOffset = {x=0,y=-2.00,z=3.0},
+				weaponOffset = {x=0.2,y=0.0,z=1.55},
+				name = "alerted",
+				useCapsule = 1,
+			},
 		},
 					
-		sprintMultiplier = 1.5,--speed is multiplied by this ammount if sprint key is pressed -- 1.2 for a more counter-striky feel
-		strafeMultiplier = 0.75,--speed is multiplied by this ammount when strafing
-		backwardMultiplier = 0.7,--speed is multiplied by this ammount when going backward
-		grabMultiplier = 0.5,--speed is multiplied by this ammount when the player is carry the maximun ammount carriable
+		sprintMultiplier = 1.5,--speed is multiplied by this amount if sprint key is pressed -- 1.2 for a more counter-striky feel
+		strafeMultiplier = 0.75,--speed is multiplied by this amount when strafing
+		backwardMultiplier = 0.7,--speed is multiplied by this amount when going backward
+		grabMultiplier = 0.5,--speed is multiplied by this amount when the player is carry the maximun amount carriable
 				
 		inertia = 10.0,--7.0,--the more, the faster the speed change: 1 is very slow, 10 is very fast already 
 		inertiaAccel = 11.0,--same as inertia, but used when the player accel
@@ -759,7 +804,7 @@ BasicActorParams =
 		--ZeroG stuff:
 		thrusterImpulse = 14.0,--thruster power, for the moment very related to air_resistance.
 		thrusterStabilizeImpulse = 0.01,--used from the jetpack to make the player stop slowly.
-		gravityBootsMultipler = 0.8,--speed is multiplied by this ammount when gravity boots are on
+		gravityBootsMultipler = 0.8,--speed is multiplied by this amount when gravity boots are on
 		afterburnerMultiplier = 2.0,--how much the afterburner
 		
 		--grabbing
@@ -787,7 +832,7 @@ end
 
 
 --TODO/FIXME:there should be BasicHuman and BasicAlien derived from BasicActor that inherit the Reset function, not this..
-function BasicActor:ResetCommon()
+function BasicActor:ResetCommon(bFromInit, bIsReload)
 	--self:Hide(0);
 	
 	--revive it
@@ -886,9 +931,14 @@ function BasicActor:GetColliderEnergyScale(collider)
 	return 1;
 end
 
-function BasicActor:Reset()
+-- Call some initial code for actor spawn and respawn
+function BasicActor:InitialSetup(bIsReload)
+	BasicActor.Reset(self, bIsReload);
+end
 
-	BasicActor.ResetCommon(self);
+function BasicActor:Reset(bFromInit, bIsReload)
+
+	BasicActor.ResetCommon(self, bFromInit, bIsReload);
 		
 	--misc resetting
 	self.actor:SetMovementTarget(g_Vectors.v000,g_Vectors.v000,g_Vectors.v000,1);
@@ -899,6 +949,12 @@ function BasicActor:Reset()
 	
 	--E3 hacks
 	BasicActor.ActorLink(self);
+
+	if (bFromInit and CryAction.IsServer()) then
+		if (g_gameRules and g_gameRules.EquipActor) then
+			g_gameRules:EquipActor(self);
+		end
+	end
 end
 
 function BasicActor:ResetLoad()
@@ -983,9 +1039,7 @@ function BasicActor.Client:OnUpdate(frameTime)
   
   -- update screen frost. 
   -- in MP, we only have frost after being fully frozen, in SP always if frozenAmount > 0 (by Design)
-  
-  -- Temporarily commented out due to random freeze issues in CryMono 0.2. -i59
- --[[ local frozenAmount = self.actor:GetFrozenAmount();
+  local frozenAmount = self.actor:GetFrozenAmount();
   local doFrost = self.actorStats.isFrozen or (frozenAmount>0.05 and not g_gameRules:IsMultiplayer());
   local isClient = self.actor:IsLocalClient();
   
@@ -1011,7 +1065,7 @@ function BasicActor.Client:OnUpdate(frameTime)
 		System.SetScreenFx("ScreenFrost_Amount", 0);
 	end
 	
-	self.prevFrozenAmount = frozenAmount;]]
+	self.prevFrozenAmount = frozenAmount;
 end
 
 
@@ -1023,11 +1077,7 @@ end
 
 
 function BasicActor.Server:OnSpawnComplete()
-	if ((not System.IsEditor()) and CryAction.IsServer()) then
-	  if (g_gameRules and g_gameRules.EquipActor) then
-			g_gameRules:EquipActor(self);
-		end
-	end
+	
 end
 
 
@@ -1433,7 +1483,7 @@ function BasicActor.Server:OnHit(hit)
 	
 --	Log("OnHit >>>>>>>>> "..self:GetName().."   damage: "..hit.damage);
 
-	local died = self.actor:GetHealth() - hit.damage < 0; --g_gameRules.game:ProcessActorDamage(hit);
+	local died = g_gameRules:ProcessActorDamage(hit);
 		
   if (died and not isPlayer and (hit.type == "collision" or hit.explosion == true)) then
     self:LastHitInfo(self.lastHit, hit);
@@ -1845,9 +1895,9 @@ function BasicActor:Kill(ragdoll, shooterId, weaponId, freeze)
 			
 		-- Call the destructor directly, since the following AIEVENT_TARGETDEAD will
 		-- prevent the AI updating further (and kill all signals too).
-		if (self.Behaviour and self.Behaviour.Destructor) then
+		if (self.Behavior and self.Behavior.Destructor) then
 			AI.LogEvent("Calling Destructor for "..self:GetName().." on Kill.");
-			self.Behaviour:Destructor(self);
+			self.Behavior:Destructor(self);
 		end
 	end
 	-- Notify AI system about this
@@ -1893,7 +1943,7 @@ function BasicActor.Client:OnHit(hit)
 	if (hit.type=="lockpick") then
 		return;
 	end
-
+	
 	--Log("BasicActor:ClientOnHit()");
 	if (self.hit) then
 		self.hit_dir = hit.dir;
@@ -2302,19 +2352,15 @@ function BasicActor:OnResetLoad()
 	self.actor:SetPhysicalizationProfile("alive");
 end
 
-function BasicActor:OnSpawn()
+function BasicActor:OnSpawn(bIsReload)
   -- make sure to get a new table  
   self.grabParams = new(self.grabParams);  
   self.waterStats = new(self.waterStats);  
   self.actorStats = new(self.actorStats);
-  
-  if (CryAction.IsServer() and System.IsEditor()) then
-  	if (g_gameRules and g_gameRules.EquipActor) then
-			g_gameRules:EquipActor(self);
-		end
-  end
-  
+    
   self.prevFrozenAmount = 0;
+
+  self:InitialSetup(bIsReload);
 end
 
 function BasicActor:OnRevive()
@@ -2914,4 +2960,14 @@ function BasicActor:SetupTerritoryAndWave(territory, wave)
 	AI_Utils:SetupTerritory(self);
 	AI_Utils:SetupStandby(self);
 	
+end
+
+function BasicActor:NotifyHitReaction(hitInfo)
+	local bRet = false;
+	
+	if (self.hitDeathReactions) then
+		bRet = self.hitDeathReactions.binds:OnHit(hitInfo);
+	end
+	
+	return bRet;
 end

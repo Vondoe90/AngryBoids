@@ -1,0 +1,90 @@
+<Graph isModule="1" moduleName="AIEnterVehicle" Description="" Group="" enabled="1" MultiPlayer="ClientServer">
+ <ModuleInputsOutputs>
+  <Port Name="Actor" Type="3" Input="1"/>
+  <Port Name="Vehicle" Type="3" Input="1"/>
+  <Port Name="Fast" Type="6" Input="1"/>
+  <Port Name="Result" Type="6" Input="0"/>
+ </ModuleInputsOutputs>
+ <Nodes>
+  <Node Id="1" Class="Module:Start_AIEnterVehicle" pos="50,230,0" flags="0"/>
+  <Node Id="2" Class="Module:End_AIEnterVehicle" pos="1400,150,0" flags="0">
+   <Inputs Result="0"/>
+  </Node>
+  <Node Id="4" Class="Vehicle:Enter" pos="310,0,0" flags="0">
+   <Inputs entityId="0" VehicleId="0" SeatNumber="1" Fast="0" Force="0"/>
+  </Node>
+  <Node Id="8" Class="Math:ToBoolean" pos="1120,170,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="10" Class="Vehicle:ChangeSeat" pos="510,180,0" flags="0">
+   <Inputs entityId="0" SeatNumber="2"/>
+  </Node>
+  <Node Id="13" Class="Vehicle:ChangeSeat" pos="510,290,0" flags="0">
+   <Inputs entityId="0" SeatNumber="2"/>
+  </Node>
+  <Node Id="14" Class="Vehicle:ChangeSeat" pos="510,390,0" flags="0">
+   <Inputs entityId="0" SeatNumber="3"/>
+  </Node>
+  <Node Id="15" Class="Vehicle:ChangeSeat" pos="520,510,0" flags="0">
+   <Inputs entityId="0" SeatNumber="4"/>
+  </Node>
+  <Node Id="17" Class="Logic:Any" pos="970,180,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="18" Class="Vehicle:ChangeSeat" pos="510,620,0" flags="0">
+   <Inputs entityId="0" SeatNumber="1"/>
+  </Node>
+  <Node Id="20" Class="Vehicle:Exit" pos="510,800,0" flags="0">
+   <Inputs entityId="0" Force="0"/>
+  </Node>
+  <Node Id="21" Class="Time:Delay" pos="720,190,0" flags="0">
+   <Inputs delay="1"/>
+  </Node>
+  <Node Id="22" Class="Time:Delay" pos="710,320,0" flags="0">
+   <Inputs delay="1"/>
+  </Node>
+  <Node Id="23" Class="Time:Delay" pos="710,460,0" flags="0">
+   <Inputs delay="1"/>
+  </Node>
+  <Node Id="24" Class="Time:Delay" pos="710,590,0" flags="0">
+   <Inputs delay="1"/>
+  </Node>
+  <Node Id="25" Class="Time:Delay" pos="700,720,0" flags="0">
+   <Inputs delay="1"/>
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="4" nodeOut="1" portIn="entityId" portOut="Actor" enabled="1"/>
+  <Edge nodeIn="4" nodeOut="1" portIn="Fast" portOut="Fast" enabled="1"/>
+  <Edge nodeIn="4" nodeOut="1" portIn="sink" portOut="Start" enabled="1"/>
+  <Edge nodeIn="4" nodeOut="1" portIn="VehicleId" portOut="Vehicle" enabled="1"/>
+  <Edge nodeIn="10" nodeOut="1" portIn="entityId" portOut="Actor" enabled="1"/>
+  <Edge nodeIn="13" nodeOut="1" portIn="entityId" portOut="Actor" enabled="1"/>
+  <Edge nodeIn="14" nodeOut="1" portIn="entityId" portOut="Actor" enabled="1"/>
+  <Edge nodeIn="15" nodeOut="1" portIn="entityId" portOut="Actor" enabled="1"/>
+  <Edge nodeIn="18" nodeOut="1" portIn="entityId" portOut="Actor" enabled="1"/>
+  <Edge nodeIn="20" nodeOut="1" portIn="entityId" portOut="Actor" enabled="1"/>
+  <Edge nodeIn="10" nodeOut="4" portIn="Sync" portOut="succeed" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="4" portIn="in1" portOut="fail" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="8" portIn="Result" portOut="out" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="8" portIn="Success" portOut="out" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="10" portIn="in2" portOut="Fail" enabled="1"/>
+  <Edge nodeIn="21" nodeOut="10" portIn="in" portOut="Succeed" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="13" portIn="in3" portOut="Fail" enabled="1"/>
+  <Edge nodeIn="22" nodeOut="13" portIn="in" portOut="Succeed" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="14" portIn="in4" portOut="Fail" enabled="1"/>
+  <Edge nodeIn="23" nodeOut="14" portIn="in" portOut="Succeed" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="15" portIn="in5" portOut="Fail" enabled="1"/>
+  <Edge nodeIn="24" nodeOut="15" portIn="in" portOut="Succeed" enabled="1"/>
+  <Edge nodeIn="8" nodeOut="17" portIn="false" portOut="out" enabled="1"/>
+  <Edge nodeIn="25" nodeOut="18" portIn="in" portOut="Succeed" enabled="1"/>
+  <Edge nodeIn="8" nodeOut="20" portIn="true" portOut="succeed" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="20" portIn="in6" portOut="fail" enabled="1"/>
+  <Edge nodeIn="13" nodeOut="21" portIn="Sync" portOut="out" enabled="1"/>
+  <Edge nodeIn="14" nodeOut="22" portIn="Sync" portOut="out" enabled="1"/>
+  <Edge nodeIn="15" nodeOut="23" portIn="Sync" portOut="out" enabled="1"/>
+  <Edge nodeIn="18" nodeOut="24" portIn="Sync" portOut="out" enabled="1"/>
+  <Edge nodeIn="20" nodeOut="25" portIn="Synk" portOut="out" enabled="1"/>
+ </Edges>
+ <GraphTokens />
+</Graph>

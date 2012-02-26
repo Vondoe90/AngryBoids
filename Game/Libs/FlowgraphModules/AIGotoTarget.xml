@@ -1,0 +1,33 @@
+<Graph isModule="1" moduleName="AIGotoTarget" Description="" Group="" enabled="1" MultiPlayer="ClientServer">
+ <ModuleInputsOutputs>
+  <Port Name="Actor" Type="3" Input="1"/>
+  <Port Name="Target" Type="3" Input="1"/>
+  <Port Name="Result" Type="6" Input="0"/>
+ </ModuleInputsOutputs>
+ <Nodes>
+  <Node Id="1" Class="Module:Start_AIGotoTarget" pos="0,-70,0" flags="1"/>
+  <Node Id="2" Class="Module:End_AIGotoTarget" pos="730,-30,0" flags="0">
+   <Inputs Result="0"/>
+  </Node>
+  <Node Id="4" Class="AI:AIGoto" pos="400,-50,0" flags="0">
+   <Inputs entityId="0" pos="0,0,0" distance="0" StopDistance="0"/>
+  </Node>
+  <Node Id="8" Class="Entity:EntityPos" pos="200,30,0" flags="0">
+   <Inputs entityId="0" pos="0,0,0" rotate="0,0,0" scale="0,0,0"/>
+  </Node>
+  <Node Id="12" Class="Math:ToBoolean" pos="610,20,0" flags="0">
+   <Inputs />
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="4" nodeOut="1" portIn="entityId" portOut="Actor" enabled="1"/>
+  <Edge nodeIn="4" nodeOut="1" portIn="sink" portOut="Start" enabled="1"/>
+  <Edge nodeIn="8" nodeOut="1" portIn="entityId" portOut="Target" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="4" portIn="Success" portOut="done" enabled="1"/>
+  <Edge nodeIn="12" nodeOut="4" portIn="false" portOut="fail" enabled="1"/>
+  <Edge nodeIn="12" nodeOut="4" portIn="true" portOut="succeed" enabled="1"/>
+  <Edge nodeIn="4" nodeOut="8" portIn="pos" portOut="pos" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="12" portIn="Result" portOut="out" enabled="1"/>
+ </Edges>
+ <GraphTokens />
+</Graph>

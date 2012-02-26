@@ -48,7 +48,7 @@ local Behavior = CreateAIBehavior("Cover2Idle","HBaseIdle",
 	---------------------------------------------
 	OnTankSeen = function( self, entity, fDistance )
 		if(	AI_Utils:HasRPGAttackSlot(entity) and entity.inventory:GetItemByClass("LAW") 
-				and AIBehaviour.Cover2RPGAttack.FindRPGSpot(self, entity) ~= nil) then
+				and AIBehavior.Cover2RPGAttack.FindRPGSpot(self, entity) ~= nil) then
 			entity:Readibility("suppressing_fire",1,1,0.1,0.4);
 			AI.Signal(SIGNALFILTER_SENDER, 1, "TO_RPG_ATTACK",entity.id);
 		else

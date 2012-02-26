@@ -2,8 +2,10 @@ ParticleEffect = {
 	Properties = {
 		soclasses_SmartObjectClass = "",
 		ParticleEffect="",
+		Comment="",
 		
 		bActive=1,							-- Activate on startup
+		bEnableSound=1,				  -- Allowed to play its sound event?
 		bPrime=1,								-- Starts in equilibrium state, as if activated in past
 		Scale=1,								-- Scale entire effect size.
 		SpeedScale=1,						-- Scale particle emission speed
@@ -13,6 +15,7 @@ ParticleEffect = {
 		esAttachType="",				-- BoundingBox, Physics, Render
 		esAttachForm="Surface",	-- Vertices, Edges, Surface, Volume
 		PulsePeriod=0,					-- Restart continually at this period.
+		NetworkSync=0,					-- Do I want to be bound to the network?
 	},
 	Editor = {
 		Model="Editor/Objects/Particles.cgf",
@@ -41,10 +44,25 @@ Net.Expose {
 };
 
 -------------------------------------------------------
+function ParticleEffect:OnSpawn()
+	if (not table.NetworkSync) then
+		self:SetFlags(ENTITY_FLAG_CLIENT_ONLY, 0);
+	end
+end
+
+-------------------------------------------------------
 function ParticleEffect:OnLoad(table)
+	
+	self:GotoState(""); -- forces execution of either "Idle" or "Active" state constructor
 	if (not table.nParticleSlot) then
+		if (self.nParticleSlot) then
+			self:DeleteParticleEmitter( self.nParticleSlot );
+		end
 		self:GotoState("Idle");
 	elseif (not self.nParticleSlot or self.nParticleSlot ~= table.nParticleSlot) then
+		if (self.nParticleSlot) then
+			self:DeleteParticleEmitter( self.nParticleSlot );
+		end
 		self:GotoState("Idle");
 		self.nParticleSlot = self:LoadParticleEffect( table.nParticleSlot, self.Properties.ParticleEffect, self.Properties );
 		self:GotoState("Active");
@@ -116,8 +134,7 @@ end
 
 function ParticleEffect:Event_Kill()
   self:DeleteParticleEmitter( self.nParticleSlot );
-	self:ActivateOutput( "Kill", true );
-	self:GotoState("Idle");
+  
 	if CryAction.IsServer() and self.allClients then
 		self.allClients:ClEvent_Kill();
 	end
@@ -214,7 +231,7 @@ ParticleEffect.FlowEvents =
 -------------------------------------------------------
 function ParticleEffect.Client:OnInit()
 	self:SetRegisterInSectors(1);
-	self:PreLoadParticleEffect( self.Properties.ParticleEffect );
+	self.Properties.ParticleEffect = self:PreLoadParticleEffect( self.Properties.ParticleEffect );
 	
 	self:SetUpdatePolicy(ENTITY_UPDATE_POT_VISIBLE);
 	--self:SetFlags(ENTITY_FLAG_CLIENT_ONLY, 0);
@@ -257,4 +274,3 @@ function ParticleEffect.Client:ClEvent_Kill()
 		self:Event_Kill();
 	end
 end
-

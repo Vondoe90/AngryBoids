@@ -1,0 +1,111 @@
+<Graph Description="" Group="MM_PagesMain" enabled="1" MultiPlayer="ClientServer">
+ <Nodes>
+  <Node Id="1" Class="UI:Action:Start" pos="-270,-590,0" flags="0">
+   <Inputs UseAsState="1"/>
+  </Node>
+  <Node Id="2" Class="UI:Action:End" pos="860,-410,0" flags="0">
+   <Inputs UseAsState="1" Args=""/>
+  </Node>
+  <Node Id="3" Class="UI:Functions:MainMenu:AddButton" pos="-80,-380,0" flags="0">
+   <Inputs instanceID="-1" caption="@ui_Singleplayer" tooltip="@ui_SingleplayerTT" id="MM_SinglePlayer"/>
+  </Node>
+  <Node Id="4" Class="UI:Functions:MainMenu:AddButton" pos="-80,-280,0" flags="0">
+   <Inputs instanceID="-1" caption="@ui_Multiplayer" tooltip="@ui_MultiplayerTT" id="MM_MultiPlayer"/>
+  </Node>
+  <Node Id="5" Class="UI:Functions:MainMenu:SetupScreen" pos="-80,-590,0" flags="0">
+   <Inputs instanceID="-1" Caption="@ui_GameTitle" ShowLine="1" MaxButtons="10" ButtonXPos="-500" ButtonYPos="0" ButtonOffset="40"/>
+  </Node>
+  <Node Id="6" Class="UI:Functions:MainMenu:AddButton" pos="-80,-10,0" flags="0">
+   <Inputs instanceID="-1" caption="@ui_GraphicSettings" tooltip="@ui_GraphicSettingsTT" id="MM_GraphicsSettings"/>
+  </Node>
+  <Node Id="7" Class="UI:Functions:MainMenu:AddSeparator" pos="-80,-180,0" flags="0">
+   <Inputs instanceID="-1" caption="@ui_Settings"/>
+  </Node>
+  <Node Id="8" Class="UI:Functions:MainMenu:AddButton" pos="-80,90,0" flags="0">
+   <Inputs instanceID="-1" caption="@ui_SoundSettings" tooltip="@ui_SoundSettingsTT" id="MM_SoundSettings"/>
+  </Node>
+  <Node Id="9" Class="UI:Functions:MainMenu:AddQuitButton" pos="-80,190,0" flags="0">
+   <Inputs instanceID="-1" caption="@ui_Exit" tooltip="@ui_ExitTT" id="IDD_Exit"/>
+  </Node>
+  <Node Id="10" Class="UI:Functions:MainMenu:AddSeparator" pos="-80,-450,0" flags="0">
+   <Inputs instanceID="-1" caption="@ui_Game"/>
+  </Node>
+  <Node Id="29" Name="Setup_page" Class="_commentbox" pos="-285.02795,-639.73621,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="597.87683" Height="907.82666"/>
+   <NodeSize Width="597.87683" Height="935.21729"/>
+  </Node>
+  <Node Id="30" Class="UI:Events:MainMenu:OnButton" pos="350,-550,0" flags="0">
+   <Inputs instanceID="-1" Port="0" Idx="IDD_Exit"/>
+  </Node>
+  <Node Id="32" Class="UI:Functions:System:ExitGame" pos="860,-450,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="33" Name="Handle_events" Class="_commentbox" pos="344.12241,-638.54883,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="717.62122" Height="435.74326"/>
+   <NodeSize Width="717.62122" Height="463.13388"/>
+  </Node>
+  <Node Id="79" Class="UI:Action:Control" pos="560,-550,0" flags="0">
+   <Inputs uiActions_UIAction="MM_Confirmation" Args="@ui_ExitGame|@ui_Yes|@ui_No"/>
+  </Node>
+  <Node Id="80" Class="Logic:Condition" pos="860,-550,0" flags="0">
+   <Inputs Condition="0"/>
+  </Node>
+  <Node Id="81" Name="Handle_Exit_button" Class="_comment" pos="350,-590,0" flags="0"/>
+  <Node Id="83" Class="UI:Action:Control" pos="560,-300,0" flags="0">
+   <Inputs uiActions_UIAction="MM_DefaultEvents" Args="MM_Main"/>
+  </Node>
+  <Node Id="90" Class="UI:Action:Start" pos="350,-300,0" flags="0">
+   <Inputs UseAsState="1"/>
+  </Node>
+  <Node Id="91" Class="UI:Action:End" pos="860,-300,0" flags="0">
+   <Inputs UseAsState="1" Args=""/>
+  </Node>
+  <Node Id="92" Name="Use_default_event_state_as_well" Class="_comment" pos="350,-340,0" flags="0"/>
+  <Node Id="93" Class="UI:Functions:MainMenu:AddButton" pos="-80,-110,0" flags="0">
+   <Inputs instanceID="-1" caption="@ui_GameSettings" tooltip="@ui_GameSettingsTT" id="MM_GameSettings"/>
+  </Node>
+  <Node Id="94" Class="UI:Util:Platform" pos="180,-110,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="95" Class="Logic:Any" pos="180,-20,0" flags="0" InHideMask="63" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="96" Class="UI:Functions:Settings:LogoutUser" pos="860,-490,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="97" Class="UI:Util:Platform" pos="190,-380,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="98" Class="Logic:Any" pos="190,-290,0" flags="1">
+   <Inputs />
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="5" nodeOut="1" portIn="Call" portOut="StartAction" enabled="1"/>
+  <Edge nodeIn="97" nodeOut="3" portIn="get" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="98" nodeOut="4" portIn="in2" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="10" nodeOut="5" portIn="Call" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="95" nodeOut="6" portIn="in2" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="93" nodeOut="7" portIn="Call" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="9" nodeOut="8" portIn="Call" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="3" nodeOut="10" portIn="Call" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="79" nodeOut="30" portIn="Start" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="32" portIn="EndAction" portOut="OnEvent" enabled="1"/>
+  <Edge nodeIn="80" nodeOut="79" portIn="Condition" portOut="Args" enabled="1"/>
+  <Edge nodeIn="80" nodeOut="79" portIn="In" portOut="OnEnd" enabled="1"/>
+  <Edge nodeIn="96" nodeOut="80" portIn="send" portOut="OnTrue" enabled="1"/>
+  <Edge nodeIn="91" nodeOut="83" portIn="EndAction" portOut="OnEnd" enabled="1"/>
+  <Edge nodeIn="83" nodeOut="90" portIn="Start" portOut="StartAction" enabled="1"/>
+  <Edge nodeIn="94" nodeOut="93" portIn="get" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="6" nodeOut="94" portIn="Call" portOut="IsPc" enabled="1"/>
+  <Edge nodeIn="95" nodeOut="94" portIn="in1" portOut="IsConsole" enabled="1"/>
+  <Edge nodeIn="8" nodeOut="95" portIn="Call" portOut="out" enabled="1"/>
+  <Edge nodeIn="32" nodeOut="96" portIn="send" portOut="OnEvent" enabled="1"/>
+  <Edge nodeIn="4" nodeOut="97" portIn="Call" portOut="IsPc" enabled="1"/>
+  <Edge nodeIn="98" nodeOut="97" portIn="in1" portOut="IsConsole" enabled="1"/>
+  <Edge nodeIn="7" nodeOut="98" portIn="Call" portOut="out" enabled="1"/>
+ </Edges>
+ <GraphTokens />
+</Graph>

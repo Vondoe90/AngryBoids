@@ -1,7 +1,7 @@
 --------------------------------------------------
 --   Created By: Matthew Jack
 --   Description: 
---		Idle test behaviour
+--		Idle test behavior
 --    Tests AI building blocks in Idle state
 
 
@@ -11,7 +11,7 @@ local Behavior = CreateAIBehavior("TestIdle",
 
 	-----------------------------------------------
 	go_combat = function (self, entity)
-		-- To transistion back to the combat test behaviour
+		-- To transistion back to the combat test behavior
 	end,
 	
 	OnNoTargetVisible = function (self, entity, sender, data)

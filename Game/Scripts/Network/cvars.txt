@@ -486,3 +486,5 @@ cc_lod5GenSkinning
 sv_password
 cl_nickname
 g_immersive
+
+e_ObjectLayersActivation

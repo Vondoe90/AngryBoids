@@ -105,6 +105,8 @@ function AI:ResetAI()
 	System.Log( "[AI] Reseting AI" );
 
 	AIBlackBoard_Reset();
+
+	AI.ClearForReload();	-- Without this line, all goals will be dynamic
 	ReloadTPS();
 	ReloadPipes();
 end

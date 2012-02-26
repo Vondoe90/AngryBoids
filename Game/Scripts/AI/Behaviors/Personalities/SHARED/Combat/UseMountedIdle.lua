@@ -36,7 +36,7 @@ local Behavior = CreateAIBehavior("UseMountedIdle", "UseMounted",
 	
 	USE_MOUNTED_WEAPON = function(self,entity)
 		entity.AI.SkipTargetCheck = false;
-		AIBehaviour.UseMounted:StartUsingMountedWeapon(entity);
+		AIBehavior.UseMounted:StartUsingMountedWeapon(entity);
 	end,
 	
 	TOO_FAR_FROM_WEAPON = function(self,entity,sender)
@@ -75,7 +75,7 @@ local Behavior = CreateAIBehavior("UseMountedIdle", "UseMounted",
 		AI.Signal(SIGNALFILTER_GROUPONLY_EXCEPT, 1, "ENEMYSEEN_FIRST_CONTACT",entity.id);
 		--entity.AI.keepMG = 1;
 		local weapon = entity.AI.current_mounted_weapon;
-		if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehaviour.DEFAULT.MaxDistanceToMountedWeapon)) then
+		if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehavior.DEFAULT.MaxDistanceToMountedWeapon)) then
 			entity.AI.keepMG = 1;
 			AI.Signal(SIGNALFILTER_SENDER, 1, "TO_USE_MOUNTED",entity.id);
 		else
@@ -102,7 +102,7 @@ local Behavior = CreateAIBehavior("UseMountedIdle", "UseMounted",
 		-- dummy call to this one, just to make sure that the initial position is checked correctly.
 		if(shooter) then 
 			local weapon = entity.AI.current_mounted_weapon;
-			if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehaviour.DEFAULT.MaxDistanceToMountedWeapon,shooter:GetPos()) ) then
+			if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehavior.DEFAULT.MaxDistanceToMountedWeapon,shooter:GetPos()) ) then
 				entity.AI.keepMG = 1;
 				AI.Signal(SIGNALFILTER_SENDER, 1, "TO_USE_MOUNTED",entity.id);
 				return;
@@ -122,7 +122,7 @@ local Behavior = CreateAIBehavior("UseMountedIdle", "UseMounted",
 		entity:Readibility("idle_alert_threat_hear",1,1,0.6,1);
 
 		entity:TriggerEvent(AIEVENT_DROPBEACON);
-		if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehaviour.DEFAULT.MaxDistanceToMountedWeapon)) then
+		if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehavior.DEFAULT.MaxDistanceToMountedWeapon)) then
 			entity.AI.keepMG = 1;
 			AI.Signal(SIGNALFILTER_SENDER, 1, "TO_USE_MOUNTED",entity.id);
 		else
@@ -138,7 +138,7 @@ local Behavior = CreateAIBehavior("UseMountedIdle", "UseMounted",
 		entity:Readibility("idle_interest_hear",1,1,0.6,1);
 
 		local weapon = entity.AI.current_mounted_weapon;
-		if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehaviour.DEFAULT.MaxDistanceToMountedWeapon)) then
+		if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehavior.DEFAULT.MaxDistanceToMountedWeapon)) then
 			entity.AI.keepMG = 1;
 			AI.Signal(SIGNALFILTER_SENDER, 1, "TO_USE_MOUNTED",entity.id);
 		else
@@ -159,7 +159,7 @@ local Behavior = CreateAIBehavior("UseMountedIdle", "UseMounted",
 		--entity:Readibility("idle_alert_threat_hear",1,1,0.6,1);
 
 		entity:TriggerEvent(AIEVENT_DROPBEACON);
-		if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehaviour.DEFAULT.MaxDistanceToMountedWeapon)) then
+		if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehavior.DEFAULT.MaxDistanceToMountedWeapon)) then
 			entity.AI.keepMG = 1;
 			AI.Signal(SIGNALFILTER_SENDER, 1, "TO_USE_MOUNTED",entity.id);
 		else
@@ -177,7 +177,7 @@ local Behavior = CreateAIBehavior("UseMountedIdle", "UseMounted",
 		--entity:Readibility("idle_alert_threat_hear",1,1,0.6,1);
 
 		entity:TriggerEvent(AIEVENT_DROPBEACON);
-		if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehaviour.DEFAULT.MaxDistanceToMountedWeapon)) then
+		if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehavior.DEFAULT.MaxDistanceToMountedWeapon)) then
 			entity.AI.keepMG = 1;
 			AI.Signal(SIGNALFILTER_SENDER, 1, "TO_USE_MOUNTED",entity.id);
 		else
@@ -195,7 +195,7 @@ local Behavior = CreateAIBehavior("UseMountedIdle", "UseMounted",
 			entity:Readibility("idle_alert_threat_hear",1,1,0.6,1);
 			entity:TriggerEvent(AIEVENT_DROPBEACON);
 			local weapon = entity.AI.current_mounted_weapon;
-			if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehaviour.DEFAULT.MaxDistanceToMountedWeapon)) then
+			if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehavior.DEFAULT.MaxDistanceToMountedWeapon)) then
 				entity.AI.keepMG = 1;
 				AI.Signal(SIGNALFILTER_SENDER, 1, "TO_USE_MOUNTED",entity.id);
 			else
@@ -232,7 +232,7 @@ local Behavior = CreateAIBehavior("UseMountedIdle", "UseMounted",
 			AI.Signal(SIGNALFILTER_GROUPONLY_EXCEPT,1,"INCOMING_FIRE",entity.id);
 			-- check if fire comes from a point in MG range/fov
 			local weapon = entity.AI.current_mounted_weapon;
-			if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehaviour.DEFAULT.MaxDistanceToMountedWeapon,sender:GetPos()) ) then
+			if(weapon and Game.IsMountedWeaponUsableWithTarget(entity.id,weapon.id,AIBehavior.DEFAULT.MaxDistanceToMountedWeapon,sender:GetPos()) ) then
 				entity.AI.keepMG = 1;
 				AI.Signal(SIGNALFILTER_SENDER, 1, "TO_USE_MOUNTED",entity.id);
 			else

@@ -1,9 +1,9 @@
 -----------------------------------------------------------
--- Cover3 Fallen Behaviour
+-- Cover3 Fallen Behavior
 -----------------------------------------------------------
 -- Created: Matthew Jack 12-10-2009
--- Description: Based on the HBaseTranquilized behaviour,
---              reapplied to use behaviour trees
+-- Description: Based on the HBaseTranquilized behavior,
+--              reapplied to use behavior trees
 -----------------------------------------------------------
 
 local Behavior = CreateAIBehavior("Cover3Fallen", "Dumb",

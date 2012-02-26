@@ -1,0 +1,56 @@
+<Graph isModule="1" moduleName="TOD_street_light" Description="" Group="" enabled="1" MultiPlayer="ClientServer">
+ <ModuleInputsOutputs>
+  <Port Name="Shadow" Type="3" Input="1"/>
+  <Port Name="Glow" Type="3" Input="1"/>
+  <Port Name="Breakable_Object" Type="3" Input="1"/>
+ </ModuleInputsOutputs>
+ <Nodes>
+  <Node Id="1" Class="Module:Start_TOD_street_light" pos="960,100,0" flags="1"/>
+  <Node Id="2" Class="Module:End_TOD_street_light" pos="400,10,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="3" Class="Time:Timer" pos="100,240,0" flags="0">
+   <Inputs period="5" min="0" max="0" paused="0"/>
+  </Node>
+  <Node Id="4" Class="entity:Light" pos="1360,100,0" flags="0">
+   <Inputs entityId="0" Active="0" Disable="0" Enable="0"/>
+  </Node>
+  <Node Id="5" Class="Math:InRange" pos="520,240,0" flags="0">
+   <Inputs In="0" Min="7" Max="18"/>
+  </Node>
+  <Node Id="6" Class="entity:Light" pos="1360,320,0" flags="0">
+   <Inputs entityId="0" Active="0" Disable="0" Enable="0"/>
+  </Node>
+  <Node Id="7" Class="Time:TimeOfDay" pos="280,240,0" flags="0">
+   <Inputs Time="0" ForceUpdate="0" Speed="1"/>
+  </Node>
+  <Node Id="8" Class="Logic:NOT" pos="880,240,0" flags="0">
+   <Inputs in="0"/>
+  </Node>
+  <Node Id="11" Class="Time:RandomDelay" pos="700,240,0" flags="0">
+   <Inputs MinDelay="1" MaxDelay="3"/>
+  </Node>
+  <Node Id="13" Class="entity:DestroyableObject" pos="920,390,0" flags="0">
+   <Inputs entityId="0" Explode="0" Hide="0" Hit="0" MakeInvulnerable="0" MakeVulnerable="0" Reset="0" ResetHealth="0" UnHide="0"/>
+  </Node>
+  <Node Id="14" Class="Logic:Gate" pos="1020,240,0" flags="0">
+   <Inputs Closed="0"/>
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="4" nodeOut="1" portIn="entityId" portOut="Shadow" enabled="1"/>
+  <Edge nodeIn="6" nodeOut="1" portIn="entityId" portOut="Glow" enabled="1"/>
+  <Edge nodeIn="13" nodeOut="1" portIn="entityId" portOut="Breakable_Object" enabled="1"/>
+  <Edge nodeIn="7" nodeOut="3" portIn="Get" portOut="out" enabled="1"/>
+  <Edge nodeIn="11" nodeOut="5" portIn="In" portOut="out" enabled="1"/>
+  <Edge nodeIn="5" nodeOut="7" portIn="In" portOut="CurTime" enabled="1"/>
+  <Edge nodeIn="14" nodeOut="8" portIn="In" portOut="out" enabled="1"/>
+  <Edge nodeIn="8" nodeOut="11" portIn="in" portOut="Out" enabled="1"/>
+  <Edge nodeIn="4" nodeOut="13" portIn="Disable" portOut="Explode" enabled="1"/>
+  <Edge nodeIn="6" nodeOut="13" portIn="Disable" portOut="Explode" enabled="1"/>
+  <Edge nodeIn="14" nodeOut="13" portIn="Close" portOut="Explode" enabled="1"/>
+  <Edge nodeIn="4" nodeOut="14" portIn="Active" portOut="Out" enabled="1"/>
+  <Edge nodeIn="6" nodeOut="14" portIn="Active" portOut="Out" enabled="1"/>
+ </Edges>
+ <GraphTokens />
+</Graph>

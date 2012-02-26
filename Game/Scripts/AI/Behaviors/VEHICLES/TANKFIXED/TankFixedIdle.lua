@@ -9,7 +9,7 @@ local Behavior = CreateAIBehavior("TankFixedIdle", "VehicleIdle",
 		entity.vDefultPos = {};
 		CopyVector ( entity.vDefultPos, entity:GetPos() );
 
-		AIBehaviour.VehicleIdle:Constructor( entity );
+		AIBehavior.VehicleIdle:Constructor( entity );
 
 		AI.ChangeParameter(entity.id,AIPARAM_SIGHTENVSCALE_NORMAL,1);
 		AI.ChangeParameter(entity.id,AIPARAM_SIGHTENVSCALE_ALARMED,1);
@@ -31,14 +31,14 @@ local Behavior = CreateAIBehavior("TankFixedIdle", "VehicleIdle",
 				AI.PushGoal("aaa_fire","firecmd",0,FIREMODE_CONTINUOUS);
 				entity:InsertSubpipe(0,"aaa_fire");
 			else
-				if ( AIBehaviour.TANKDEFAULT:tankDoesUseMachineGun( entity ) == true ) then
-					AIBehaviour.TANKDEFAULT:request2ndGunnerShoot( entity );
-					AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, false )
+				if ( AIBehavior.TANKDEFAULT:tankDoesUseMachineGun( entity ) == true ) then
+					AIBehavior.TANKDEFAULT:request2ndGunnerShoot( entity );
+					AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, false )
 					AI.CreateGoalPipe("tank_fire");
 					AI.PushGoal("tank_fire","firecmd",0,FIREMODE_SECONDARY);
 					entity:InsertSubpipe(0,"tank_fire");
 				else
-					AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, true )
+					AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, true )
 					AI.CreateGoalPipe("tank_fire");
 					AI.PushGoal("tank_fire","firecmd",0,1);
 					entity:InsertSubpipe(0,"tank_fire");

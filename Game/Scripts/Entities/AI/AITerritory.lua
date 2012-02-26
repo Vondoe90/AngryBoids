@@ -72,7 +72,7 @@ end
 
 
 function IsEntityEnabled(entity)
-	return entity:IsActive() and AI.IsEnabled(entity.id);
+	return entity:IsActive() and (AI.IsEnabled(entity.id) or entity.vehicle);
 end
 
 
@@ -256,6 +256,11 @@ function AITerritory:Event_Spawn()
 					entity:Event_Spawn();
 					spawned = true;
 					Set.Remove(self.deadAIs, entity.id);
+					
+					if (entity.vehicle) then
+						-- Vehicles reset, not re-spawn, so SetupTerritory would operate on a dead vehicle, without any effect
+						Set.Add(self.liveAIs, entity.id);
+					end
 				end
 			end
 		end
@@ -355,7 +360,9 @@ function AITerritory:Add(entity)
 		  local isActuallyDead = Set.Get(self.deadAIs, entity.id); -- IsDead() will fail for dead entities that are being constructed from a bookmark
 		  if (not isActuallyDead) then
 				Set.Add(self.liveAIs, entity.id);
-				if (IsEntityEnabled(entity) and ActiveTerritories[name]) then
+				-- evgeny: I don't remember why IsEntityEnabled(entity) is important here
+				--if (IsEntityEnabled(entity) and ActiveTerritories[name]) then
+				if (ActiveTerritories[name]) then
 					self:UpdateActiveCount();
 				else
 					entity:Event_Disable();

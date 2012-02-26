@@ -1,9 +1,9 @@
 -----------------------------------------------------------
--- Cover3 Attack Behaviour
+-- Cover3 Attack Behavior
 -----------------------------------------------------------
 -- Created: Matthew Jack 12-10-2009
--- Description: Based on the Cover2 behaviour,
---              reapplied to use behaviour trees
+-- Description: Based on the Cover2 behavior,
+--              reapplied to use behavior trees
 -----------------------------------------------------------
 
 local Behavior = CreateAIBehavior("Cover3Attack",

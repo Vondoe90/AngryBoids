@@ -46,6 +46,4 @@ HMMWV.AIProperties =
 		pathRegenIntervalDuringTrace = 4.0,
 		avoidanceRadius = 10.0,
   }, 
-  
-  hidesUser=0,    
 }

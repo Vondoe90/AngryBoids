@@ -1,9 +1,9 @@
 -----------------------------------------------------------
--- Cover3 AvoidExplosives Behaviour
+-- Cover3 AvoidExplosives Behavior
 -----------------------------------------------------------
 -- Created: Matthew Jack 12-10-2009
--- Description: Based on the Cover2 behaviour,
---              reapplied to use behaviour trees
+-- Description: Based on the Cover2 behavior,
+--              reapplied to use behavior trees
 -----------------------------------------------------------
 
 local Behavior = CreateAIBehavior("Cover3AvoidExplosives",
@@ -30,7 +30,7 @@ local Behavior = CreateAIBehavior("Cover3AvoidExplosives",
 	Destructor = function(self,entity)
 		AI.ModifySmartObjectStates(entity.id,"-AvoidExplosion");
 		
-		-- Ensure that, however we might leave this behaviour, we reset the explosives flag
+		-- Ensure that, however we might leave this behavior, we reset the explosives flag
 		-- This might not strictly be necessary, but since most dangers are short-lived, returning to them
 		-- will rarely be desirable in practice
 		AI.Signal(SIGNALFILTER_SENDER,0,"ResolvedExplosivesDanger",entity.id);

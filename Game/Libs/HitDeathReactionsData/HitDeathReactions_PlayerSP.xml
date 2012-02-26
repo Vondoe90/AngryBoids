@@ -1,0 +1,27 @@
+<DeathHitReactionsParams>
+	<HitDeathReactionsConfig collReactionStartDist="0.4" maxRagdolImpulse="1000" maximumReactionTime="6.0"/>
+	
+	<HitReactionParams>
+	</HitReactionParams>
+	
+	<DeathReactionParams>
+		<!-- Front shot death -->
+		<DeathReactionParam animName="stand_tac_death_front_1p_01" shotOrigin="forward" noRagdollOnEnd="1">
+		</DeathReactionParam>
+		
+		<DeathReactionParam animName="stand_tac_death_back_1p_01" shotOrigin="back" noRagdollOnEnd="1">
+		</DeathReactionParam>
+
+		<DeathReactionParam animName="stand_tac_death_left_1p_01" shotOrigin="left" noRagdollOnEnd="1">
+		</DeathReactionParam>
+
+		<DeathReactionParam animName="stand_tac_death_right_1p_01" shotOrigin="right" noRagdollOnEnd="1">
+		</DeathReactionParam>
+		
+		<!-- <DeathReactionParam interactiveAction="PlayerKnockDown" reactionFunc="PlayerDeathTest" noRagdollOnEnd="1"/> -->
+	
+		<DeathReactionParam reactionFunc="DeathImpulse_Reaction">
+		</DeathReactionParam>
+	</DeathReactionParams>
+	
+</DeathHitReactionsParams>

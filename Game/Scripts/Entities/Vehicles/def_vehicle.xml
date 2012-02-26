@@ -153,6 +153,7 @@
 					</Table>
 					
 					<Table name="BlowTire" id="idBlowTire" optional="1">
+						<Property name="effect" type="string"/>
 					</Table>
 					
 					<Table name="Indicator" id="idIndicator" optional="1">
@@ -624,12 +625,11 @@
   		<Table name="Weapons" id="idActionWeapon" optional="1">
   			<Property name="isSecondary" type="bool" optional="1" />
   			<Property name="disablesShootToCrosshair" type="bool" optional="1" />
+			<Property name="useWeaponDirection" type="bool" optional="1" />
   			
   			<Array name="Weapons" elementName="Weapon">
     			<Property name="class"  type="string">     			
     		  	<Enum restrictive="0">
-    		    	<Value>AACannon</Value>
-    		    	<Value>APCCannon</Value>
     		    	<Value>TankCannon</Value>
     		    	<Value>AsianCoaxialGun</Value>
     		    	<Value>VehicleShiTenV2</Value>
@@ -879,6 +879,7 @@
       <Property name="waveSpeedMult"          type="float" desc="" optional ="1" />
       <Property name="lateralDamping"         type="float" desc="Amount of lateral damping to apply" optional ="1" />
       <Property name="rollAccel"              type="float" desc="" optional="1"/>
+	  <Property name="waveEffect"			  type="string" desc="Wave Effect when hitting the water surface" optional="1"/>
       <Use id="idSoundParams" optional="1" />
       <Use id="idMovementAnimations" optional="1" />
       <Use id="idBoost" optional="1" />
@@ -949,6 +950,7 @@
       <Property name="tiltPerVelDifference" type="float" min="0" max="10" desc="Require a tilt angle (radians) of this per m/s desired movement"/>
       <Property name="maxTiltAngle" type="float" min="0" max="1.57" desc="Maximum angle the high-level controller will try to tilt"/>
       <Property name="maxRollAngle" type="float" desc="Maximum roll angle possible for the player"/>
+	  <Property name="velDamping" type="float" desc="Damping value to damp the helicopter velocity"/>
       <Property name="extraRollForTurn" type="float" min="0" max="10" desc="Fraction of the turning used to generate roll"/>
       <Property name="rollForTurnForce" type="float" min="0" max="10" desc="force at which extraRollForTurn is applied"/>
       <Property name="yawPerRoll" type="float" min="0" max="10" desc="Fraction of the rolling to add to the yaw"/>
@@ -1010,7 +1012,7 @@
   
   <Table name="Particles" optional="1">
     <Property name="mfxRow" optional="1" type="string" desc="The rowname to use for environment layer effects in MaterialEffects.xml" />
-    <Table name="Exhaust" optional="1">
+	<Table name="Exhaust" optional="1">
       <Array name="Helpers" elementName="Helper" list="Helper" type="string" desc="1 or more helpers where exhaust is spawned" extendable="1" />
       <Property name="insideWater"  type="bool" desc="If true, exhaust is spawned when helper position is inside water" />
       <Property name="outsideWater" type="bool" desc="If true, exhaust is spawned when helper position is outside water" />
@@ -1122,8 +1124,8 @@
 			<Property name="isLooped" type="bool" />
 			<Property name="isLoopedEx" type="bool" optional="1"/>
 			<Property name="speedDefault" type="float" />
-			<Property name="speedMin" type="float" />
-			<Property name="speedMax" type="float" />
+			<Property name="speedMin" type="float" optional="1" />
+			<Property name="speedMax" type="float" optional="1" />
 
       <Array name="Materials" elementName="Material" optional="1" extendable="1">
 				<Property name="name" type="string" />

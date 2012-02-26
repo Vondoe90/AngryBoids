@@ -89,10 +89,10 @@ local Behavior = CreateAIBehavior("HeliAttack", "HeliBase",
 	---------------------------------------------
 	OnEnemyDamage = function ( self, entity, sender, data )
 
-		if ( AIBehaviour.HELIDEFAULT:heliCheckDamageRatio( entity ) == true ) then
+		if ( AIBehavior.HELIDEFAULT:heliCheckDamageRatio( entity ) == true ) then
 			return;
 		end
-		if ( AIBehaviour.HELIDEFAULT:heliCheckDamage( entity, data ) == false ) then
+		if ( AIBehavior.HELIDEFAULT:heliCheckDamage( entity, data ) == false ) then
 			return;
 		end
 

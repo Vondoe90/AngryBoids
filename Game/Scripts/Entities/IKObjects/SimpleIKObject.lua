@@ -5,7 +5,7 @@
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
--- eiIKObjectType:  --> defined in GlobalEnums.xml in Game/Libs/UI/
+-- eiIKObjectType:  --> defined in GlobalEnums.xml in Game/Libs/
 --		<entry enum="Standard=0" />
 --		<entry enum="Wheel_big=1" />
 --		<entry enum="Wheel_small=2" />

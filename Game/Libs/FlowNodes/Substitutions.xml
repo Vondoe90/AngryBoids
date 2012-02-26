@@ -29,6 +29,8 @@
   <Node OldClass="Animations:AnimGraphCheckOutput" NewClass="Animations:AnimationGraph:CheckOutput" />
   <Node OldClass="Animations:AnimGraphReset" NewClass="Animations:AnimationGraph:Reset" />
 
+  <Node OldClass="UI:Events:System:OnLevelStart" NewClass="UI:Events:System:OnGameplayStarted" />
+  <Node OldClass="UI:Events:System:OnLevelEnd" NewClass="UI:Events:System:OnUnloadComplete" />
 <!--  <Node OldClass="" NewClass="" /> -->
 
 

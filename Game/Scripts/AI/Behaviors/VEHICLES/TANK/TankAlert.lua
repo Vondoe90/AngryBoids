@@ -117,7 +117,7 @@ local Behavior = CreateAIBehavior("TankAlert",
 	
 	Constructor = function ( self, entity, data )
 
-		-- called when the behaviour is selected
+		-- called when the behavior is selected
 		-- the extra data is from the signal that caused the behavior transition
 
 		entity.AI.myDistance = 0.0;
@@ -141,7 +141,7 @@ local Behavior = CreateAIBehavior("TankAlert",
 	---------------------------------------------
 	Destructor = function ( self, entity, data )
 
-		-- called when the behaviour is de-selected
+		-- called when the behavior is de-selected
 		-- the extra data is from the signal that is causing the behavior transition
 
 		entity.AI.blockSignal = false;

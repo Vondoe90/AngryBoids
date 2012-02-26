@@ -1,0 +1,48 @@
+<Graph Description="" Group="MM_PagesMain" enabled="1" MultiPlayer="ClientServer">
+ <Nodes>
+  <Node Id="1" Class="UI:Action:Start" pos="-340,-60,0" flags="0">
+   <Inputs UseAsState="1"/>
+  </Node>
+  <Node Id="5" Class="UI:Functions:MainMenu:SetupScreen" pos="-150,-60,0" flags="0">
+   <Inputs instanceID="-1" Caption="@ui_MultiplayerTitle" ShowLine="1" MaxButtons="2" ButtonXPos="-500" ButtonYPos="0" ButtonOffset="40"/>
+  </Node>
+  <Node Id="33" Name="Setup_page" Class="_commentbox" pos="-349,-99.999794,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="595" Height="466"/>
+   <NodeSize Width="595" Height="493.39063"/>
+  </Node>
+  <Node Id="34" Class="UI:Functions:MainMenu:AddBackButton" pos="-150,280,0" flags="0">
+   <Inputs instanceID="-1" id="MM_Main"/>
+  </Node>
+  <Node Id="35" Class="UI:Functions:MainMenu:AddButton" pos="-150,80,0" flags="0">
+   <Inputs instanceID="-1" caption="@ui_HostLan" tooltip="@ui_HostLanTT" id="MM_HostMP"/>
+  </Node>
+  <Node Id="36" Class="UI:Functions:MainMenu:AddButton" pos="-150,180,0" flags="0">
+   <Inputs instanceID="-1" caption="@ui_JoinLan" tooltip="@ui_JoinLanTT" id="MM_JoinMP"/>
+  </Node>
+  <Node Id="40" Name="Handle_events" Class="_commentbox" pos="-349.23459,412.98764,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="613.87012" Height="171.55054"/>
+   <NodeSize Width="613.87012" Height="198.94116"/>
+  </Node>
+  <Node Id="83" Class="UI:Action:Control" pos="-120,500,0" flags="0">
+   <Inputs uiActions_UIAction="MM_DefaultEvents" Args=""/>
+  </Node>
+  <Node Id="91" Class="UI:Action:End" pos="130,500,0" flags="0">
+   <Inputs UseAsState="1" Args=""/>
+  </Node>
+  <Node Id="93" Class="UI:Action:Start" pos="-330,500,0" flags="0">
+   <Inputs UseAsState="1"/>
+  </Node>
+  <Node Id="94" Name="Use_default_event_state_as_well" Class="_comment" pos="-330,460,0" flags="0"/>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="5" nodeOut="1" portIn="Call" portOut="StartAction" enabled="1"/>
+  <Edge nodeIn="35" nodeOut="5" portIn="Call" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="36" nodeOut="35" portIn="Call" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="34" nodeOut="36" portIn="Call" portOut="OnCall" enabled="1"/>
+  <Edge nodeIn="91" nodeOut="83" portIn="EndAction" portOut="OnEnd" enabled="1"/>
+  <Edge nodeIn="83" nodeOut="93" portIn="Start" portOut="StartAction" enabled="1"/>
+ </Edges>
+ <GraphTokens />
+</Graph>

@@ -52,7 +52,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		end
 		entity.AI.damageCount = 0;
 
-		entity.AI.heliTimer = Script.SetTimerForFunction( minUpdateTime *1000, "AIBehaviour.HeliHoverAttack2.HELI_HOVERATTACK2_UPDATE", entity );
+		entity.AI.heliTimer = Script.SetTimerForFunction( minUpdateTime *1000, "AIBehavior.HeliHoverAttack2.HELI_HOVERATTACK2_UPDATE", entity );
 
 		entity.AI.circleSec = System.GetCurrTime();
 		entity.AI.deltaT = System.GetCurrTime();
@@ -127,7 +127,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	---------------------------------------------
 	Destructor = function ( self, entity, data )
 
-		-- called when the behaviour is de-selected
+		-- called when the behavior is de-selected
 		-- the extra data is from the signal that is causing the behavior transition
 
 		local vVel = {};
@@ -191,7 +191,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_CHECKTARGET = function ( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 			if ( AI.GetTypeOf( target.id ) == AIOBJECT_VEHICLE ) then
 				if ( target.AIMovementAbility.pathType == AIPATH_TANK or target.AIMovementAbility.pathType == AIPATH_BOAT ) then
 					AI.SetExtraPriority( target.id , 100.0 );
@@ -212,7 +212,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	--------------------------------------------------------------------------
 	OnNoTarget = function( self, entity )
 		-- called when the AI stops having an attention target
-		AIBehaviour.HELIDEFAULT:heliRequest2ndGunnerStopShoot( entity );
+		AIBehavior.HELIDEFAULT:heliRequest2ndGunnerStopShoot( entity );
 		AI.Signal(SIGNALFILTER_SENDER, 1, "TO_HELI_ATTACK", entity.id);
 	end,
 	---------------------------------------------
@@ -258,7 +258,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	---------------------------------------------
 	OnEnemyDamage = function ( self, entity, sender, data )
 
-		if ( AIBehaviour.HELIDEFAULT:heliCheckDamageRatio( entity ) == true ) then
+		if ( AIBehavior.HELIDEFAULT:heliCheckDamageRatio( entity ) == true ) then
 			return;
 		end
 		if ( entity.AI.bBlockSignal == true ) then
@@ -281,7 +281,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 				entity.AI.damageCount =0;
 
 				local target = AI.GetAttentionTargetEntity( entity.id );
-				if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+				if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 				
 					local vMyPos = {};
 					local vTargetPos = {};
@@ -324,7 +324,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_CHECKGOAWAY = function( self, entity, distance )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			local vDist = {};
 			SubVectors( vDist, target:GetPos(), entity:GetPos() );
@@ -359,10 +359,10 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		entity.AI.lastDamage = ratio;
 		entity.AI.damageCount =0;
 		
-		if ( AIBehaviour.HELIDEFAULT:heliCheckDamageRatio( entity ) == true ) then
+		if ( AIBehavior.HELIDEFAULT:heliCheckDamageRatio( entity ) == true ) then
 			return;
 		end
-		if ( AIBehaviour.HELIDEFAULT:heliCheckDamage( entity, data ) == false ) then
+		if ( AIBehavior.HELIDEFAULT:heliCheckDamage( entity, data ) == false ) then
 			return;
 		end
 
@@ -378,7 +378,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 			end
 		else
 			local targetEntity = AI.GetAttentionTargetEntity( entity.id );
-			if ( targetEntity and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, targetEntity )==true ) then
+			if ( targetEntity and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, targetEntity )==true ) then
 			else
 				return;
 			end
@@ -517,17 +517,17 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 			return;
 		end
 
-		entity.AI.heliTimer = Script.SetTimerForFunction( minUpdateTime *1000, "AIBehaviour.HeliHoverAttack2.HELI_HOVERATTACK2_UPDATE", entity );
+		entity.AI.heliTimer = Script.SetTimerForFunction( minUpdateTime *1000, "AIBehavior.HeliHoverAttack2.HELI_HOVERATTACK2_UPDATE", entity );
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			if ( AI.GetTargetType( entity.id ) == AITARGET_MEMORY ) then
 				local bClockedTarget = false;
 				if ( target.actor and target.actor:GetNanoSuitMode() == 2 ) then
 					bClockedTarget = true;
 					if ( entity.AI.CurrentHook ~= fHELI_HOVERATTACK2_VSCLOAK ) then
-						AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_VSCLOAK_START( entity );
+						AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_VSCLOAK_START( entity );
 					end
 				end
 				if ( entity.AI.bBlockSignal == false  ) then
@@ -548,7 +548,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 						local	hits = Physics.RayWorldIntersection(vMyPos,vDir,1,ent_terrain,target.id,entity.id,g_HitTable);
 						if ( hits == 0 ) then
 							entity.AI.bBlockSignal = true;
-							AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_QUICKRETREAT_START( entity );
+							AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_QUICKRETREAT_START( entity );
 						end
 
 					end
@@ -558,150 +558,150 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 			end
 
 		else
-			AIBehaviour.HeliHoverAttack2:OnNoTarget( entity );
+			AIBehavior.HeliHoverAttack2:OnNoTarget( entity );
 			return;
 		end
 
 		if ( entity.AI.bBlockSignal == false ) then
 			if (     entity.AI.CurrentHook == fHELI_HOVERATTACK2_DONOTHING ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_DONOTHING" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DONOTHING( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_DONOTHING" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DONOTHING( entity );
 				return;
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_GETDAMAGESMALL ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_GETDAMAGESMALL" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_GETDAMAGESMALL( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_GETDAMAGESMALL" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_GETDAMAGESMALL( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_STRAFING ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_STRAFING2 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING2" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING2( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING2" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING2( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_STRAFING3 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING3" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING3( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING3" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING3( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_STRAFING4 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING4" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING4( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING4" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING4( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_STRAFING5 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING5" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING5( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING5" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING5( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_DASH ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_DASH" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DASH( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_DASH" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DASH( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_MAKECURVE ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_MAKECURVE" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_MAKECURVE( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_MAKECURVE" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_MAKECURVE( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_WAITLOOK ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_WAITLOOK" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_WAITLOOK( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_WAITLOOK" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_WAITLOOK( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_NORMALDAMAGE ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_NORMALDAMAGE" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_NORMALDAMAGE( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_NORMALDAMAGE" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_NORMALDAMAGE( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_NORMALDAMAGE2 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_NORMALDAMAGE2" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_NORMALDAMAGE2( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_NORMALDAMAGE2" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_NORMALDAMAGE2( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_EVADELAW ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_EVADELAW" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_EVADELAW( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_EVADELAW" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_EVADELAW( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_PATHATTACK ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_PATHATTACK" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_PATHATTACK( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_PATHATTACK" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_PATHATTACK( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_GOAWAY ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_GOAWAY" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_GOAWAY( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_GOAWAY" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_GOAWAY( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_SHOOTMISSILE ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_SHOOTMISSILE" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_SHOOTMISSILE( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_SHOOTMISSILE" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_SHOOTMISSILE( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_SHOOTMISSILE2 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_SHOOTMISSILE2" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_SHOOTMISSILE2( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_SHOOTMISSILE2" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_SHOOTMISSILE2( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_EMERGENCYSTOP ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_EMERGENCYSTOP" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_EMERGENCYSTOP( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_EMERGENCYSTOP" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_EMERGENCYSTOP( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_ADVANCE ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_ADVANCE" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_ADVANCE( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_ADVANCE" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_ADVANCE( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_QUICKRETREAT ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_QUICKRETREAT" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_QUICKRETREAT( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_QUICKRETREAT" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_QUICKRETREAT( entity );
 			elseif ( entity.AI.CurrentHook == fHELI_HOVERATTACK2_VSCLOAK ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_VSCLOAK" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_VSCLOAK( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_VSCLOAK" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_VSCLOAK( entity );
 			end
 		else
 			if (     entity.AI.InterruptHook == fHELI_HOVERATTACK2_DONOTHING ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_DONOTHING" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DONOTHING( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_DONOTHING" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DONOTHING( entity );
 				return;
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_GETDAMAGESMALL ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_GETDAMAGESMALL" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_GETDAMAGESMALL( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_GETDAMAGESMALL" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_GETDAMAGESMALL( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_STRAFING ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_STRAFING2 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING2" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING2( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING2" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING2( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_STRAFING3 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING3" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING3( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING3" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING3( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_STRAFING4 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING4" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING4( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING4" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING4( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_STRAFING5 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING5" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING5( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_STRAFING5" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_STRAFING5( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_DASH ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_DASH" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DASH( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_DASH" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DASH( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_MAKECURVE ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_MAKECURVE" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_MAKECURVE( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_MAKECURVE" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_MAKECURVE( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_WAITLOOK ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_WAITLOOK" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_WAITLOOK( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_WAITLOOK" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_WAITLOOK( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_NORMALDAMAGE ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_NORMALDAMAGE" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_NORMALDAMAGE( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_NORMALDAMAGE" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_NORMALDAMAGE( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_NORMALDAMAGE2 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_NORMALDAMAGE2" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_NORMALDAMAGE2( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_NORMALDAMAGE2" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_NORMALDAMAGE2( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_EVADELAW ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_EVADELAW" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_EVADELAW( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_EVADELAW" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_EVADELAW( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_PATHATTACK ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_PATHATTACK" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_PATHATTACK( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_PATHATTACK" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_PATHATTACK( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_GOAWAY ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_GOAWAY" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_GOAWAY( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_GOAWAY" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_GOAWAY( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_SHOOTMISSILE ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_SHOOTMISSILE" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_SHOOTMISSILE( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_SHOOTMISSILE" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_SHOOTMISSILE( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_SHOOTMISSILE2 ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_SHOOTMISSILE2" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_SHOOTMISSILE2( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_SHOOTMISSILE2" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_SHOOTMISSILE2( entity );
 			elseif ( entity.AI.InterruptHook == fHELI_HOVERATTACK2_EMERGENCYSTOP ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_EMERGENCYSTOP" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_EMERGENCYSTOP( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_EMERGENCYSTOP" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_EMERGENCYSTOP( entity );
 			elseif ( entity.AI.InterruptHook  == fHELI_HOVERATTACK2_QUICKRETREAT ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_QUICKRETREAT" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_QUICKRETREAT( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_QUICKRETREAT" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_QUICKRETREAT( entity );
 			elseif ( entity.AI.InterruptHook  == fHELI_HOVERATTACK2_VSCLOAK ) then
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_VSCLOAK" );
-				AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_VSCLOAK( entity );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_DEBUGLABEL( entity:GetPos(), "HELI_HOVERATTACK2_VSCLOAK" );
+				AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_VSCLOAK( entity );
 			end
 		end
 
 		if ( entity.AI.resetLookAt == true ) then
 			entity.AI.resetLookAt = false;
-			AIBehaviour.HeliHoverAttack2:HELI_HOVERATTACK2_RECOVERLOOKAT_MAIN( entity );
+			AIBehavior.HeliHoverAttack2:HELI_HOVERATTACK2_RECOVERLOOKAT_MAIN( entity );
 		end
 
 	end,
@@ -740,7 +740,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		FastScaleVector( vFwd, entity:GetDirectionVector(1) ,100.0 );
 		FastSumVectors( vFwd, vFwd, entity:GetPos() );
 		
-		local bDir = AIBehaviour.HELIDEFAULT:GetIdealWng2( entity, vWng, 40.0, vFwd );
+		local bDir = AIBehavior.HELIDEFAULT:GetIdealWng2( entity, vWng, 40.0, vFwd );
 
 		if ( bDir == false ) then
 			FastScaleVector( vWng, vWng, -1.0 );
@@ -783,7 +783,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		
 		CopyVector( vWng, entity.AI.vIdealVel );
 
-		if ( AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vWng, 5.0, 3.0 ) < 0 ) then
+		if ( AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vWng, 5.0, 3.0 ) < 0 ) then
 
 			local targetEntity = System.GetEntity( entity.AI.lastShooterId );
 			local target = AI.GetAttentionTargetEntity( entity.id );
@@ -818,9 +818,9 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		end
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
-			AIBehaviour.HELIDEFAULT:heliRequest2ndGunnerShoot( entity );
+			AIBehavior.HELIDEFAULT:heliRequest2ndGunnerShoot( entity );
 
 			entity.AI.CurrentHook = fHELI_HOVERATTACK2;
 			entity.AI.bCircledHalf = false;
@@ -849,7 +849,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		local vFwd = {};
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			if ( self:HELI_HOVERATTACK2_CHECKGOAWAY( entity, 150 ) == true ) then
 				return;
@@ -910,14 +910,14 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 			NormalizeVector( vFwd );
 			FastScaleVector( vFwd, vFwd, 12.0 );
 
-			local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vFwd, 5.0, 3.5 )
+			local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vFwd, 5.0, 3.5 )
 			if ( height < 0  ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 			end
 
-			vFwd.z = AIBehaviour.HELIDEFAULT:heliUpdateMinZFast( entity, vMyPos.z, height, 2.0 );
-			vFwd.z = AIBehaviour.HELIDEFAULT:heliStickToMinZFast( entity, vMyPos.z, vFwd.z );
+			vFwd.z = AIBehavior.HELIDEFAULT:heliUpdateMinZFast( entity, vMyPos.z, height, 2.0 );
+			vFwd.z = AIBehavior.HELIDEFAULT:heliStickToMinZFast( entity, vMyPos.z, vFwd.z );
 
 			--System.Log("hight speed "..vFwd.z);
 			AI.SetForcedNavigation( entity.id, vFwd );
@@ -933,7 +933,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		end
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			CopyVector( entity.AI.vTargetRsv, target:GetPos() );
@@ -955,7 +955,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_ADVANCE  = function( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			if ( self:HELI_HOVERATTACK2_CHECKGOAWAY( entity, 180 ) == true ) then
 				return;
@@ -1033,14 +1033,14 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 				return;
 			end
 			
-			local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vFwd, 5.0, 3.5 );
+			local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vFwd, 5.0, 3.5 );
 			if ( height < 0 ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 			end
 
-			AIBehaviour.HELIDEFAULT:heliUpdateMinZ( entity, vFwd, height, 3.0 );
-			AIBehaviour.HELIDEFAULT:heliStickToMinZ( entity, vFwd );
+			AIBehavior.HELIDEFAULT:heliUpdateMinZ( entity, vFwd, height, 3.0 );
+			AIBehavior.HELIDEFAULT:heliStickToMinZ( entity, vFwd );
 
 			AI.SetForcedNavigation( entity.id, vFwd );
 
@@ -1057,7 +1057,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		end
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.InterruptSec = System.GetCurrTime();
 			entity.AI.InterruptHook = fHELI_HOVERATTACK2_QUICKRETREAT;
@@ -1084,7 +1084,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_QUICKRETREAT = function( self, entity )
 	
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			local vTmp= {};
 			local vTmp2= {};
@@ -1124,7 +1124,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 						vTmp.x = 0.0;
 						vTmp.y = 0.0;
 						vTmp.z = 2.0;
-						height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 8.0, 3.5 );
+						height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 8.0, 3.5 );
 						if ( height < 0 ) then
 							self:HELI_HOVERATTACK2_RECOVERLOOKAT( entity );
 							return false;
@@ -1139,7 +1139,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 				end
 			end
 
-			height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 8.0, 3.5 );
+			height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 8.0, 3.5 );
 			if ( height < 0 ) then
 				self:HELI_HOVERATTACK2_RECOVERLOOKAT( entity );
 				return false;
@@ -1172,7 +1172,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		end
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			CopyVector( entity.AI.vMyPosRsv, entity:GetPos() );
@@ -1196,7 +1196,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 		
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			local vFwd = {};
 			local vTmp= {};
@@ -1234,14 +1234,14 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 				return;
 			end
 
-			height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vFwd, 8.0, 3.5 );
+			height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vFwd, 8.0, 3.5 );
 			if ( height < 0 ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 			end
 
-			AIBehaviour.HELIDEFAULT:heliUpdateMinZ( entity, vFwd, height, 3.0 );
-			AIBehaviour.HELIDEFAULT:heliStickToMinZ( entity, vFwd );
+			AIBehavior.HELIDEFAULT:heliUpdateMinZ( entity, vFwd, height, 3.0 );
+			AIBehavior.HELIDEFAULT:heliStickToMinZ( entity, vFwd );
 
 			AI.SetForcedNavigation( entity.id, vFwd );
 
@@ -1258,7 +1258,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		end
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			CopyVector( entity.AI.vTargetRsv, target:GetPos() );
@@ -1287,7 +1287,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		local vFwd = {};
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			if ( self:HELI_HOVERATTACK2_CHECKGOAWAY( entity, 200 ) == true ) then
 				return;
@@ -1304,14 +1304,14 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 			vWng.z = 5.0;
 
-			local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vWng, 7.0, 3.5 )
+			local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vWng, 7.0, 3.5 )
 			if ( height < 0 ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 			end
 
-			AIBehaviour.HELIDEFAULT:heliUpdateMinZ( entity, vWng, height, 3.0 );
-			AIBehaviour.HELIDEFAULT:heliStickToMinZ( entity, vWng );
+			AIBehavior.HELIDEFAULT:heliUpdateMinZ( entity, vWng, height, 3.0 );
+			AIBehavior.HELIDEFAULT:heliStickToMinZ( entity, vWng );
 	
 			if ( System.GetCurrTime() - entity.AI.circleSec > 2.0 ) then
 				AI.Signal(SIGNALFILTER_SENDER,1,"HELI_HOVERATTACK2_STRAFING2_START", entity.id);
@@ -1328,7 +1328,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_STRAFING2_START = function( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			entity.AI.deltaT = System.GetCurrTime();
@@ -1357,7 +1357,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		local vDist = {};
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			if ( self:HELI_HOVERATTACK2_CHECKGOAWAY( entity, 200 ) == true ) then
 				return;
@@ -1430,14 +1430,14 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 			end
 
-			height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vVelRot, 8.0, 3.5 );
+			height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vVelRot, 8.0, 3.5 );
 			if ( height < 0  ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 			end
 
-			AIBehaviour.HELIDEFAULT:heliUpdateMinZ( entity, vVelRot, height, 3.0 );
-			AIBehaviour.HELIDEFAULT:heliStickToMinZ( entity, vVelRot );
+			AIBehavior.HELIDEFAULT:heliUpdateMinZ( entity, vVelRot, height, 3.0 );
+			AIBehavior.HELIDEFAULT:heliStickToMinZ( entity, vVelRot );
 
 			entity.AI.deltaT = System.GetCurrTime();
 
@@ -1452,7 +1452,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_STRAFING3_START = function( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			entity.AI.deltaT = System.GetCurrTime();
@@ -1478,7 +1478,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		local vFwd = {};
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			if ( self:HELI_HOVERATTACK2_CHECKGOAWAY( entity, 200 ) == true ) then
 				return;
@@ -1500,14 +1500,14 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 			vWng.z = 5.0;
 
-			local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vWng, 8.0, 3.5 )
+			local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vWng, 8.0, 3.5 )
 			if ( height < 0 ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 			end
 
-			AIBehaviour.HELIDEFAULT:heliUpdateMinZ( entity, vWng, height, 3.0 );
-			AIBehaviour.HELIDEFAULT:heliStickToMinZ( entity, vWng );
+			AIBehavior.HELIDEFAULT:heliUpdateMinZ( entity, vWng, height, 3.0 );
+			AIBehavior.HELIDEFAULT:heliStickToMinZ( entity, vWng );
 	
 			if ( System.GetCurrTime() - entity.AI.circleSec > 2.0 ) then
 				AI.Signal(SIGNALFILTER_SENDER,1,"HELI_HOVERATTACK2_STRAFING4_START", entity.id);
@@ -1524,7 +1524,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_STRAFING4_START = function( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			entity.AI.deltaT = System.GetCurrTime();
@@ -1556,7 +1556,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		local vDist = {};
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			if ( self:HELI_HOVERATTACK2_CHECKGOAWAY( entity, 200 ) == true ) then
 				return;
@@ -1634,14 +1634,14 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 			entity.AI.deltaT = System.GetCurrTime();
 
-			local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vVelRot, 8.0, 3.5 );
+			local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vVelRot, 8.0, 3.5 );
 			if ( height < 0 ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 			end
 
-			AIBehaviour.HELIDEFAULT:heliUpdateMinZ( entity, vVelRot, height, 3.0 );
-			AIBehaviour.HELIDEFAULT:heliStickToMinZ( entity, vVelRot );
+			AIBehavior.HELIDEFAULT:heliUpdateMinZ( entity, vVelRot, height, 3.0 );
+			AIBehavior.HELIDEFAULT:heliStickToMinZ( entity, vVelRot );
 
 			AI.SetForcedNavigation( entity.id, vVelRot );
 
@@ -1657,7 +1657,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		end
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			entity.AI.deltaT = System.GetCurrTime();
@@ -1700,14 +1700,14 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 			return;
 		end
 
-		local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vHover, 7.0, 3.5 );
+		local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vHover, 7.0, 3.5 );
 		if ( height < 0 ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 		end
 
---		AIBehaviour.HELIDEFAULT:heliUpdateMinZ( entity, vHover, height, 3.0 );
---		AIBehaviour.HELIDEFAULT:heliStickToMinZ( entity, vHover );
+--		AIBehavior.HELIDEFAULT:heliUpdateMinZ( entity, vHover, height, 3.0 );
+--		AIBehavior.HELIDEFAULT:heliStickToMinZ( entity, vHover );
 
 		AI.SetForcedNavigation( entity.id, vHover );
 
@@ -1721,7 +1721,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		end
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			entity.AI.deltaT = System.GetCurrTime();
@@ -1766,7 +1766,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 		CopyVector( vTmp, entity.AI.vDashVec );
 
-		if ( AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 2.0, 3.0 )  < 0  ) then
+		if ( AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 2.0, 3.0 )  < 0  ) then
 			self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 			return false;
 		end
@@ -1788,7 +1788,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		end
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			local vDist = {};
 			SubVectors( vDist, target:GetPos(), entity:GetPos() );
@@ -1829,7 +1829,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		local vTmp4 = {};
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			if ( self:HELI_HOVERATTACK2_CHECKGOAWAY( entity, 200 ) == true ) then
 				return;
@@ -1896,14 +1896,14 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 				return;
 			end
 
-			local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 7.0, 3.5 );
+			local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 7.0, 3.5 );
 			if ( height < 0  ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 			end
 
-			AIBehaviour.HELIDEFAULT:heliUpdateMinZ( entity, vTmp, height, 3.0 );
-			AIBehaviour.HELIDEFAULT:heliStickToMinZ( entity, vTmp );
+			AIBehavior.HELIDEFAULT:heliUpdateMinZ( entity, vTmp, height, 3.0 );
+			AIBehavior.HELIDEFAULT:heliStickToMinZ( entity, vTmp );
 
 			AI.SetForcedNavigation( entity.id, vTmp );
 
@@ -1919,7 +1919,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		end
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			entity.AI.deltaT = System.GetCurrTime();
@@ -1948,7 +1948,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_WAITLOOK = function( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			if ( self:HELI_HOVERATTACK2_CHECKGOAWAY( entity, 200 ) == true ) then
 				return;
@@ -1984,7 +1984,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_NORMALDAMAGE_START = function( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			entity.AI.deltaT = System.GetCurrTime();
@@ -2021,7 +2021,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		local vTmp2 = {};
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			SubVectors( vDirection, entity.AI.vTargetRsv, entity:GetPos() );
 			vDirection.z = 0 ;
@@ -2056,7 +2056,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 				return;
 			end
 
-			if ( AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vVel, 2.0, 3.0 )  < 0  ) then
+			if ( AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vVel, 2.0, 3.0 )  < 0  ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 			end
@@ -2071,7 +2071,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_NORMALDAMAGE2_START = function( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			entity.AI.deltaT = System.GetCurrTime();
@@ -2118,7 +2118,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 				return;
 			end
 
-			if ( AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 2.0, 3.0 )  < 0  ) then
+			if ( AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 2.0, 3.0 )  < 0  ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 			end
@@ -2153,10 +2153,10 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 			local vMyPos = {};
 			CopyVector( vMyPos, entity:GetPos() );
 
-			local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 10.0, 2.0 );
+			local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 10.0, 2.0 );
 			if ( height  < 0 ) then
 				vTmp.z = vTmp.z * 0.5;
-				height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 10.0, 2.0 );
+				height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 10.0, 2.0 );
 				if ( height  < 0 ) then
 					self:HELI_HOVERATTACK2_RECOVERLOOKAT( entity );
 					return false;
@@ -2228,7 +2228,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		end
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			entity.AI.deltaT = System.GetCurrTime();
@@ -2262,7 +2262,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_PATHATTACK = function( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			local vVel = {};
 			local vVelRot = {};
@@ -2346,14 +2346,14 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 			entity.AI.deltaT = System.GetCurrTime();
 
-			local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vVelRot, 10.0, 3.5 );
+			local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vVelRot, 10.0, 3.5 );
 			if ( height < 0 ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 			end
 
-			vVelRot.z = AIBehaviour.HELIDEFAULT:heliUpdateMinZFast( entity, vEntityPos.z, height, 3.0 );
-			vVelRot.z = AIBehaviour.HELIDEFAULT:heliStickToMinZFast( entity, vEntityPos.z, vVelRot.z );
+			vVelRot.z = AIBehavior.HELIDEFAULT:heliUpdateMinZFast( entity, vEntityPos.z, height, 3.0 );
+			vVelRot.z = AIBehavior.HELIDEFAULT:heliStickToMinZFast( entity, vEntityPos.z, vVelRot.z );
 
 			AI.SetForcedNavigationCompVec( entity.id, vVelRot.x, vVelRot.y, vVelRot.z );
 
@@ -2369,7 +2369,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		end
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			entity.AI.deltaT = System.GetCurrTime();
@@ -2392,7 +2392,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_GOAWAY = function( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			local vEntityPos = entity:GetPos();
 
@@ -2442,15 +2442,15 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 			vVel_x, vVel_y, vVel_z = FastScaleCompVector( vVel_x, vVel_y, vVel_z, cof );
 
-			local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigationCompVec( entity, vVel_x, vVel_y, vVel_z, 10.0, 3.5 );
+			local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigationCompVec( entity, vVel_x, vVel_y, vVel_z, 10.0, 3.5 );
 			if ( height < 0 ) then
 				self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 				return false;
 			end
 
 
-			vVel_z = AIBehaviour.HELIDEFAULT:heliUpdateMinZFast(entity, vEntityPos.z, height, 3.0 );
-			vVel_z = AIBehaviour.HELIDEFAULT:heliStickToMinZFast( entity, vEntityPos.z, vVel_z );
+			vVel_z = AIBehavior.HELIDEFAULT:heliUpdateMinZFast(entity, vEntityPos.z, height, 3.0 );
+			vVel_z = AIBehavior.HELIDEFAULT:heliStickToMinZFast( entity, vEntityPos.z, vVel_z );
 
 			AI.SetForcedNavigationCompVec( entity.id, vVel_x, vVel_y, vVel_z );
 
@@ -2463,7 +2463,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_SHOOTMISSILE_START = function( self, entity, myPos, enemyPos )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			CopyVector( entity.AI.vInterruptMyPosRsv, myPos );
 			CopyVector( entity.AI.vInterruptTargetRsv, enemyPos );
@@ -2525,7 +2525,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		vPos.y = 0.0;
 		vPos.z = -0.5;
 
-		local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vPos, 5.0, 3.0 );
+		local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vPos, 5.0, 3.0 );
 		if ( height < 0 ) then
 			self:HELI_HOVERATTACK2_RECOVERLOOKAT( entity );
 			return;
@@ -2543,7 +2543,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 		local vPos = {};
 		CopyVector( vPos, entity.AI.vInterruptMyPosRsv );
-		AIBehaviour.HELIDEFAULT:GetAimingPosition2( entity, vPos, entity.AI.vInterruptTargetRsv );
+		AIBehavior.HELIDEFAULT:GetAimingPosition2( entity, vPos, entity.AI.vInterruptTargetRsv );
 		SubVectors( vPos, vPos, entity:GetPos() );
 
 		SubVectors( entity.AI.vInterruptDirectionRsv, entity.AI.vInterruptTargetRsv, entity.AI.vInterruptMyPosRsv );
@@ -2567,7 +2567,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 	HELI_HOVERATTACK2_SHOOTMISSILE2 = function( self, entity )
 
-		local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, entity.AI.vInterruptDirectionRsv, 5.0, 1.0 );
+		local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, entity.AI.vInterruptDirectionRsv, 5.0, 1.0 );
 
 		local vPos = {};
 		CopyVector( vPos, entity:GetPos() );
@@ -2591,7 +2591,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_EMERGENCYSTOP_START = function( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.circleSec = System.GetCurrTime();
 			entity.AI.deltaT = System.GetCurrTime();
@@ -2635,7 +2635,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 	HELI_HOVERATTACK2_EMERGENCYSTOP = function( self, entity )
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			if ( entity.AI.bLock == true ) then
 	
@@ -2644,12 +2644,12 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 				FastScaleVector( vTmp, entity.AI.vDirectionRsv, 10.0 );
 
-				local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 5.0, 3.0 );
+				local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp, 5.0, 3.0 );
 				if ( height < 0 ) then
 		
 				else
-					AIBehaviour.HELIDEFAULT:heliUpdateMinZ( entity, vTmp, height, 3.0 );
-					AIBehaviour.HELIDEFAULT:heliStickToMinZ( entity, vTmp );
+					AIBehavior.HELIDEFAULT:heliUpdateMinZ( entity, vTmp, height, 3.0 );
+					AIBehavior.HELIDEFAULT:heliStickToMinZ( entity, vTmp );
 				end
 		
 		
@@ -2666,12 +2666,12 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 				end
 
 				CopyVector( vVel, entity.AI.vDirectionRsv );
-				local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vVel, 10.0, 3.0 );
+				local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vVel, 10.0, 3.0 );
 				if ( height < 0 ) then
 		
 				else
-					AIBehaviour.HELIDEFAULT:heliUpdateMinZ( entity, vVel, height, 3.0 );
-					AIBehaviour.HELIDEFAULT:heliStickToMinZ( entity, vVel );
+					AIBehavior.HELIDEFAULT:heliUpdateMinZ( entity, vVel, height, 3.0 );
+					AIBehavior.HELIDEFAULT:heliStickToMinZ( entity, vVel );
 				end
 		
 				vVel.z = vVel.z + 1.0;
@@ -2691,7 +2691,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 						RotateVectorAroundR( vTmp, entity.AI.vDirectionRsv, entity.AI.vUp, -3.1416* 30.0 * i / 180.0 );
 						FastScaleVector( vTmp2, vTmp, 5.0 );
-						hight = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp2, 5.0, 5.0 );
+						hight = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp2, 5.0, 5.0 );
 						if ( hight < 0 ) then
 						elseif ( hight > vMyPos.z ) then
 						else
@@ -2702,7 +2702,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 
 						RotateVectorAroundR( vTmp, entity.AI.vDirectionRsv, entity.AI.vUp, 3.1416* 30.0 * i / 180.0 );
 						FastScaleVector( vTmp2, vTmp, 5.0 );
-						hight = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp2, 5.0, 5.0 );
+						hight = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vTmp2, 5.0, 5.0 );
 						if ( hight < 0 ) then
 						elseif ( hight > vMyPos.z ) then
 						else
@@ -2741,10 +2741,10 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 			return;
 		end
 
-		AIBehaviour.HELIDEFAULT:heliRequest2ndGunnerStopShoot( entity );
+		AIBehavior.HELIDEFAULT:heliRequest2ndGunnerStopShoot( entity );
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 
 			entity.AI.CurrentHook = fHELI_HOVERATTACK2_VSCLOAK;
 			entity.AI.bCircledHalf = false;
@@ -2771,7 +2771,7 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		local bClockedTarget = false;
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
-		if ( target and AIBehaviour.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
+		if ( target and AIBehavior.HELIDEFAULT:heliCheckHostile( entity, target )==true ) then
 			if ( AI.GetTargetType( entity.id ) == AITARGET_MEMORY ) then
 				if ( target.actor and target.actor:GetNanoSuitMode() == 2 ) then
 					bClockedTarget = true;
@@ -2836,14 +2836,14 @@ local Behavior = CreateAIBehavior("HeliHoverAttack2", "HeliBase",
 		NormalizeVector( vFwd );
 		FastScaleVector( vFwd, vFwd, 12.0 );
 
-		local height = AIBehaviour.HELIDEFAULT:heliSetForcedNavigation( entity, vFwd, 5.0, 3.5 )
+		local height = AIBehavior.HELIDEFAULT:heliSetForcedNavigation( entity, vFwd, 5.0, 3.5 )
 		if ( height < 0  ) then
 			self:HELI_HOVERATTACK2_EMERGENCYSTOP_START( entity );
 			return false;
 		end
 
-		AIBehaviour.HELIDEFAULT:heliUpdateMinZ( entity, vFwd, height, 2.0 );
-		AIBehaviour.HELIDEFAULT:heliStickToMinZ( entity, vFwd );
+		AIBehavior.HELIDEFAULT:heliUpdateMinZ( entity, vFwd, height, 2.0 );
+		AIBehavior.HELIDEFAULT:heliStickToMinZ( entity, vFwd );
 
 		AI.SetForcedNavigation( entity.id, vFwd );
 

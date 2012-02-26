@@ -30,7 +30,7 @@ local Behavior = CreateAIBehavior("Cover2RPGAttack",
 			Script.KillTimer(entity.AI.hideTimer);
 			entity.AI.hideTimer = nil;
 		end
-		AIBehaviour.Cover2AvoidTank.ResetAttackDelay(self,entity);		
+		AIBehavior.Cover2AvoidTank.ResetAttackDelay(self,entity);		
 	end,
 
 
@@ -52,9 +52,9 @@ local Behavior = CreateAIBehavior("Cover2RPGAttack",
 			local	attTargPos = g_Vectors.temp_v1;
 			if(AI.GetAttentionTargetPosition(entity.id, attTargPos)) then
 				local distToTarget = DistanceVectors(attackPos, attTargPos);
-				if(distToTarget < AIBehaviour.Cover2RPGAttack.fleeDistance) then
+				if(distToTarget < AIBehavior.Cover2RPGAttack.fleeDistance) then
 --					return nil
-					return AIBehaviour.Cover2RPGAttack.FindRPGSpot(self, entity, needToMove)
+					return AIBehavior.Cover2RPGAttack.FindRPGSpot(self, entity, needToMove)
 				end
 			end	
 			entity.AI.RPG_spot = {};
@@ -99,7 +99,7 @@ local Behavior = CreateAIBehavior("Cover2RPGAttack",
 	RPG_ATTACK = function(self, entity, sender, data)
 
 		local	distToTarget = AI.GetAttentionTargetDistance(entity.id);
-		if((targetType == AITARGET_ENEMY or targetType == AITARGET_MEMORY) and distToTarget < AIBehaviour.Cover2RPGAttack.fleeDistance) then
+		if((targetType == AITARGET_ENEMY or targetType == AITARGET_MEMORY) and distToTarget < AIBehavior.Cover2RPGAttack.fleeDistance) then
 		
 
 			AI.Signal(SIGNALFILTER_SENDER, 1, "TO_AVOID_TANK",entity.id);
@@ -118,7 +118,7 @@ local Behavior = CreateAIBehavior("Cover2RPGAttack",
 	RPG_ONSPOT = function(self, entity, sender, data)
 		local targetType = AI.GetTargetType(entity.id);
 		local	distToTarget = AI.GetAttentionTargetDistance(entity.id);
-		if((targetType == AITARGET_ENEMY or targetType == AITARGET_MEMORY) and distToTarget > AIBehaviour.Cover2RPGAttack.fleeDistance-3) then
+		if((targetType == AITARGET_ENEMY or targetType == AITARGET_MEMORY) and distToTarget > AIBehavior.Cover2RPGAttack.fleeDistance-3) then
 			-- If target is visibe and we are at safe range, just shoot!
 			entity:SelectPipe(0,"testRPG");
 		else
@@ -142,15 +142,15 @@ local Behavior = CreateAIBehavior("Cover2RPGAttack",
 		entity:MakeAlerted();
 		entity:TriggerEvent(AIEVENT_DROPBEACON);
 		-- switch to combat only after some delay
-		entity.AI.attackTimer = Script.SetTimerForFunction(2*1000,"AIBehaviour.Cover2AvoidTank.OnAttackTimer",entity);		
+		entity.AI.attackTimer = Script.SetTimerForFunction(2*1000,"AIBehavior.Cover2AvoidTank.OnAttackTimer",entity);		
 	end,
 
 
 	---------------------------------------------
 	OnTankSeen = function( self, entity, fDistance )
-		AIBehaviour.Cover2AvoidTank.ResetAttackDelay(self,entity);
+		AIBehavior.Cover2AvoidTank.ResetAttackDelay(self,entity);
 		local	distToTarget = AI.GetAttentionTargetDistance(entity.id);
-		if(distToTarget < AIBehaviour.Cover2RPGAttack.fleeDistance-3) then
+		if(distToTarget < AIBehavior.Cover2RPGAttack.fleeDistance-3) then
 			entity:SelectPipe(0,"fleeRPG");
 		end
 	end,
@@ -178,7 +178,7 @@ local Behavior = CreateAIBehavior("Cover2RPGAttack",
 			Script.KillTimer(entity.AI.hideTimer);
 			entity.AI.hideTimer = nil;
 		end
-		entity.AI.hideTimer = Script.SetTimerForFunction(15*1000,"AIBehaviour.Cover2RPGAttack.OnUnhideTimer",entity);
+		entity.AI.hideTimer = Script.SetTimerForFunction(15*1000,"AIBehavior.Cover2RPGAttack.OnUnhideTimer",entity);
 	end,
 
 	-----------------------------------------------------
@@ -219,7 +219,7 @@ local Behavior = CreateAIBehavior("Cover2RPGAttack",
 
 	---------------------------------------------
 	OnCloseCollision = function ( self, entity, sender,data)
---		AIBehaviour.Cover2RPGAttack.OnEnemyDamage(self,entity);
+--		AIBehavior.Cover2RPGAttack.OnEnemyDamage(self,entity);
 	end,
 
 	
@@ -229,7 +229,7 @@ local Behavior = CreateAIBehavior("Cover2RPGAttack",
 
 		local	distToTarget = AI.GetAttentionTargetDistance(entity.id);
 		if((targetType == AITARGET_ENEMY or targetType == AITARGET_MEMORY) 
-				and distToTarget < AIBehaviour.Cover2RPGAttack.fleeDistance-3) then
+				and distToTarget < AIBehavior.Cover2RPGAttack.fleeDistance-3) then
 			AI.Signal(SIGNALFILTER_SENDER, 1, "TO_AVOID_TANK",entity.id);		
 			do return end
 		end

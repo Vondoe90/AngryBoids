@@ -225,8 +225,6 @@ IGameRef CGameStartup::Init(SSystemInitParams &startupParams)
 		return 0;
 	}
 
-	m_pCryMono->PostInit();
-
 	LOADING_DONE;
 
 	// should be after init game (should be executed even if there is no game)

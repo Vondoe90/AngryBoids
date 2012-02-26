@@ -1,0 +1,580 @@
+<!-- DTD -->
+<!DOCTYPE HitDeathReactions_MP [
+	<!-- Internal General XML Entity to store groups -->
+	
+	<!-- part groups -->
+	<!ENTITY RightLeg '
+		<Part value="Bip01 R Thigh"/>
+		<Part value="Bip01 R Calf"/>
+		<Part value="Bip01 R Foot"/>
+	'>	
+	
+	<!ENTITY LeftLeg '
+		<Part value="Bip01 L Thigh"/>
+		<Part value="Bip01 L Calf"/>
+		<Part value="Bip01 L Foot"/>
+	'>	
+	
+	<!ENTITY Legs '
+		&RightLeg;
+		&LeftLeg;
+	'>	
+	
+	<!ENTITY LeftArm '
+		<Part value="Bip01 L UpperArm"/>
+		<Part value="Bip01 L ForeArm"/>
+	'>	
+	
+	<!ENTITY RightArm '
+		<Part value="Bip01 R UpperArm"/>
+		<Part value="Bip01 R ForeArm"/>
+	'>	
+	
+	<!ENTITY UpperTorso '
+		<Part value="Bip01 Spine1"/>
+	'>
+	
+	<!ENTITY LowerTorso '
+		<Part value="Bip01 Spine"/>
+		<Part value="Bip01 Pelvis"/>
+	'>
+
+	<!ENTITY Torso '
+		&UpperTorso;
+		&LowerTorso;
+	'>
+	
+	<!-- Stance groups -->
+	<!ENTITY StandingStances '
+		<Stance value="STANCE_STAND"/>
+		<Stance value="STANCE_RELAXED"/>
+		<Stance value="STANCE_STEALTH"/>
+	'>
+	
+	<!-- Groups used for filtering small/medium/big caliber weapons -->
+	<!ENTITY SmallCaliberProjectiles '
+		<Projectile value="SMGBullet"/>
+		<Projectile value="PistolBullet"/>
+		<Projectile value="kvolt_bullet"/>
+	'>
+	
+	<!ENTITY MediumCaliberWeapons '
+		<Weapon value="SCAR"/>
+		<Weapon value="SCARAB"/>
+		<Weapon value="Mk60"/>
+	'>	
+	
+	<!ENTITY HighVelocityHitTypes '
+		<HitType value="heavyBullet"/>
+		<HitType value="gaussbullet"/>
+	'>
+
+	<!ENTITY ExplosiveHitTypes '
+		<HitType value="frag"/>
+		<HitType value="stamp"/>
+	'>
+]>
+
+<DeathHitReactionsParams>
+
+	<HitReactionParams>
+	</HitReactionParams>
+	
+	<DeathReactionParams>
+
+		<!--DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="0" ragdollOnCollision="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="test" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+			<AllowedHitTypes>
+			</AllowedHitTypes>
+			<AllowedParts>
+			</AllowedParts>
+		</DeathReactionParam-->
+
+		<!-- empty reaction to just induce ragdoll -->
+		<DeathReactionParam probabilityPercent='1.0' >
+			<AllowedHitTypes>
+				<HitType value="stealthKill"/>
+			</AllowedHitTypes>
+		</DeathReactionParam>
+		
+		<DeathReactionParam probabilityPercent="1.0" ragdollOnCollision="1" collisionCheckIntersectionWithGround="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_fall_any_01" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedParts>
+			</AllowedParts>
+			<AllowedStances>
+			</AllowedStances>
+			<AllowedHitTypes>
+				<HitType value="punishFall"/>
+			</AllowedHitTypes>
+		</DeathReactionParam>
+
+    <DeathReactionParam probabilityPercent="1.0" minimumSpeed="2.0" movementDirection="forward" >
+      <ReactionAnim>
+        <AnimNames>
+          <AnimName name="stand_tac_death_loco_micro_any_0" variants="2" />
+        </AnimNames>
+      </ReactionAnim>
+      <AllowedParts>
+      </AllowedParts>
+      <AllowedStances>
+      </AllowedStances>
+      <AllowedHitTypes>
+        <HitType value="mike_burn"/>
+      </AllowedHitTypes>
+    </DeathReactionParam>
+
+    <DeathReactionParam probabilityPercent="1.0" >
+      <ReactionAnim>
+        <AnimNames>
+          <AnimName name="stand_tac_death_misc_micro_any_0" variants="2" />
+        </AnimNames>
+      </ReactionAnim>
+      <AllowedParts>
+      </AllowedParts>
+      <AllowedStances>
+      </AllowedStances>
+      <AllowedHitTypes>
+        <HitType value="mike_burn"/>
+      </AllowedHitTypes>
+    </DeathReactionParam>
+
+    <!-- frag type deaths -->
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="0" shotOrigin="ahead" minimumDamage="100" ragdollOnCollision="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_expl_hVel_body_fwd_0" variants="4" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+			<AllowedHitTypes>
+				&ExplosiveHitTypes;
+			</AllowedHitTypes>
+			<AllowedParts>
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="180" shotOrigin="behind" minimumDamage="100" ragdollOnCollision="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_expl_hVel_body_bwd_0" variants="3" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+			<AllowedHitTypes>
+				&ExplosiveHitTypes;
+			</AllowedHitTypes>
+			<AllowedParts>
+			</AllowedParts>
+		</DeathReactionParam>
+		
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="0" shotOrigin="ahead" ragdollOnCollision="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_expl_mVel_body_fwd_0" variants="3" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+			<AllowedHitTypes>
+				&ExplosiveHitTypes;
+			</AllowedHitTypes>
+			<AllowedParts>
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="180" shotOrigin="behind" ragdollOnCollision="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_expl_mVel_body_bwd_0" variants="2" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+			<AllowedHitTypes>
+				&ExplosiveHitTypes;
+			</AllowedHitTypes>
+			<AllowedParts>
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<!-- MOVING VICTIM DEATHS -->
+		<DeathReactionParam probabilityPercent="1.0" minimumSpeed="2.0" snapToMovementDir="0" ragdollOnCollision="1" movementDirection="forward">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_loco_avel_head_any_0" variants="2"/>
+					<AnimName name="stand_tac_death_proj_hVel_head_any_03"/>
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+			<AllowedParts>
+				<Part value="Bip01 Head"/>
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0" minimumSpeed="2.0" snapToMovementDir="0" shotOrigin="back" ragdollOnCollision="1" movementDirection="forward">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_loco_aVel_legs_bwd_01" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+			<AllowedHitTypes>
+			</AllowedHitTypes>
+			<AllowedParts>
+				&Legs;
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0" minimumSpeed="2.0" snapToMovementDir="0" ragdollOnCollision="1" movementDirection="forward">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_loco_aVel_legs_any_0"  variants="4" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+			<AllowedHitTypes>
+			</AllowedHitTypes>
+			<AllowedParts>
+				&Legs;
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<!-- Animations for shots from sides when moving foward -->
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="-90" minimumSpeed="2.0" shotOrigin="left" ragdollOnCollision="1" movementDirection="forward">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_loco_aVel_torso_lft_0" variants="2" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+			<AllowedParts>
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="90" minimumSpeed="2.0" shotOrigin="right" ragdollOnCollision="1" movementDirection="forward">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_loco_aVel_torso_rgt_0" variants="2" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+			<AllowedParts>
+			</AllowedParts>
+		</DeathReactionParam>
+		
+		<!-- Animation for shots from behind while moving forward -->
+		<DeathReactionParam probabilityPercent="1.0" minimumSpeed="2.0" snapOrientationAngle="180" ragdollOnCollision="1" shotOrigin="back" movementDirection="forward">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_loco_aVel_torso_bwd_01" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedParts>
+			</AllowedParts>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+		</DeathReactionParam>
+
+
+		<DeathReactionParam probabilityPercent="1.0" minimumSpeed="2.0" ragdollOnCollision="1" shotOrigin="behind" movementDirection="forward">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_mVel_torso_bwd_0" variants="2" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedParts>
+			</AllowedParts>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+		</DeathReactionParam>
+		
+		<!-- Animation for shots from front while moving forward -->
+		<DeathReactionParam probabilityPercent="1.0" minimumSpeed="2.0" snapToMovementDir="0" ragdollOnCollision="1" movementDirection="forward">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_loco_aVel_torso_fwd_0" variants="9" />
+					<AnimName name="stand_tac_death_loco_aVel_torso_fwd_10"/>
+					<AnimName name="stand_tac_death_loco_aVel_torso_fwd_11" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+			<AllowedParts>
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<!-- Medium velocity crouching deaths -->
+
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="180" shotOrigin="behind" ragdollOnCollision="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="crouch_tac_death_proj_mVel_torso_bwd_01" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedParts>
+			</AllowedParts>
+			<AllowedStances>
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="0"  ragdollOnCollision="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="crouch_tac_death_proj_mVel_torso_fwd_0" variants="2" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedParts>
+			</AllowedParts>
+			<AllowedStances>
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+		</DeathReactionParam>
+
+		<!-- Heavy bullet type deaths -->
+
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="0" ragdollOnCollision="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_hVel_head_any_01" />
+					<AnimName name="stand_tac_death_proj_hVel_head_any_02" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+			<AllowedHitTypes>
+				&HighVelocityHitTypes;
+			</AllowedHitTypes>
+			<AllowedParts>
+				<Part value="Bip01 Head"/>
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0" shotOrigin="behind" ragdollOnCollision="1"> 
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_hVel_head_any_02" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+			<AllowedHitTypes>
+				&HighVelocityHitTypes;
+			</AllowedHitTypes>
+			<AllowedParts>
+				<Part value="Bip01 Head"/>
+			</AllowedParts>
+		</DeathReactionParam>
+		
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="180" shotOrigin="behind" ragdollOnCollision="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_loco_aVel_leg_bwd_01"/>
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+			<AllowedHitTypes>
+				&HighVelocityHitTypes;
+			</AllowedHitTypes>
+			<AllowedParts>
+				&Legs;
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="0" ragdollOnCollision="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_hVel_leg_any_01" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+			<AllowedHitTypes>
+				&HighVelocityHitTypes;
+			</AllowedHitTypes>
+			<AllowedParts>
+				&Legs;
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="180" shotOrigin="behind" ragdollOnCollision="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_hVel_torso_bwd_01" />
+					<AnimName name="stand_tac_death_loco_avel_torso_bwd_01" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+			<AllowedHitTypes>
+				&HighVelocityHitTypes;
+			</AllowedHitTypes>
+			<AllowedParts>
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0" snapOrientationAngle="0" ragdollOnCollision="1">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_hVel_torso_lft_01" />
+					<AnimName name="stand_tac_death_proj_hVel_torso_rgt_01" />
+					<AnimName name="stand_tac_death_loco_avel_torso_fwd_04" />
+					<AnimName name="stand_tac_death_loco_avel_torso_fwd_11" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+				<Stance value="STANCE_CROUCH"/>
+			</AllowedStances>
+			<AllowedHitTypes>
+				&HighVelocityHitTypes;
+			</AllowedHitTypes>
+			<AllowedParts>
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<!-- Generic deaths -->
+		<DeathReactionParam probabilityPercent="1.0">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_mVel_legL_any_01" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+			<AllowedParts>
+				&LeftLeg;
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_mVel_legR_any_01" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+			<AllowedParts>
+				&RightLeg;
+			</AllowedParts>
+		</DeathReactionParam>
+		
+		<DeathReactionParam probabilityPercent="1.0">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_mVel_head_any_0" variants="3" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+			<AllowedParts>
+				<Part value="Bip01 Head"/>
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0" shotOrigin="behind" >
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_mVel_pelvis_bwd_01" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+			<AllowedParts>
+				<Part value="Bip01 Pelvis"/>
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_mVel_pelvis_any_01" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+			<AllowedParts>
+				<Part value="Bip01 Pelvis"/>
+			</AllowedParts>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0" shotOrigin="behind">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_mVel_torso_bwd_0" variants="2" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedParts>
+			</AllowedParts>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+		</DeathReactionParam>
+
+		<DeathReactionParam probabilityPercent="1.0">
+			<ReactionAnim>
+				<AnimNames>
+					<AnimName name="stand_tac_death_proj_mVel_torso_fwd_0" variants="5" />
+				</AnimNames>
+			</ReactionAnim>
+			<AllowedParts>
+			</AllowedParts>
+			<AllowedStances>
+				&StandingStances;
+			</AllowedStances>
+		</DeathReactionParam>
+	</DeathReactionParams>
+	
+</DeathHitReactionsParams>

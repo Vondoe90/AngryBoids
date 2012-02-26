@@ -5,8 +5,8 @@ local Behavior = CreateAIBehavior("TankFixedGoto", "VehicleGoto",
 	INVEHICLE_REQUEST_START_FIRE = function( self, entity, sender )
 		local target = AI.GetAttentionTargetEntity( entity.id );
 		if ( target and AI.Hostile( entity.id, target.id ) ) then
-			if ( AIBehaviour.TANKDEFAULT:tankDoesUseMachineGun( entity ) == true ) then
-				AIBehaviour.TANKDEFAULT:request2ndGunnerShoot( entity );
+			if ( AIBehavior.TANKDEFAULT:tankDoesUseMachineGun( entity ) == true ) then
+				AIBehavior.TANKDEFAULT:request2ndGunnerShoot( entity );
 				AI.CreateGoalPipe("tank_fire");
 				AI.PushGoal("tank_fire","firecmd",0,1);
 				entity:InsertSubpipe(0,"tank_fire");

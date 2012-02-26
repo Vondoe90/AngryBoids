@@ -86,7 +86,7 @@ local Behavior = CreateAIBehavior("TankCloseAttack",
 	-----------------------------------------------------------------------------------------
 	OnEnemySeen = function( self, entity, fDistance )
 
-		entity.AI.bUseMachineGun = AIBehaviour.TANKDEFAULT:tankDoesUseMachineGun( entity );
+		entity.AI.bUseMachineGun = AIBehavior.TANKDEFAULT:tankDoesUseMachineGun( entity );
 		entity.AI.circleSec = System.GetCurrTime();
 
 		if ( entity.AI.bUseMachineGun == false ) then
@@ -153,10 +153,10 @@ local Behavior = CreateAIBehavior("TankCloseAttack",
 			entity:SelectPipe(0,"tankclose_speedzero");
 		end
 
-		entity.AI.bUseMachineGun = AIBehaviour.TANKDEFAULT:tankDoesUseMachineGun( entity );
+		entity.AI.bUseMachineGun = AIBehavior.TANKDEFAULT:tankDoesUseMachineGun( entity );
 
 		if ( entity.AI.bUseMachineGun == true ) then
-			AIBehaviour.TANKDEFAULT:request2ndGunnerShoot( entity );
+			AIBehavior.TANKDEFAULT:request2ndGunnerShoot( entity );
 		end
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
@@ -253,7 +253,7 @@ local Behavior = CreateAIBehavior("TankCloseAttack",
 
 				if( hits ~= 0 and hits2 == 0 ) then
 					entity.AI.shootCounter = 0;
-					AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, true )
+					AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, true )
 					entity:SelectPipe(0,"tankclose_memoryattack");
 					return;
 				else
@@ -845,7 +845,7 @@ local Behavior = CreateAIBehavior("TankCloseAttack",
 		end
 
 
-		entity.AI.bUseMachineGun = AIBehaviour.TANKDEFAULT:tankDoesUseMachineGun( entity );
+		entity.AI.bUseMachineGun = AIBehavior.TANKDEFAULT:tankDoesUseMachineGun( entity );
 
 		local target = AI.GetAttentionTargetEntity( entity.id );
 		if ( target and AI.Hostile( entity.id, target.id ) ) then
@@ -880,18 +880,18 @@ local Behavior = CreateAIBehavior("TankCloseAttack",
 						if ( AI.GetTypeOf( target.id ) == AIOBJECT_VEHICLE ) then
 							if ( target.AIMovementAbility and target.AIMovementAbility.pathType == AIPATH_TANK ) then
 								AI.ChangeParameter( entity.id, AIPARAM_ACCURACY, 1.0 );
-								AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, true )
+								AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, true )
 							else
 								AI.ChangeParameter( entity.id, AIPARAM_ACCURACY, entity.Properties.accuracy );
-								AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, false )
+								AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, false )
 							end
 						else
 							AI.ChangeParameter( entity.id, AIPARAM_ACCURACY, entity.Properties.accuracy );
-							AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, false )
+							AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, false )
 						end
 					else
 						AI.ChangeParameter( entity.id, AIPARAM_ACCURACY, entity.Properties.accuracy );
-						AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, false )
+						AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, false )
 					end
 
 					if ( timehasPassed  > 22.5 ) then
@@ -910,14 +910,14 @@ local Behavior = CreateAIBehavior("TankCloseAttack",
 						vDirToTarget.z = 0.0;
 						if ( LengthVector( vDirToTarget ) < 20.0 ) then
 							entity.AI.shootCounter = 21;
-							AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, false );
+							AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, false );
 						else
 							entity.AI.shootCounter = 1;
-							AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, true )
+							AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, true )
 						end
 					else
 						entity.AI.shootCounter = 21;
-						AIBehaviour.TANKDEFAULT:selectCannonForTheDriver( entity, false )
+						AIBehavior.TANKDEFAULT:selectCannonForTheDriver( entity, false )
 					end
 				end
 			end
@@ -974,7 +974,7 @@ local Behavior = CreateAIBehavior("TankCloseAttack",
 			if( targetType ~= AITARGET_MEMORY ) then
 
 				if ( entity.AI.bUseMachineGun == true ) then
-					AIBehaviour.TANKDEFAULT:request2ndGunnerShoot( entity );
+					AIBehavior.TANKDEFAULT:request2ndGunnerShoot( entity );
 				end
 
 				local distanceToTheTarget = DistanceVectors( target:GetPos(), entity:GetPos() );

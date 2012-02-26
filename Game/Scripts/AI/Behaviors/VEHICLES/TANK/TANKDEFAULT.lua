@@ -657,7 +657,7 @@ local Behavior = CreateAIBehavior("TANKDEFAULT",
 
 			local vWng = {};
 
-			local bResult = AIBehaviour.TANKDEFAULT:tankGetIdealWng( entity, vWng, 30.0 );
+			local bResult = AIBehavior.TANKDEFAULT:tankGetIdealWng( entity, vWng, 30.0 );
 			if ( bResult == false ) then
 				return false;
 			end

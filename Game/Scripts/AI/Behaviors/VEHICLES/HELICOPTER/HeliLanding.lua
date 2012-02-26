@@ -4,7 +4,7 @@ local Behavior = CreateAIBehavior("HeliLanding", "HeliReinforcement",
 
 	Constructor = function( self, entity, sender, data )
 
-		AIBehaviour.HeliReinforcement:Constructor( entity );
+		AIBehavior.HeliReinforcement:Constructor( entity );
 
 	end,
 })

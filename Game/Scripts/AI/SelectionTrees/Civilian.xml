@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SelectionTrees>
+	<SelectionTree name="Civilian" type="BehaviorSelectionTree">
+		<Priority name="Root">
+			<Leaf name="CivilianIdle" />
+		</Priority>
+	</SelectionTree>
+</SelectionTrees>

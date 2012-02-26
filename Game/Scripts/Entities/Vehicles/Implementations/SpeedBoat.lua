@@ -44,8 +44,6 @@ SpeedBoat.AIProperties =
 	pathRegenIntervalDuringTrace = 10.0,
 	avoidanceRadius = 10.0,
   },    
-	
-   hidesUser=1,  
 }
 
 

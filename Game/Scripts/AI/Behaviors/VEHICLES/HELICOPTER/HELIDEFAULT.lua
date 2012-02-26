@@ -157,12 +157,12 @@ local Behavior = CreateAIBehavior("HELIDEFAULT",
 			FastScaleVector( vCheckPos, vWng, fScale *3.0/4.0 );
 			FastSumVectors( vCheckPos, vCheckPos, entity:GetPos() );
 
-			local rightCnt = AIBehaviour.HELIDEFAULT:heliCheckFormation( entity, vCheckPos, fScale );
+			local rightCnt = AIBehavior.HELIDEFAULT:heliCheckFormation( entity, vCheckPos, fScale );
 
 			FastScaleVector( vCheckPos, vWng, -fScale *3.0/4.0 );
 			FastSumVectors( vCheckPos, vCheckPos, entity:GetPos() );
 
-			local leftCnt  = AIBehaviour.HELIDEFAULT:heliCheckFormation( entity, vCheckPos, fScale );
+			local leftCnt  = AIBehavior.HELIDEFAULT:heliCheckFormation( entity, vCheckPos, fScale );
 
 			if ( rightCnt == 0 and leftCnt == 0 ) then
 				if ( random(1,2) == 1 ) then
@@ -305,7 +305,7 @@ local Behavior = CreateAIBehavior("HELIDEFAULT",
 			end
 
 			local targetPos = {};
-			AIBehaviour.HELIDEFAULT:heliGetTargetPosition( entity, targetPos );
+			AIBehavior.HELIDEFAULT:heliGetTargetPosition( entity, targetPos );
 
 
 			-- check the distance. if the distance is less than 25m, always use machine gun in any case
@@ -685,7 +685,7 @@ local Behavior = CreateAIBehavior("HELIDEFAULT",
 			local targetFwdDir = {};
 			local targetWingDir = {};
 
-			AIBehaviour.HELIDEFAULT:heliGetTargetPosition( entity, targetPos );
+			AIBehavior.HELIDEFAULT:heliGetTargetPosition( entity, targetPos );
 			self:heliGetTargetFowardDirection( entity, cameraFwdDir );
 			CopyVector( cameraWingDir, vecFrontToRight(cameraFwdDir) );
 

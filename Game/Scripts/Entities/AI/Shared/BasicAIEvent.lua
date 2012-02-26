@@ -115,6 +115,39 @@ function BasicAIEvent:Event_Kill(params)
 	end
 end
 
+--
+--
+--------------------------------------------------------------------------------------------------------
+function BasicAIEvent:Event_SetForcedLookDir(sender,params)
+	
+	self.actor:SetForcedLookDir(params);
+
+end
+
+--
+--
+--------------------------------------------------------------------------------------------------------
+function BasicAIEvent:Event_ClearForcedLookDir(params)
+	
+	self.actor:ClearForcedLookDir();
+	
+end
+
+
+--
+--
+--------------------------------------------------------------------------------------------------------
+function BasicAIEvent:Event_SetForcedLookObjectId(sender, params)
+	self.actor:SetForcedLookObjectId(params.id);
+end
+
+--
+--
+--------------------------------------------------------------------------------------------------------
+function BasicAIEvent:Event_ClearForcedLookObjectId(params)
+	self.actor:ClearForcedLookObjectId();
+end
+
 
 ---------------------------------------------------------------------------------------------------------
 --
@@ -185,6 +218,12 @@ BasicAIEvent.FlowEvents =
 		Kill = { BasicAIEvent.Event_Kill, "bool" },
 		
 		WakeUp = { BasicAIEvent.Event_WakeUp, "bool" },		-- fall-and-play stand up
+		
+		SetForcedLookDir = { BasicAIEvent.Event_SetForcedLookDir, "Vec3" },
+		ClearForcedLookDir = { BasicAIEvent.Event_ClearForcedLookDir, "bool" },
+		
+		SetForcedLookObjectId = { BasicAIEvent.Event_SetForcedLookObjectId, "entity" },
+		ClearForcedLookObjectId = { BasicAIEvent.Event_ClearForcedLookObjectId, "bool" },
 	},
 	Outputs =
 	{

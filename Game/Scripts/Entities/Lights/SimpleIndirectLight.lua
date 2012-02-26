@@ -41,7 +41,7 @@ SimpleIndirectLight =
 
 	Editor=
 	{
-		Model="Editor/Objects/Light_Omni.cgf",
+		--Model="Editor/Objects/Light_Omni.cgf",
 		--Icon="Light.tif",
 		Icon="Light.bmp",
 		ShowBounds=0,

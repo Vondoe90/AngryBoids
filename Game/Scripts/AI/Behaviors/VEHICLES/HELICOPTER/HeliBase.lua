@@ -41,7 +41,7 @@ local Behavior = CreateAIBehavior("HeliBase",
 				SubVectors( vFwd, target:GetPos(), entity:GetPos() );
 				NormalizeVector( vFwd );
 				if ( dotproduct3d( vFwd, entity:GetDirectionVector(Yaxis) ) > math.cos( 90.0 * 3.1415 / 180.0 ) ) then
-					if ( AIBehaviour.HELIDEFAULT:heliDoesUseMachineGun( entity ) == false ) then
+					if ( AIBehavior.HELIDEFAULT:heliDoesUseMachineGun( entity ) == false ) then
 						AI.SetRefPointPosition( entity.id, entity.AI.autoFireTargetPos );
 						entity.AI.autoFire = entity.AI.autoFire + 1;
 						AI.CreateGoalPipe("heliShootMissileB");

@@ -27,6 +27,7 @@
       <function name="SetMoviePath" funcname="setMoviePath">
         <param name="Movie" desc="Path to movie file"/>
       </function>
+      <function name="SetInvisible" funcname="setInvisible" />
       
       <!-- Audio -->	
       <function name="SelectAudioChannel" funcname="vSelectAudioChannel">
@@ -41,6 +42,10 @@
         <param name="Alpha" desc="Value between 0 and 100"/>
       </function>
 	  
+      <!-- Mirrow -->	
+      <function name="MirrowVideo" funcname="mirrowVideo">
+        <param name="Mirrow" desc="" type="bool"/>
+      </function>
 	  
    </functions>
 

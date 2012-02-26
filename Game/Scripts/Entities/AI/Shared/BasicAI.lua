@@ -26,7 +26,7 @@ BasicAI = {
 	primaryWeapon = "FY71",
 	secondaryWeapon = "SOCOM",
 
-	Behaviour = {
+	Behavior = {
 	},
 
 	onAnimationStart = {},
@@ -177,7 +177,7 @@ function BasicAI:RegisterAI()
 end
 
 -----------------------------------------------------------------------------------------------------
-function BasicAI:OnReset()
+function BasicAI:OnReset(bFromInit, bIsReload)
 	if (self.ResetOnUsed) then
 		self:ResetOnUsed();
 	end
@@ -237,9 +237,9 @@ function BasicAI:OnReset()
 	-- now the same for special fire animations
 
 	if (self.isAlien) then
-		BasicAlien.Reset(self);
+		BasicAlien.Reset(self, bFromInit, bIsReload);
 	else
-		BasicActor.Reset(self);
+		BasicActor.Reset(self, bFromInit, bIsReload);
 	end
 	
 	if( self.OnResetCustom ) then
@@ -825,7 +825,7 @@ function BasicAI:UpdateRadar(radarContact)
 				end			
 			else
 				
-				local alertness = self.Behaviour.alertness;
+				local alertness = self.Behavior.alertness;
 				
 				if (g_localActor) then
 					local targetName = AI.GetAttentionTargetOf(self.id);

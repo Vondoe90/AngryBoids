@@ -1,9 +1,9 @@
 -----------------------------------------------------------
--- Cover3 Seek Behaviour
+-- Cover3 Seek Behavior
 -----------------------------------------------------------
 -- Created: Matthew Jack 12-10-2009
--- Description: Based on the Cover2 behaviour,
---              reapplied to use behaviour trees
+-- Description: Based on the Cover2 behavior,
+--              reapplied to use behavior trees
 -- Unfinished.
 -----------------------------------------------------------
 

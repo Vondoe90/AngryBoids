@@ -50,7 +50,7 @@ local Behavior = CreateAIBehavior("Cover2ThreatenedST",
 		entity.AI.firstContact = true;
 
 		-- Approach the target only limited amount of time.
---		entity.AI.threatTimer = Script.SetTimer(entity.AI.checkThreatenTime*1000,AIBehaviour.Cover2Threatened.OnStopApproachTimer,entity);
+--		entity.AI.threatTimer = Script.SetTimer(entity.AI.checkThreatenTime*1000,AIBehavior.Cover2Threatened.OnStopApproachTimer,entity);
 --		entity.AI.first = true;
 	end,
 

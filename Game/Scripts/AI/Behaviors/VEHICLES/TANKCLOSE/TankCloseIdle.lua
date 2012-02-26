@@ -10,7 +10,7 @@ local Behavior = CreateAIBehavior("TankCloseIdle", "VehicleIdle",
 		-- entity.AI.tankClosePathId = "defaultpathname";
 		-- entity.AI.tankClosePathName = "defaultpath";
 
-		AIBehaviour.VehicleIdle:Constructor( entity );
+		AIBehavior.VehicleIdle:Constructor( entity );
 		if ( entity.AIMovementAbility.pathType == AIPATH_BOAT ) then
 	    AI.ChangeParameter(entity.id,AIPARAM_SIGHTENVSCALE_NORMAL,0.25 * 1.1);
 	    AI.ChangeParameter(entity.id,AIPARAM_SIGHTENVSCALE_ALARMED,0.50 * 1.1);

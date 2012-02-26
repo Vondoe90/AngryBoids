@@ -29,9 +29,6 @@
        <DamageBehavior class="MovementNotification">
         <MovementNotification isDamageAlwaysFull="1"/>
        </DamageBehavior>
-       <DamageBehavior class="Effect">
-        <Effect effect="EngineDamaged" disableAfterExplosion="1"/>
-       </DamageBehavior>
        <DamageBehavior class="CameraShake">
         <CameraShake />
        </DamageBehavior>
@@ -44,15 +41,15 @@
  <Components>
   <Component name="BackRotor" damageMax="150" major="1" minBound="-1.6001,-11.939,1.7024" maxBound="1.6001,-08.5796,5.3024001" useBoundsFromParts="0" hullAffection="0.75" id="idBackRotor">
    <DamageMultipliers>
-    <DamageMultiplier damageType="bullet" multiplier="0.5"/>
-    <DamageMultiplier damageType="melee" multiplier="0.30000001"/>
-    <DamageMultiplier damageType="collision" multiplier="0.05"/>
+    <DamageMultiplier damageType="bullet" multiplier="0.1"/>
+    <DamageMultiplier damageType="melee" multiplier="0.0"/>
+    <DamageMultiplier damageType="collision" multiplier="0.1"/>
    </DamageMultipliers>
    <DamageBehaviors>
-    <DamageBehavior class="Effect" damageRatioMin="0.5">
+    <DamageBehavior class="Effect" damageRatioMin="0.5" damageRatioMax="0.75">
      <Effect effect="BackRotorDamaged" disableAfterExplosion="1"/>
     </DamageBehavior>
-    <DamageBehavior class="Effect" damageRatioMin="1">
+    <DamageBehavior class="Effect" damageRatioMin="0.75">
      <Effect effect="BackRotorExplosion" disableAfterExplosion="1"/>
     </DamageBehavior>
     <DamageBehavior class="MovementNotification" damageRatioMin="1">
@@ -63,20 +60,20 @@
     </DamageBehavior>
    </DamageBehaviors>
   </Component>
-  <Component name="Rotor" damageMax="200" major="1" minBound="-1.75,-3.0576,2.0325999" maxBound="1.75,1.9277,3.6919" useBoundsFromParts="0" hullAffection="0" id="idRotor">
+  <Component name="Engine" damageMax="200" major="1" minBound="-1.75,-3.0576,2.0325999" maxBound="1.75,1.9277,3.6919" useBoundsFromParts="0" hullAffection="0" id="idRotor">
    <DamageMultipliers>
     <DamageMultiplier damageType="bullet" multiplier="0.02"/>
-    <DamageMultiplier damageType="melee" multiplier="0.2"/>
+    <DamageMultiplier damageType="melee" multiplier="0.0"/>
    </DamageMultipliers>
    <DamageBehaviors>
     <DamageBehavior class="Group" damageRatioMin="1">
      <Group name="DestroyEngine"/>
     </DamageBehavior>
-    <DamageBehavior class="Effect" damageRatioMin="0.25" damageRatioMax="0.75" ignoreVehicleDestruction="1">
-     <Effect effect="EngineDamaged25"/>
+    <DamageBehavior class="Effect" damageRatioMin="0.25" damageRatioMax="0.75">
+     <Effect effect="EngineDamaged25" disableAfterExplosion="1"/>
     </DamageBehavior>
-    <DamageBehavior class="Effect" damageRatioMin="0.75" damageRatioMax="1" ignoreVehicleDestruction="1">
-     <Effect effect="EngineDamaged75"/>
+    <DamageBehavior class="Effect" damageRatioMin="0.75" damageRatioMax="1">
+     <Effect effect="EngineDamaged75" disableAfterExplosion="1"/>
     </DamageBehavior>
    </DamageBehaviors>
   </Component>
@@ -85,7 +82,7 @@
     <DamageBehavior class="Group" damageRatioMin="1">
      <Group name="Destroy"/>
     </DamageBehavior>
-    <DamageBehavior class="Group" damageRatioMin="0.75">
+    <DamageBehavior class="Group" damageRatioMin="1">
      <Group name="DestroyEngine"/>
     </DamageBehavior>
     <DamageBehavior class="Effect" damageRatioMin="0.25" damageRatioMax="0.75" ignoreVehicleDestruction="1">
@@ -120,6 +117,21 @@
    </Parts>
    <Animated filename="Objects/Vehicles/MH60_Blackhawk/MH60.cga" filenameDestroyed="Objects/Vehicles/MH60_Blackhawk/MH60_damaged.cga" id="idCGAFilename"/>
   </Part>
+  <Part name="tailRotorLightRed" class="Light" helper="tailLightRed">
+   <Light type="HeliRedFlash"/>
+  </Part>
+  <Part name="tailRotorLightWhite" class="Light" helper="tailLightWhite">
+   <Light type="HeliWhite"/>
+  </Part>
+  <Part name="frontLightGreen" class="Light" helper="frontLightGreen">
+   <Light type="HeliGreen"/>
+  </Part>
+  <Part name="frontLightRed" class="Light" helper="frontLightRed">
+   <Light type="HeliRed"/>
+  </Part>
+  <Part name="bottomLightWhite" class="Light" helper="bottomLightWhite">
+   <Light type="HeliWhiteFlash"/>
+  </Part>
  </Parts>
  <Helpers>
   <Helper name="pilot_sit_pos" position="-0.625,2.9,1.2945" direction="0,1,0" part="body"/>
@@ -144,6 +156,11 @@
   <Helper name="engine_exhaust_right" position="1.22,-2.50391,2.5485" direction="0,-0.9659,-0.259" part="body"/>
   <Helper name="wind_emitter" position="0,0,6.5885" direction="0,1,0" part="body"/>
   <Helper name="burningPos" position="0,-3.0548999,1.2778" direction="0,1,0" part="body"/>
+  <Helper name="frontLightRed" position="-1.4965,2.1415,0.64960003" direction="-0.99620003,0.087200001,0" part="body"/>
+  <Helper name="frontLightGreen" position="1.4993,2.1415,0.64960003" direction="1,0,0" part="body"/>
+  <Helper name="tailLightWhite" position="-0.0055999998,-11.1232,3.9351001" direction="0,-1,0" part="body"/>
+  <Helper name="tailLightRed" position="0.0082,-10.4493,4.2666998" direction="0,0,1" part="body"/>
+  <Helper name="bottomLightWhite" position="-0.0208,-5.6581998,0.58990002" direction="0,0,-1" part="body"/>
  </Helpers>
  <Actions>
  </Actions>
@@ -157,7 +174,19 @@
      <FirstPerson offset="0,-0.5,0"/>
     </View>
    </Views>
-   <SeatActions />
+   <SeatActions>
+    <SeatAction class="Lights">
+     <Lights activation="toggle">
+      <LightParts>
+       <LightPart value="tailRotorLightRed"/>
+       <LightPart value="tailRotorLightWhite"/>
+       <LightPart value="frontLightGreen"/>
+       <LightPart value="frontLightRed"/>
+	   <LightPart value="bottomLightWhite"/>
+      </LightParts>
+     </Lights>
+    </SeatAction>
+   </SeatActions>
    <Sounds inout="0" mood="1"/>
   </Seat>
   <Seat name="gunner" part="" enterHelper="gunner_enter_pos_2" exitHelper="gunner_enter_pos_2" sitHelper="gunner_sit_pos" isDriver="0" AimPart="" seatGroupIndex="2">
@@ -257,6 +286,7 @@
 	  maxLeftSpeed="36"
 	  maxSpeed="9"
 	  maxUpSpeed="15"
+	  velDamping="0.0"
 	  basicSpeedFraction="0.69999999"
 	  yawDecreaseWithSpeed="12"
 	  tiltPerVelDifference="0.039999999"
@@ -272,29 +302,50 @@
 	  relaxForce="2"
 	  yawInputConst="4"
 	  yawInputDamping="-0.5">
+   <Animations engine="rotor"/>
    <SoundParams engineSoundPosition="engineSmokeOut" runSoundDelay="1.8" rpmPitchSpeed="1.2"/>
   </Helicopter>
  </MovementParams>
- <Particles mfxRow="vfx_helicopter">
+ <Particles mfxRow="vfx_Helicopter">
   <Exhaust insideWater="0" outsideWater="1">
    <Helpers>
     <Helper value="engine_exhaust_left"/>
     <Helper value="engine_exhaust_right"/>
    </Helpers>
-   <EngineStart effect="vehicle_fx.vehicle_exhaust.chopper_start"/>
-   <EngineStop effect="vehicle_fx.vehicle_exhaust.smoke_dark"/>
-   <EngineRunning effect="vehicle_fx.vehicle_exhaust.chopper_running" boostEffect="" baseSizeScale="1" minSpeed="0" minSpeedSizeScale="1" minSpeedCountScale="1" minSpeedSpeedScale="1" maxSpeed="20" maxSpeedSizeScale="1" maxSpeedCountScale="1" maxSpeedSpeedScale="1" minPower="0" minPowerSizeScale="1" minPowerCountScale="1" minPowerSpeedScale="1" maxPower="1" maxPowerSizeScale="1" maxPowerCountScale="1" maxPowerSpeedScale="1"/>
+   <EngineStart effect="Vehicles.MH60_BlackHawk.Engine.Start"/>
+   <EngineStop effect="Vehicles.MH60_BlackHawk.Engine.Stop"/>
+   <EngineRunning 
+		effect="Vehicles.MH60_BlackHawk.Engine.Running" 
+		boostEffect="Vehicles.MH60_BlackHawk.Engine.Boost" 
+		baseSizeScale="1" 
+		minSpeed="0" 
+		minSpeedSizeScale="1" 
+		minSpeedCountScale="1" 
+		minSpeedSpeedScale="1" 
+		maxSpeed="20" 
+		maxSpeedSizeScale="1" 
+		maxSpeedCountScale="1" 
+		maxSpeedSpeedScale="1" 
+		minPower="0" 
+		minPowerSizeScale="1" 
+		minPowerCountScale="1" 
+		minPowerSpeedScale="1" 
+		maxPower="1" 
+		maxPowerSizeScale="1" 
+		maxPowerCountScale="1" 
+		maxPowerSpeedScale="1"/>
   </Exhaust>
   <DamageEffects>
-   <DamageEffect name="EngineDamaged25" helper="engineSmokeOut" effect="Vehicle_fx.Damages_Sky.NKheli_engine_smoke_a"/>
-   <DamageEffect name="VehicleDestroyed" helper="" effect="explosions.helicopter_explosion.a"/>
-   <DamageEffect name="RotorExplosion" helper="Rotor" effect="Vehicle_fx.Damages_Sky.NKheli_wing_explosion"/>
-   <DamageEffect name="RotorDamaged" helper="Rotor" effect="Vehicle_fx.Damages_Sky.NKheli_backroter_smoke_b"/>
-   <DamageEffect name="BackRotorDamaged" helper="BackRotor" effect="Vehicle_fx.Damages_Sky.NKheli_backroter_smoke_b"/>
-   <DamageEffect name="HullDamaged25" helper="burningPos" effect="Vehicle_fx.Damages_Sky.NKheli_hull_smoke_a" scaleMax="1" gravityDirection="0,0,1" pulsePeriod="0"/>
-   <DamageEffect name="EngineDamaged75" helper="engineSmokeOut" effect="Vehicle_fx.Damages_Sky.NKheli_engine_smoke_b" scaleMax="1" gravityDirection="0,0,1" pulsePeriod="0"/>
-   <DamageEffect name="HullDamaged75" helper="burningPos" effect="Vehicle_fx.Damages_Sky.NKheli_hull_smoke_b" scaleMax="1" gravityDirection="0,0,1" pulsePeriod="0"/>
-  </DamageEffects>
+   <DamageEffect name="EngineDamaged25" helper="engineSmokeOut" effect="Vehicles.MH60_BlackHawk.Damage.Engine_25"/>
+   <DamageEffect name="EngineDamaged75" helper="engineSmokeOut" effect="Vehicles.MH60_BlackHawk.Damage.Engine_75" scaleMax="1" gravityDirection="0,0,1" pulsePeriod="0"/>
+   <DamageEffect name="HullDamaged25" helper="burningPos" effect="Vehicles.MH60_BlackHawk.Damage.Hull_25" scaleMax="1" gravityDirection="0,0,1" pulsePeriod="0"/>
+   <DamageEffect name="HullDamaged75" helper="burningPos" effect="Vehicles.MH60_BlackHawk.Damage.Hull_75" scaleMax="1" gravityDirection="0,0,1" pulsePeriod="0"/>
+   <DamageEffect name="VehicleDestroyed" helper="burningPos" effect="Vehicles.MH60_BlackHawk.Damage.Destroyed"/>
+   <DamageEffect name="RotorDamaged" helper="Rotor" effect="Vehicles.MH60_BlackHawk.Damage.RotorDamaged"/>
+   <DamageEffect name="RotorExplosion" helper="Rotor" effect="Vehicles.MH60_BlackHawk.Damage.RotorDestroyed"/>
+   <DamageEffect name="BackRotorDamaged" helper="BackRotor" effect="Vehicles.MH60_BlackHawk.Damage.TailRotorDamaged"/>
+   <DamageEffect name="BackRotorExplosion" helper="BackRotor" effect="Vehicles.MH60_BlackHawk.Damage.TailRotorDestroyed"/>
+   </DamageEffects>
   <EnvironmentLayers>
    <EnvironmentLayer
 	   minSpeed="0"
@@ -318,7 +369,7 @@
  <Animations>
   <Animation name="rotor" part="body">
    <States>
-    <State name="default" animation="rotate" sound="sounds/vehicles:abrams:run" soundHelper="rotorSmokeOut" isLooped="1" speedDefault="0" speedMin="0.05" speedMax="1.0" id="idRotorAnim">
+    <State name="default" animation="rotate" soundHelper="rotorSmokeOut" isLooped="1" speedDefault="0" speedMin="0.05" speedMax="1.0" id="idRotorAnim">
      <Materials>
       <Material name="rotor_main" setting="opacity" invertValue="1"/>
       <Material name="rotor_main_blending" setting="opacity" invertValue="0"/>

@@ -22,7 +22,7 @@ local Behavior = CreateAIBehavior("VehicleAct",
 			return;
 		end
 
-		-- AIBehaviour.DEFAULT:ACT_GOTO( entity,sender,data );
+		-- AIBehavior.DEFAULT:ACT_GOTO( entity,sender,data );
 		if ( data and data.point ) then
 			AI.SetRefPointPosition( entity.id, data.point );
 

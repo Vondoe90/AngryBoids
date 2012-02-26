@@ -20,7 +20,7 @@ local Behavior = CreateAIBehavior("HeliReinforcement", "HeliBase",
 		entity.vehicle:BlockAutomaticDoors( true );
 		entity.vehicle:CloseAutomaticDoors( );
 
-		AIBehaviour.HELIDEFAULT:heliRequest2ndGunnerShoot( entity );
+		AIBehavior.HELIDEFAULT:heliRequest2ndGunnerShoot( entity );
 
 	end,
 	
@@ -31,7 +31,7 @@ local Behavior = CreateAIBehavior("HeliReinforcement", "HeliBase",
 	---------------------------------------------
 	Destructor = function ( self, entity, data )
 
-		-- called when the behaviour is de-selected
+		-- called when the behavior is de-selected
 		-- the extra data is from the signal that is causing the behavior transition
 		entity.AI.vReinforcementSetPosition = nil;
 		entity.AI.vReinforcementSetPosition2 = nil;
@@ -46,7 +46,7 @@ local Behavior = CreateAIBehavior("HeliReinforcement", "HeliBase",
 		entity.vehicle:BlockAutomaticDoors( false );
 		entity.vehicle:RetractGears();
 
-		AIBehaviour.HELIDEFAULT:heliRequest2ndGunnerShoot( entity );
+		AIBehavior.HELIDEFAULT:heliRequest2ndGunnerShoot( entity );
 
 		AI.SetForcedNavigation( entity.id, entity.AI.vZero );
 		if ( entity.AI.heliTimer2 ~= 0 ) then
@@ -399,7 +399,7 @@ local Behavior = CreateAIBehavior("HeliReinforcement", "HeliBase",
 		AI.PushGoal("vtolLanding","lookat",0,0,0,true,1);		
 		AI.PushGoal("vtolLanding", "waitsignal", 1, "HELI_GET_LANDING_POINT3_SUB_END", nil, 1000.0 );
 		entity:InsertSubpipe(0,"vtolLanding");
-		AIBehaviour.HELIDEFAULT:heliRequest2ndGunnerStopShoot( entity );
+		AIBehavior.HELIDEFAULT:heliRequest2ndGunnerStopShoot( entity );
 
 		if ( entity.AI.isVtol == true ) then
 
@@ -417,7 +417,7 @@ local Behavior = CreateAIBehavior("HeliReinforcement", "HeliBase",
 
 		entity.AI.heliTimer2 = 1;
 		entity.AI.bLock = false;
-		Script.SetTimerForFunction( minUpdateTime *1000, "AIBehaviour.HeliReinforcement.HELI_GET_LANDING_POINT3_SUB", entity );
+		Script.SetTimerForFunction( minUpdateTime *1000, "AIBehavior.HeliReinforcement.HELI_GET_LANDING_POINT3_SUB", entity );
 
 	end,
 
@@ -456,7 +456,7 @@ local Behavior = CreateAIBehavior("HeliReinforcement", "HeliBase",
 		local dt = System.GetCurrTime() - entity.AI.deltaTSystem;
 		entity.AI.deltaTSystem = System.GetCurrTime();
 
-		if ( AIBehaviour.HeliReinforcement.VTOL_OBSTACLE_CHECK( entity, entity.AI.vReinforcementSetPosition2 ) == false ) then
+		if ( AIBehavior.HeliReinforcement.VTOL_OBSTACLE_CHECK( entity, entity.AI.vReinforcementSetPosition2 ) == false ) then
 			entity.AI.bCancelReinforcement = true;
 			entity:CancelSubpipe();
 			if ( entity.AI.vehicleIgnorantIssued == true ) then
@@ -468,7 +468,7 @@ local Behavior = CreateAIBehavior("HeliReinforcement", "HeliBase",
 		end
 
 		entity.AI.heliTimer2 = 1;
-		Script.SetTimerForFunction( minUpdateTime *1000, "AIBehaviour.HeliReinforcement.HELI_GET_LANDING_POINT3_SUB", entity );
+		Script.SetTimerForFunction( minUpdateTime *1000, "AIBehavior.HeliReinforcement.HELI_GET_LANDING_POINT3_SUB", entity );
 
 		local vDirXY ={};
 		local vDirZ ={};

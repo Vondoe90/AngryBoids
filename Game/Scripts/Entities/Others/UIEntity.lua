@@ -46,7 +46,7 @@ function UIEntity:SetFromProperties()
 	self.freezable=tonumber(Properties.bFreezable)~=0;
 	
 	self:LoadObject(0,Properties.object_Model);
-	self:SetSlotFlags(0, ENTITY_SLOT_RENDER_AFTER_POSTPROCESSING, 0);
+	self:SetSlotHud3D(0);
 	
   	self.frozenModelSlot = nil;	
 end
