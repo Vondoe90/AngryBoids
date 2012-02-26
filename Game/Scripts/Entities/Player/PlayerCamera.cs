@@ -2,35 +2,31 @@
 
 namespace CryGameCode.Entities
 {
-	public class PlayerCamera : StaticEntity
+	/// <summary>
+	/// HAX LIKE YOU'VE NEVER HAXED BEFORE
+	/// </summary>
+	public class PlayerCameraProxy : BasePlayer
 	{
+		public StaticEntity Target { get; set; }
+		public Vec3 CameraOffset { get; set; }
+
 		public override void OnUpdate()
 		{
-			ViewParams.idTarget = EntitySystem.GetEntity("test").Id;
-			ViewParams.position = new Vec3(0, 0, 100);
-			ViewParams.rotation = new Quat(new Vec3(0, 0, 0));
+			if(Target == null)
+				return;
 
-			Renderer._SetViewParams(ViewId, ViewParams);
-			Renderer._SetActiveView(ViewId);
+			Position = Target.Position + CameraOffset;
 		}
 
-		public override void OnSpawn()
+		public void OnRevive()
 		{
-			ReceiveUpdates = true;
+			//var viewId = Renderer._GetActiveView();
+			//var viewParams = Renderer._GetViewParams(viewId);
+			//viewParams.fov = (float)Math.DegToRad(60);
+			//Renderer._SetViewParams(viewId, viewParams);
 
-			ViewId = Renderer._CreateView();
-			ViewParams = Renderer._GetViewParams(ViewId);
-
-			ViewParams.fov = (float)Math.DegToRad(60);
-			ViewParams.idTarget = 0;
-
-			Renderer._SetViewParams(ViewId, ViewParams);
-			Renderer._SetActiveView(ViewId);
+			Target = EntitySystem.SpawnEntity<Player>("Player Entity", Position, Rotation, new Vec3(1, 1, 1));
+			CameraOffset = new Vec3(0, -10, 2);
 		}
-
-		public ViewParams ViewParams;
-		public uint ViewId;
-
-		public Player Target { get; set; }
 	}
 }
