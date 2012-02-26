@@ -20,7 +20,7 @@ namespace CryGameCode.Entities
 			Renderer._SetViewParams(viewId, viewParams);
 
 			if(Target == null)
-				Target = EntitySystem.SpawnEntity<PlayerEntity>("Player", Position, Rotation, new Vec3(1, 1, 1));
+				Target = EntitySystem.SpawnEntity<PlayerEntity>("Player", Position);
 			else
 			{
 				Target.Position = Position;

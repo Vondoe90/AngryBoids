@@ -45,6 +45,7 @@ namespace CryGameCode
 				}
 			}
 
+			EntitySystem._EnableUpdates();
 			player.OnRevive();
 		}
 	}
