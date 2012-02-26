@@ -13,7 +13,7 @@ namespace CryGameCode
 	{
         public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
         {
-			GameRules.SpawnPlayer<Player>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
+			GameRules.SpawnPlayer<Player>(channelId, playerName, new Vec3(0, 0, 0), new Vec3(0, 0, 0));
         }
 
 		public override void OnRevive(uint actorId, Vec3 pos, Vec3 rot, int teamId)

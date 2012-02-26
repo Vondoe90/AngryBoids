@@ -10,13 +10,6 @@ public:
 	CGameRules();
 	~CGameRules();
 
-	void OnGamemodeChanged(const char *newMode);
-
-	virtual IActor *SpawnPlayer(int channelId, const char *name, const char *className, const Vec3 &pos, const Ang3 &angles);
-	virtual void RevivePlayer(IActor *pActor, const Vec3 &pos, const Ang3 &angles, int teamId=0, bool clearInventory=true);
-
-	virtual void OnRevive(IActor *pActor, const Vec3 &pos, const Quat &rot, int teamId = 0);
-
 	// IGameRules
 	virtual bool ShouldKeepClient(int channelId, EDisconnectionCause cause, const char *desc) const { return (!strcmp("timeout", desc) || cause==eDC_Timeout); }
 	virtual void PrecacheLevel();
@@ -85,7 +78,20 @@ public:
 	virtual void PostRemoteSpawn() {}
 	// ~IGameObjectExtension
 
+	void OnGamemodeChanged(const char *newMode);
+
+	virtual IActor *SpawnPlayer(int channelId, const char *name, const char *className, const Vec3 &pos, const Ang3 &angles);
+	virtual void RevivePlayer(IActor *pActor, const Vec3 &pos, const Ang3 &angles, int teamId=0, bool clearInventory=true);
+
+	virtual void OnRevive(IActor *pActor, const Vec3 &pos, const Quat &rot, int teamId = 0);
+
+	virtual string VerifyName(const char *name, IEntity *pEntity=0);
+	virtual bool IsNameTaken(const char *name, IEntity *pEntity=0);
+	string GetPlayerName(int channelId, bool bVerifyName = false);
+
 protected:
+
+	std::vector<int>		m_channelIds;
 
 	int m_scriptId;
 };
