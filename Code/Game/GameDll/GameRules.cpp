@@ -73,23 +73,10 @@ void CGameRules::OnDisconnect(EDisconnectionCause cause, const char *desc)
 //------------------------------------------------------------------------
 bool CGameRules::OnClientConnect(int channelId, bool isReset)
 {
-	if (gEnv->bServer && gEnv->bMultiplayer)
-	{
-		string playerName;
-		if (INetChannel *pNetChannel=gEnv->pGameFramework->GetNetChannel(channelId))
-		{
-			playerName=pNetChannel->GetNickname();
-			if (!playerName.empty())
-				playerName="";//VerifyName(playerName);
-		}
+	if(!isReset)
+		m_channelIds.push_back(channelId);
 
-		if(!playerName.empty())
-			CallMonoScript<void>(m_scriptId, "OnClientConnect", channelId, isReset, playerName);
-		else
-			CallMonoScript<void>(m_scriptId, "OnClientConnect", channelId, isReset);
-	}
-	else
-		CallMonoScript<void>(m_scriptId, "OnClientConnect", channelId);
+	CallMonoScript<void>(m_scriptId, "OnClientConnect", channelId, isReset, GetPlayerName(channelId, true));
 
 	return true;
 }
@@ -97,9 +84,11 @@ bool CGameRules::OnClientConnect(int channelId, bool isReset)
 //------------------------------------------------------------------------
 void CGameRules::OnClientDisconnect(int channelId, EDisconnectionCause cause, const char *desc, bool keepClient)
 {
-	CallMonoScript<void>(m_scriptId, "OnClientDisconnect", channelId);
+	std::vector<int>::iterator channelit=std::find(m_channelIds.begin(), m_channelIds.end(), channelId);
+	if (channelit!=m_channelIds.end())
+		m_channelIds.erase(channelit);
 
-	return;
+	CallMonoScript<void>(m_scriptId, "OnClientDisconnect", channelId);
 }
 
 //------------------------------------------------------------------------
@@ -146,11 +135,80 @@ IActor *CGameRules::SpawnPlayer(int channelId, const char *name, const char *cla
 	if (!gEnv->bServer)
 		return NULL;
 
-	return gEnv->pGameFramework->GetIActorSystem()->CreateActor(channelId, name, className, pos, Quat(angles), Vec3(1,1,1));
+	return gEnv->pGameFramework->GetIActorSystem()->CreateActor(channelId, VerifyName(name).c_str(), className, pos, Quat(angles), Vec3(1,1,1));
 }
 
 //------------------------------------------------------------------------
 void CGameRules::RevivePlayer(IActor *pIActor, const Vec3 &pos, const Ang3 &angles, int teamId, bool clearInventory)
 {
 	// TODO
+}
+
+//------------------------------------------------------------------------
+string CGameRules::VerifyName(const char *name, IEntity *pEntity)
+{
+	string nameFormatter(name);
+
+	// size limit is 26
+	if (nameFormatter.size()>26)
+		nameFormatter.resize(26);
+
+	// no spaces at start/end
+	nameFormatter.TrimLeft(' ');
+	nameFormatter.TrimRight(' ');
+
+	// no empty names
+	if (nameFormatter.empty())
+		nameFormatter="empty";
+
+	// no @ signs
+	nameFormatter.replace("@", "_");
+
+	// search for duplicates
+	if (IsNameTaken(nameFormatter.c_str(), pEntity))
+	{
+		int n=1;
+		string appendix;
+		do 
+		{
+			appendix.Format("(%d)", n++);
+		} while(IsNameTaken(nameFormatter+appendix));
+
+		nameFormatter.append(appendix);
+	}
+
+	return nameFormatter;
+}
+
+//------------------------------------------------------------------------
+bool CGameRules::IsNameTaken(const char *name, IEntity *pEntity)
+{
+	for (std::vector<int>::const_iterator it=m_channelIds.begin(); it!=m_channelIds.end(); ++it)
+	{
+		IActor *pActor = gEnv->pGameFramework->GetIActorSystem()->GetActorByChannelId(*it);
+		if (pActor && pActor->GetEntity()!=pEntity && !stricmp(name, pActor->GetEntity()->GetName()))
+			return true;
+	}
+
+	return false;
+}
+
+//------------------------------------------------------------------------
+string CGameRules::GetPlayerName(int channelId, bool bVerifyName)
+{
+	string playerName;
+
+	if(gEnv->bMultiplayer)
+	{
+		if (INetChannel *pNetChannel=gEnv->pGameFramework->GetNetChannel(channelId))
+		{
+			playerName=pNetChannel->GetNickname();
+			if (!playerName.empty() && bVerifyName)
+				playerName=VerifyName(playerName);
+		}
+	}
+	else if(bVerifyName)
+		playerName = VerifyName("Dude");
+
+	return playerName;
 }
