@@ -8,6 +8,7 @@
 
 //------------------------------------------------------------------------
 CGameRules::CGameRules()
+	: m_scriptId(0)
 {
 }
 
@@ -21,7 +22,12 @@ CGameRules::~CGameRules()
 void CGameRules::OnGamemodeChanged(const char *newMode)
 {
 	if(IMonoScriptSystem *pScriptSystem = gEnv->pMonoScriptSystem)
-		m_scriptId = pScriptSystem->GetScriptManager()->InstantiateScript(EMonoScriptType_GameRules, newMode);
+	{
+		if(m_scriptId != 0)
+			pScriptSystem->RemoveScriptInstance(m_scriptId);
+
+		m_scriptId = pScriptSystem->InstantiateScript(EMonoScriptType_GameRules, newMode);
+	}
 }
 
 //------------------------------------------------------------------------
