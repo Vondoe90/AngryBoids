@@ -26,5 +26,16 @@ namespace CryGameCode.Entities
 
 			CameraOffset = new Vec3(0, -10, 2);
 		}
+
+		public override void OnUpdate()
+		{
+			if(Target == null)
+			{
+				Console.LogAlways("No target found! Not updating this frame");
+				return;
+			}
+
+			Position = Target.Position + CameraOffset;
+		}
 	}
 }

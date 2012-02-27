@@ -15,7 +15,7 @@ namespace CryGameCode.Entities
 
 		protected override void OnCollision(EntityId targetEntityId, Vec3 hitPos, Vec3 dir, short materialId, Vec3 contactNormal)
 		{
-			Physics.AddImpulse(new Vec3(0, 0, -GlobalPhysics.GravityZ * BounceMultiplier));
+			Physics.AddImpulse(contactNormal * BounceMultiplier);
 		}
 
 		protected override void OnReset(bool enteringGame)
