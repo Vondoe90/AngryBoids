@@ -14,10 +14,7 @@ namespace CryGameCode.Entities
 		{
 			ReceiveUpdates = true;
 
-			var viewId = Renderer._GetActiveView();
-			var viewParams = Renderer._GetViewParams(viewId);
-			viewParams.fov = (float)Math.DegToRad(60);
-			Renderer._SetViewParams(viewId, viewParams);
+			Renderer.FieldOfView = 60;
 
 			if(Target == null)
 				Target = EntitySystem.SpawnEntity<PlayerEntity>("Player", Position);

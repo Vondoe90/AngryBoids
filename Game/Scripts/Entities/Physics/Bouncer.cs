@@ -13,7 +13,7 @@ namespace CryGameCode.Entities
 		[EditorProperty(DefaultValue = 10)]
 		public float Mass { get { return Physics.Mass; } set { Physics.Mass = value; } }
 
-		protected override void OnCollision(uint targetEntityId, Vec3 hitPos, Vec3 dir, short materialId, Vec3 contactNormal)
+		protected override void OnCollision(EntityId targetEntityId, Vec3 hitPos, Vec3 dir, short materialId, Vec3 contactNormal)
 		{
 			Physics.AddImpulse(new Vec3(0, 0, -GlobalPhysics.GravityZ * BounceMultiplier));
 		}
