@@ -17,6 +17,11 @@ namespace CryGameCode.Entities
 			InputSystem.RegisterAction("jump", OnJump);
 		}
 
+		public override void OnPostScriptReload()
+		{
+			OnReset(false);
+		}
+
 		public void OnMoveRight(ActionActivationMode activationMode, float value)
 		{
 			Physics.AddImpulse(new Vec3 { X = 10 });
