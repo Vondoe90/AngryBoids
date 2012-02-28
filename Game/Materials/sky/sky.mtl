@@ -1,8 +1,7 @@
-<Material MtlFlags="0" Shader="Sky" GenMask="0" SurfaceType="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+<Material Diffuse="1,1,1" Emissive="0,0,0" GenMask="0" MtlFlags="0" Opacity="1" Shader="SkyHDR" Shininess="10" Specular="0,0,0" SurfaceType="" >
  <Textures>
-  <Texture Map="Diffuse" File="textures/skys/day2/box_12.tif">
+  <Texture File="textures/defaults/16_grey.dds" Map="Diffuse" >
    <TexMod />
   </Texture>
  </Textures>
- <MaterialLayers />
 </Material>
