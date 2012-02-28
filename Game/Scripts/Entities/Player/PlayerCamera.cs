@@ -5,7 +5,7 @@ namespace CryGameCode.Entities
 	/// <summary>
 	/// HAX LIKE YOU'VE NEVER HAXED BEFORE
 	/// </summary>
-	public class Player : BasePlayer
+	public class PlayerCam : BasePlayer
 	{
 		public PlayerEntity Target { get; set; }
 		public Vec3 CameraOffset { get; set; }
@@ -29,7 +29,7 @@ namespace CryGameCode.Entities
 
 		public override void OnUpdate()
 		{
-			if(Target == null)
+			if (Target == null)
 			{
 				Console.LogAlways("No target found! Not updating this frame");
 				return;

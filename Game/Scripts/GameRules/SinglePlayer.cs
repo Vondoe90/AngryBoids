@@ -13,14 +13,14 @@ namespace CryGameCode
 	{
         public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
         {
-			GameRules.SpawnPlayer<Player>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
+			GameRules.SpawnPlayer<PlayerCam>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
         }
 
 		public override void OnRevive(EntityId actorId, Vec3 pos, Vec3 rot, int teamId)
 		{
 			Console.LogAlways("SinglePlayer.OnRevive");
 
-			var player = GameRules.GetPlayer(actorId) as Player;
+			var player = GameRules.GetPlayer(actorId) as PlayerCam;
 			if (player == null)
 			{
 				Console.LogAlways("[SinglePlayer.OnRevive] Failed to get player");
