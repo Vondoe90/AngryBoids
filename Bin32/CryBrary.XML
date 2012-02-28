@@ -4,10 +4,240 @@
         <name>CryBrary</name>
     </assembly>
     <members>
-        <member name="T:CryEngine.ItemSystem">
+        <member name="T:CryEngine.ScriptCompiler">
             <summary>
-            ItemSystem contains scriptbinds used in relation to the item system.
+            The script compiler is responsible for all CryScript compilation.
             </summary>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.LoadLibrariesInFolder(System.String)">
+            <summary>
+            This function will automatically scan for C# dll (*.dll) files and load the types contained within them.
+            </summary>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.CompileScriptsInFolder(System.String)">
+            <summary>
+            This function will automatically scan for C# (*.cs) files and compile them using CompileScripts.
+            </summary>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.CompileScripts(System.String[],System.String)">
+            <summary>
+            Compiles the scripts and compiles them into an assembly.
+            </summary>
+            <param name="scripts">A string array containing full paths to scripts to be compiled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.LoadAssembly(System.Reflection.Assembly)">
+            <summary>
+            Loads an C# assembly and return encapulsated script Type.
+            </summary>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.InstantiateScript(System.String,System.Object[])">
+            <summary>
+            Instantiates a script using its name and interface.
+            </summary>
+            <param name="scriptName"></param>
+            <param name="constructorParams"></param>
+            <returns>New instance scriptId or -1 if instantiation failed.</returns>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.AddScriptInstance(CryEngine.CryScriptInstance)">
+            <summary>
+            Adds an script instance to the script collection and returns its new id.
+            </summary>
+            <param name="instance"></param>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.RemoveInstance(System.Int32,System.String)">
+            <summary>
+            Locates and destructs the script with the assigned scriptId.
+            
+            Warning: Not supplying the scriptName will make the method execute slower.
+            </summary>
+            <param name="scriptId"></param>
+            <param name="scriptName"></param>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.RegisterScriptbind(System.String,System.String,System.Object[])">
+            <summary>
+            Automagically registers scriptbind methods to rid us of having to add them in both C# and C++.
+            </summary>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.OnUpdate(System.Single)">
+            <summary>
+            Called once per frame.
+            </summary>
+        </member>
+        <member name="F:CryEngine.MonoScriptType.GameRules">
+            <summary>
+            Scripts directly inheriting from BaseGameRules will utilize this script type.
+            </summary>
+        </member>
+        <member name="F:CryEngine.MonoScriptType.FlowNode">
+            <summary>
+            Scripts directly inheriting from FlowNode will utilize this script type.
+            </summary>
+        </member>
+        <member name="F:CryEngine.MonoScriptType.StaticEntity">
+            <summary>
+            Scripts directly inheriting from StaticEntity will utilize this script type.
+            </summary>
+        </member>
+        <member name="F:CryEngine.MonoScriptType.Entity">
+            <summary>
+            Scripts directly inheriting from Entity will utilize this script type.
+            </summary>
+        </member>
+        <member name="F:CryEngine.MonoScriptType.Actor">
+            <summary>
+            Scripts directly inheriting from Actor will utilize this script type.
+            </summary>
+        </member>
+        <member name="F:CryEngine.MonoScriptType.EditorForm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:CryEngine.MonoScriptType.Unknown">
+            <summary>
+            Scripts will be linked to this type if they inherit from CryScriptInstance, but not any other script base.
+            </summary>
+        </member>
+        <member name="T:CryEngine.CryScript">
+            <summary>
+            Represents a given class.
+            </summary>
+        </member>
+        <member name="P:CryEngine.CryScript.ScriptInstances">
+            <summary>
+            Stores all instances of this class.
+            </summary>
+        </member>
+        <member name="F:CryEngine.Scriptbind.methods">
+            <summary>
+            Array of InternalCallMethod
+            </summary>
+        </member>
+        <member name="M:CryEngine.EntitySystem._SpawnEntity(CryEngine.EntitySpawnParams,System.Boolean)">
+            <summary>
+            Spawns an entity with the specified parameters.
+            </summary>
+            <param name="spawnParams">The <see cref="T:CryEngine.EntitySpawnParams"/></param>
+            <param name="autoInit">Should the entity automatically be initialised?</param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.EntitySystem.RegisterEntityClass(CryEngine.EntityConfig)">
+            <summary>
+            Register a new entity type.
+            </summary>
+            <param name="config">The Entity configuration.</param>
+            <returns>True if registration succeeded, otherwise false.</returns>
+        </member>
+        <member name="M:CryEngine.EntitySystem.SpawnEntity``1(System.String,CryEngine.Vec3,System.Nullable{CryEngine.Vec3},System.Nullable{CryEngine.Vec3},System.Boolean,CryEngine.EntityFlags)">
+            <summary>
+            Spawn a new instance of entity type T.
+            </summary>
+            <typeparam name="T">The entity type</typeparam>
+            <param name="name"></param>
+            <param name="pos"></param>
+            <param name="rot"></param>
+            <param name="scale"></param>
+            <param name="autoInit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.EntitySystem.GetEntity(CryEngine.EntityId)">
+            <summary>
+            Get an entity by its unique ID.
+            </summary>
+            <param name="entityId">The ID as an unsigned integer.</param>
+            <returns>A reference to the entity.</returns>
+            <remarks>If the entity does not exist in the managed space, this function will attempt to find
+            a C++ entity with the specified ID></remarks>
+        </member>
+        <member name="M:CryEngine.EntitySystem.GetEntity(System.String)">
+            <summary>
+            Get an entity by name.
+            </summary>
+            <param name="name">The name of the entity.</param>
+            <returns>A reference to the entity.</returns>
+            <remarks>If multiple entities have the same name, it will return the first found.
+            Consider using IDs where necessary.</remarks>
+        </member>
+        <member name="M:CryEngine.EntitySystem.GetEntities(System.String)">
+            <summary>
+            Gets an array of entities that are of a given class.
+            </summary>
+            <param name="className">The entity class to search for.</param>
+            <returns>An array of entities.</returns>
+        </member>
+        <member name="M:CryEngine.EntitySystem.GetEntities``1">
+            <summary>
+            Gets an array of entities that are of a given class.
+            </summary>
+            <typeparam name="T">The entity class to search for.</typeparam>
+            <returns>An array of entities of type T.</returns>
+        </member>
+        <member name="F:CryEngine.EntitySystem.spawnedEntities">
+            <summary>
+            Contains entities spawned using EntitySystem.SpawnEntity.
+            Necessary to update scripts.
+            </summary>
+        </member>
+        <member name="T:CryEngine.EntityFlags">
+            <summary>
+            These flags control entity instance behaviour.
+            </summary>
+        </member>
+        <member name="T:CryEngine.EntityClassFlags">
+            <summary>
+            These flags define behaviour for entity classes.
+            </summary>
+        </member>
+        <member name="F:CryEngine.EntityClassFlags.Invisible">
+            <summary>
+            If set this class will not be visible in editor,and entity of this class cannot be placed manually in editor.
+            </summary>
+        </member>
+        <member name="F:CryEngine.EntityClassFlags.Default">
+            <summary>
+            If this is default entity class.
+            </summary>
+        </member>
+        <member name="F:CryEngine.EntityConfig.registerParams">
+            <summary>
+            The registration information.
+            </summary>
+        </member>
+        <member name="F:CryEngine.EntityConfig.properties">
+            <summary>
+            The properties that will be displayed inside Sandbox.
+            </summary>
+        </member>
+        <member name="T:CryEngine.ExcludeFromCompilationAttribute">
+            <summary>
+            If this attribute is attached to a class, it will be excluded from compilation.
+            </summary>
+        </member>
+        <member name="T:CryEngine.DefaultGamemodeAttribute">
+            <summary>
+            Using this in a class will make it be used as the default game mode.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Console.RegisterCVar``1(System.String,``0,CryEngine.CVarFlags,System.String)">
+            <summary>
+            Invoked by a CVar after its creation. Should <b>not</b> be visible outside this assembly.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Console.GetCVar(System.String)">
+            <summary>
+            Gets a CVar by name
+            </summary>
+            <param name="name">The name of the CVar to retrieve</param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.Console.TryGetCVar(System.String,CryEngine.CVar@)">
+            <summary>
+            Firstly checks whether a specified CVar is valid, then if so, modifies the cvar reference
+            </summary>
+            <param name="name">The name of the CVar to retrieve</param>
+            <param name="cvar">The CVar object to modify (usually blank)</param>
+            <returns>True if the CVar exists, otherwise false</returns>
         </member>
         <member name="M:CryEngine.Console.Log(System.String,System.Object[])">
             <summary>
@@ -52,81 +282,11 @@
             Outputs a warning message
             </summary>
         </member>
-        <member name="M:CryEngine.Console.RegisterCVar``1(System.String,``0,CryEngine.CVarFlags,System.String)">
-            <summary>
-            Invoked by a CVar after its creation. Should <b>not</b> be visible outside this assembly.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Console.GetCVar(System.String)">
-            <summary>
-            Gets a CVar by name
-            </summary>
-            <param name="name">The name of the CVar to retrieve</param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.Console.TryGetCVar(System.String,CryEngine.CVar@)">
-            <summary>
-            Firstly checks whether a specified CVar is valid, then if so, modifies the cvar reference
-            </summary>
-            <param name="name">The name of the CVar to retrieve</param>
-            <param name="cvar">The CVar object to modify (usually blank)</param>
-            <returns>True if the CVar exists, otherwise false</returns>
-        </member>
         <member name="M:CryEngine.Console.OnMonoCmd(System.String)">
             <summary>
             Called from C++ when a console command registered via Mono is invoked.
             </summary>
             <param name="cmdName"></param>
-        </member>
-        <member name="T:CryEngine.Vec3">
-            <summary>
-            The Vec3 struct is used for all 3D coordinates within the engine.
-            TODO: Implement a Quat class for rotation in place of angles.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.op_UnaryNegation(CryEngine.Vec3)">
-            <summary>
-            Negate this vector.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.op_Addition(CryEngine.Vec3,CryEngine.Vec3)">
-            <summary>
-            Add two vectors component-wise.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.op_Subtraction(CryEngine.Vec3,CryEngine.Vec3)">
-            <summary>
-            Subtract two vectors component-wise.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.op_Multiply(CryEngine.Vec3,System.Single)">
-            <summary>
-            Multiply this vector by a scalar.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.op_Multiply(System.Single,CryEngine.Vec3)">
-            <summary>
-            Multiply this vector by a scalar.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.Dot(CryEngine.Vec3,CryEngine.Vec3)">
-            <summary>
-            Perform the dot product on two vectors.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.Cross(CryEngine.Vec3,CryEngine.Vec3)">
-            <summary>
-            Perform the cross product on two vectors.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Vec3.Lerp(CryEngine.Vec3,CryEngine.Vec3,System.Single)">
-            <summary>
-            Linearly interpolates from vector a to b using the value of control.
-            </summary>
-            <param name="a">The "from" vector.</param>
-            <param name="b">The "to" vector.</param>
-            <param name="control">The position between a and b that the function should return.</param>
-            <returns></returns>
         </member>
         <member name="M:CryEngine.CVar.#ctor(System.String,System.Object,CryEngine.CVarFlags,System.String)">
             <summary>
@@ -228,12 +388,6 @@
             This exception is called when invalid CVar operations are performed.
             </summary>
         </member>
-        <member name="T:CryEngine.StaticEntity">
-            <summary>
-            Static entities must inherit this in order to be registered.
-            It is no longer an interface, due to basic functionality each entity <b>must</b> have.
-            </summary>
-        </member>
         <member name="T:CryEngine.CryScriptInstance">
             <summary>
             This interface permits derived classes to be used for script compilation recognition.
@@ -244,9 +398,308 @@
             Called each frame if script has been set to be regularly updated (See Updated property)
             </summary>
         </member>
+        <member name="M:CryEngine.CryScriptInstance.OnPostScriptReload">
+            <summary>
+            Invoked following a successful script reload
+            </summary>
+        </member>
         <member name="P:CryEngine.CryScriptInstance.ReceiveUpdates">
             <summary>
             Controls whether the entity receives an update per frame.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Engine">
+            <summary>
+            Provides an direct interface to the 3DEngine.
+            Mildly WIP.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Vec3">
+            <summary>
+            The Vec3 struct is used for all 3D coordinates within the engine.
+            TODO: Implement a Quat class for rotation in place of angles.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.op_UnaryNegation(CryEngine.Vec3)">
+            <summary>
+            Negate this vector.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.op_Addition(CryEngine.Vec3,CryEngine.Vec3)">
+            <summary>
+            Add two vectors component-wise.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.op_Subtraction(CryEngine.Vec3,CryEngine.Vec3)">
+            <summary>
+            Subtract two vectors component-wise.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.op_Multiply(CryEngine.Vec3,System.Single)">
+            <summary>
+            Multiply this vector by a scalar.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.op_Multiply(System.Single,CryEngine.Vec3)">
+            <summary>
+            Multiply this vector by a scalar.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.Dot(CryEngine.Vec3,CryEngine.Vec3)">
+            <summary>
+            Perform the dot product on two vectors.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.Cross(CryEngine.Vec3,CryEngine.Vec3)">
+            <summary>
+            Perform the cross product on two vectors.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Vec3.Lerp(CryEngine.Vec3,CryEngine.Vec3,System.Single)">
+            <summary>
+            Linearly interpolates from vector a to b using the value of control.
+            </summary>
+            <param name="a">The "from" vector.</param>
+            <param name="b">The "to" vector.</param>
+            <param name="control">The position between a and b that the function should return.</param>
+            <returns></returns>
+        </member>
+        <member name="T:CryEngine.Time">
+            <summary>
+            Contains useful functions related to game timing.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Time.DeltaTime">
+            <summary>
+            The time used to render the current frame. Useful for creating framerate independent operations.
+            </summary>
+            <example>public override void OnUpdate() { this.Position.X += 10 * CryTime.DeltaTime; }</example>
+        </member>
+        <member name="T:CryEngine.BaseGameRules">
+            <summary>
+            This is the base GameRules interface. All game rules must implement this.
+            </summary>
+            <remarks>For most use cases, deriving from CryGameCode's BaseGameRules is a more efficient solution.</remarks>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_Timeout">
+            <summary>
+            This cause must be first! - timeout occurred.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_ProtocolError">
+            <summary>
+            Incompatible protocols.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_ResolveFailed">
+            <summary>
+            Failed to resolve an address.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_VersionMismatch">
+            <summary>
+            Versions mismatch.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_ServerFull">
+            <summary>
+            Server is full.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_Kicked">
+            <summary>
+            User initiated kick.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_Banned">
+            <summary>
+            Teamkill ban/ admin ban.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_ContextCorruption">
+            <summary>
+            Context database mismatch.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_AuthenticationFailed">
+            <summary>
+            Password mismatch, cdkey bad, etc.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_GameError">
+            <summary>
+            Misc. game error.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_NotDX11Capable">
+            <summary>
+            DX11 not found.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_NubDestroyed">
+            <summary>
+            The nub has been destroyed.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_ICMPError">
+            <summary>
+            Icmp reported error.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_NatNegError">
+            <summary>
+            NAT negotiation error.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_PunkDetected">
+            <summary>
+            Punk buster detected something bad.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_DemoPlaybackFinished">
+            <summary>
+            Demo playback finished.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_DemoPlaybackFileNotFound">
+            <summary>
+            Demo playback file not found.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_UserRequested">
+            <summary>
+            User decided to stop playing.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_NoController">
+            <summary>
+            User should have controller connected.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_CantConnect">
+            <summary>
+            Unable to connect to server.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_ArbitrationFailed">
+            <summary>
+            Arbitration failed in a live arbitrated session.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_FailedToMigrateToNewHost">
+            <summary>
+            Failed to successfully join migrated game
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_SessionDeleted">
+            <summary>
+            The session has just been deleted
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.eDC_Unknown">
+            <summary>
+            Unknown cause
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.shooterId">
+            <summary>
+            EntityId of the shooter
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.targetId">
+            <summary>
+            EntityId of the target which got shot
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.weaponId">
+            <summary>
+            EntityId of the weapon
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.projectileId">
+            <summary>
+            0 if hit was not caused by a projectile
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.damage">
+            <summary>
+            damage count of the hit
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.angle">
+            <summary>
+            radius of the hit
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.material">
+            <summary>
+            material id of the surface which got hit
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.type">
+            <summary>
+            type id of the hit, see IGameRules::GetHitTypeId for more information
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.bulletType">
+            <summary>
+            type of bullet, if hit was of type bullet
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.pierce">
+            <summary>
+            bullet pierceability
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.pos">
+            <summary>
+            position of the hit
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.dir">
+            <summary>
+            direction of the hit
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.aimed">
+            <summary>
+            set to true if shot was aimed - i.e. first bullet, zoomed in etc.
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.knocksDown">
+            <summary>
+            true if the hit should knockdown
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.knocksDownLeg">
+            <summary>
+            true if the hit should knockdown when hit in a leg
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.hitViaProxy">
+            <summary>
+            true if the 'shooter' didn't actually shoot, ie. a weapon acting on their behalf did (team perks)
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.explosion">
+            <summary>
+            true if this hit directly results from an explosion
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.armorHeating">
+            <summary>
+            dynamic pierceability reduction
+            </summary>
+        </member>
+        <member name="F:CryEngine.HitInfo.penetrationCount">
+            <summary>
+            number of surfaces the bullet has penetrated
+            </summary>
+        </member>
+        <member name="T:CryEngine.StaticEntity">
+            <summary>
+            Static entities must inherit this in order to be registered.
+            It is no longer an interface, due to basic functionality each entity <b>must</b> have.
             </summary>
         </member>
         <member name="M:CryEngine.FlowNode.OnPortActivated(System.Int32,System.Object)">
@@ -589,87 +1042,6 @@
             switches between capsule and cylinder collider geometry
             </summary>
         </member>
-        <member name="M:CryEngine.Math.DegToRad(System.Double)">
-            <summary>
-            Converts degrees to radians
-            </summary>
-            <param name="angle"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.Math.RadToDeg(System.Double)">
-            <summary>
-            Converts radians to degrees
-            </summary>
-            <param name="angle"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.Math.Sqrt(System.Double)">
-            <summary>
-            Returns the square root of a specified number.
-            </summary>
-            <param name="d"></param>
-            <returns></returns>
-        </member>
-        <member name="T:CryEngine.ScriptCompiler">
-            <summary>
-            The script compiler is responsible for all CryScript compilation.
-            </summary>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.InstantiateScript(System.String,System.Object[])">
-            <summary>
-            Instantiates a script using its name and interface.
-            </summary>
-            <param name="scriptName"></param>
-            <param name="constructorParams"></param>
-            <returns>New instance scriptId or -1 if instantiation failed.</returns>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.AddScriptInstance(CryEngine.CryScriptInstance)">
-            <summary>
-            Adds an script instance to the script collection and returns its new id.
-            </summary>
-            <param name="instance"></param>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.RemoveInstance(System.Int32,System.String)">
-            <summary>
-            Locates and destructs the script with the assigned scriptId.
-            
-            Warning: Not supplying the scriptName will make the method execute slower.
-            </summary>
-            <param name="scriptId"></param>
-            <param name="scriptName"></param>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.RegisterScriptbind(System.String,System.String,System.Object[])">
-            <summary>
-            Automagically registers scriptbind methods to rid us of having to add them in both C# and C++.
-            </summary>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.OnUpdate(System.Single)">
-            <summary>
-            Called once per frame.
-            </summary>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.LoadLibrariesInFolder(System.String)">
-            <summary>
-            This function will automatically scan for C# dll (*.dll) files and load the types contained within them.
-            </summary>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.CompileScriptsInFolder(System.String)">
-            <summary>
-            This function will automatically scan for C# (*.cs) files and compile them using CompileScripts.
-            </summary>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.CompileScripts(System.String[],System.String)">
-            <summary>
-            Compiles the scripts and compiles them into an assembly.
-            </summary>
-            <param name="scripts">A string array containing full paths to scripts to be compiled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.LoadAssembly(System.Reflection.Assembly)">
-            <summary>
-            Loads an C# assembly and return encapulsated script Type.
-            </summary>
-        </member>
         <member name="T:CryEngine.BasePlayer">
             <summary>
             WIP Player class.
@@ -681,35 +1053,6 @@
             </summary>
             <param name="entityId"></param>
             <param name="channelId"></param>
-        </member>
-        <member name="F:CryEngine.ActionActivationMode.OnPress">
-            <summary>
-            Used when the action key is pressed
-            </summary>
-        </member>
-        <member name="F:CryEngine.ActionActivationMode.OnRelease">
-            <summary>
-            Used when the action key is released
-            </summary>
-        </member>
-        <member name="F:CryEngine.ActionActivationMode.OnHold">
-            <summary>
-            Used when the action key is held
-            </summary>
-        </member>
-        <member name="F:CryEngine.ActionActivationMode.AnalogCmd">
-            <summary>
-            Used when analog compare op succeeds
-            </summary>
-        </member>
-        <member name="M:CryEngine.GameRules.SpawnPlayer``1(System.Int32,System.String,CryEngine.Vec3,CryEngine.Vec3)">
-            <summary>
-            Creates the player actor.
-            </summary>
-            <param name="channelId"></param>
-            <param name="name"></param>
-            <param name="pos"></param>
-            <param name="angles"></param>
         </member>
         <member name="T:CryEngine.PathUtils">
             <summary>
@@ -762,9 +1105,44 @@
             <returns>The folder in which scripts of this type are located; i.e. Game\Scripts\Entities</returns>
             <example>GetScriptFolder(MonoScriptType.Entity)</example>
         </member>
-        <member name="T:CryEngine.ActorSystem">
+        <member name="T:CryEngine.Utils.AppDomainSerializer">
             <summary>
-            Used internally by this assembly for the Player base class.
+            Handles serializing script instances for an app domain reload.
+            </summary>
+        </member>
+        <member name="F:CryEngine.Utils.AppDomainSerializer.ObjectReferences">
+            <summary>
+            Used to keep track of duplicate instances of structs and classes of various kinds.
+            Saves space in MonoScriptData.xml + solves possible loop issues. - i59
+            </summary>
+        </member>
+        <member name="M:CryEngine.GameRules.SpawnPlayer``1(System.Int32,System.String,CryEngine.Vec3,CryEngine.Vec3)">
+            <summary>
+            Creates the player actor.
+            </summary>
+            <param name="channelId"></param>
+            <param name="name"></param>
+            <param name="pos"></param>
+            <param name="angles"></param>
+        </member>
+        <member name="M:CryEngine.CryNetwork.InitializeNetworkStatics(System.Boolean,System.Boolean)">
+            <summary>
+            Initializes static variables which never change, i.e. IsEditor.
+            </summary>
+            <param name="isEditor"></param>
+            <param name="isDedicated"></param>
+        </member>
+        <member name="M:CryEngine.CryNetwork.InitializeNetwork(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes variables which change, i.e. IsServer.
+            </summary>
+            <param name="isMultiplayer"></param>
+            <param name="isClient"></param>
+            <param name="isServer"></param>
+        </member>
+        <member name="T:CryEngine.ItemSystem">
+            <summary>
+            ItemSystem contains scriptbinds used in relation to the item system.
             </summary>
         </member>
         <member name="P:CryEngine.FlowNodeAttribute.Name">
@@ -815,17 +1193,6 @@
         <member name="F:CryEngine.FlowNodeCategory.Obsolete">
             <summary>
             This node is obsolete and is not available in the editor.
-            </summary>
-        </member>
-        <member name="T:CryEngine.Utils.AppDomainSerializer">
-            <summary>
-            Handles serializing script instances for an app domain reload.
-            </summary>
-        </member>
-        <member name="F:CryEngine.Utils.AppDomainSerializer.ObjectReferences">
-            <summary>
-            Used to keep track of duplicate instances of structs and classes of various kinds.
-            Saves space in MonoScriptData.xml + solves possible loop issues. - i59
             </summary>
         </member>
         <member name="T:CryEngine.Renderer">
@@ -925,9 +1292,81 @@
             previous dist of cam from target
             </summary>
         </member>
-        <member name="T:CryEngine.EntityId">
+        <member name="T:CryEngine.Arduino.ArduinoHelper">
             <summary>
-            Entity ID's store references to game entities as unsigned integers. This class wraps that functionality for CLS compliance.
+            Helper functions for Arduino communication.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Arduino.ArduinoHelper.Port">
+            <summary>
+            The main port used for serial communication.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Math.DegToRad(System.Double)">
+            <summary>
+            Converts degrees to radians
+            </summary>
+            <param name="angle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.Math.RadToDeg(System.Double)">
+            <summary>
+            Converts radians to degrees
+            </summary>
+            <param name="angle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.Math.Sqrt(System.Double)">
+            <summary>
+            Returns the square root of a specified number.
+            </summary>
+            <param name="d"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CryEngine.Utils.AssemblyReferenceHandler">
+            <summary>
+            Handles retrieval of required assemblies for compiled scripts etc.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Utils.AssemblyReferenceHandler.GetRequiredAssembliesForScripts(System.String[])">
+            <summary>
+            Gets the required assemblies for the scripts passed to the method.
+            Note: Does NOT exclude assemblies already loaded by CryMono.
+            </summary>
+            <param name="scripts"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.Utils.AssemblyReferenceHandler.GetRequiredAssembliesForScript(System.String)">
+            <summary>
+            Gets the required assemblies for the script passed to the method.
+            Note: Does NOT exclude assemblies already loaded by CryMono.
+            </summary>
+            <param name="script"></param>
+            <returns></returns>
+        </member>
+        <member name="F:CryEngine.Utils.AssemblyReferenceHandler.ReferencedAssemblies">
+            <summary>
+            All libraries passed through ScriptCompiler.LoadLibrariesInFolder will be automatically added to this list.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ActionActivationMode.OnPress">
+            <summary>
+            Used when the action key is pressed
+            </summary>
+        </member>
+        <member name="F:CryEngine.ActionActivationMode.OnRelease">
+            <summary>
+            Used when the action key is released
+            </summary>
+        </member>
+        <member name="F:CryEngine.ActionActivationMode.OnHold">
+            <summary>
+            Used when the action key is held
+            </summary>
+        </member>
+        <member name="F:CryEngine.ActionActivationMode.AnalogCmd">
+            <summary>
+            Used when analog compare op succeeds
             </summary>
         </member>
         <member name="T:CryEngine.Entity">
@@ -940,34 +1379,58 @@
             </summary>
             <param name="entityId"></param>
         </member>
-        <member name="T:CryEngine.Arduino.ArduinoHelper">
+        <member name="M:CryEngine.PhysicalWorld.RayWorldIntersection(CryEngine.Vec3,CryEngine.Vec3,System.Int32,CryEngine.PhysicalWorld.RayWorldIntersectionFlag,CryEngine.PhysicalWorld.RaycastHit@,System.Int32,CryEngine.EntityId[])">
             <summary>
-            Helper functions for Arduino communication.
+            Steps through the entity grid and raytraces entities
+            traces a finite ray from org along dir
+            </summary>
+            <param name="origin"></param>
+            <param name="dir"></param>
+            <param name="objectTypes"></param>
+            <param name="flags"></param>
+            <param name="hits"></param>
+            <param name="maxHits"></param>
+            <param name="skipEntities"></param>
+            <returns>The total amount of hits detected (solid and pierceable)</returns>
+        </member>
+        <member name="F:CryEngine.PhysicalWorld.RayWorldIntersectionFlag.SeperateImportantHits">
+            <summary>
+            among pierceble hits, materials with sf_important will have priority
             </summary>
         </member>
-        <member name="P:CryEngine.Arduino.ArduinoHelper.Port">
+        <member name="F:CryEngine.PhysicalWorld.RayWorldIntersectionFlag.CollissionTypeAny">
             <summary>
-            The main port used for serial communication.
+            if several colltype flag are specified, switches between requiring all or any of them in a geometry
             </summary>
         </member>
-        <member name="M:CryEngine.CryNetwork.InitializeNetworkStatics(System.Boolean,System.Boolean)">
+        <member name="T:CryEngine.Utils.CryStats">
             <summary>
-            Initializes static variables which never change, i.e. IsEditor.
+            CryStats enables tracking of commonly used library statistics such as memory usage.
             </summary>
-            <param name="isEditor"></param>
-            <param name="isDedicated"></param>
         </member>
-        <member name="M:CryEngine.CryNetwork.InitializeNetwork(System.Boolean,System.Boolean,System.Boolean)">
+        <member name="P:CryEngine.Utils.CryStats.MemoryUsageMB">
             <summary>
-            Initializes variables which change, i.e. IsServer.
+            The current approximate memory usage in megabytes.
             </summary>
-            <param name="isMultiplayer"></param>
-            <param name="isClient"></param>
-            <param name="isServer"></param>
+        </member>
+        <member name="P:CryEngine.Utils.CryStats.MemoryUsageKB">
+            <summary>
+            The current approximate memory usage in kilobytes.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Utils.CryStats.MemoryUsage">
+            <summary>
+            The current approximate memory usage in bytes.
+            </summary>
         </member>
         <member name="T:CryEngine.GameRulesSystem">
             <summary>
             GameRules contains scriptbinds used in relation to the game rules system.
+            </summary>
+        </member>
+        <member name="T:CryEngine.ActorSystem">
+            <summary>
+            Used internally by this assembly for the Player base class.
             </summary>
         </member>
         <member name="T:CryEngine.EntityAttribute">
@@ -1028,467 +1491,9 @@
             Bool is not currently functioning.
             </summary>
         </member>
-        <member name="F:CryEngine.MonoScriptType.GameRules">
+        <member name="T:CryEngine.EntityId">
             <summary>
-            Scripts directly inheriting from BaseGameRules will utilize this script type.
-            </summary>
-        </member>
-        <member name="F:CryEngine.MonoScriptType.FlowNode">
-            <summary>
-            Scripts directly inheriting from FlowNode will utilize this script type.
-            </summary>
-        </member>
-        <member name="F:CryEngine.MonoScriptType.StaticEntity">
-            <summary>
-            Scripts directly inheriting from StaticEntity will utilize this script type.
-            </summary>
-        </member>
-        <member name="F:CryEngine.MonoScriptType.Entity">
-            <summary>
-            Scripts directly inheriting from Entity will utilize this script type.
-            </summary>
-        </member>
-        <member name="F:CryEngine.MonoScriptType.Actor">
-            <summary>
-            Scripts directly inheriting from Actor will utilize this script type.
-            </summary>
-        </member>
-        <member name="F:CryEngine.MonoScriptType.EditorForm">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:CryEngine.MonoScriptType.Unknown">
-            <summary>
-            Scripts will be linked to this type if they inherit from CryScriptInstance, but not any other script base.
-            </summary>
-        </member>
-        <member name="T:CryEngine.CryScript">
-            <summary>
-            Represents a given class.
-            </summary>
-        </member>
-        <member name="P:CryEngine.CryScript.ScriptInstances">
-            <summary>
-            Stores all instances of this class.
-            </summary>
-        </member>
-        <member name="F:CryEngine.Scriptbind.methods">
-            <summary>
-            Array of InternalCallMethod
-            </summary>
-        </member>
-        <member name="T:CryEngine.Utils.CryStats">
-            <summary>
-            CryStats enables tracking of commonly used library statistics such as memory usage.
-            </summary>
-        </member>
-        <member name="P:CryEngine.Utils.CryStats.MemoryUsageMB">
-            <summary>
-            The current approximate memory usage in megabytes.
-            </summary>
-        </member>
-        <member name="P:CryEngine.Utils.CryStats.MemoryUsageKB">
-            <summary>
-            The current approximate memory usage in kilobytes.
-            </summary>
-        </member>
-        <member name="P:CryEngine.Utils.CryStats.MemoryUsage">
-            <summary>
-            The current approximate memory usage in bytes.
-            </summary>
-        </member>
-        <member name="T:CryEngine.Time">
-            <summary>
-            Contains useful functions related to game timing.
-            </summary>
-        </member>
-        <member name="P:CryEngine.Time.DeltaTime">
-            <summary>
-            The time used to render the current frame. Useful for creating framerate independent operations.
-            </summary>
-            <example>public override void OnUpdate() { this.Position.X += 10 * CryTime.DeltaTime; }</example>
-        </member>
-        <member name="T:CryEngine.Utils.AssemblyReferenceHandler">
-            <summary>
-            Handles retrieval of required assemblies for compiled scripts etc.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Utils.AssemblyReferenceHandler.GetRequiredAssembliesForScripts(System.String[])">
-            <summary>
-            Gets the required assemblies for the scripts passed to the method.
-            Note: Does NOT exclude assemblies already loaded by CryMono.
-            </summary>
-            <param name="scripts"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.Utils.AssemblyReferenceHandler.GetRequiredAssembliesForScript(System.String)">
-            <summary>
-            Gets the required assemblies for the script passed to the method.
-            Note: Does NOT exclude assemblies already loaded by CryMono.
-            </summary>
-            <param name="script"></param>
-            <returns></returns>
-        </member>
-        <member name="F:CryEngine.Utils.AssemblyReferenceHandler.ReferencedAssemblies">
-            <summary>
-            All libraries passed through ScriptCompiler.LoadLibrariesInFolder will be automatically added to this list.
-            </summary>
-        </member>
-        <member name="M:CryEngine.EntitySystem._SpawnEntity(CryEngine.EntitySpawnParams,System.Boolean)">
-            <summary>
-            Spawns an entity with the specified parameters.
-            </summary>
-            <param name="spawnParams">The <see cref="T:CryEngine.EntitySpawnParams"/></param>
-            <param name="autoInit">Should the entity automatically be initialised?</param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.EntitySystem.RegisterEntityClass(CryEngine.EntityConfig)">
-            <summary>
-            Register a new entity type.
-            </summary>
-            <param name="config">The Entity configuration.</param>
-            <returns>True if registration succeeded, otherwise false.</returns>
-        </member>
-        <member name="M:CryEngine.EntitySystem.SpawnEntity``1(System.String,CryEngine.Vec3,System.Nullable{CryEngine.Vec3},System.Nullable{CryEngine.Vec3},System.Boolean,CryEngine.EntityFlags)">
-            <summary>
-            Spawn a new instance of entity type T.
-            </summary>
-            <typeparam name="T">The entity type</typeparam>
-            <param name="name"></param>
-            <param name="pos"></param>
-            <param name="rot"></param>
-            <param name="scale"></param>
-            <param name="autoInit"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.EntitySystem.GetEntity(CryEngine.EntityId)">
-            <summary>
-            Get an entity by its unique ID.
-            </summary>
-            <param name="entityId">The ID as an unsigned integer.</param>
-            <returns>A reference to the entity.</returns>
-            <remarks>If the entity does not exist in the managed space, this function will attempt to find
-            a C++ entity with the specified ID></remarks>
-        </member>
-        <member name="M:CryEngine.EntitySystem.GetEntity(System.String)">
-            <summary>
-            Get an entity by name.
-            </summary>
-            <param name="name">The name of the entity.</param>
-            <returns>A reference to the entity.</returns>
-            <remarks>If multiple entities have the same name, it will return the first found.
-            Consider using IDs where necessary.</remarks>
-        </member>
-        <member name="M:CryEngine.EntitySystem.GetEntities(System.String)">
-            <summary>
-            Gets an array of entities that are of a given class.
-            </summary>
-            <param name="className">The entity class to search for.</param>
-            <returns>An array of entities.</returns>
-        </member>
-        <member name="M:CryEngine.EntitySystem.GetEntities``1">
-            <summary>
-            Gets an array of entities that are of a given class.
-            </summary>
-            <typeparam name="T">The entity class to search for.</typeparam>
-            <returns>An array of entities of type T.</returns>
-        </member>
-        <member name="F:CryEngine.EntitySystem.spawnedEntities">
-            <summary>
-            Contains entities spawned using EntitySystem.SpawnEntity.
-            Necessary to update scripts.
-            </summary>
-        </member>
-        <member name="T:CryEngine.EntityFlags">
-            <summary>
-            These flags control entity instance behaviour.
-            </summary>
-        </member>
-        <member name="T:CryEngine.EntityClassFlags">
-            <summary>
-            These flags define behaviour for entity classes.
-            </summary>
-        </member>
-        <member name="F:CryEngine.EntityClassFlags.Invisible">
-            <summary>
-            If set this class will not be visible in editor,and entity of this class cannot be placed manually in editor.
-            </summary>
-        </member>
-        <member name="F:CryEngine.EntityClassFlags.Default">
-            <summary>
-            If this is default entity class.
-            </summary>
-        </member>
-        <member name="F:CryEngine.EntityConfig.registerParams">
-            <summary>
-            The registration information.
-            </summary>
-        </member>
-        <member name="F:CryEngine.EntityConfig.properties">
-            <summary>
-            The properties that will be displayed inside Sandbox.
-            </summary>
-        </member>
-        <member name="T:CryEngine.ExcludeFromCompilationAttribute">
-            <summary>
-            If this attribute is attached to a class, it will be excluded from compilation.
-            </summary>
-        </member>
-        <member name="T:CryEngine.DefaultGamemodeAttribute">
-            <summary>
-            Using this in a class will make it be used as the default game mode.
-            </summary>
-        </member>
-        <member name="M:CryEngine.PhysicalWorld.RayWorldIntersection(CryEngine.Vec3,CryEngine.Vec3,System.Int32,CryEngine.PhysicalWorld.RayWorldIntersectionFlag,CryEngine.PhysicalWorld.RaycastHit@,System.Int32,CryEngine.EntityId[])">
-            <summary>
-            Steps through the entity grid and raytraces entities
-            traces a finite ray from org along dir
-            </summary>
-            <param name="origin"></param>
-            <param name="dir"></param>
-            <param name="objectTypes"></param>
-            <param name="flags"></param>
-            <param name="hits"></param>
-            <param name="maxHits"></param>
-            <param name="skipEntities"></param>
-            <returns>The total amount of hits detected (solid and pierceable)</returns>
-        </member>
-        <member name="F:CryEngine.PhysicalWorld.RayWorldIntersectionFlag.SeperateImportantHits">
-            <summary>
-            among pierceble hits, materials with sf_important will have priority
-            </summary>
-        </member>
-        <member name="F:CryEngine.PhysicalWorld.RayWorldIntersectionFlag.CollissionTypeAny">
-            <summary>
-            if several colltype flag are specified, switches between requiring all or any of them in a geometry
-            </summary>
-        </member>
-        <member name="T:CryEngine.BaseGameRules">
-            <summary>
-            This is the base GameRules interface. All game rules must implement this.
-            </summary>
-            <remarks>For most use cases, deriving from CryGameCode's BaseGameRules is a more efficient solution.</remarks>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_Timeout">
-            <summary>
-            This cause must be first! - timeout occurred.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_ProtocolError">
-            <summary>
-            Incompatible protocols.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_ResolveFailed">
-            <summary>
-            Failed to resolve an address.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_VersionMismatch">
-            <summary>
-            Versions mismatch.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_ServerFull">
-            <summary>
-            Server is full.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_Kicked">
-            <summary>
-            User initiated kick.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_Banned">
-            <summary>
-            Teamkill ban/ admin ban.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_ContextCorruption">
-            <summary>
-            Context database mismatch.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_AuthenticationFailed">
-            <summary>
-            Password mismatch, cdkey bad, etc.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_GameError">
-            <summary>
-            Misc. game error.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_NotDX11Capable">
-            <summary>
-            DX11 not found.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_NubDestroyed">
-            <summary>
-            The nub has been destroyed.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_ICMPError">
-            <summary>
-            Icmp reported error.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_NatNegError">
-            <summary>
-            NAT negotiation error.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_PunkDetected">
-            <summary>
-            Punk buster detected something bad.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_DemoPlaybackFinished">
-            <summary>
-            Demo playback finished.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_DemoPlaybackFileNotFound">
-            <summary>
-            Demo playback file not found.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_UserRequested">
-            <summary>
-            User decided to stop playing.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_NoController">
-            <summary>
-            User should have controller connected.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_CantConnect">
-            <summary>
-            Unable to connect to server.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_ArbitrationFailed">
-            <summary>
-            Arbitration failed in a live arbitrated session.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_FailedToMigrateToNewHost">
-            <summary>
-            Failed to successfully join migrated game
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_SessionDeleted">
-            <summary>
-            The session has just been deleted
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.eDC_Unknown">
-            <summary>
-            Unknown cause
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.shooterId">
-            <summary>
-            EntityId of the shooter
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.targetId">
-            <summary>
-            EntityId of the target which got shot
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.weaponId">
-            <summary>
-            EntityId of the weapon
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.projectileId">
-            <summary>
-            0 if hit was not caused by a projectile
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.damage">
-            <summary>
-            damage count of the hit
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.angle">
-            <summary>
-            radius of the hit
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.material">
-            <summary>
-            material id of the surface which got hit
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.type">
-            <summary>
-            type id of the hit, see IGameRules::GetHitTypeId for more information
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.bulletType">
-            <summary>
-            type of bullet, if hit was of type bullet
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.pierce">
-            <summary>
-            bullet pierceability
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.pos">
-            <summary>
-            position of the hit
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.dir">
-            <summary>
-            direction of the hit
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.aimed">
-            <summary>
-            set to true if shot was aimed - i.e. first bullet, zoomed in etc.
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.knocksDown">
-            <summary>
-            true if the hit should knockdown
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.knocksDownLeg">
-            <summary>
-            true if the hit should knockdown when hit in a leg
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.hitViaProxy">
-            <summary>
-            true if the 'shooter' didn't actually shoot, ie. a weapon acting on their behalf did (team perks)
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.explosion">
-            <summary>
-            true if this hit directly results from an explosion
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.armorHeating">
-            <summary>
-            dynamic pierceability reduction
-            </summary>
-        </member>
-        <member name="F:CryEngine.HitInfo.penetrationCount">
-            <summary>
-            number of surfaces the bullet has penetrated
-            </summary>
-        </member>
-        <member name="T:CryEngine.Engine">
-            <summary>
-            Provides an direct interface to the 3DEngine.
-            Mildly WIP.
+            Entity ID's store references to game entities as unsigned integers. This class wraps that functionality for CLS compliance.
             </summary>
         </member>
     </members>
