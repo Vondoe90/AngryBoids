@@ -10,16 +10,19 @@ namespace CryGameCode.Entities
 			Physics.Type = PhysicalizationType.Rigid;
 			Physics.Mass = 10;
 
-			ReceiveUpdates = true;
-
 			InputSystem.RegisterAction("move_right", OnMoveRight);
 			InputSystem.RegisterAction("move_left", OnMoveLeft);
 			InputSystem.RegisterAction("jump", OnJump);
 		}
 
-		public override void OnPostScriptReload()
+		public override void OnSpawn()
 		{
 			OnReset(false);
+		}
+
+		public override void OnPostScriptReload()
+		{
+			OnReset(false);	
 		}
 
 		public void OnMoveRight(ActionActivationMode activationMode, float value)
