@@ -96,10 +96,12 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Player\PlayableCharacter.cs" />
-    <Compile Include="Entities\Dragon.cs" />
+    <Compile Include="Entities\Boids\AngryBoidBase.cs" />
+    <Compile Include="Entities\Boids\TheBoringOne.cs" />
+    <Compile Include="Entities\Physics\Launcher.cs" />
     <Compile Include="Entities\Physics\Bouncer.cs" />
     <Compile Include="Entities\Player\PlayerCamera.cs" />
+    <Compile Include="Entities\Primitives\PrimitiveBase.cs" />
     <Compile Include="Entities\Rendered\RenderedEntity.cs" />
     <Compile Include="Entities\Physics\Rigidbody.cs" />
     <Compile Include="Entities\SampleEntity.cs" />
