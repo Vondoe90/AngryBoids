@@ -7,7 +7,7 @@ namespace CryGameCode.Entities
 	/// </summary>
 	public class Bouncy : Entity
 	{
-		[EditorProperty]
+		[EditorProperty(Min = 0, Max = 10000)]
 		public float BounceMultiplier { get; set; }
 
 		[EditorProperty(DefaultValue = 10)]
