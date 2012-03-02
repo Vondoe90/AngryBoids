@@ -3,15 +3,16 @@ using CryGameCode.Entities;
 
 namespace CryGameCode.AngryBoids
 {
-	/*
-	 * TODO: Generalise the boid behaviour
-	public abstract class AngryBoidBase : Rigidbody
+	public abstract class AngryBoidBase : Entity
 	{
-		public virtual void OnLaunched() { Console.LogAlways("OnLaunched"); }
+		public virtual void Init() { }
 
-		protected override void OnCollision(EntityId targetEntityId, Vec3 hitPos, Vec3 dir, short materialId, Vec3 contactNormal)
+		public void Launch(Vec3 velocity)
 		{
-			Console.LogAlways("Hit {0} at {1}, normal is {2}, direction was {3}, material is {4}", EntitySystem.GetEntity(targetEntityId).Name, hitPos, contactNormal, dir, materialId);
+			Physics.AddImpulse(velocity);
+			OnLaunched(velocity);
 		}
-	}*/
+
+		public virtual void OnLaunched(Vec3 velocity) { }
+	}
 }

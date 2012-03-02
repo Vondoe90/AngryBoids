@@ -7,7 +7,7 @@ namespace CryGameCode.Entities
     {
         public override void OnSpawn()
         {
-            Console.LogAlways("OnSpawn");
+            Debug.LogAlways("OnSpawn");
         }
 
 		//Floats/ints have optional constraints
