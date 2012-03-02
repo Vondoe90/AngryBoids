@@ -59,7 +59,8 @@ namespace CryGameCode.AngryBoids
 			var mousePos = Renderer.ScreenToWorld(x, y);
 
 			// Set our targetDirection variable to represent the distance between the launcher itself, and the cursor
-			targetDirection = Position - mousePos;
+			targetDirection = mousePos - Position;
+			targetDirection = new Vec3(0, targetDirection.Y, targetDirection.Z);
 
 			// If our direction is longer than the maximum distance of the slingshot, then we normalise it and multiply it by the distance to cap it
 			if(targetDirection.Length > MaxPullDistance)
@@ -67,7 +68,8 @@ namespace CryGameCode.AngryBoids
 				targetDirection = targetDirection.Normalized * MaxPullDistance;
 			}
 
-			Debug.DrawLine(Position, mousePos, Color.Red, 1);
+			Debug.DrawLine(Position, Position + targetDirection, Color.Red, 0.3f);
+			Debug.DrawSphere(mousePos, 2, Color.White, 0.3f);
 
 			// This tells us which mouse events, such as clicks, occurred
 			switch(mouseEvent)
