@@ -23,10 +23,10 @@ namespace CryGameCode
             testIntPortId.Activate(value);
         }
 
-        [Port(Name = "Activated", Description = "")]
-        public OutputPort activatedPortId;
+		[Port(Name = "Activated", Description = "")]
+		public OutputPort activatedPortId { get; set; }
 
         [Port(Name = "Test Int", Description = "")]
-        public OutputPort<int> testIntPortId;
+		public OutputPort<int> testIntPortId { get; set; }
     }
 }

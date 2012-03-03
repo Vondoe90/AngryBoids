@@ -34,8 +34,8 @@ public class PortController : FlowNode
 	public void PortName(string name) { }
 
 	[Port(Name = "Created", Description = "")]
-	public OutputPort createdOutput;
+	public OutputPort createdOutput { get; set; }
 
 	[Port(Name = "Destroyed", Description = "")]
-	public OutputPort destroyedOutput;	
+	public OutputPort destroyedOutput { get; set; }
 }

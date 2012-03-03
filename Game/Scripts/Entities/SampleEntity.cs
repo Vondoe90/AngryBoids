@@ -12,33 +12,33 @@ namespace CryGameCode.Entities
 
 		//Floats/ints have optional constraints
 		[EditorProperty(Description="How awesome is this entity?", Min=0, Max=9001)]
-		public float awesomenessLevel;
+		public float awesomenessLevel { get; set; }
 
         [EditorProperty(Type = EntityPropertyType.File)]
-		public string fileSelector;
+		public string fileSelector { get; set; }
 
 		[EditorProperty(Type=EntityPropertyType.Object)]
-		public string objectSelector;
+		public string objectSelector { get; set; }
 
 		[EditorProperty(Type=EntityPropertyType.Texture)]
-		public string textureSelector;
+		public string textureSelector { get; set; }
 
 		[EditorProperty(Type=EntityPropertyType.Sound)]
-		public string soundSelector;
+		public string soundSelector { get; set; }
 
 		[EditorProperty(Type=EntityPropertyType.Dialogue)]
-		public string dialogueSelector;
+		public string dialogueSelector { get; set; }
 
 		[EditorProperty(Type=EntityPropertyType.Color)]
-		public Vec3 colorSelector;
+		public Vec3 colorSelector { get; set; }
 
 		[EditorProperty]
-		public Vec3 vectorTest;
+		public Vec3 vectorTest { get; set; }
 
 		[EditorProperty(Type=EntityPropertyType.Sequence)]
-		public string sequenceTest;
+		public string sequenceTest { get; set; }
 
 		[EditorProperty(Description="Is this entity epic?")]
-		public bool isEpic;
+		public bool isEpic { get; set; }
     }
 }

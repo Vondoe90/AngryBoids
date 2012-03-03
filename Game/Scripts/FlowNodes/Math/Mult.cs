@@ -18,6 +18,6 @@ namespace CryGameCode.FlowNodes.Samples
         public void RightSide(float value) { }
 
         [Port(Name = "Answer", Description = "Get the answer")]
-        public OutputPort<float> answerOutput;
+		public OutputPort<float> answerOutput { get; set; }
     }
 }
