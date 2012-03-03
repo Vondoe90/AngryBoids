@@ -47,9 +47,9 @@ namespace CryGameCode.AngryBoids
 		/// <param name="y">The y position of the mouse on the screen.</param>
 		/// <param name="mouseEvent">The event that occurred. Provides information on whether it was just a move, or whether something was clicked, etc.</param>
 		/// <param name="wheelDelta"></param>
-		private void ProcessMouseEvents(int x, int y, MouseEvent mouseEvent, int wheelDelta)
+		private void ProcessMouseEvents(object sender, MouseEventArgs mouseEvent)
 		{
-			switch(mouseEvent)
+			switch(mouseEvent.MouseEvent)
 			{
 				// If the event was the user left-clicking, then set the launcher into the Held state, which means we're getting ready to fire
 				case MouseEvent.LeftButtonDown:
@@ -59,7 +59,7 @@ namespace CryGameCode.AngryBoids
 							CurrentBoid.Position = Position;
 							CurrentBoid.Physics.Resting = true;
 							state = LauncherState.Held;
-							heldPos = Renderer.ScreenToWorld(x, y);
+							heldPos = Renderer.ScreenToWorld(mouseEvent.X, mouseEvent.Y);
 						}
 					}
 					break;
@@ -69,7 +69,7 @@ namespace CryGameCode.AngryBoids
 				case MouseEvent.LeftButtonUp:
 					{
 						if(state == LauncherState.Held)
-							Fire(Renderer.ScreenToWorld(x, y));
+							Fire(Renderer.ScreenToWorld(mouseEvent.X, mouseEvent.Y));
 					}
 					break;
 			}
