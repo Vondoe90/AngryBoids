@@ -1,5 +1,7 @@
 ﻿using CryEngine;
 using CryEngine.Utils;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CryGameCode.AngryBoids
 {
@@ -9,23 +11,30 @@ namespace CryGameCode.AngryBoids
 	/// </summary>
 	public class Launcher : Entity
 	{
+		public static Launcher Instance { get; private set; }
+
 		/// <summary>
-		/// Here, we override an entity callback to register our mouse listener.
+		/// Here, we override an entity callback to register our mouse listener and grab all the boids in the level.
 		/// </summary>
 		/// <param name="enteringGame"></param>
 		protected override void OnReset(bool enteringGame)
 		{
-			InputSystem.MouseEvents += ProcessMouseEvents;
-
-			if (enteringGame)
+			if(enteringGame)
 			{
-				// spawn the first boid
-				RemainingBoids = BoidCount;
-				if(currentBoid == null && RemainingBoids > 0)
-					currentBoid = EntitySystem.SpawnEntity<TheBoringOne>("sadface", Position);
-			}
+				var boids = EntitySystem.GetEntities<TheBoringOne>();
 
-			Firing = false;
+				if(boids == null)
+				{
+					Debug.LogAlways("Boids is null");
+					return;
+				}
+
+				Debug.LogAlways("Found {0} boids", boids.Count());
+				remainingBoids = boids.ToList();
+				InputSystem.MouseEvents += ProcessMouseEvents;
+				state = LauncherState.Ready;
+				Instance = this;
+			}
 		}
 
 		/// <summary>
@@ -37,59 +46,45 @@ namespace CryGameCode.AngryBoids
 		/// <param name="wheelDelta"></param>
 		private void ProcessMouseEvents(int x, int y, MouseEvent mouseEvent, int wheelDelta)
 		{
-			// Get the position of the cursor projected in the world
-			var mousePos = Renderer.ScreenToWorld(x, y);
-
-			// Set our targetDirection variable to represent the distance between the launcher itself, and the cursor
-			var targetDirection = mousePos - Position;
-			targetDirection = new Vec3(0, targetDirection.Y, targetDirection.Z);
-
-			// If our direction is longer than the maximum distance of the slingshot, then we normalise it and multiply it by the distance to cap it
-			if(targetDirection.Length > MaxPullDistance)
-			{
-				//targetDirection = targetDirection.Normalized * MaxPullDistance;
-			}
-
-			Debug.DrawLine(Position, Position + targetDirection, Color.Red, 0.3f);
-			Debug.DrawSphere(mousePos, 2, Color.White, 0.3f);
-
-			// This tells us which mouse events, such as clicks, occurred
 			switch(mouseEvent)
 			{
 				// If the event was the user left-clicking, then set the launcher into the Held state, which means we're getting ready to fire
 				case MouseEvent.LeftButtonDown:
 					{
-						state = LauncherState.Held;
-
-						heldPos = Renderer.ScreenToWorld(x, y);
+						if(remainingBoids.Any())
+						{
+							CurrentBoid.Position = Position;
+							CurrentBoid.Physics.Resting = true;
+							state = LauncherState.Held;
+							heldPos = Renderer.ScreenToWorld(x, y);
+						}
 					}
 					break;
 
 				// When the left mouse button is released, that's treated as the fire signal
 				// (provided the state is Held, of course, just as a sanity check)
 				case MouseEvent.LeftButtonUp:
-					if(state == LauncherState.Held)
-						Fire(Renderer.ScreenToWorld(x, y));
+					{
+						if(state == LauncherState.Held)
+							Fire(Renderer.ScreenToWorld(x, y));
+					}
 					break;
 			}
 		}
 
 		private void Fire(Vec3 mousePosWorld)
 		{
-			if (RemainingBoids <= 0 || Firing)
-				return;
-
 			Debug.LogAlways("Firing");
 
-			Firing = true;
+			state = LauncherState.Firing;
 
 			var targetDir = heldPos - mousePosWorld;
 			targetDir.X = 0;
 
-			RemainingBoids--;
-			currentBoid.Launch(targetDir * LauncherStrength, this);
-
-			state = LauncherState.Ready;
+			CurrentBoid.Physics.Resting = false;
+			CurrentBoid.Launch(targetDir * LauncherStrength);
+			remainingBoids.Remove(CurrentBoid);
+			PostFire();
 		}
 
 		/// <summary>
@@ -97,15 +92,8 @@ namespace CryGameCode.AngryBoids
 		/// </summary>
 		public void PostFire()
 		{
-			Firing = false;
-
-			if (currentBoid == null)
-			{
-				if (RemainingBoids > 0)
-					currentBoid = EntitySystem.SpawnEntity<TheBoringOne>("sadface", Position);
-				else
-					currentBoid = null;
-			}
+			// TODO: Add a proper delay between boids
+			state = LauncherState.Ready;
 		}
 
 		/// <summary>
@@ -129,23 +117,32 @@ namespace CryGameCode.AngryBoids
 		[EditorProperty(DefaultValue = 3)]
 		public int BoidCount { get; set; }
 
-		private int RemainingBoids;
-
-		public bool Firing { get; set; }
+		/// <summary>
+		/// Quick shortcut for accessing the current boid
+		/// </summary>
+		private TheBoringOne CurrentBoid
+		{
+			get
+			{
+				return remainingBoids.First();
+			}
+		}
 
 		/// <summary>
 		/// Defines the current state of the launcher; eg, is the launcher ready to fire
 		/// </summary>
 		private LauncherState state = LauncherState.Ready;
 
-		private Vec3 heldPos { get; set; }
+		private IList<TheBoringOne> remainingBoids;
 
-		private AngryBoidBase currentBoid;
+		private Vec3 heldPos;
 
 		private enum LauncherState
 		{
 			Ready,
-			Held
+			Held,
+			Firing,
+			Finished
 		}
 	}
 }

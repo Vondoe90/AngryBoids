@@ -5,13 +5,6 @@ namespace CryGameCode.AngryBoids
 {
 	public class TheBoringOne : AngryBoidBase
 	{
-		protected override void  OnReset(bool enteringGame)
-		{
-			LoadObject("objects/default/primitive_sphere.cgf");
-			Physics.Type = PhysicalizationType.Rigid;
-			Physics.Mass = 50;
-		}
-
 		protected override void OnCollision(EntityId targetEntityId, Vec3 hitPos, Vec3 dir, short materialId, Vec3 contactNormal)
 		{
 			if(EntitySystem.GetEntity(targetEntityId) is Rigidbody)
