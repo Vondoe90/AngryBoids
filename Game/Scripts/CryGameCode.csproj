@@ -30,6 +30,8 @@
       </CustomCommands>
     </CustomCommands>
     <ConsolePause>false</ConsolePause>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -102,7 +104,6 @@
     <Compile Include="Entities\Physics\Bouncer.cs" />
     <Compile Include="Entities\Player\PlayerCamera.cs" />
     <Compile Include="Entities\Primitives\PrimitiveBase.cs" />
-    <Compile Include="Entities\Rendered\RenderedEntity.cs" />
     <Compile Include="Entities\Physics\Rigidbody.cs" />
     <Compile Include="Entities\SampleEntity.cs" />
     <Compile Include="Entities\SpawnPoint.cs" />
