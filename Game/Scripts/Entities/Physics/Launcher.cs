@@ -34,6 +34,9 @@ namespace CryGameCode.AngryBoids
 				InputSystem.MouseEvents += ProcessMouseEvents;
 				state = LauncherState.Ready;
 				Instance = this;
+
+				CurrentBoid.Position = Position;
+				CurrentBoid.Physics.Resting = true;
 			}
 		}
 
