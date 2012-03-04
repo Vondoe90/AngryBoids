@@ -43,22 +43,22 @@ namespace CryGameCode.FlowNodes.Testing
 		#region Outputs
 
 		[Port(Name = "Activated Output", Description = "")]
-		public OutputPort activatedOutput;
+		public OutputPort activatedOutput { get; set; }
 
 		[Port(Name = "Int Output", Description = "")]
-		public OutputPort<int> intOutput;
+		public OutputPort<int> intOutput { get; set; }
 
 		[Port(Name = "Float Output", Description = "")]
-		public OutputPort<float> floatOutput;
+		public OutputPort<float> floatOutput { get; set; }
 
 		[Port(Name = "String Output", Description = "")]
-		public OutputPort<string> stringOutput;
+		public OutputPort<string> stringOutput { get; set; }
 
 		[Port(Name = "Vec3 Output", Description = "")]
-		public OutputPort<Vec3> vec3Output;
+		public OutputPort<Vec3> vec3Output { get; set; }
 
 		[Port(Name = "Bool Output", Description = "")]
-		public OutputPort<bool> boolOutput;
+		public OutputPort<bool> boolOutput { get; set; }
 
 		#endregion
 	}
