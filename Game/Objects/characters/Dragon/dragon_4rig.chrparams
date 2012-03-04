@@ -1,0 +1,16 @@
+<Params>
+	<AnimationList>
+		<Animation name="#filepath" path="Animations\animals\Dragon"/>
+		<Animation name="$TracksDatabase" path="Animations\animals\Dragon\dragon.dba"/>
+		<Comment value=" ----- Main Animations ---------"/>
+		<Animation name="2landing" path="2landing.caf"/>
+		<Animation name="DragonLandAndScream" path="DragonLandAndScream.caf"/>
+		<Comment value=" ----- No Threat Animations ---------"/>
+		<Animation name="Fly*" path="fly*.caf"/>
+		<Animation name="_FLY*" path="fly*.lmg"/>
+		<Animation name="Glide*" path="glide*.caf"/>
+		<Animation name="_GLIDE*" path="glide*.caf"/>
+		<Animation name="dying_breathing.caf" path="dying_breathing.caf"/>
+	</AnimationList>
+
+</Params>

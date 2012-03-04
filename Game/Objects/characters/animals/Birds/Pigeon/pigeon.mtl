@@ -1,0 +1,27 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="SubMtl1" MtlFlags="524416" Shader="Illum" GenMask="80001" StringGenMask="%ALLOW_POM%GLOSS_MAP" SurfaceType="mat_flesh" MatTemplate="" Diffuse="0.15728073,0.15728073,0.15728073" Specular="0.30830452,0.30830452,0.30830452" Emissive="0,0,0" Shininess="5" Opacity="1" AlphaTest="0.5">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/characters/animals/birds/pigeon/pigeon_d.dds">
+     <TexMod TexMod_UOscillatorType="72" TexMod_VOscillatorType="161" TexMod_RotateType="58" TexMod_TexGenType="185"/>
+    </Texture>
+    <Texture Map="Specular" File="objects/characters/animals/birds/pigeon/pigeon_s.dds">
+     <TexMod RotateU="82.578735" TexMod_UOscillatorType="168" TexMod_VOscillatorType="100" TexMod_RotateType="58" TexMod_TexGenType="185"/>
+    </Texture>
+   </Textures>
+   <PublicParams SpecMapChannelB="0" SpecMapChannelR="0" FresnelPower="4" GlossMapChannelB="0" SpecMapChannelG="0" FresnelScale="1" FresnelBias="1" IndirectColor="0.25,0.25,0.25"/>
+  </Material>
+  <Material Name="SubMtl2" MtlFlags="524448" Shader="Illum" GenMask="1" StringGenMask="%ALLOW_POM" SurfaceType="mat_flesh" MatTemplate="" Diffuse="0.15728073,0.15728073,0.15728073" Specular="0,0,0" Emissive="0,0,0" Shininess="5" Opacity="1" AlphaTest="0.5">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/characters/animals/birds/pigeon/pigeon_d.tif">
+     <TexMod TexMod_RotateType="79" TexMod_TexGenType="43"/>
+    </Texture>
+   </Textures>
+   <PublicParams FresnelPower="4" GlossFromDiffuseContrast="3.28" FresnelScale="1" GlossFromDiffuseOffset="0" FresnelBias="1" GlossFromDiffuseAmount="1" GlossFromDiffuseBrightness="0.88999999" IndirectColor="0.25,0.25,0.25"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_nodraw" MatTemplate="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams FresnelPower="4" GlossFromDiffuseContrast="1" FresnelScale="1" GlossFromDiffuseOffset="0" FresnelBias="1" GlossFromDiffuseAmount="0" GlossFromDiffuseBrightness="0.333" IndirectColor="0.25,0.25,0.25"/>
+</Material>

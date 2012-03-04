@@ -1,0 +1,32 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="Body" MtlFlags="524416" Shader="Illum" GenMask="92001" StringGenMask="%ALLOW_POM%DETAIL_BUMP_MAPPING%ENVIRONMENT_MAP%GLOSS_MAP" SurfaceType="mat_flesh" MatTemplate="" Diffuse="0.32941177,0.30588236,0.30588236" Specular="0.33922336,0.31576276,0.26317474" Emissive="0.011764707,0.011764707,0.011764707" Shininess="30" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/characters/dragon/dragon_body_diff_512.tif"/>
+    <Texture Map="Specular" File="objects/characters/dragon/dragon_body_spec.tif"/>
+    <Texture Map="Bumpmap" File="objects/characters/dragon/dragon_body_ddn.tif"/>
+    <Texture Map="Environment" File="textures/cubes/cxpcube.dds"/>
+    <Texture Map="Detail" File="textures/detail_bumpmaps/rock_1_ddn.dds"/>
+   </Textures>
+   <PublicParams SpecMapChannelB="0" SpecMapChannelR="0" FresnelPower="4" DetailBumpTillingU="5" DetailBlendAmount="0" GlossMapChannelB="0" SpecMapChannelG="0" FresnelScale="1" FresnelBias="0.193" DetailBumpScale="0.5" DetailBumpTillingV="5" IndirectColor="0.25,0.25,0.25"/>
+  </Material>
+  <Material Name="Wings" MtlFlags="524416" Shader="HumanSkin" GenMask="100000080000" StringGenMask="%GLOSS_MAP%SCREEN_SPACE_SSS" SurfaceType="mat_flesh" MatTemplate="" Diffuse="0.32941177,0.30588236,0.30588236" Specular="0.64555526,0.63204265,0.59243804" Emissive="0.011764707,0.011764707,0.011764707" Shininess="30" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/characters/dragon/dragon_wings_diff_512.tif"/>
+    <Texture Map="Specular" File="objects/characters/dragon/dragon_wings_spec 2k.tif"/>
+    <Texture Map="Bumpmap" File="objects/characters/dragon/dragon_wings_2ddn.tif"/>
+    <Texture Map="Environment" File="textures/cubes/cxpcube.dds"/>
+   </Textures>
+   <PublicParams SpecularStrenght="1" FresnelPower="5" Melanin="0" RimStrenght="0.30000001" FresnelScale="4" SelfShadowSoftening="3.5999999" BlurScale="3.6459999" FresnelBias="0.34999999" IndirectColor="0.25,0.25,0.25"/>
+  </Material>
+  <Material Name="empty" MtlFlags="524416" Shader="Illum" GenMask="1" StringGenMask="%ALLOW_POM" SurfaceType="" MatTemplate="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+   <Textures />
+   <PublicParams FresnelPower="4" GlossFromDiffuseContrast="1" FresnelScale="1" GlossFromDiffuseOffset="0" FresnelBias="1" GlossFromDiffuseAmount="0" GlossFromDiffuseBrightness="0.333" IndirectColor="0.25,0.25,0.25"/>
+  </Material>
+  <Material Name="empty" MtlFlags="524416" Shader="Illum" GenMask="1" StringGenMask="%ALLOW_POM" SurfaceType="" MatTemplate="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+   <Textures />
+   <PublicParams FresnelPower="4" GlossFromDiffuseContrast="1" FresnelScale="1" GlossFromDiffuseOffset="0" FresnelBias="1" GlossFromDiffuseAmount="0" GlossFromDiffuseBrightness="0.333" IndirectColor="0.25,0.25,0.25"/>
+  </Material>
+ </SubMaterials>
+ <PublicParams FresnelPower="4" GlossFromDiffuseContrast="1" FresnelScale="1" GlossFromDiffuseOffset="0" FresnelBias="1" GlossFromDiffuseAmount="0" GlossFromDiffuseBrightness="0.333" IndirectColor="0.25,0.25,0.25"/>
+</Material>

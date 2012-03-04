@@ -1,0 +1,15 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="main" MtlFlags="524416" Shader="Illum" GenMask="40001" StringGenMask="%ALLOW_POM%GLOSS_DIFFUSEALPHA" SurfaceType="mat_flesh" MatTemplate="" Diffuse="0.19046287,0.19046287,0.19046287" Specular="0.061907478,0.10615607,0.1869885" Emissive="0,0,0" Shininess="17" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/characters/animals/amphibians/toad/tx/toad_diff.tif"/>
+    <Texture Map="Bumpmap" File="objects/characters/animals/amphibians/toad/tx/toad_ddn.tif"/>
+   </Textures>
+   <PublicParams FresnelPower="4" FresnelScale="1" FresnelBias="1" IndirectColor="0.25,0.25,0.25"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_flesh" MatTemplate="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams FresnelPower="4" GlossFromDiffuseContrast="1" FresnelScale="1" GlossFromDiffuseOffset="0" FresnelBias="1" GlossFromDiffuseAmount="0" GlossFromDiffuseBrightness="0.333" IndirectColor="0.25,0.25,0.25"/>
+</Material>
