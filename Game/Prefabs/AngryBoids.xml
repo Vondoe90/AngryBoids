@@ -1,0 +1,9 @@
+<PrefabsLibrary Name="AngryBoids">
+ <Prefab Name="Boids.TheBoringOne" Id="{7AF3D30A-A55A-457E-8FF2-4CEFC12CD797}" Library="AngryBoids">
+  <Objects>
+   <Object Type="Entity" Layer="Main" LayerGUID="{02E96C7C-CA57-430A-88B0-7281CCE0F48E}" Id="{C7C6F04E-48DB-4167-B572-BF6E59FC9114}" Name="TheBoringOne1" FloorNumber="-1" Rotate="1,0,0,0" ColorRGB="65535" Flags="4" Material="Objects/boids/boring" MatLayersMask="0" OutdoorOnly="0" CastShadow="1" LodRatio="100" ViewDistRatio="255" HiddenInGame="0" RecvWind="0" RenderNearest="0" NoStaticDecals="0" CreatedThroughPool="0" EntityClass="TheBoringOne">
+    <Properties Model="objects/default/primitive_sphere.cgf" Mass="10"/>
+   </Object>
+  </Objects>
+ </Prefab>
+</PrefabsLibrary>
