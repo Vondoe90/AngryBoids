@@ -1,0 +1,6 @@
+<download name="cine" type="Map">
+ <index src="filelist.xml" dest="filelist.xml"/>
+ <files>
+  <file src="level.pak" dest="level.pak" size="2759223" md5="8a7263ab44daf64501f0759bb4d4a0db"/>
+ </files>
+</download>
