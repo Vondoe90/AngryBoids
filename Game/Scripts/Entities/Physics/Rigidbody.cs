@@ -12,7 +12,6 @@ namespace CryGameCode.Entities
 
 		protected override void OnReset(bool enteringGame)
 		{
-			LoadObject(Model);
 			Physics.Type = PhysicalizationType.Rigid;
 		}
 	}

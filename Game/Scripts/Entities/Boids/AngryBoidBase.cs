@@ -3,14 +3,8 @@ using CryGameCode.Entities;
 
 namespace CryGameCode.AngryBoids
 {
-	public abstract class AngryBoidBase : Entity
+	public abstract class AngryBoid : Rigidbody
 	{
-		[EditorProperty(Type = EntityPropertyType.Object)]
-		public string Model { get { return GetObjectFilePath(); } set { LoadObject(value); } }
-
-		[EditorProperty]
-		public float Mass { get { return Physics.Mass; } set { Physics.Mass = value; } }
-
 		protected BoidState state = BoidState.Ready;
 
 		public void Launch(Vec3 velocity)
@@ -20,9 +14,7 @@ namespace CryGameCode.AngryBoids
 			OnLaunched(velocity);
 		}
 
-		public virtual void OnLaunched(Vec3 velocity) 
-		{
-		}
+		public virtual void OnLaunched(Vec3 velocity) { }
 
 		public override void OnUpdate()
 		{
@@ -39,11 +31,6 @@ namespace CryGameCode.AngryBoids
 			// Hit something, reset last event time.
 			if(Launcher.Instance != null && state == BoidState.Launched)
 				lastEvent = Time.FrameStartTime;
-		}
-
-		protected override void OnReset(bool enteringGame)
-		{
-			Physics.Type = PhysicalizationType.Rigid;
 		}
 
 		/// <summary>

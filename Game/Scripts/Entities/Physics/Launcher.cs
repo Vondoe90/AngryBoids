@@ -25,11 +25,10 @@ namespace CryGameCode.AngryBoids
 
 				if(boids == null)
 				{
-					Debug.LogAlways("Boids is null");
+					Debug.LogAlways("[Warning] No boids found in the level");
 					return;
 				}
 
-				Debug.LogAlways("Found {0} boids", boids.Count());
 				remainingBoids = boids.ToList();
 				InputSystem.MouseEvents += ProcessMouseEvents;
 				state = LauncherState.Ready;
@@ -47,9 +46,9 @@ namespace CryGameCode.AngryBoids
 		/// <param name="y">The y position of the mouse on the screen.</param>
 		/// <param name="mouseEvent">The event that occurred. Provides information on whether it was just a move, or whether something was clicked, etc.</param>
 		/// <param name="wheelDelta"></param>
-		private void ProcessMouseEvents(int x, int y, MouseEvent mouseEvent, int wheelDelta)
+		private void ProcessMouseEvents(object sender, MouseEventArgs e)
 		{
-			switch(mouseEvent)
+			switch(e.MouseEvent)
 			{
 				// If the event was the user left-clicking, then set the launcher into the Held state, which means we're getting ready to fire
 				case MouseEvent.LeftButtonDown:
@@ -59,7 +58,7 @@ namespace CryGameCode.AngryBoids
 							CurrentBoid.Position = Position;
 							CurrentBoid.Physics.Resting = true;
 							state = LauncherState.Held;
-							heldPos = Renderer.ScreenToWorld(x, y);
+							heldPos = Renderer.ScreenToWorld(e.X, e.Y);
 						}
 					}
 					break;
@@ -69,7 +68,7 @@ namespace CryGameCode.AngryBoids
 				case MouseEvent.LeftButtonUp:
 					{
 						if(state == LauncherState.Held)
-							Fire(Renderer.ScreenToWorld(x, y));
+							Fire(Renderer.ScreenToWorld(e.X, e.Y));
 					}
 					break;
 			}
@@ -77,8 +76,6 @@ namespace CryGameCode.AngryBoids
 
 		private void Fire(Vec3 mousePosWorld)
 		{
-			Debug.LogAlways("Firing");
-
 			state = LauncherState.Firing;
 
 			var targetDir = heldPos - mousePosWorld;

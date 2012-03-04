@@ -101,7 +101,7 @@
     <Compile Include="Entities\Physics\Launcher.cs" />
     <Compile Include="Entities\Physics\Bouncer.cs" />
     <Compile Include="Entities\Player\PlayerCamera.cs" />
-    <Compile Include="Entities\Primitives\PrimitiveBase.cs" />
+    <Compile Include="Entities\Enemies\BaseEnemy.cs" />
     <Compile Include="Entities\Rendered\RenderedEntity.cs" />
     <Compile Include="Entities\Physics\Rigidbody.cs" />
     <Compile Include="Entities\SampleEntity.cs" />
