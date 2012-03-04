@@ -1,4 +1,4 @@
-<Material MtlFlags="524288" Shader="Illum" GenMask="0" StringGenMask="" SurfaceType="" MatTemplate="" Diffuse="0.011126082,0.94060069,0.026548682" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1" GlowAmount="7">
+<Material MtlFlags="524288" Shader="Illum" GenMask="0" StringGenMask="" SurfaceType="mat_plastic" MatTemplate="" Diffuse="0.011126082,0.94060069,0.026548682" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1" GlowAmount="7">
  <Textures>
   <Texture Map="Diffuse" File="textures/default_mat_warning.dds"/>
  </Textures>

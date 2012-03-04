@@ -6,4 +6,11 @@
    </Object>
   </Objects>
  </Prefab>
+ <Prefab Name="Enemies.Basic" Id="{3991E7B8-C127-4155-874B-4E4D5F7DBD45}" Library="AngryBoids">
+  <Objects>
+   <Object Type="Entity" Layer="Main" LayerGUID="{1EDE5991-27B6-4A85-9E16-AC379EC33611}" Id="{2E1D67DB-1FB5-448B-9300-AF61E5F0984C}" Name="Enemy6" Pos="0.99987793,0.99987793,0" FloorNumber="-1" Rotate="1,0,0,0" ColorRGB="65535" Material="Objects/enemies/base" MatLayersMask="0" OutdoorOnly="0" CastShadow="1" LodRatio="100" ViewDistRatio="255" HiddenInGame="0" RecvWind="0" RenderNearest="0" NoStaticDecals="0" CreatedThroughPool="0" EntityClass="Enemy">
+    <Properties VelocityToKill="3" Model="objects/default/primitive_pyramid.cgf" Mass="30"/>
+   </Object>
+  </Objects>
+ </Prefab>
 </PrefabsLibrary>
