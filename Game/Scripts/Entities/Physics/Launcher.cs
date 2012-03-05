@@ -23,9 +23,9 @@ namespace CryGameCode.AngryBoids
 			{
 				var boids = EntitySystem.GetEntities<TheBoringOne>();
 
-				if(boids == null)
+				if(boids == null || boids.Count() < 1)
 				{
-					Debug.LogAlways("[Warning] No boids found in the level");
+					Debug.Log("[Warning] No boids found in the level");
 					return;
 				}
 

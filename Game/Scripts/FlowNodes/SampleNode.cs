@@ -10,7 +10,7 @@ namespace CryGameCode
         [Port(Name = "Activate", Description = "Test of a void input")]
         public void OnActivateTriggered()
         {
-            Debug.LogAlways("The activate port was triggered.");
+            Debug.Log("The activate port was triggered.");
 
             activatedPortId.Activate();
         }
@@ -18,7 +18,7 @@ namespace CryGameCode
         [Port(Name = "Test Int", Description = "Test of an int input")]
         public void OnIntTriggered(int value)
         {
-            Debug.LogAlways("The int port was triggered, value is {0}", value.ToString());
+            Debug.Log("The int port was triggered, value is {0}", value.ToString());
 
             testIntPortId.Activate(value);
         }

@@ -17,21 +17,15 @@ namespace CryGameCode
 
 		public override void OnRevive(EntityId actorId, Vec3 pos, Vec3 rot, int teamId)
 		{
-			Debug.LogAlways("Entering game:");
-
 			var cameraProxy = GameRules.GetPlayer(actorId) as CameraProxy;
 
 			if(cameraProxy == null)
 			{
-				Debug.LogAlways("[SinglePlayer.OnRevive] Failed to get the player proxy. Check the log for errors.");
+				Debug.Log("[SinglePlayer.OnRevive] Failed to get the player proxy. Check the log for errors.");
 				return;
 			}
 
-			Debug.LogAlways("Initialising camera proxy...");
-
 			cameraProxy.Init();
-
-			Debug.LogAlways("Camera proxy initialised!");
 		}
 	}
 }
