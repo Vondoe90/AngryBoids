@@ -9,7 +9,6 @@ namespace CryGameCode.AngryBoids
 	{
 		public void Init()
 		{
-			ReceiveUpdates = true;
 			Renderer.FieldOfView = 60;
 		}
 	}
