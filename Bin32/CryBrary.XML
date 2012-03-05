@@ -1498,15 +1498,6 @@
             <param name="entityId"></param>
             <param name="channelId"></param>
         </member>
-        <member name="M:CryEngine.GameRules.SpawnPlayer``1(System.Int32,System.String,CryEngine.Vec3,CryEngine.Vec3)">
-            <summary>
-            Creates the player actor.
-            </summary>
-            <param name="channelId"></param>
-            <param name="name"></param>
-            <param name="pos"></param>
-            <param name="angles"></param>
-        </member>
         <member name="T:CryEngine.GameRulesSystem">
             <summary>
             GameRules contains scriptbinds used in relation to the game rules system.
