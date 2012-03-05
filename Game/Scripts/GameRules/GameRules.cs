@@ -34,15 +34,17 @@ namespace CryEngine
 				Players = new List<BasePlayer>();
 			else
 			{
-				var duplicatePlayers = Players.Where(player => player.ChannelId == channelId).ToArray();
-				foreach (var player in duplicatePlayers)
+				Players.RemoveAll(player =>
 				{
-					EntitySystem.RemoveEntity(player.Id);
+					if(player.ChannelId == channelId)
+					{
+						EntitySystem.RemoveEntity(player.Id);
 
-					Players.Remove(player);
-				}
+						return true;
+					}
 
-				duplicatePlayers = null;
+					return false;
+				});
 			}
 
 			EntityId entityId = _SpawnPlayer(channelId, name, "Player", pos, angles);
@@ -72,16 +74,12 @@ namespace CryEngine
 
 		public static BasePlayer GetPlayer(EntityId playerId)
 		{
-			int scriptId = ScriptCompiler.GetEntityScriptId(playerId, typeof(BasePlayer));
-			if(scriptId != -1)
-				return ScriptCompiler.GetScriptInstanceById(scriptId) as BasePlayer;
-
-			return null;
+			return Players.Find(player => player.Id == playerId);
 		}
 
 		public static T GetPlayer<T>(EntityId playerId) where T : BasePlayer
 		{
-			return Players.Find(player => player.Id == playerId) as T;
+			return GetPlayer(playerId) as T;
 		}
 
 		public static List<BasePlayer> Players { get; private set; }
