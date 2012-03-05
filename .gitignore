@@ -39,6 +39,8 @@ ipch*/
 user/
 Ankh.NoLoad
 
+*.dmp
+
 #Tooling
 _ReSharper*/
 *.resharper
