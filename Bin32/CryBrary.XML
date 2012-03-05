@@ -462,7 +462,7 @@
             <param name="fileName"></param>
             <param name="slot"></param>
         </member>
-        <member name="M:CryEngine.StaticEntity.InternalSpawn(System.UInt32)">
+        <member name="M:CryEngine.StaticEntity.InternalSpawn(CryEngine.EntityId)">
             <summary>
             Initializes the entity, not recommended to set manually.
             </summary>
@@ -544,7 +544,7 @@
             <param name="slotNumber"></param>
             <returns></returns>
         </member>
-        <member name="M:CryEngine.Entity.InternalSpawn(System.UInt32)">
+        <member name="M:CryEngine.Entity.InternalSpawn(CryEngine.EntityId)">
             <summary>
             Initializes the entity, not recommended to set manually.
             </summary>
