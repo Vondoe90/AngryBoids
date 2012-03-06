@@ -30,22 +30,7 @@ namespace CryEngine
 		/// <param name="angles"></param>
 		public static T SpawnPlayer<T>(int channelId, string name, Vec3 pos, Vec3 angles) where T : BasePlayer, new()
 		{
-			if (Players == null)
-				Players = new List<BasePlayer>();
-			else
-			{
-				Players.RemoveAll(player =>
-				{
-					if(player.ChannelId == channelId)
-					{
-						EntitySystem.RemoveEntity(player.Id);
-
-						return true;
-					}
-
-					return false;
-				});
-			}
+			ActorSystem.RemoveActor(channelId);
 
 			EntityId entityId = _SpawnPlayer(channelId, name, "Player", pos, angles);
 			if(entityId == 0)
@@ -61,10 +46,15 @@ namespace CryEngine
 				return null;
 			}
 
-			Players.Add(ScriptCompiler.GetScriptInstanceById(scriptId) as BasePlayer);
-			Players.Last().InternalSpawn(entityId, channelId);
+			var player = ScriptCompiler.GetScriptInstanceById(scriptId) as BasePlayer;
+			player.InternalSpawn(entityId, channelId);
 
-			return Players.Last() as T;
+			return player as T;
+		}
+
+		public static void RemovePlayer(int channelId)
+		{
+			EntitySystem.RemoveEntity(ActorSystem.GetEntityIdForChannelId(channelId));
 		}
 
 		public static T GetLocalPlayer<T>() where T : BasePlayer
@@ -74,14 +64,12 @@ namespace CryEngine
 
 		public static BasePlayer GetPlayer(EntityId playerId)
 		{
-			return Players.Find(player => player.Id == playerId);
+			return EntitySystem.GetEntity(playerId) as BasePlayer;
 		}
 
 		public static T GetPlayer<T>(EntityId playerId) where T : BasePlayer
 		{
 			return GetPlayer(playerId) as T;
 		}
-
-		public static List<BasePlayer> Players { get; private set; }
 	}
 }

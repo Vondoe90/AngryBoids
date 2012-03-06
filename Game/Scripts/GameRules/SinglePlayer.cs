@@ -15,6 +15,11 @@ namespace CryGameCode
 			GameRules.SpawnPlayer<CameraProxy>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
 		}
 
+		public override void OnClientDisconnect(int channelId)
+		{
+			GameRules.RemovePlayer(channelId);
+		}
+
 		public override void OnRevive(EntityId actorId, Vec3 pos, Vec3 rot, int teamId)
 		{
 			var cameraProxy = GameRules.GetPlayer(actorId) as CameraProxy;

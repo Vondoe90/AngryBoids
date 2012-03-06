@@ -308,7 +308,7 @@
             <typeparam name="T">The entity class to search for.</typeparam>
             <returns>An array of entities of type T.</returns>
         </member>
-        <member name="F:CryEngine.EntitySystem.spawnedEntities">
+        <member name="F:CryEngine.EntitySystem.SpawnedEntities">
             <summary>
             Contains entities spawned using EntitySystem.SpawnEntity.
             Necessary to update scripts.
@@ -526,7 +526,7 @@
             <param name="materialId"></param>
             <param name="contactNormal"></param>
         </member>
-        <member name="M:CryEngine.StaticEntity.OnHit(CryEngine.DamageInfo)">
+        <member name="M:CryEngine.StaticEntity.OnHit(CryEngine.HitInfo)">
             <summary>
             
             </summary>
@@ -1363,12 +1363,6 @@
         <member name="T:CryEngine.Utils.AppDomainSerializer">
             <summary>
             Handles serializing script instances for an app domain reload.
-            </summary>
-        </member>
-        <member name="F:CryEngine.Utils.AppDomainSerializer.ObjectReferences">
-            <summary>
-            Used to keep track of duplicate instances of structs and classes of various kinds.
-            Saves space in MonoScriptData.xml + solves possible loop issues. - i59
             </summary>
         </member>
         <member name="T:CryEngine.Utils.AssemblyReferenceHandler">
