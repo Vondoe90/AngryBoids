@@ -596,6 +596,12 @@
             <returns>The filepath to the root folder as a string, ex:</returns>
             <example>"C:\CryENGINE3"</example>
         </member>
+        <member name="M:CryEngine.PathUtils.GetScriptDumpFolder">
+            <summary>
+            Gets the folder in which script dumps are stored.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:CryEngine.PathUtils.GetBinaryFolder">
             <summary>
             Gets the current folder containing binaries relevant to current build type (Bin32 / Bin64).
@@ -810,11 +816,12 @@
             <param name="constructorParams"></param>
             <returns>New instance scriptId or -1 if instantiation failed.</returns>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.AddScriptInstance(CryEngine.CryScriptInstance)">
+        <member name="M:CryEngine.ScriptCompiler.AddScriptInstance(CryEngine.CryScriptInstance,System.Int32)">
             <summary>
             Adds an script instance to the script collection and returns its new id.
             </summary>
             <param name="instance"></param>
+            <param name="compiledScriptsIndex">Index of the CryScript object residing in ScriptCompiler.CompiledScripts</param>
         </member>
         <member name="M:CryEngine.ScriptCompiler.RemoveInstance(System.Int32,System.String)">
             <summary>
@@ -825,9 +832,9 @@
             <param name="scriptId"></param>
             <param name="scriptName"></param>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.RegisterScriptbind(System.String,System.String,System.Object[])">
+        <member name="F:CryEngine.ScriptCompiler.InvalidScriptInstance">
             <summary>
-            Automagically registers scriptbind methods to rid us of having to add them in both C# and C++.
+            Avoid creating a new empty CryScriptInstance each time we need to check
             </summary>
         </member>
         <member name="M:CryEngine.ScriptCompiler.OnUpdate(System.Single)">
@@ -840,21 +847,29 @@
             This function will automatically scan for C# dll (*.dll) files and load the types contained within them.
             </summary>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.CompileScriptsInFolder(System.String)">
-            <summary>
-            This function will automatically scan for C# (*.cs) files and compile them using CompileScripts.
-            </summary>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.CompileScripts(System.String[],CryEngine.ScriptCompiler.ScriptLanguage)">
+        <member name="M:CryEngine.ScriptCompiler.CompileScripts(CryEngine.ScriptCompiler.CompilationParameters@)">
             <summary>
             Compiles the scripts and compiles them into an assembly.
             </summary>
-            <param name="scripts">A string array containing full paths to scripts to be compiled.</param>
+            <param name="compilationParams"></param>
             <returns></returns>
+            <exception cref="T:System.IO.DirectoryNotFoundException">Thrown when one or more script folders could not be located.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if the compiled assembly could not be loaded.</exception>
+            <exception cref="T:CryEngine.ScriptCompilationException">Thrown if one or more compilation errors occur.</exception>
         </member>
         <member name="M:CryEngine.ScriptCompiler.LoadAssembly(System.Reflection.Assembly)">
             <summary>
             Loads an C# assembly and return encapulsated script Type.
+            </summary>
+        </member>
+        <member name="P:CryEngine.ScriptCompiler.CompilationParameters.Folders">
+            <summary>
+            The folders from which scripts should be compiled from.
+            </summary>
+        </member>
+        <member name="P:CryEngine.ScriptCompiler.CompilationParameters.ForceDebugInformation">
+            <summary>
+            Forces generation of debug information, even in release mode.
             </summary>
         </member>
         <member name="F:CryEngine.ScriptType.GameRules">
@@ -900,11 +915,6 @@
         <member name="P:CryEngine.CryScript.ScriptInstances">
             <summary>
             Stores all instances of this class.
-            </summary>
-        </member>
-        <member name="F:CryEngine.Scriptbind.methods">
-            <summary>
-            Array of InternalCallMethod
             </summary>
         </member>
         <member name="T:CryEngine.Engine">
@@ -1363,6 +1373,17 @@
         <member name="T:CryEngine.Utils.AppDomainSerializer">
             <summary>
             Handles serializing script instances for an app domain reload.
+            </summary>
+        </member>
+        <member name="F:CryEngine.Utils.CrySerializer.ObjectReferences">
+            <summary>
+            Keep references to objects around as we can't print them in the same script dump as their declaring type, also avoids processing them multiple times.
+            string = path to the object's state dump.
+            </summary>
+        </member>
+        <member name="F:CryEngine.Utils.CrySerializer.ReferenceSeperator">
+            <summary>
+            The character used to signal a reference path.
             </summary>
         </member>
         <member name="T:CryEngine.Utils.AssemblyReferenceHandler">
