@@ -30,6 +30,7 @@ namespace CryEngine
 		/// <param name="angles"></param>
 		public static T SpawnPlayer<T>(int channelId, string name, Vec3 pos, Vec3 angles) where T : BasePlayer, new()
 		{
+			// just in case
 			ActorSystem.RemoveActor(channelId);
 
 			EntityId entityId = _SpawnPlayer(channelId, name, "Player", pos, angles);
@@ -54,7 +55,7 @@ namespace CryEngine
 
 		public static void RemovePlayer(int channelId)
 		{
-			EntitySystem.RemoveEntity(ActorSystem.GetEntityIdForChannelId(channelId));
+			ActorSystem.RemoveActor(channelId);
 		}
 
 		public static T GetLocalPlayer<T>() where T : BasePlayer
