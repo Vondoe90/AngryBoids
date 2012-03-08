@@ -72,7 +72,6 @@ CGame::CGame()
 	m_inDevMode = false;
 
 	m_pDefaultAM = nullptr;
-	m_pMultiplayerAM = nullptr;
 
 	GetISystem()->SetIGame( this );
 }
@@ -481,17 +480,9 @@ void CGame::LoadActionMaps(const char* filename)
 		pActionMapMan->Clear();
 		pActionMapMan->LoadFromXML(rootNode);
 		m_pDefaultAM = pActionMapMan->GetActionMap("default");
-		m_pDebugAM = pActionMapMan->GetActionMap("debug");
-		m_pMultiplayerAM = pActionMapMan->GetActionMap("multiplayer");
 
 		// enable defaults
 		pActionMapMan->EnableActionMap("default",true);
-
-		// enable debug
-		pActionMapMan->EnableActionMap("debug",gEnv->pSystem->IsDevMode());
-
-		// enable player action map
-		pActionMapMan->EnableActionMap("player",true);
 	}
 	else
 	{

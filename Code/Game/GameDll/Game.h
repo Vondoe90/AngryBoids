@@ -184,11 +184,7 @@ protected:
 
 	bool								m_bReload;
 
-	//menus
-
-	IActionMap					*m_pDebugAM;
 	IActionMap					*m_pDefaultAM;
-	IActionMap					*m_pMultiplayerAM;
 	IPlayerProfileManager* m_pPlayerProfileManager;
 
 	bool								m_inDevMode;

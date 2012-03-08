@@ -5,30 +5,6 @@
 		<PS3 keyboard="1" xboxpad="0" ps3pad="1" />
 	</platforms>
   
-  <actionmap name="player" version="26">
-    <action name="fire" onPress="1" keyboard="w" />
-  </actionmap>
-  
-	<actionmap name="debug" version="22">
-	<!-- debug keys - move to debug when we can switch devmode-->
-		<action name="flymode" onPress="1" noModifiers="1" keyboard="f3" />
-		<action name="godmode" onPress="1" noModifiers="1" keyboard="f4" />
-		<action name="toggleaidebugdraw" onPress="1" noModifiers="1" keyboard="f11" />
-		<action name="togglepdrawhelpers" onPress="1" noModifiers="1" keyboard="f10" />
-		<action name="ulammo" onPress="1" noModifiers="1" keyboard="np_2" />
-		<action name="debug" onPress="1" keyboard="7" />			
-		<action name="thirdperson" onPress="1" noModifiers="1" keyboard="f1" xboxpad="xi_dpad_up" ps3pad="pad_up"/>				
-	 <!-- debug keys - end -->
-	</actionmap>
-	
-	<actionmap name="multiplayer" version="22">
-	<!-- multiplayer specific keys -->
-		<action name="radio_group_0" onPress="1" keyboard="f5" />
-		<action name="radio_group_1" onPress="1" keyboard="f6" />
-		<action name="radio_group_2" onPress="1" keyboard="f7" />
-		<action name="radio_group_3" onPress="1" keyboard="f8" />
-	</actionmap>
-	
 	<actionmap name="singleplayer" version="22">
 	<!-- singleplayer specific keys -->
 		<action name="save" onPress="1" consoleCmd="1" keyboard="f5" />
