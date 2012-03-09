@@ -13,10 +13,23 @@
 *.exp
 
 *.pdb
+*.obj
+*.ipch
+*.idb
+*.sdf
+*.opensdf
+*.res
+*.manifest
+*.lastbuildstate
+*.pch
+*.rc
 
-# Various logs and dumps
+# Various
+[Tt]emp
+
 *.dmp
 *.log
+*.tlog
 
 README
 STATUS
@@ -25,3 +38,5 @@ Makefile-gcc-app
 
 userSpecificData.xml
 EditorEventLog.xml
+
+USER
