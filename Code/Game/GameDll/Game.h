@@ -25,6 +25,7 @@
 #include <IActorSystem.h>
 #include <StlUtils.h>
 #include "RayCastQueue.h"
+#include <IntersectionTestQueue.h>
 
 #include "GameSettings.h"
 
@@ -75,11 +76,12 @@ static const int GLOBAL_SERVER_IP_KEY						=	1000;
 static const int GLOBAL_SERVER_PUBLIC_PORT_KEY	= 1001;
 static const int GLOBAL_SERVER_NAME_KEY					=	1002;
 
-class CGame : public IGame
+class CGame : public IGame, public ISystemEventListener
 {
 public:
   typedef bool (*BlockingConditionFunction)();
   typedef RayCastQueue<41> GlobalRayCaster;
+  typedef IntersectionTestQueue<43> GlobalIntersectionTester;
 public:
 	CGame();
 	VIRTUAL ~CGame();
@@ -130,11 +132,16 @@ public:
 
 	// camera stuff (new tp cam)
 	CCameraManager *GetCameraManager() { return m_pCameraManager; }
-  ILINE GlobalRayCaster& GetRayCaster() { assert(m_pRayCaster); return *m_pRayCaster; }
+	ILINE GlobalRayCaster& GetRayCaster() { assert(m_pRayCaster); return *m_pRayCaster; }
+	GlobalIntersectionTester& GetIntersectionTester() { assert(m_pIntersectionTester); return *m_pIntersectionTester; }
 
 	static void DumpMemInfo(const char* format, ...) PRINTF_PARAMS(1, 2);
 
 	VIRTUAL void LoadActionMaps(const char* filename);
+
+	// ISystemEventListener
+	virtual void OnSystemEvent(ESystemEvent event, UINT_PTR wparam, UINT_PTR lparam);
+	// ~ISystemEventListener
 
 protected:
 	VIRTUAL void CheckReloadLevel();
@@ -193,7 +200,8 @@ protected:
 
 	string                 m_lastSaveGame;
 
-  GlobalRayCaster* m_pRayCaster;
+	GlobalRayCaster *m_pRayCaster;
+	GlobalIntersectionTester* m_pIntersectionTester;
 
 	typedef std::map<string, string, stl::less_stricmp<string> > TLevelMapMap;
 	TLevelMapMap m_mapNames;

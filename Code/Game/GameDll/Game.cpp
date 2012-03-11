@@ -61,11 +61,12 @@ int OnImpulse( const EventPhys *pEvent )
 CGame *g_pGame = NULL;
 
 CGame::CGame()
-: m_pFramework(nullptr),
-	m_pConsole(nullptr),
-	m_pPlayerProfileManager(nullptr),
+: m_pFramework(NULL),
+	m_pConsole(NULL),
+	m_pPlayerProfileManager(NULL),
 	m_uiPlayerID(~0),
-	m_pRayCaster(nullptr)
+	m_pRayCaster(NULL),
+	m_pIntersectionTester(NULL)
 {
 	g_pGame = this;
 	m_bReload = false;
@@ -79,7 +80,6 @@ CGame::CGame()
 CGame::~CGame()
 {
 	SAFE_DELETE(m_pScriptBindGameRules);
-	SAFE_DELETE(m_pRayCaster);
 	
 	if(m_pFramework)
 	{
@@ -90,9 +90,14 @@ CGame::~CGame()
 		}	
 	}
 
+	gEnv->pSystem->GetISystemEventDispatcher()->RemoveListener(this);
+
 	m_pConsole = nullptr;   //don't use m_pConsole->Release(), it is called later in the shutdown process
 	m_pFramework = nullptr; //don't use m_pFramework->Shutdown(), it is called later in the shutdown process
 	
+	SAFE_DELETE(m_pRayCaster);
+	SAFE_DELETE(m_pIntersectionTester);
+
 	g_pGame = nullptr;
 	gEnv->pGame = nullptr;
 }
@@ -175,6 +180,8 @@ bool CGame::Init(IGameFramework *pFramework)
 
 	// set game GUID
 	m_pFramework->SetGameGUID(GAME_GUID);
+
+	gEnv->pSystem->GetISystemEventDispatcher()->RegisterListener(this);
 
 	// TEMP
 	// Load the action map beforehand (see above)
@@ -289,6 +296,9 @@ bool CGame::Init(IGameFramework *pFramework)
 	m_pRayCaster = new GlobalRayCaster;
 	m_pRayCaster->SetQuota(6);
 
+	m_pIntersectionTester = new GlobalIntersectionTester;
+	m_pIntersectionTester->SetQuota(6);
+
 #ifdef GAME_DEBUG_MEM
 	DumpMemInfo("CGame::Init end");
 #endif
@@ -322,7 +332,16 @@ int CGame::Update(bool haveFocus, unsigned int updateFlags)
 
 	float frameTime = gEnv->pTimer->GetFrameTime();
 
-	m_pRayCaster->Update(frameTime);
+	if(m_pRayCaster)
+		m_pRayCaster->Update(frameTime);
+
+	if (m_pIntersectionTester)
+	{
+			FRAME_PROFILER("GlobalIntersectionTester", gEnv->pSystem, PROFILE_AI);
+
+			m_pIntersectionTester->SetQuota(6);
+			m_pIntersectionTester->Update(frameTime);
+	}
 	
 	m_pFramework->PostUpdate( true, updateFlags );
 
@@ -596,6 +615,33 @@ const char* CGame::GetMappedLevelName(const char *levelName) const
 { 
 	TLevelMapMap::const_iterator iter = m_mapNames.find(CONST_TEMP_STRING(levelName));
 	return (iter == m_mapNames.end()) ? levelName : iter->second.c_str();
+}
+
+void CGame::OnSystemEvent( ESystemEvent event, UINT_PTR wparam, UINT_PTR lparam )
+{
+		switch (event)
+		{
+		case ESYSTEM_EVENT_LEVEL_LOAD_START:
+				{
+						if (!m_pRayCaster)
+						{
+								m_pRayCaster = new GlobalRayCaster;
+								m_pRayCaster->SetQuota(6);
+						}
+						if (!m_pIntersectionTester)
+						{
+								m_pIntersectionTester = new GlobalIntersectionTester;
+								m_pIntersectionTester->SetQuota(6);
+						}
+				}
+				break;
+		case ESYSTEM_EVENT_LEVEL_UNLOAD:
+				{
+						SAFE_DELETE(m_pRayCaster);
+						SAFE_DELETE(m_pIntersectionTester);
+				}
+				break;
+		}
 }
 
 #include UNIQUE_VIRTUAL_WRAPPER(IGame)

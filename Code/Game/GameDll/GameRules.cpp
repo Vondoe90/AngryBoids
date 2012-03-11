@@ -26,7 +26,7 @@ void CGameRules::OnGamemodeChanged(const char *newMode)
 		if(m_scriptId != 0)
 			pScriptSystem->RemoveScriptInstance(m_scriptId);
 
-		m_scriptId = pScriptSystem->InstantiateScript(EMonoScriptType_GameRules, newMode);
+		m_scriptId = pScriptSystem->InstantiateScript(newMode);
 	}
 }
 
