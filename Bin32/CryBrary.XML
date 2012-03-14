@@ -636,6 +636,11 @@
             <param name="skipEntities"></param>
             <returns>The total amount of hits detected (solid and pierceable)</returns>
         </member>
+        <member name="P:CryEngine.RaycastHit.ColliderId">
+            <summary>
+            PhysicalEntityId, not yet implemented.
+            </summary>
+        </member>
         <member name="F:CryEngine.RayWorldIntersectionFlags.SeperateImportantHits">
             <summary>
             among pierceble hits, materials with sf_important will have priority
