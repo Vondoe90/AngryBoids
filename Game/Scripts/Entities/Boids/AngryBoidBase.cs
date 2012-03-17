@@ -3,6 +3,7 @@ using CryGameCode.Entities;
 
 namespace CryGameCode.AngryBoids
 {
+	[ExcludeFromCompilation]
 	public abstract class AngryBoid : Rigidbody
 	{
 		protected BoidState state = BoidState.Ready;
