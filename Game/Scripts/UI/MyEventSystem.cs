@@ -2,7 +2,7 @@
 
 namespace CryGameCode.BoidUIEvents
 {
-	[UIEvent(Name = "OnBoidLaunched", Description = "Triggered when a boid is shot", Category = "BoidEvents")]
+	[UINode(Name = "OnBoidLaunched", Description = "Triggered when a boid is shot", Category = "BoidEvents")]
 	public class OnBoidLaunched
 	{
 		[Port(Name = "BoidName", Description = "Name of the launched boid")]
@@ -12,13 +12,13 @@ namespace CryGameCode.BoidUIEvents
 		public OutputPort<int> boidsLeft;
 	}
 
-	[UIEvent(Name = "SetDifficulty", Description = "Sets Angry Boids difficulty level", Category = "BoidEvents")]
-	public class SetDifficulty
+	[UINode(Name = "SetDifficulty", Description = "Sets Angry Boids difficulty level", Category = "BoidEvents")]
+	public class SetDifficulty : UIFunction
 	{
 		[Port(Name = "DifficultyLevel", Description = "The difficulty level we want to set!")]
-		public void SetDifficultyLevel(string level)
-		{
-			// Do whatever logic is required to change the diff level.
-		}
+		public string DifficultyLevel { get; set; }
+
+		[Port(Name = "RequireRestart", Description = "Should difficulty be changed immediately or wait until next round")]
+		public bool RequireRestart { get; set; }
 	}
 }
