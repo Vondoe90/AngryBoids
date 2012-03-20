@@ -1,7 +1,6 @@
-﻿using CryEngine;
-using CryEngine.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using CryEngine;
 
 namespace CryGameCode.AngryBoids
 {
@@ -21,7 +20,7 @@ namespace CryGameCode.AngryBoids
 		{
 			if(enteringGame)
 			{
-				var boids = EntitySystem.GetEntities<TheBoringOne>();
+				var boids = Entity.GetEntities<TheBoringOne>();
 
 				if(boids == null || boids.Count() < 1)
 				{

@@ -9,7 +9,7 @@ namespace CryGameCode.AngryBoids
 	{
 		public void Init()
 		{
-			ViewSystem.ActiveView.FieldOfView = Math.DegreesToRadians(60);
+			View.ActiveView.FieldOfView = Math.DegreesToRadians(60);
 		}
 	}
 }
