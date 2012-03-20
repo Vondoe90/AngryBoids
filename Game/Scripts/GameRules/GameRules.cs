@@ -55,17 +55,12 @@ namespace CryEngine
 
 		public static T GetLocalPlayer<T>() where T : Actor
 		{
-			ActorSystem.RemoveActor(channelId);
-		}
-
-		public static T GetLocalPlayer<T>() where T : BasePlayer
-		{
 			return GetPlayer<T>(_GetPlayer());
 		}
 
 		public static Actor GetPlayer(EntityId playerId)
 		{
-			return Entity.GetEntity(playerId) as BasePlayer;
+			return Entity.GetEntity(playerId) as Actor;
 		}
 
 		public static T GetPlayer<T>(EntityId playerId) where T : Actor
