@@ -60,7 +60,7 @@ namespace CryEngine
 
 		public static Actor GetPlayer(EntityId playerId)
 		{
-			return Entity.GetEntity(playerId) as Actor;
+			return Entity.Get(playerId) as Actor;
 		}
 
 		public static T GetPlayer<T>(EntityId playerId) where T : Actor
