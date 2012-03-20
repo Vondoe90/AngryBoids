@@ -12,12 +12,14 @@ namespace CryGameCode
 		//This is called, contrary to what you'd expect, just once, as the player persists between test sessions in the editor (ctrl+g)
 		public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
 		{
-			GameRules.SpawnPlayer<CameraProxy>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
+			var player = GameRules.SpawnPlayer<CameraProxy>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
+			if(player == null)
+				Debug.LogAlways("[SinglePlayer.OnClientConnect] Failed to spawn the player. Check the log for errors.");
 		}
 
 		public override void OnClientDisconnect(int channelId)
 		{
-			GameRules.RemovePlayer(channelId);
+			Actor.Remove(channelId);
 		}
 
 		public override void OnRevive(EntityId actorId, Vec3 pos, Vec3 rot, int teamId)
