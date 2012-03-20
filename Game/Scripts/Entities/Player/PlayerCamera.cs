@@ -5,11 +5,11 @@ namespace CryGameCode.AngryBoids
 	/// <summary>
 	/// HAX LIKE YOU'VE NEVER HAXED BEFORE
 	/// </summary>
-	public class CameraProxy : BasePlayer
+	public class CameraProxy : Actor
 	{
 		public void Init()
 		{
-			ViewSystem.ActiveView.FieldOfView = Math.DegreesToRadians(60);
+			View.ActiveView.FieldOfView = Math.DegreesToRadians(60);
 		}
 	}
 }
