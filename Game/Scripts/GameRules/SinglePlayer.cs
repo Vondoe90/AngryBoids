@@ -24,7 +24,7 @@ namespace CryGameCode
 
 		public override void OnRevive(EntityId actorId, Vec3 pos, Vec3 rot, int teamId)
 		{
-			var cameraProxy = GameRules.GetPlayer(actorId) as CameraProxy;
+			var cameraProxy = Actor.Get(actorId) as CameraProxy;
 
 			if(cameraProxy == null)
 			{

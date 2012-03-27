@@ -13,8 +13,6 @@ namespace CryEngine
 		extern internal static EntityId _RevivePlayer(EntityId playerId, Vec3 pos, Vec3 rot, int teamId, bool clearInventory);
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
 		extern internal static EntityId _SpawnPlayer(int channelId, string name, string className, Vec3 pos, Vec3 angles);
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		extern internal static EntityId _GetPlayer();
 
 		public static void RevivePlayer(EntityId playerId, Vec3 pos, Vec3 rot, int teamId = 0, bool clearInventory = true)
 		{
@@ -51,21 +49,6 @@ namespace CryEngine
 			player.InternalSpawn(entityId, channelId);
 
 			return player;
-		}
-
-		public static T GetLocalPlayer<T>() where T : Actor
-		{
-			return GetPlayer<T>(_GetPlayer());
-		}
-
-		public static Actor GetPlayer(EntityId playerId)
-		{
-			return Entity.Get(playerId) as Actor;
-		}
-
-		public static T GetPlayer<T>(EntityId playerId) where T : Actor
-		{
-			return GetPlayer(playerId) as T;
 		}
 	}
 }

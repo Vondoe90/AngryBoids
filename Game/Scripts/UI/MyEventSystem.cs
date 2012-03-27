@@ -15,6 +15,10 @@ namespace CryGameCode.BoidUIEvents
 	[UINode(Name = "SetDifficulty", Description = "Sets Angry Boids difficulty level", Category = "BoidEvents")]
 	public class SetDifficulty : UIFunction
 	{
+		public void OnEvent()
+		{
+		}
+
 		[Port(Name = "DifficultyLevel", Description = "The difficulty level we want to set!")]
 		public string DifficultyLevel { get; set; }
 
