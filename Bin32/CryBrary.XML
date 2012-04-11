@@ -4,11 +4,6 @@
         <name>CryBrary</name>
     </assembly>
     <members>
-        <member name="T:CryEngine.ActorSystem">
-            <summary>
-            Used internally by this assembly for the Player base class.
-            </summary>
-        </member>
         <member name="T:CryEngine.CryScriptInstance">
             <summary>
             This interface permits derived classes to be used for script compilation recognition.
@@ -17,11 +12,6 @@
         <member name="M:CryEngine.CryScriptInstance.OnUpdate">
             <summary>
             Called each frame if script has been set to be regularly updated (See Updated property)
-            </summary>
-        </member>
-        <member name="M:CryEngine.CryScriptInstance.OnPostScriptReload">
-            <summary>
-            Invoked following a successful script reload
             </summary>
         </member>
         <member name="P:CryEngine.CryScriptInstance.ReceiveUpdates">
@@ -165,7 +155,7 @@
             Gets the first instance of a given attribute on the selected member.
             </summary>
             <typeparam name="T">The attribute to search for.</typeparam>
-            <param name="info">The member on which the search is performed.</param>
+            <param name="memberInfo">The member on which the search is performed.</param>
             <returns>The first instance of attribute T, or null if none is found.</returns>
         </member>
         <member name="M:CryEngine.Extensions.ReflectionExtensions.GetAttribute``1(System.Reflection.MethodInfo)">
@@ -173,7 +163,7 @@
             Gets the first instance of a given attribute on the selected method.
             </summary>
             <typeparam name="T">The attribute to search for.</typeparam>
-            <param name="info">The method on which the search is performed.</param>
+            <param name="methodInfo">The method on which the search is performed.</param>
             <returns>The first instance of attribute T, or null if none is found.</returns>
         </member>
         <member name="M:CryEngine.Extensions.ReflectionExtensions.TryGetAttribute``1(System.Reflection.MethodInfo,``0@)">
@@ -181,7 +171,7 @@
             Tests whether the method is decorated with a given attribute, and if so, assigns it via the out variable.
             </summary>
             <typeparam name="T">The attribute to search for.</typeparam>
-            <param name="info">The method on which the search is performed.</param>
+            <param name="method">The method on which the search is performed.</param>
             <param name="attribute">The out parameter to which the attribute will be assigned.</param>
             <returns>True if the attribute exists.</returns>
         </member>
@@ -190,7 +180,7 @@
             Tests whether the member is decorated with a given attribute, and if so, assigns it via the out variable.
             </summary>
             <typeparam name="T">The attribute to search for.</typeparam>
-            <param name="info">The member on which the search is performed.</param>
+            <param name="member">The member on which the search is performed.</param>
             <param name="attribute">The out parameter to which the attribute will be assigned.</param>
             <returns>True if the attribute exists.</returns>
         </member>
@@ -237,33 +227,12 @@
             Outputs a warning message
             </summary>
         </member>
-        <member name="M:CryEngine.Console.RegisterCVar``1(System.String,``0,CryEngine.CVarFlags,System.String)">
+        <member name="T:CryEngine.Entity">
             <summary>
-            Invoked by a CVar after its creation. Should <b>not</b> be visible outside this assembly.
+            The base class for all entities in the game world.
             </summary>
         </member>
-        <member name="M:CryEngine.Console.GetCVar(System.String)">
-            <summary>
-            Gets a CVar by name
-            </summary>
-            <param name="name">The name of the CVar to retrieve</param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.Console.TryGetCVar(System.String,CryEngine.CVar@)">
-            <summary>
-            Firstly checks whether a specified CVar is valid, then if so, modifies the cvar reference
-            </summary>
-            <param name="name">The name of the CVar to retrieve</param>
-            <param name="cvar">The CVar object to modify (usually blank)</param>
-            <returns>True if the CVar exists, otherwise false</returns>
-        </member>
-        <member name="M:CryEngine.Console.OnMonoCmd(System.String)">
-            <summary>
-            Called from C++ when a console command registered via Mono is invoked.
-            </summary>
-            <param name="cmdName"></param>
-        </member>
-        <member name="M:CryEngine.EntitySystem._SpawnEntity(CryEngine.EntitySpawnParams,System.Boolean)">
+        <member name="M:CryEngine.Entity._SpawnEntity(CryEngine.EntitySpawnParams,System.Boolean)">
             <summary>
             Spawns an entity with the specified parameters.
             </summary>
@@ -271,14 +240,14 @@
             <param name="autoInit">Should the entity automatically be initialised?</param>
             <returns></returns>
         </member>
-        <member name="M:CryEngine.EntitySystem.RegisterEntityClass(CryEngine.EntityConfig)">
+        <member name="M:CryEngine.Entity.RegisterEntityClass(CryEngine.EntityConfig)">
             <summary>
             Register a new entity type.
             </summary>
             <param name="config">The Entity configuration.</param>
             <returns>True if registration succeeded, otherwise false.</returns>
         </member>
-        <member name="M:CryEngine.EntitySystem.SpawnEntity``1(System.String,CryEngine.Vec3,System.Nullable{CryEngine.Vec3},System.Nullable{CryEngine.Vec3},System.Boolean,CryEngine.EntityFlags)">
+        <member name="M:CryEngine.Entity.Spawn``1(System.String,CryEngine.Vec3,System.Nullable{CryEngine.Vec3},System.Nullable{CryEngine.Vec3},System.Boolean,CryEngine.EntityFlags)">
             <summary>
             Spawn a new instance of entity type T.
             </summary>
@@ -290,7 +259,7 @@
             <param name="autoInit"></param>
             <returns></returns>
         </member>
-        <member name="M:CryEngine.EntitySystem.GetEntity(CryEngine.EntityId)">
+        <member name="M:CryEngine.Entity.Get(CryEngine.EntityId)">
             <summary>
             Get an entity by its unique ID.
             </summary>
@@ -299,7 +268,7 @@
             <remarks>If the entity does not exist in the managed space, this function will attempt to find
             a C++ entity with the specified ID></remarks>
         </member>
-        <member name="M:CryEngine.EntitySystem.GetEntity(System.String)">
+        <member name="M:CryEngine.Entity.Find(System.String)">
             <summary>
             Get an entity by name.
             </summary>
@@ -308,25 +277,115 @@
             <remarks>If multiple entities have the same name, it will return the first found.
             Consider using IDs where necessary.</remarks>
         </member>
-        <member name="M:CryEngine.EntitySystem.GetEntities(System.String)">
+        <member name="M:CryEngine.Entity.GetEntities(System.String)">
             <summary>
             Gets an array of entities that are of a given class.
             </summary>
             <param name="className">The entity class to search for.</param>
             <returns>An array of entities.</returns>
         </member>
-        <member name="M:CryEngine.EntitySystem.GetEntities``1">
+        <member name="M:CryEngine.Entity.GetEntities``1">
             <summary>
             Gets an array of entities that are of a given class.
             </summary>
             <typeparam name="T">The entity class to search for.</typeparam>
             <returns>An array of entities of type T.</returns>
         </member>
-        <member name="F:CryEngine.EntitySystem.SpawnedEntities">
+        <member name="F:CryEngine.Entity.SpawnedEntities">
             <summary>
             Contains entities spawned using EntitySystem.SpawnEntity.
             Necessary to update scripts.
             </summary>
+        </member>
+        <member name="M:CryEngine.Entity._LoadCharacter(System.UInt32,System.String,System.Int32)">
+            <summary>
+            Loads an non-static model on the object (.chr, .cdf, .cga)
+            </summary>
+            <param name="entityId"></param>
+            <param name="fileName"></param>
+            <param name="slot"></param>
+        </member>
+        <member name="M:CryEngine.Entity.InternalSpawn(CryEngine.EntityId)">
+            <summary>
+            Initializes the entity, not recommended to set manually.
+            </summary>
+            <param name="entityId"></param>
+            <returns>IsEntityFlowNode</returns>
+        </member>
+        <member name="M:CryEngine.Entity.IsEntityFlowNode">
+            <summary>
+            Returns true if this entity contains input or output ports.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.Entity.OnSpawn">
+            <summary>
+            This callback is called when this entity has finished spawning. The entity has been created and added to the list of entities.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Entity.OnRemove">
+            <summary>
+            Called when the entity is being removed.
+            </summary>
+            <returns>True to allow removal, false to deny.</returns>
+        </member>
+        <member name="M:CryEngine.Entity.OnReset(System.Boolean)">
+            <summary>
+            Called when resetting the state of the entity in Editor.
+            </summary>
+            <param name="enteringGame">true if currently entering gamemode, false if exiting.</param>
+        </member>
+        <member name="M:CryEngine.Entity.OnStartGame">
+            <summary>
+            Called when game is started (games may start multiple times)
+            </summary>
+        </member>
+        <member name="M:CryEngine.Entity.OnStartLevel">
+            <summary>
+            Called when the level is started.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Entity.OnEnterArea(CryEngine.EntityId,CryEngine.EntityId)">
+            <summary>
+            Sent when triggering entity enters to the area proximity.
+            </summary>
+            <param name="triggerEntityId"></param>
+            <param name="areaEntityId"></param>
+        </member>
+        <member name="M:CryEngine.Entity.OnLeaveArea(CryEngine.EntityId,CryEngine.EntityId)">
+            <summary>
+            Sent when triggering entity leaves the area proximity.
+            </summary>
+            <param name="triggerEntityId"></param>
+            <param name="areaEntityId"></param>
+        </member>
+        <member name="M:CryEngine.Entity.OnCollision(CryEngine.EntityId,CryEngine.Vec3,CryEngine.Vec3,System.Int16,CryEngine.Vec3)">
+            <summary>
+            Sent on entity collision.
+            </summary>
+            <param name="targetEntityId"></param>
+            <param name="hitPos"></param>
+            <param name="dir"></param>
+            <param name="materialId"></param>
+            <param name="contactNormal"></param>
+        </member>
+        <member name="M:CryEngine.Entity.OnHit(CryEngine.HitInfo)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:CryEngine.Entity.storedProperties">
+            <summary>
+            Temporarily stored so we can set them properly on spawn.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Entity.LoadObject(System.String,System.Int32)">
+            <summary>
+            Loads a mesh for this entity. Can optionally load multiple meshes using entity slots.
+            </summary>
+            <param name="name"></param>
+            <param name="slotNumber"></param>
+            <returns></returns>
         </member>
         <member name="T:CryEngine.EntityFlags">
             <summary>
@@ -385,184 +444,82 @@
             The height of the screen in pixels.
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.position">
+        <member name="P:CryEngine.ViewParams.Position">
             <summary>
             view position
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.rotation">
+        <member name="P:CryEngine.ViewParams.Rotation">
             <summary>
             view orientation
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.nearplane">
+        <member name="P:CryEngine.ViewParams.Nearplane">
             <summary>
             custom near clipping plane, 0 means use engine defaults
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.groundOnly">
+        <member name="P:CryEngine.ViewParams.GroundOnly">
             <summary>
             view shake status
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.shakingRatio">
+        <member name="P:CryEngine.ViewParams.ShakingRatio">
             <summary>
             whats the amount of shake, from 0.0 to 1.0
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.currentShakeQuat">
+        <member name="P:CryEngine.ViewParams.CurrentShakeQuat">
             <summary>
             what the current angular shake
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.currentShakeShift">
+        <member name="P:CryEngine.ViewParams.CurrentShakeShift">
             <summary>
             what is the current translational shake
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.idTarget">
+        <member name="P:CryEngine.ViewParams.TargetId">
             <summary>
             Who we're watching. 0 == nobody.
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.targetPos">
+        <member name="P:CryEngine.ViewParams.TargetPosition">
             <summary>
             Where the target was.
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.frameTime">
+        <member name="P:CryEngine.ViewParams.FrameTime">
             <summary>
             current dt.
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.angleVel">
+        <member name="P:CryEngine.ViewParams.AngleVelocity">
             <summary>
             previous rate of change of angle.
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.vel">
+        <member name="P:CryEngine.ViewParams.Velocity">
             <summary>
             previous rate of change of dist between target and camera.
             </summary>
         </member>
-        <member name="F:CryEngine.ViewParams.dist">
+        <member name="P:CryEngine.ViewParams.Distance">
             <summary>
             previous dist of cam from target
             </summary>
         </member>
-        <member name="T:CryEngine.Entity">
+        <member name="T:CryEngine.Actor">
             <summary>
+            WIP Player class.
             </summary>
         </member>
-        <member name="T:CryEngine.StaticEntity">
+        <member name="M:CryEngine.Actor.InternalSpawn(CryEngine.EntityId,System.Int32)">
             <summary>
-            Static entities must inherit this in order to be registered.
-            It is no longer an interface, due to basic functionality each entity <b>must</b> have.
-            </summary>
-        </member>
-        <member name="M:CryEngine.StaticEntity._LoadObject(System.UInt32,System.String,System.Int32)">
-            <summary>
-            Loads a static model on the object (.cgf).
+            Initializes the player.
             </summary>
             <param name="entityId"></param>
-            <param name="fileName"></param>
-            <param name="slot"></param>
-        </member>
-        <member name="M:CryEngine.StaticEntity._LoadCharacter(System.UInt32,System.String,System.Int32)">
-            <summary>
-            Loads an non-static model on the object (.chr, .cdf, .cga)
-            </summary>
-            <param name="entityId"></param>
-            <param name="fileName"></param>
-            <param name="slot"></param>
-        </member>
-        <member name="M:CryEngine.StaticEntity.InternalSpawn(CryEngine.EntityId)">
-            <summary>
-            Initializes the entity, not recommended to set manually.
-            </summary>
-            <param name="entityId"></param>
-            <returns>IsEntityFlowNode</returns>
-        </member>
-        <member name="M:CryEngine.StaticEntity.IsEntityFlowNode">
-            <summary>
-            Returns true if this entity contains input or output ports.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.StaticEntity.OnSpawn">
-            <summary>
-            This callback is called when this entity has finished spawning. The entity has been created and added to the list of entities.
-            </summary>
-        </member>
-        <member name="M:CryEngine.StaticEntity.OnRemove">
-            <summary>
-            Called when the entity is being removed.
-            </summary>
-            <returns>True to allow removal, false to deny.</returns>
-        </member>
-        <member name="M:CryEngine.StaticEntity.OnReset(System.Boolean)">
-            <summary>
-            Called when resetting the state of the entity in Editor.
-            </summary>
-            <param name="enteringGame">true if currently entering gamemode, false if exiting.</param>
-        </member>
-        <member name="M:CryEngine.StaticEntity.OnStartGame">
-            <summary>
-            Called when game is started (games may start multiple times)
-            </summary>
-        </member>
-        <member name="M:CryEngine.StaticEntity.OnStartLevel">
-            <summary>
-            Called when the level is started.
-            </summary>
-        </member>
-        <member name="M:CryEngine.StaticEntity.OnEnterArea(CryEngine.EntityId,CryEngine.EntityId)">
-            <summary>
-            Sent when triggering entity enters to the area proximity.
-            </summary>
-            <param name="triggerEntityId"></param>
-            <param name="areaEntityId"></param>
-        </member>
-        <member name="M:CryEngine.StaticEntity.OnLeaveArea(CryEngine.EntityId,CryEngine.EntityId)">
-            <summary>
-            Sent when triggering entity leaves the area proximity.
-            </summary>
-            <param name="triggerEntityId"></param>
-            <param name="areaEntityId"></param>
-        </member>
-        <member name="M:CryEngine.StaticEntity.OnCollision(CryEngine.EntityId,CryEngine.Vec3,CryEngine.Vec3,System.Int16,CryEngine.Vec3)">
-            <summary>
-            Sent on entity collision.
-            </summary>
-            <param name="targetEntityId"></param>
-            <param name="hitPos"></param>
-            <param name="dir"></param>
-            <param name="materialId"></param>
-            <param name="contactNormal"></param>
-        </member>
-        <member name="M:CryEngine.StaticEntity.OnHit(CryEngine.HitInfo)">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:CryEngine.StaticEntity.storedProperties">
-            <summary>
-            Temporarily stored so we can set them properly on spawn.
-            </summary>
-        </member>
-        <member name="M:CryEngine.StaticEntity.LoadObject(System.String,System.Int32)">
-            <summary>
-            Loads a mesh for this entity. Can optionally load multiple meshes using entity slots.
-            </summary>
-            <param name="name"></param>
-            <param name="slotNumber"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.Entity.InternalSpawn(CryEngine.EntityId)">
-            <summary>
-            Initializes the entity, not recommended to set manually.
-            </summary>
-            <param name="entityId"></param>
+            <param name="channelId"></param>
         </member>
         <member name="T:CryEngine.Color">
             <summary>
@@ -573,18 +530,18 @@
             <summary>
             Constructs a new colour object specifying the red, green, blue and alpha values.
             </summary>
-            <param name="r"></param>
-            <param name="g"></param>
-            <param name="b"></param>
+            <param name="red"></param>
+            <param name="green"></param>
+            <param name="blue"></param>
             <param name="alpha"></param>
         </member>
         <member name="M:CryEngine.Color.#ctor(System.Single,System.Single,System.Single)">
             <summary>
             Constructs a new colour object specifying the red, green, and blue values.
             </summary>
-            <param name="r"></param>
-            <param name="g"></param>
-            <param name="b"></param>
+            <param name="red"></param>
+            <param name="green"></param>
+            <param name="blue"></param>
         </member>
         <member name="M:CryEngine.Color.#ctor(System.Single)">
             <summary>
@@ -622,7 +579,7 @@
             The main port used for serial communication.
             </summary>
         </member>
-        <member name="M:CryEngine.PhysicalWorld.RayWorldIntersection(CryEngine.Vec3,CryEngine.Vec3,CryEngine.EntityQueryFlags,CryEngine.RayWorldIntersectionFlags,CryEngine.RaycastHit@,System.Int32,CryEngine.EntityId[])">
+        <member name="M:CryEngine.PhysicalWorld.RayWorldIntersection(CryEngine.Vec3,CryEngine.Vec3,CryEngine.RaycastHit@,CryEngine.EntityQueryFlags,CryEngine.RayWorldIntersectionFlags,System.Int32,CryEngine.EntityId[])">
             <summary>
             Steps through the entity grid and raytraces entities
             traces a finite ray from org along dir
@@ -774,7 +731,7 @@
             </summary>
             <param name="ray">The ray to test.</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersected.</returns>
         </member>
         <member name="M:CryEngine.Ray.Intersects(CryEngine.Plane@)">
@@ -799,7 +756,7 @@
             </summary>
             <param name="plane">The plane to test.</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersected.</returns>
         </member>
         <member name="M:CryEngine.Ray.Intersects(CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
@@ -830,7 +787,7 @@
             <param name="vertex2">The second vertex of the triangle to test.</param>
             <param name="vertex3">The third vertex of the triangle to test.</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersected.</returns>
         </member>
         <member name="M:CryEngine.Ray.Intersects(CryEngine.BoundingBox@)">
@@ -855,7 +812,7 @@
             </summary>
             <param name="box">The box to test.</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersected.</returns>
         </member>
         <member name="M:CryEngine.Ray.Intersects(CryEngine.BoundingSphere@)">
@@ -880,7 +837,7 @@
             </summary>
             <param name="sphere">The sphere to test.</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersected.</returns>
         </member>
         <member name="M:CryEngine.Ray.op_Equality(CryEngine.Ray,CryEngine.Ray)">
@@ -966,10 +923,36 @@
             If this attribute is attached to a class, it will be excluded from compilation.
             </summary>
         </member>
-        <member name="T:CryEngine.DefaultGamemodeAttribute">
+        <member name="M:CryEngine.View.Create">
             <summary>
-            Using this in a class will make it be used as the default game mode.
+            Creates a new, empty view.
             </summary>
+        </member>
+        <member name="M:CryEngine.View.Remove(CryEngine.View)">
+            <summary>
+            Removes an existing view.
+            </summary>
+            <param name="view"></param>
+        </member>
+        <member name="M:CryEngine.CVar.Register``1(System.String,``0,System.String,CryEngine.CVarFlags)">
+            <summary>
+            Invoked by a CVar after its creation. Should <b>not</b> be visible outside this assembly.
+            </summary>
+        </member>
+        <member name="M:CryEngine.CVar.Get(System.String)">
+            <summary>
+            Gets a CVar by name
+            </summary>
+            <param name="name">The name of the CVar to retrieve</param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.CVar.TryGet(System.String,CryEngine.CVar@)">
+            <summary>
+            Firstly checks whether a specified CVar is valid, then if so, modifies the cvar reference
+            </summary>
+            <param name="name">The name of the CVar to retrieve</param>
+            <param name="cvar">The CVar object to modify (usually blank)</param>
+            <returns>True if the CVar exists, otherwise false</returns>
         </member>
         <member name="M:CryEngine.CVar.#ctor(System.String,System.Object,CryEngine.CVarFlags,System.String)">
             <summary>
@@ -1086,6 +1069,11 @@
             <param name="isClient"></param>
             <param name="isServer"></param>
         </member>
+        <member name="T:CryEngine.Lua.ScriptTable">
+            <summary>
+            Represents a Lua ScriptTable.
+            </summary>
+        </member>
         <member name="T:CryEngine.BoundingBox">
             <summary>
             Represents an axis-aligned bounding box in three dimensional space.
@@ -1136,7 +1124,7 @@
             </summary>
             <param name="ray">The ray to test.</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersected.</returns>
         </member>
         <member name="M:CryEngine.BoundingBox.Intersects(CryEngine.Plane@)">
@@ -1333,21 +1321,24 @@
             <param name="constructorParams"></param>
             <returns>New instance scriptId or -1 if instantiation failed.</returns>
         </member>
+        <member name="M:CryEngine.ScriptCompiler.AddScriptInstance(CryEngine.CryScriptInstance)">
+            <summary>
+            Adds an script instance to the script collection and returns its new id.
+            </summary>
+            <param name="instance"></param>
+        </member>
         <member name="M:CryEngine.ScriptCompiler.AddScriptInstance(CryEngine.CryScriptInstance,System.Int32)">
             <summary>
             Adds an script instance to the script collection and returns its new id.
             </summary>
             <param name="instance"></param>
-            <param name="compiledScriptsIndex">Index of the CryScript object residing in ScriptCompiler.CompiledScripts</param>
+            <param name="scriptIndex">Index of the CryScript object residing in ScriptCompiler.CompiledScripts</param>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.RemoveInstance(System.Int32,System.String)">
+        <member name="M:CryEngine.ScriptCompiler.RemoveInstance(System.Int32,System.Type)">
             <summary>
             Locates and destructs the script with the assigned scriptId.
-            
-            Warning: Not supplying the scriptName will make the method execute slower.
             </summary>
             <param name="scriptId"></param>
-            <param name="scriptName"></param>
         </member>
         <member name="F:CryEngine.ScriptCompiler.InvalidScriptInstance">
             <summary>
@@ -1368,15 +1359,26 @@
             <summary>
             Compiles the scripts and compiles them into an assembly.
             </summary>
-            <param name="compilationParams"></param>
+            <param name="compilationParameters"></param>
             <returns></returns>
             <exception cref="T:System.IO.DirectoryNotFoundException">Thrown when one or more script folders could not be located.</exception>
             <exception cref="T:System.ArgumentNullException">Thrown if the compiled assembly could not be loaded.</exception>
             <exception cref="T:CryEngine.ScriptCompilationException">Thrown if one or more compilation errors occur.</exception>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.LoadAssembly(System.Reflection.Assembly)">
+        <member name="M:CryEngine.ScriptCompiler.LoadAssembly(System.Reflection.Assembly,CryEngine.ScriptType[])">
             <summary>
             Loads an C# assembly and adds all found types to ScriptCompiler.CompiledScripts
+            </summary>
+        </member>
+        <member name="M:CryEngine.ScriptCompiler.ProcessType(System.Type)">
+            <summary>
+            Processes a type and adds all found types to ScriptCompiler.CompiledScripts
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="F:CryEngine.ScriptCompiler.LastScriptId">
+            <summary>
+            Last assigned ScriptId, next = + 1
             </summary>
         </member>
         <member name="P:CryEngine.ScriptCompiler.CompilationParameters.Folders">
@@ -1384,9 +1386,20 @@
             The folders from which scripts should be compiled from.
             </summary>
         </member>
+        <member name="P:CryEngine.ScriptCompiler.CompilationParameters.ScriptTypes">
+            <summary>
+            Determines what types of scripts should be compiled.
+            Accepts all scripts by default.
+            </summary>
+        </member>
         <member name="P:CryEngine.ScriptCompiler.CompilationParameters.ForceDebugInformation">
             <summary>
             Forces generation of debug information, even in release mode.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ScriptType.Unknown">
+            <summary>
+            Scripts will be linked to this type if they inherit from CryScriptInstance, but not any other script base.
             </summary>
         </member>
         <member name="F:CryEngine.ScriptType.GameRules">
@@ -1399,11 +1412,6 @@
             Scripts directly inheriting from FlowNode will utilize this script type.
             </summary>
         </member>
-        <member name="F:CryEngine.ScriptType.StaticEntity">
-            <summary>
-            Scripts directly inheriting from StaticEntity will utilize this script type.
-            </summary>
-        </member>
         <member name="F:CryEngine.ScriptType.Entity">
             <summary>
             Scripts directly inheriting from Entity will utilize this script type.
@@ -1414,19 +1422,22 @@
             Scripts directly inheriting from Actor will utilize this script type.
             </summary>
         </member>
-        <member name="F:CryEngine.ScriptType.EditorForm">
+        <member name="F:CryEngine.ScriptType.UIEvent">
             <summary>
-            
             </summary>
         </member>
-        <member name="F:CryEngine.ScriptType.Unknown">
+        <member name="F:CryEngine.ScriptType.EditorForm">
             <summary>
-            Scripts will be linked to this type if they inherit from CryScriptInstance, but not any other script base.
             </summary>
         </member>
         <member name="T:CryEngine.CryScript">
             <summary>
             Represents a given class.
+            </summary>
+        </member>
+        <member name="P:CryEngine.CryScript.ScriptName">
+            <summary>
+            The script's name, not always type name!
             </summary>
         </member>
         <member name="P:CryEngine.CryScript.ScriptInstances">
@@ -1494,7 +1505,6 @@
         <member name="T:CryEngine.Engine">
             <summary>
             Provides an direct interface to the 3DEngine.
-            Mildly WIP.
             </summary>
         </member>
         <member name="T:CryEngine.EntityId">
@@ -1502,22 +1512,22 @@
             Entity ID's store references to game entities as unsigned integers. This class wraps that functionality for CLS compliance.
             </summary>
         </member>
-        <member name="T:CryEngine.Utils.CryStats">
+        <member name="T:CryEngine.Utilities.CryStats">
             <summary>
             CryStats enables tracking of commonly used library statistics such as memory usage.
             </summary>
         </member>
-        <member name="P:CryEngine.Utils.CryStats.MemoryUsageMB">
+        <member name="P:CryEngine.Utilities.CryStats.MemoryUsageMB">
             <summary>
             The current approximate memory usage in megabytes.
             </summary>
         </member>
-        <member name="P:CryEngine.Utils.CryStats.MemoryUsageKB">
+        <member name="P:CryEngine.Utilities.CryStats.MemoryUsageKB">
             <summary>
             The current approximate memory usage in kilobytes.
             </summary>
         </member>
-        <member name="P:CryEngine.Utils.CryStats.MemoryUsage">
+        <member name="P:CryEngine.Utilities.CryStats.MemoryUsage">
             <summary>
             The current approximate memory usage in bytes.
             </summary>
@@ -1527,6 +1537,16 @@
             This is the base GameRules interface. All game rules must implement this.
             </summary>
             <remarks>For most use cases, deriving from CryGameCode's BaseGameRules is a more efficient solution.</remarks>
+        </member>
+        <member name="P:CryEngine.GameRulesAttribute.Name">
+            <summary>
+            Sets the game mode's name. Uses the class name if not set.
+            </summary>
+        </member>
+        <member name="P:CryEngine.GameRulesAttribute.Default">
+            <summary>
+            If set to true, the game mode will be set as default.
+            </summary>
         </member>
         <member name="F:CryEngine.DisconnectionCause.Timeout">
             <summary>
@@ -1648,97 +1668,97 @@
             Unknown cause
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.shooterId">
+        <member name="P:CryEngine.HitInfo.ShooterId">
             <summary>
             EntityId of the shooter
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.targetId">
+        <member name="P:CryEngine.HitInfo.TargetId">
             <summary>
             EntityId of the target which got shot
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.weaponId">
+        <member name="P:CryEngine.HitInfo.WeaponId">
             <summary>
             EntityId of the weapon
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.projectileId">
+        <member name="P:CryEngine.HitInfo.ProjectileId">
             <summary>
             0 if hit was not caused by a projectile
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.damage">
+        <member name="P:CryEngine.HitInfo.Damage">
             <summary>
             damage count of the hit
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.angle">
+        <member name="P:CryEngine.HitInfo.Radius">
             <summary>
             radius of the hit
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.material">
+        <member name="P:CryEngine.HitInfo.MaterialId">
             <summary>
             material id of the surface which got hit
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.type">
+        <member name="P:CryEngine.HitInfo.TypeId">
             <summary>
             type id of the hit, see IGameRules::GetHitTypeId for more information
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.bulletType">
+        <member name="P:CryEngine.HitInfo.BulletType">
             <summary>
             type of bullet, if hit was of type bullet
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.pierce">
+        <member name="P:CryEngine.HitInfo.Pierceability">
             <summary>
             bullet pierceability
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.pos">
+        <member name="P:CryEngine.HitInfo.Position">
             <summary>
             position of the hit
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.dir">
+        <member name="P:CryEngine.HitInfo.Direction">
             <summary>
             direction of the hit
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.aimed">
+        <member name="P:CryEngine.HitInfo.Aimed">
             <summary>
             set to true if shot was aimed - i.e. first bullet, zoomed in etc.
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.knocksDown">
+        <member name="P:CryEngine.HitInfo.KnocksDown">
             <summary>
             true if the hit should knockdown
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.knocksDownLeg">
+        <member name="P:CryEngine.HitInfo.KnocksDownLeg">
             <summary>
             true if the hit should knockdown when hit in a leg
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.hitViaProxy">
+        <member name="P:CryEngine.HitInfo.HitViaProxy">
             <summary>
             true if the 'shooter' didn't actually shoot, ie. a weapon acting on their behalf did (team perks)
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.explosion">
+        <member name="P:CryEngine.HitInfo.Explosion">
             <summary>
             true if this hit directly results from an explosion
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.armorHeating">
+        <member name="P:CryEngine.HitInfo.ArmorHeating">
             <summary>
             dynamic pierceability reduction
             </summary>
         </member>
-        <member name="F:CryEngine.HitInfo.penetrationCount">
+        <member name="P:CryEngine.HitInfo.PenetrationCount">
             <summary>
             number of surfaces the bullet has penetrated
             </summary>
@@ -1949,28 +1969,28 @@
             The value for which all absolute numbers smaller than are considered equal to zero.
             </summary>
         </member>
-        <member name="M:CryEngine.Math.DegToRad(System.Double)">
+        <member name="M:CryEngine.Math.DegreesToRadians(System.Double)">
             <summary>
             Converts degrees to radians
             </summary>
             <param name="angle"></param>
             <returns></returns>
         </member>
-        <member name="M:CryEngine.Math.DegToRad(System.Single)">
+        <member name="M:CryEngine.Math.DegreesToRadians(System.Single)">
             <summary>
             Converts degrees to radians
             </summary>
             <param name="angle"></param>
             <returns></returns>
         </member>
-        <member name="M:CryEngine.Math.RadToDeg(System.Double)">
+        <member name="M:CryEngine.Math.RadiansToDegrees(System.Double)">
             <summary>
             Converts radians to degrees
             </summary>
             <param name="angle"></param>
             <returns></returns>
         </member>
-        <member name="M:CryEngine.Math.RadToDeg(System.Single)">
+        <member name="M:CryEngine.Math.RadiansToDegrees(System.Single)">
             <summary>
             Converts radians to degrees
             </summary>
@@ -2016,12 +2036,12 @@
             Handles serializing script instances for an app domain reload.
             </summary>
         </member>
-        <member name="T:CryEngine.Utils.AssemblyReferenceHandler">
+        <member name="T:CryEngine.Utilities.AssemblyReferenceHandler">
             <summary>
             Handles retrieval of required assemblies for compiled scripts etc.
             </summary>
         </member>
-        <member name="M:CryEngine.Utils.AssemblyReferenceHandler.GetRequiredAssembliesForScriptFiles(System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:CryEngine.Utilities.AssemblyReferenceHandler.GetRequiredAssembliesForScriptFiles(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Gets the required assemblies for the scripts passed to the method.
             Note: Does NOT exclude assemblies already loaded by CryMono.
@@ -2029,13 +2049,29 @@
             <param name="scriptFilePaths"></param>
             <returns></returns>
         </member>
-        <member name="M:CryEngine.Utils.AssemblyReferenceHandler.GetNamespacesFromScriptFile(System.String)">
+        <member name="M:CryEngine.Utilities.AssemblyReferenceHandler.GetNamespacesFromScriptFile(System.String)">
             <summary>
             Gets the required assemblies for the script passed to the method.
             Note: Does NOT exclude assemblies already loaded by CryMono.
             </summary>
             <param name="scriptFilePath"></param>
             <returns></returns>
+        </member>
+        <member name="M:CryEngine.ParticleEffect.Get(System.String,System.Boolean)">
+            <summary>
+            </summary>
+            <param name="effectName"></param>
+            <param name="loadResources">Load all required resources?</param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.ParticleEffect.Spawn(CryEngine.Vec3,System.Nullable{CryEngine.Vec3},System.Single,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="independent"></param>
+            <param name="pos"></param>
+            <param name="dir">Is set to Vec3.Up if null</param>
+            <param name="scale"></param>
         </member>
         <member name="T:CryEngine.Quat">
             <summary>
@@ -2044,7 +2080,7 @@
         </member>
         <member name="F:CryEngine.Quat.Identity">
             <summary>
-            The identity <see cref="!:CryEngine.Quaternion"/> (0, 0, 0, 1).
+            The identity <see cref="T:CryEngine.Quat"/> (0, 0, 0, 1).
             </summary>
         </member>
         <member name="F:CryEngine.Quat.V">
@@ -2059,26 +2095,26 @@
         </member>
         <member name="M:CryEngine.Quat.#ctor(System.Single)">
             <summary>
-            Initializes a new instance of the <see cref="!:CryEngine.Quaternion"/> struct.
+            Initializes a new instance of the <see cref="T:CryEngine.Quat"/> struct.
             </summary>
             <param name="value">The value that will be assigned to all components.</param>
         </member>
         <member name="M:CryEngine.Quat.#ctor(CryEngine.Vec4)">
             <summary>
-            Initializes a new instance of the <see cref="!:CryEngine.Quaternion"/> struct.
+            Initializes a new instance of the <see cref="T:CryEngine.Quat"/> struct.
             </summary>
             <param name="value">A vector containing the values with which to initialize the components.</param>
         </member>
         <member name="M:CryEngine.Quat.#ctor(CryEngine.Vec3,System.Single)">
             <summary>
-            Initializes a new instance of the <see cref="!:CryEngine.Quaternion"/> struct.
+            Initializes a new instance of the <see cref="T:CryEngine.Quat"/> struct.
             </summary>
             <param name="value">A vector containing the values with which to initialize the X, Y, and Z components.</param>
             <param name="w">Initial value for the W component of the quaternion.</param>
         </member>
         <member name="M:CryEngine.Quat.#ctor(CryEngine.Vec2,System.Single,System.Single)">
             <summary>
-            Initializes a new instance of the <see cref="!:CryEngine.Quaternion"/> struct.
+            Initializes a new instance of the <see cref="T:CryEngine.Quat"/> struct.
             </summary>
             <param name="value">A vector containing the values with which to initialize the X and Y components.</param>
             <param name="z">Initial value for the Z component of the quaternion.</param>
@@ -2086,7 +2122,7 @@
         </member>
         <member name="M:CryEngine.Quat.#ctor(System.Single,System.Single,System.Single,System.Single)">
             <summary>
-            Initializes a new instance of the <see cref="!:CryEngine.Quaternion"/> struct.
+            Initializes a new instance of the <see cref="T:CryEngine.Quat"/> struct.
             </summary>
             <param name="x">Initial value for the X component of the quaternion.</param>
             <param name="y">Initial value for the Y component of the quaternion.</param>
@@ -2095,7 +2131,7 @@
         </member>
         <member name="M:CryEngine.Quat.#ctor(System.Single[])">
             <summary>
-            Initializes a new instance of the <see cref="!:CryEngine.Quaternion"/> struct.
+            Initializes a new instance of the <see cref="T:CryEngine.Quat"/> struct.
             </summary>
             <param name="values">The values to assign to the X, Y, Z, and W components of the quaternion. This must be an array with four elements.</param>
             <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c>.</exception>
@@ -2117,7 +2153,7 @@
             </summary>
             <returns>The length of the quaternion.</returns>
             <remarks>
-            <see cref="!:CryEngine.Quaternion.LengthSquared"/> may be preferred when only the relative length is needed
+            <see cref="M:CryEngine.Quat.LengthSquared"/> may be preferred when only the relative length is needed
             and speed is of the essence.
             </remarks>
         </member>
@@ -2127,7 +2163,7 @@
             </summary>
             <returns>The squared length of the quaternion.</returns>
             <remarks>
-            This method may be preferred to <see cref="!:CryEngine.Quaternion.Length"/> when only a relative length is needed
+            This method may be preferred to <see cref="M:CryEngine.Quat.Length"/> when only a relative length is needed
             and speed is of the essence.
             </remarks>
         </member>
@@ -2142,105 +2178,27 @@
             </summary>
             <returns>A four-element array containing the components of the quaternion.</returns>
         </member>
-        <member name="M:CryEngine.Quat.Add(CryEngine.Quat@,CryEngine.Quat@,CryEngine.Quat@)">
-            <summary>
-            Adds two quaternions.
-            </summary>
-            <param name="left">The first quaternion to add.</param>
-            <param name="right">The second quaternion to add.</param>
-            <param name="result">When the method completes, contains the sum of the two quaternions.</param>
-        </member>
-        <member name="M:CryEngine.Quat.Add(CryEngine.Quat,CryEngine.Quat)">
-            <summary>
-            Adds two quaternions.
-            </summary>
-            <param name="left">The first quaternion to add.</param>
-            <param name="right">The second quaternion to add.</param>
-            <returns>The sum of the two quaternions.</returns>
-        </member>
-        <member name="M:CryEngine.Quat.Subtract(CryEngine.Quat@,CryEngine.Quat@,CryEngine.Quat@)">
-            <summary>
-            Subtracts two quaternions.
-            </summary>
-            <param name="left">The first quaternion to subtract.</param>
-            <param name="right">The second quaternion to subtract.</param>
-            <param name="result">When the method completes, contains the difference of the two quaternions.</param>
-        </member>
-        <member name="M:CryEngine.Quat.Subtract(CryEngine.Quat,CryEngine.Quat)">
-            <summary>
-            Subtracts two quaternions.
-            </summary>
-            <param name="left">The first quaternion to subtract.</param>
-            <param name="right">The second quaternion to subtract.</param>
-            <returns>The difference of the two quaternions.</returns>
-        </member>
-        <member name="M:CryEngine.Quat.Multiply(CryEngine.Quat@,System.Single,CryEngine.Quat@)">
-            <summary>
-            Scales a quaternion by the given value.
-            </summary>
-            <param name="value">The quaternion to scale.</param>
-            <param name="scale">The amount by which to scale the quaternion.</param>
-            <param name="result">When the method completes, contains the scaled quaternion.</param>
-        </member>
-        <member name="M:CryEngine.Quat.Multiply(CryEngine.Quat,System.Single)">
-            <summary>
-            Scales a quaternion by the given value.
-            </summary>
-            <param name="value">The quaternion to scale.</param>
-            <param name="scale">The amount by which to scale the quaternion.</param>
-            <returns>The scaled quaternion.</returns>
-        </member>
-        <member name="M:CryEngine.Quat.Multiply(CryEngine.Quat@,CryEngine.Quat@,CryEngine.Quat@)">
-            <summary>
-            Modulates a quaternion by another.
-            </summary>
-            <param name="left">The first quaternion to modulate.</param>
-            <param name="right">The second quaternion to modulate.</param>
-            <param name="result">When the moethod completes, contains the modulated quaternion.</param>
-        </member>
-        <member name="M:CryEngine.Quat.Multiply(CryEngine.Quat,CryEngine.Quat)">
-            <summary>
-            Modulates a quaternion by another.
-            </summary>
-            <param name="left">The first quaternion to modulate.</param>
-            <param name="right">The second quaternion to modulate.</param>
-            <returns>The modulated quaternion.</returns>
-        </member>
-        <member name="M:CryEngine.Quat.Negate(CryEngine.Quat@,CryEngine.Quat@)">
-            <summary>
-            Reverses the direction of a given quaternion.
-            </summary>
-            <param name="value">The quaternion to negate.</param>
-            <param name="result">When the method completes, contains a quaternion facing in the opposite direction.</param>
-        </member>
-        <member name="M:CryEngine.Quat.Negate(CryEngine.Quat)">
-            <summary>
-            Reverses the direction of a given quaternion.
-            </summary>
-            <param name="value">The quaternion to negate.</param>
-            <returns>A quaternion facing in the opposite direction.</returns>
-        </member>
         <member name="M:CryEngine.Quat.Barycentric(CryEngine.Quat@,CryEngine.Quat@,CryEngine.Quat@,System.Single,System.Single,CryEngine.Quat@)">
             <summary>
-            Returns a <see cref="!:CryEngine.Quaternion"/> containing the 4D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 2D triangle.
+            Returns a <see cref="T:CryEngine.Quat"/> containing the 4D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 2D triangle.
             </summary>
-            <param name="value1">A <see cref="!:CryEngine.Quaternion"/> containing the 4D Cartesian coordinates of vertex 1 of the triangle.</param>
-            <param name="value2">A <see cref="!:CryEngine.Quaternion"/> containing the 4D Cartesian coordinates of vertex 2 of the triangle.</param>
-            <param name="value3">A <see cref="!:CryEngine.Quaternion"/> containing the 4D Cartesian coordinates of vertex 3 of the triangle.</param>
+            <param name="value1">A <see cref="T:CryEngine.Quat"/> containing the 4D Cartesian coordinates of vertex 1 of the triangle.</param>
+            <param name="value2">A <see cref="T:CryEngine.Quat"/> containing the 4D Cartesian coordinates of vertex 2 of the triangle.</param>
+            <param name="value3">A <see cref="T:CryEngine.Quat"/> containing the 4D Cartesian coordinates of vertex 3 of the triangle.</param>
             <param name="amount1">Barycentric coordinate b2, which expresses the weighting factor toward vertex 2 (specified in <paramref name="value2"/>).</param>
             <param name="amount2">Barycentric coordinate b3, which expresses the weighting factor toward vertex 3 (specified in <paramref name="value3"/>).</param>
-            <param name="result">When the method completes, contains a new <see cref="!:CryEngine.Quaternion"/> containing the 4D Cartesian coordinates of the specified point.</param>
+            <param name="result">When the method completes, contains a new <see cref="T:CryEngine.Quat"/> containing the 4D Cartesian coordinates of the specified point.</param>
         </member>
         <member name="M:CryEngine.Quat.Barycentric(CryEngine.Quat,CryEngine.Quat,CryEngine.Quat,System.Single,System.Single)">
             <summary>
-            Returns a <see cref="!:CryEngine.Quaternion"/> containing the 4D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 2D triangle.
+            Returns a <see cref="T:CryEngine.Quat"/> containing the 4D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 2D triangle.
             </summary>
-            <param name="value1">A <see cref="!:CryEngine.Quaternion"/> containing the 4D Cartesian coordinates of vertex 1 of the triangle.</param>
-            <param name="value2">A <see cref="!:CryEngine.Quaternion"/> containing the 4D Cartesian coordinates of vertex 2 of the triangle.</param>
-            <param name="value3">A <see cref="!:CryEngine.Quaternion"/> containing the 4D Cartesian coordinates of vertex 3 of the triangle.</param>
+            <param name="value1">A <see cref="T:CryEngine.Quat"/> containing the 4D Cartesian coordinates of vertex 1 of the triangle.</param>
+            <param name="value2">A <see cref="T:CryEngine.Quat"/> containing the 4D Cartesian coordinates of vertex 2 of the triangle.</param>
+            <param name="value3">A <see cref="T:CryEngine.Quat"/> containing the 4D Cartesian coordinates of vertex 3 of the triangle.</param>
             <param name="amount1">Barycentric coordinate b2, which expresses the weighting factor toward vertex 2 (specified in <paramref name="value2"/>).</param>
             <param name="amount2">Barycentric coordinate b3, which expresses the weighting factor toward vertex 3 (specified in <paramref name="value3"/>).</param>
-            <returns>A new <see cref="!:CryEngine.Quaternion"/> containing the 4D Cartesian coordinates of the specified point.</returns>
+            <returns>A new <see cref="T:CryEngine.Quat"/> containing the 4D Cartesian coordinates of the specified point.</returns>
         </member>
         <member name="M:CryEngine.Quat.Conjugate(CryEngine.Quat@,CryEngine.Quat@)">
             <summary>
@@ -2549,21 +2507,21 @@
         </member>
         <member name="M:CryEngine.Quat.Equals(CryEngine.Quat)">
             <summary>
-            Determines whether the specified <see cref="!:CryEngine.Quaternion"/> is equal to this instance.
+            Determines whether the specified <see cref="T:CryEngine.Quat"/> is equal to this instance.
             </summary>
-            <param name="other">The <see cref="!:CryEngine.Quaternion"/> to compare with this instance.</param>
+            <param name="other">The <see cref="T:CryEngine.Quat"/> to compare with this instance.</param>
             <returns>
-            <c>true</c> if the specified <see cref="!:CryEngine.Quaternion"/> is equal to this instance; otherwise, <c>false</c>.
+            <c>true</c> if the specified <see cref="T:CryEngine.Quat"/> is equal to this instance; otherwise, <c>false</c>.
             </returns>
         </member>
         <member name="M:CryEngine.Quat.Equals(CryEngine.Quat,System.Single)">
             <summary>
-            Determines whether the specified <see cref="!:CryEngine.Quaternion"/> is equal to this instance.
+            Determines whether the specified <see cref="T:CryEngine.Quat"/> is equal to this instance.
             </summary>
-            <param name="other">The <see cref="!:CryEngine.Quaternion"/> to compare with this instance.</param>
+            <param name="other">The <see cref="T:CryEngine.Quat"/> to compare with this instance.</param>
             <param name="epsilon">The amount of error allowed.</param>
             <returns>
-            <c>true</c> if the specified <see cref="!:CryEngine.Quaternion"/> is equal to this instance; otherwise, <c>false</c>.
+            <c>true</c> if the specified <see cref="T:CryEngine.Quat"/> is equal to this instance; otherwise, <c>false</c>.
             </returns>
         </member>
         <member name="M:CryEngine.Quat.Equals(System.Object)">
@@ -2608,6 +2566,25 @@
             <param name="index">The index of the component to access. Use 0 for the X component, 1 for the Y component, 2 for the Z component, and 3 for the W component.</param>
             <returns>The value of the component at the specified index.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">Thrown when the <paramref name="index"/> is out of the range [0, 3].</exception>
+        </member>
+        <member name="M:CryEngine.UI._RegisterEvent(System.String,CryEngine.UIEventDirection,CryEngine.UIEventDescription)">
+            <summary>
+            Registers an event to the system
+            </summary>
+            <param name="eventsystem">The name of the eventsystem this is registered to</param>
+            <param name="direction">Event direction (system -> UI or UI -> system)</param>
+            <param name="desc">Descriptor of the event</param>
+            <returns>-1 if registration failed, event ID otherwise</returns>
+        </member>
+        <member name="F:CryEngine.UI.toSystemEventSystems">
+            <summary>
+            Event systems handling UI -> System communication.
+            </summary>
+        </member>
+        <member name="F:CryEngine.UI.toUIEventSystems">
+            <summary>
+            Event systems handling System -> UI communication.
+            </summary>
         </member>
         <member name="T:CryEngine.Vec4">
             <summary>
@@ -3081,26 +3058,26 @@
         </member>
         <member name="M:CryEngine.Vec4.Transform(CryEngine.Vec4@,CryEngine.Quat@,CryEngine.Vec4@)">
             <summary>
-            Transforms a 4D vector by the given <see cref="!:CryEngine.Quaternion"/> rotation.
+            Transforms a 4D vector by the given <see cref="T:CryEngine.Quat"/> rotation.
             </summary>
             <param name="vector">The vector to rotate.</param>
-            <param name="rotation">The <see cref="!:CryEngine.Quaternion"/> rotation to apply.</param>
+            <param name="rotation">The <see cref="T:CryEngine.Quat"/> rotation to apply.</param>
             <param name="result">When the method completes, contains the transformed <see cref="T:CryEngine.Vec4"/>.</param>
         </member>
         <member name="M:CryEngine.Vec4.Transform(CryEngine.Vec4,CryEngine.Quat)">
             <summary>
-            Transforms a 4D vector by the given <see cref="!:CryEngine.Quaternion"/> rotation.
+            Transforms a 4D vector by the given <see cref="T:CryEngine.Quat"/> rotation.
             </summary>
             <param name="vector">The vector to rotate.</param>
-            <param name="rotation">The <see cref="!:CryEngine.Quaternion"/> rotation to apply.</param>
+            <param name="rotation">The <see cref="T:CryEngine.Quat"/> rotation to apply.</param>
             <returns>The transformed <see cref="T:CryEngine.Vec4"/>.</returns>
         </member>
         <member name="M:CryEngine.Vec4.Transform(CryEngine.Vec4[],CryEngine.Quat@,CryEngine.Vec4[])">
             <summary>
-            Transforms an array of vectors by the given <see cref="!:CryEngine.Quaternion"/> rotation.
+            Transforms an array of vectors by the given <see cref="T:CryEngine.Quat"/> rotation.
             </summary>
             <param name="source">The array of vectors to transform.</param>
-            <param name="rotation">The <see cref="!:CryEngine.Quaternion"/> rotation to apply.</param>
+            <param name="rotation">The <see cref="T:CryEngine.Quat"/> rotation to apply.</param>
             <param name="destination">The array for which the transformed vectors are stored.
             This array may be the same array as <paramref name="source"/>.</param>
             <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="destination"/> is <c>null</c>.</exception>
@@ -3185,7 +3162,7 @@
         </member>
         <member name="M:CryEngine.Vec4.op_Explicit(CryEngine.Vec4)~CryEngine.Vec3">
             <summary>
-            Performs an explicit conversion from <see cref="T:CryEngine.Vec4"/> to <see cref="!:CryEngine.Vector3"/>.
+            Performs an explicit conversion from <see cref="T:CryEngine.Vec4"/> to <see cref="T:CryEngine.Vec3"/>.
             </summary>
             <param name="value">The value.</param>
             <returns>The result of the conversion.</returns>
@@ -3257,7 +3234,7 @@
             <summary>
             Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
             </summary>
-            <param name="value">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
             <returns>
             <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
             </returns>
@@ -3313,7 +3290,29 @@
             </summary>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:CryEngine.Matrix34.SetSlerp(CryEngine.Matrix34,CryEngine.Matrix34,System.Single)" -->
+        <member name="M:CryEngine.Matrix34.SetSlerp(CryEngine.Matrix34,CryEngine.Matrix34,System.Single)">
+            <summary>
+             Direct-Matrix-Slerp: for the sake of completeness, I have included the following expression 
+             for Spherical-Linear-Interpolation without using quaternions. This is much faster then converting 
+             both matrices into quaternions in order to do a quaternion slerp and then converting the slerped 
+             quaternion back into a matrix.
+             This is a high-precision calculation. Given two orthonormal 3x3 matrices this function calculates 
+             the shortest possible interpolation-path between the two rotations. The interpolation curve forms 
+             a great arc on the rotation sphere (geodesic). Not only does Slerp follow a great arc it follows 
+             the shortest great arc.	Furthermore Slerp has constant angular velocity. All in all Slerp is the 
+             optimal interpolation curve between two rotations. 
+             STABILITY PROBLEM: There are two singularities at angle=0 and angle=PI. At 0 the interpolation-axis 
+             is arbitrary, which means any axis will produce the same result because we have no rotation. Thats 
+             why I'm using (1,0,0). At PI the rotations point away from each other and the interpolation-axis 
+             is unpredictable. In this case I'm also using the axis (1,0,0). If the angle is ~0 or ~PI, then we 
+             have to normalize a very small vector and this can cause numerical instability. The quaternion-slerp 
+             has exactly the same problems.																	Ivo
+            </summary>
+            <param name="m"></param>
+            <param name="n"></param>
+            <param name="t"></param>
+            <example>Matrix33 slerp=Matrix33::CreateSlerp( m,n,0.333f );</example>
+        </member>
         <member name="M:CryEngine.Matrix34.IsOrthonormal(System.Single)">
             <summary>
             check if we have an orthonormal-base (general case, works even with reflection matrices)
@@ -3321,15 +3320,17 @@
             <param name="threshold"></param>
             <returns></returns>
         </member>
-        <member name="F:CryEngine.Serialization.CrySerializer.ObjectReferences">
+        <member name="M:CryEngine.Serialization.CrySerializer.ObjectReference.op_Equality(CryEngine.Serialization.CrySerializer.ObjectReference,CryEngine.Serialization.CrySerializer.ObjectReference)">
             <summary>
-            Keep references to objects around as we can't print them in the same script dump as their declaring type, also avoids processing them multiple times.
-            string = path to the object's state dump.
+            Special behaviour; unlike Equals the operator methods do not compare Value!
             </summary>
+            <param name="ref1"></param>
+            <param name="ref2"></param>
+            <returns></returns>
         </member>
-        <member name="F:CryEngine.Serialization.CrySerializer.ReferenceSeperator">
+        <member name="P:CryEngine.Serialization.CrySerializer.ObjectReference.FullName">
             <summary>
-            The character used to signal a reference path.
+            The full name including owner objects seperated by '.'
             </summary>
         </member>
         <member name="T:CryEngine.Vec3">
@@ -3354,13 +3355,13 @@
         </member>
         <member name="M:CryEngine.Vec3.#ctor(System.Single)">
             <summary>
-            Initializes a new instance of the <see cref="!:CryEngine.Vector3"/> struct.
+            Initializes a new instance of the <see cref="T:CryEngine.Vec3"/> struct.
             </summary>
             <param name="value">The value that will be assigned to all components.</param>
         </member>
         <member name="M:CryEngine.Vec3.#ctor(System.Single,System.Single,System.Single)">
             <summary>
-            Initializes a new instance of the <see cref="!:CryEngine.Vector3"/> struct.
+            Initializes a new instance of the <see cref="T:CryEngine.Vec3"/> struct.
             </summary>
             <param name="x">Initial value for the X component of the vector.</param>
             <param name="y">Initial value for the Y component of the vector.</param>
@@ -3368,14 +3369,14 @@
         </member>
         <member name="M:CryEngine.Vec3.#ctor(CryEngine.Vec2,System.Single)">
             <summary>
-            Initializes a new instance of the <see cref="!:CryEngine.Vector3"/> struct.
+            Initializes a new instance of the <see cref="T:CryEngine.Vec3"/> struct.
             </summary>
             <param name="value">A vector containing the values with which to initialize the X and Y components.</param>
             <param name="z">Initial value for the Z component of the vector.</param>
         </member>
         <member name="M:CryEngine.Vec3.#ctor(System.Single[])">
             <summary>
-            Initializes a new instance of the <see cref="!:CryEngine.Vector3"/> struct.
+            Initializes a new instance of the <see cref="T:CryEngine.Vec3"/> struct.
             </summary>
             <param name="values">The values to assign to the X, Y, and Z components of the vector. This must be an array with three elements.</param>
             <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c>.</exception>
@@ -3387,7 +3388,7 @@
             </summary>
             <returns>The squared length of the vector.</returns>
             <remarks>
-            This method may be preferred to <see cref="!:CryEngine.Vector3.Length"/> when only a relative length is needed
+            This method may be preferred to <see cref="P:CryEngine.Vec3.Length"/> when only a relative length is needed
             and speed is of the essence.
             </remarks>
         </member>
@@ -3498,25 +3499,25 @@
         </member>
         <member name="M:CryEngine.Vec3.Barycentric(CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@,System.Single,System.Single,CryEngine.Vec3@)">
             <summary>
-            Returns a <see cref="!:CryEngine.Vector3"/> containing the 3D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 3D triangle.
+            Returns a <see cref="T:CryEngine.Vec3"/> containing the 3D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 3D triangle.
             </summary>
-            <param name="value1">A <see cref="!:CryEngine.Vector3"/> containing the 3D Cartesian coordinates of vertex 1 of the triangle.</param>
-            <param name="value2">A <see cref="!:CryEngine.Vector3"/> containing the 3D Cartesian coordinates of vertex 2 of the triangle.</param>
-            <param name="value3">A <see cref="!:CryEngine.Vector3"/> containing the 3D Cartesian coordinates of vertex 3 of the triangle.</param>
+            <param name="value1">A <see cref="T:CryEngine.Vec3"/> containing the 3D Cartesian coordinates of vertex 1 of the triangle.</param>
+            <param name="value2">A <see cref="T:CryEngine.Vec3"/> containing the 3D Cartesian coordinates of vertex 2 of the triangle.</param>
+            <param name="value3">A <see cref="T:CryEngine.Vec3"/> containing the 3D Cartesian coordinates of vertex 3 of the triangle.</param>
             <param name="amount1">Barycentric coordinate b2, which expresses the weighting factor toward vertex 2 (specified in <paramref name="value2"/>).</param>
             <param name="amount2">Barycentric coordinate b3, which expresses the weighting factor toward vertex 3 (specified in <paramref name="value3"/>).</param>
             <param name="result">When the method completes, contains the 3D Cartesian coordinates of the specified point.</param>
         </member>
         <member name="M:CryEngine.Vec3.Barycentric(CryEngine.Vec3,CryEngine.Vec3,CryEngine.Vec3,System.Single,System.Single)">
             <summary>
-            Returns a <see cref="!:CryEngine.Vector3"/> containing the 3D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 3D triangle.
+            Returns a <see cref="T:CryEngine.Vec3"/> containing the 3D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 3D triangle.
             </summary>
-            <param name="value1">A <see cref="!:CryEngine.Vector3"/> containing the 3D Cartesian coordinates of vertex 1 of the triangle.</param>
-            <param name="value2">A <see cref="!:CryEngine.Vector3"/> containing the 3D Cartesian coordinates of vertex 2 of the triangle.</param>
-            <param name="value3">A <see cref="!:CryEngine.Vector3"/> containing the 3D Cartesian coordinates of vertex 3 of the triangle.</param>
+            <param name="value1">A <see cref="T:CryEngine.Vec3"/> containing the 3D Cartesian coordinates of vertex 1 of the triangle.</param>
+            <param name="value2">A <see cref="T:CryEngine.Vec3"/> containing the 3D Cartesian coordinates of vertex 2 of the triangle.</param>
+            <param name="value3">A <see cref="T:CryEngine.Vec3"/> containing the 3D Cartesian coordinates of vertex 3 of the triangle.</param>
             <param name="amount1">Barycentric coordinate b2, which expresses the weighting factor toward vertex 2 (specified in <paramref name="value2"/>).</param>
             <param name="amount2">Barycentric coordinate b3, which expresses the weighting factor toward vertex 3 (specified in <paramref name="value3"/>).</param>
-            <returns>A new <see cref="!:CryEngine.Vector3"/> containing the 3D Cartesian coordinates of the specified point.</returns>
+            <returns>A new <see cref="T:CryEngine.Vec3"/> containing the 3D Cartesian coordinates of the specified point.</returns>
         </member>
         <member name="M:CryEngine.Vec3.Clamp(CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
             <summary>
@@ -3560,7 +3561,7 @@
             <param name="value2">The second vector.</param>
             <param name="result">When the method completes, contains the distance between the two vectors.</param>
             <remarks>
-            <see cref="!:CryEngine.Vector3.DistanceSquared(ref Vector3, ref Vector3, out float)"/> may be preferred when only the relative distance is needed
+            DistanceSquared(ref Vector3, ref Vector3, out float) may be preferred when only the relative distance is needed
             and speed is of the essence.
             </remarks>
         </member>
@@ -3572,7 +3573,7 @@
             <param name="value2">The second vector.</param>
             <returns>The distance between the two vectors.</returns>
             <remarks>
-            <see cref="!:CryEngine.Vector3.DistanceSquared(Vector3, Vector3)"/> may be preferred when only the relative distance is needed
+            CryEngine.Vec3.DistanceSquared(Vector3, Vector3) may be preferred when only the relative distance is needed
             and speed is of the essence.
             </remarks>
         </member>
@@ -3834,26 +3835,26 @@
         </member>
         <member name="M:CryEngine.Vec3.Transform(CryEngine.Vec3@,CryEngine.Quat@,CryEngine.Vec3@)">
             <summary>
-            Transforms a 3D vector by the given <see cref="!:CryEngine.Quaternion"/> rotation.
+            Transforms a 3D vector by the given <see cref="T:CryEngine.Quat"/> rotation.
             </summary>
             <param name="vector">The vector to rotate.</param>
-            <param name="rotation">The <see cref="!:CryEngine.Quaternion"/> rotation to apply.</param>
+            <param name="rotation">The <see cref="T:CryEngine.Quat"/> rotation to apply.</param>
             <param name="result">When the method completes, contains the transformed <see cref="T:CryEngine.Vec4"/>.</param>
         </member>
         <member name="M:CryEngine.Vec3.Transform(CryEngine.Vec3,CryEngine.Quat)">
             <summary>
-            Transforms a 3D vector by the given <see cref="!:CryEngine.Quaternion"/> rotation.
+            Transforms a 3D vector by the given <see cref="T:CryEngine.Quat"/> rotation.
             </summary>
             <param name="vector">The vector to rotate.</param>
-            <param name="rotation">The <see cref="!:CryEngine.Quaternion"/> rotation to apply.</param>
+            <param name="rotation">The <see cref="T:CryEngine.Quat"/> rotation to apply.</param>
             <returns>The transformed <see cref="T:CryEngine.Vec4"/>.</returns>
         </member>
         <member name="M:CryEngine.Vec3.Transform(CryEngine.Vec3[],CryEngine.Quat@,CryEngine.Vec3[])">
             <summary>
-            Transforms an array of vectors by the given <see cref="!:CryEngine.Quaternion"/> rotation.
+            Transforms an array of vectors by the given <see cref="T:CryEngine.Quat"/> rotation.
             </summary>
             <param name="source">The array of vectors to transform.</param>
-            <param name="rotation">The <see cref="!:CryEngine.Quaternion"/> rotation to apply.</param>
+            <param name="rotation">The <see cref="T:CryEngine.Quat"/> rotation to apply.</param>
             <param name="destination">The array for which the transformed vectors are stored.
             This array may be the same array as <paramref name="source"/>.</param>
             <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="destination"/> is <c>null</c>.</exception>
@@ -3931,14 +3932,14 @@
         </member>
         <member name="M:CryEngine.Vec3.op_Explicit(CryEngine.Vec3)~CryEngine.Vec2">
             <summary>
-            Performs an explicit conversion from <see cref="!:CryEngine.Vector3"/> to <see cref="T:CryEngine.Vec2"/>.
+            Performs an explicit conversion from <see cref="T:CryEngine.Vec3"/> to <see cref="T:CryEngine.Vec2"/>.
             </summary>
             <param name="value">The value.</param>
             <returns>The result of the conversion.</returns>
         </member>
         <member name="M:CryEngine.Vec3.op_Explicit(CryEngine.Vec3)~CryEngine.Vec4">
             <summary>
-            Performs an explicit conversion from <see cref="!:CryEngine.Vector3"/> to <see cref="T:CryEngine.Vec4"/>.
+            Performs an explicit conversion from <see cref="T:CryEngine.Vec3"/> to <see cref="T:CryEngine.Vec4"/>.
             </summary>
             <param name="value">The value.</param>
             <returns>The result of the conversion.</returns>
@@ -3989,21 +3990,21 @@
         </member>
         <member name="M:CryEngine.Vec3.Equals(CryEngine.Vec3)">
             <summary>
-            Determines whether the specified <see cref="!:CryEngine.Vector3"/> is equal to this instance.
+            Determines whether the specified <see cref="T:CryEngine.Vec3"/> is equal to this instance.
             </summary>
-            <param name="other">The <see cref="!:CryEngine.Vector3"/> to compare with this instance.</param>
+            <param name="other">The <see cref="T:CryEngine.Vec3"/> to compare with this instance.</param>
             <returns>
-            <c>true</c> if the specified <see cref="!:CryEngine.Vector3"/> is equal to this instance; otherwise, <c>false</c>.
+            <c>true</c> if the specified <see cref="T:CryEngine.Vec3"/> is equal to this instance; otherwise, <c>false</c>.
             </returns>
         </member>
         <member name="M:CryEngine.Vec3.Equals(CryEngine.Vec3,System.Single)">
             <summary>
-            Determines whether the specified <see cref="!:CryEngine.Vector3"/> is equal to this instance.
+            Determines whether the specified <see cref="T:CryEngine.Vec3"/> is equal to this instance.
             </summary>
-            <param name="other">The <see cref="!:CryEngine.Vector3"/> to compare with this instance.</param>
+            <param name="other">The <see cref="T:CryEngine.Vec3"/> to compare with this instance.</param>
             <param name="epsilon">The amount of error allowed.</param>
             <returns>
-            <c>true</c> if the specified <see cref="!:CryEngine.Vector3"/> is equal to this instance; otherwise, <c>false</c>.
+            <c>true</c> if the specified <see cref="T:CryEngine.Vec3"/> is equal to this instance; otherwise, <c>false</c>.
             </returns>
         </member>
         <member name="M:CryEngine.Vec3.Equals(System.Object)">
@@ -4035,7 +4036,7 @@
             </summary>
             <returns>The length of the vector.</returns>
             <remarks>
-            <see cref="!:CryEngine.Vector3.LengthSquared"/> may be preferred when only the relative length is needed
+            <see cref="M:CryEngine.Vec3.LengthSquared"/> may be preferred when only the relative length is needed
             and speed is of the essence.
             </remarks>
         </member>
@@ -4083,7 +4084,7 @@
             </summary>
             <param name="ray">The ray to test.</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersected.</returns>
         </member>
         <member name="M:CryEngine.BoundingSphere.Intersects(CryEngine.Plane@)">
@@ -4267,18 +4268,6 @@
             <returns>
             <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
             </returns>
-        </member>
-        <member name="T:CryEngine.BasePlayer">
-            <summary>
-            WIP Player class.
-            </summary>
-        </member>
-        <member name="M:CryEngine.BasePlayer.InternalSpawn(CryEngine.EntityId,System.Int32)">
-            <summary>
-            Initializes the player.
-            </summary>
-            <param name="entityId"></param>
-            <param name="channelId"></param>
         </member>
         <member name="T:CryEngine.Vec2">
             <summary>
@@ -4789,26 +4778,26 @@
         </member>
         <member name="M:CryEngine.Vec2.Transform(CryEngine.Vec2@,CryEngine.Quat@,CryEngine.Vec2@)">
             <summary>
-            Transforms a 2D vector by the given <see cref="!:CryEngine.Quaternion"/> rotation.
+            Transforms a 2D vector by the given <see cref="T:CryEngine.Quat"/> rotation.
             </summary>
             <param name="vector">The vector to rotate.</param>
-            <param name="rotation">The <see cref="!:CryEngine.Quaternion"/> rotation to apply.</param>
+            <param name="rotation">The <see cref="T:CryEngine.Quat"/> rotation to apply.</param>
             <param name="result">When the method completes, contains the transformed <see cref="T:CryEngine.Vec4"/>.</param>
         </member>
         <member name="M:CryEngine.Vec2.Transform(CryEngine.Vec2,CryEngine.Quat)">
             <summary>
-            Transforms a 2D vector by the given <see cref="!:CryEngine.Quaternion"/> rotation.
+            Transforms a 2D vector by the given <see cref="T:CryEngine.Quat"/> rotation.
             </summary>
             <param name="vector">The vector to rotate.</param>
-            <param name="rotation">The <see cref="!:CryEngine.Quaternion"/> rotation to apply.</param>
+            <param name="rotation">The <see cref="T:CryEngine.Quat"/> rotation to apply.</param>
             <returns>The transformed <see cref="T:CryEngine.Vec4"/>.</returns>
         </member>
         <member name="M:CryEngine.Vec2.Transform(CryEngine.Vec2[],CryEngine.Quat@,CryEngine.Vec2[])">
             <summary>
-            Transforms an array of vectors by the given <see cref="!:CryEngine.Quaternion"/> rotation.
+            Transforms an array of vectors by the given <see cref="T:CryEngine.Quat"/> rotation.
             </summary>
             <param name="source">The array of vectors to transform.</param>
-            <param name="rotation">The <see cref="!:CryEngine.Quaternion"/> rotation to apply.</param>
+            <param name="rotation">The <see cref="T:CryEngine.Quat"/> rotation to apply.</param>
             <param name="destination">The array for which the transformed vectors are stored.
             This array may be the same array as <paramref name="source"/>.</param>
             <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="destination"/> is <c>null</c>.</exception>
@@ -4886,7 +4875,7 @@
         </member>
         <member name="M:CryEngine.Vec2.op_Explicit(CryEngine.Vec2)~CryEngine.Vec3">
             <summary>
-            Performs an explicit conversion from <see cref="T:CryEngine.Vec2"/> to <see cref="!:CryEngine.Vector3"/>.
+            Performs an explicit conversion from <see cref="T:CryEngine.Vec2"/> to <see cref="T:CryEngine.Vec3"/>.
             </summary>
             <param name="value">The value.</param>
             <returns>The result of the conversion.</returns>
@@ -5084,7 +5073,7 @@
             </summary>
             <param name="ray">The ray to test.</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersected.</returns>
         </member>
         <member name="M:CryEngine.Plane.Intersects(CryEngine.Plane@)">
@@ -5377,6 +5366,11 @@
             Defines additional information used by the entity registration system.
             </summary>
         </member>
+        <member name="P:CryEngine.EntityAttribute.Name">
+            <summary>
+            Sets the Entity class name. Uses class name if not set.
+            </summary>
+        </member>
         <member name="P:CryEngine.EntityAttribute.EditorHelper">
             <summary>
             The helper mesh displayed inside Sandbox.
@@ -5430,11 +5424,12 @@
             Bool is not currently functioning.
             </summary>
         </member>
-        <member name="M:CryEngine.InputSystem.RegisterAction(System.String)">
+        <member name="M:CryEngine.InputSystem.RegisterAction(System.String,CryEngine.InputSystem.ActionMapEventDelegate)">
             <summary>
             Registers an event declared in the players actionmap. Without invoking this, Your KeyEventDelegate will never be invoked with the new action.
             </summary>
             <param name="actionName"></param>
+            <param name="eventDelegate"></param>
         </member>
         <member name="F:CryEngine.KeyEvent.OnPress">
             <summary>
@@ -5494,7 +5489,7 @@
             <param name="sphere"></param>
             <param name="point">The point to test.</param>
             <param name="result">When the method completes, contains the closest point between the two objects;
-            or, if the point is directly in the center of the sphere, contains <see cref="!:CryEngine.new Vector3()"/>.</param>
+            or, if the point is directly in the center of the sphere, contains <see cref="T:CryEngine.Vec3"/>.</param>
         </member>
         <member name="M:CryEngine.Collision.ClosestPointSphereSphere(CryEngine.BoundingSphere@,CryEngine.BoundingSphere@,CryEngine.Vec3@)">
             <summary>
@@ -5503,7 +5498,7 @@
             <param name="sphere1">The first sphere to test.</param>
             <param name="sphere2">The second sphere to test.</param>
             <param name="result">When the method completes, contains the closest point between the two objects;
-            or, if the point is directly in the center of the sphere, contains <see cref="!:CryEngine.new Vector3()"/>.</param>
+            or, if the point is directly in the center of the sphere, contains <see cref="T:CryEngine.Vec3"/>.</param>
             <remarks>
             If the two spheres are overlapping, but not directly ontop of each other, the closest point
             is the 'closest' point of intersection. This can also be considered is the deepest point of
@@ -5565,7 +5560,7 @@
             <param name="ray1">The first ray to test.</param>
             <param name="ray2">The second ray to test.</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersect.</returns>
             <remarks>
             This method performs a ray vs ray intersection test based on the following formula
@@ -5595,7 +5590,7 @@
             <param name="ray">The ray to test.</param>
             <param name="plane">The plane to test</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersected.</returns>
         </member>
         <member name="M:CryEngine.Collision.RayIntersectsTriangle(CryEngine.Ray@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@,System.Single@)">
@@ -5626,7 +5621,7 @@
             <param name="vertex2">The second vertex of the triagnle to test.</param>
             <param name="vertex3">The third vertex of the triangle to test.</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersected.</returns>
         </member>
         <member name="M:CryEngine.Collision.RayIntersectsBox(CryEngine.Ray@,CryEngine.BoundingBox@,System.Single@)">
@@ -5646,7 +5641,7 @@
             <param name="ray">The ray to test.</param>
             <param name="box">The box to test.</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersected.</returns>
         </member>
         <member name="M:CryEngine.Collision.RayIntersectsSphere(CryEngine.Ray@,CryEngine.BoundingSphere@,System.Single@)">
@@ -5666,7 +5661,7 @@
             <param name="ray">The ray to test.</param>
             <param name="sphere">The sphere to test.</param>
             <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="!:CryEngine.new Vector3()"/> if there was no intersection.</param>
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
             <returns>Whether the two objects intersected.</returns>
         </member>
         <member name="M:CryEngine.Collision.PlaneIntersectsPoint(CryEngine.Plane@,CryEngine.Vec3@)">
@@ -5817,6 +5812,45 @@
             <param name="sphere1">The first sphere to test.</param>
             <param name="sphere2">The second sphere to test.</param>
             <returns>The type of containment the two objects have.</returns>
+        </member>
+        <member name="P:CryEngine.Terrain.Elevation">
+            <summary>
+            A read-only map of the terrain's elevation.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Terrain.Size">
+            <summary>
+            The size of the terrain in metres.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Terrain.UnitsPerMetre">
+            <summary>
+            The size of each terrain unit.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Terrain.UnitSize">
+            <summary>
+            The size of the terrain in units.
+            </summary>
+            <remarks>
+            The terrain system calculates the overall size by multiplying this value by the units per metre setting. A map set to 1024 units at 2 metres per unit will have a size of 2048 metres.
+            </remarks>
+        </member>
+        <member name="P:CryEngine.TerrainElevation.Item(System.Int32,System.Int32)">
+            <summary>
+            Accesses the elevation at a specified location.
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CryEngine.TerrainElevation.Item(System.Single,System.Single,System.Boolean)">
+            <summary>
+            Accesses the elevation at a specified location, with support for interpolated values.
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>
