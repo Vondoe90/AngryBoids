@@ -6,7 +6,7 @@ using CryGameCode.AngryBoids;
 /// </summary>
 namespace CryGameCode
 {
-	[DefaultGamemodeAttribute]
+	[GameRules(Default = true)]
 	public class SinglePlayer : BaseGameRules
 	{
 		//This is called, contrary to what you'd expect, just once, as the player persists between test sessions in the editor (ctrl+g)
@@ -17,12 +17,12 @@ namespace CryGameCode
 
 		public override void OnClientDisconnect(int channelId)
 		{
-			GameRules.RemovePlayer(channelId);
+			Actor.Remove(channelId);
 		}
 
 		public override void OnRevive(EntityId actorId, Vec3 pos, Vec3 rot, int teamId)
 		{
-			var cameraProxy = GameRules.GetPlayer(actorId) as CameraProxy;
+			var cameraProxy = Actor.Get(actorId) as CameraProxy;
 
 			if(cameraProxy == null)
 			{

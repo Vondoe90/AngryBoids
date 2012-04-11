@@ -3,7 +3,7 @@ using CryEngine;
 namespace CryGameCode.Entities
 {
 	[Entity(Category="TestCategory", EditorHelper="Editor/Objects/anchor.cgf", Icon="", Flags=EntityClassFlags.Default)]
-    public class SampleEntity : StaticEntity
+    public class SampleEntity : Entity
     {
         public override void OnSpawn()
         {
