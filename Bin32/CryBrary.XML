@@ -1313,7 +1313,7 @@
             The two bounding volumes overlap.
             </summary>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.InstantiateScript(System.String,System.Object[])">
+        <member name="M:CryEngine.Initialization.ScriptCompiler.InstantiateScript(System.String,System.Object[])">
             <summary>
             Instantiates a script using its name and interface.
             </summary>
@@ -1321,41 +1321,36 @@
             <param name="constructorParams"></param>
             <returns>New instance scriptId or -1 if instantiation failed.</returns>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.AddScriptInstance(CryEngine.CryScriptInstance)">
+        <member name="M:CryEngine.Initialization.ScriptCompiler.AddScriptInstance(CryEngine.CryScriptInstance)">
             <summary>
             Adds an script instance to the script collection and returns its new id.
             </summary>
             <param name="instance"></param>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.AddScriptInstance(CryEngine.CryScriptInstance,System.Int32)">
+        <member name="M:CryEngine.Initialization.ScriptCompiler.AddScriptInstance(CryEngine.CryScriptInstance,System.Int32)">
             <summary>
             Adds an script instance to the script collection and returns its new id.
             </summary>
             <param name="instance"></param>
             <param name="scriptIndex">Index of the CryScript object residing in ScriptCompiler.CompiledScripts</param>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.RemoveInstance(System.Int32,System.Type)">
+        <member name="M:CryEngine.Initialization.ScriptCompiler.RemoveInstance(System.Int32,System.Type)">
             <summary>
             Locates and destructs the script with the assigned scriptId.
             </summary>
             <param name="scriptId"></param>
         </member>
-        <member name="F:CryEngine.ScriptCompiler.InvalidScriptInstance">
-            <summary>
-            Avoid creating a new empty CryScriptInstance each time we need to check
-            </summary>
-        </member>
-        <member name="M:CryEngine.ScriptCompiler.OnUpdate(System.Single)">
+        <member name="M:CryEngine.Initialization.ScriptCompiler.OnUpdate(System.Single)">
             <summary>
             Called once per frame.
             </summary>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.LoadLibrariesInFolder(System.String)">
+        <member name="M:CryEngine.Initialization.ScriptCompiler.LoadLibrariesInFolder(System.String)">
             <summary>
             This function will automatically scan for C# dll (*.dll) files and load the types contained within them.
             </summary>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.CompileScripts(CryEngine.ScriptCompiler.CompilationParameters@)">
+        <member name="M:CryEngine.Initialization.ScriptCompiler.CompileScripts(CryEngine.Initialization.ScriptCompiler.CompilationParameters@)">
             <summary>
             Compiles the scripts and compiles them into an assembly.
             </summary>
@@ -1363,84 +1358,89 @@
             <returns></returns>
             <exception cref="T:System.IO.DirectoryNotFoundException">Thrown when one or more script folders could not be located.</exception>
             <exception cref="T:System.ArgumentNullException">Thrown if the compiled assembly could not be loaded.</exception>
-            <exception cref="T:CryEngine.ScriptCompilationException">Thrown if one or more compilation errors occur.</exception>
+            <exception cref="!:CryEngine.ScriptCompilationException">Thrown if one or more compilation errors occur.</exception>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.LoadAssembly(System.Reflection.Assembly,CryEngine.ScriptType[])">
+        <member name="M:CryEngine.Initialization.ScriptCompiler.LoadAssembly(System.Reflection.Assembly,CryEngine.Initialization.ScriptType[])">
             <summary>
             Loads an C# assembly and adds all found types to ScriptCompiler.CompiledScripts
             </summary>
         </member>
-        <member name="M:CryEngine.ScriptCompiler.ProcessType(System.Type)">
+        <member name="M:CryEngine.Initialization.ScriptCompiler.ProcessType(System.Type)">
             <summary>
             Processes a type and adds all found types to ScriptCompiler.CompiledScripts
             </summary>
             <param name="type"></param>
         </member>
-        <member name="F:CryEngine.ScriptCompiler.LastScriptId">
+        <member name="F:CryEngine.Initialization.ScriptCompiler.LastScriptId">
             <summary>
             Last assigned ScriptId, next = + 1
             </summary>
         </member>
-        <member name="P:CryEngine.ScriptCompiler.CompilationParameters.Folders">
+        <member name="F:CryEngine.Initialization.ScriptCompiler.InvalidScriptInstance">
+            <summary>
+            Avoid creating a new empty CryScriptInstance each time we need to check
+            </summary>
+        </member>
+        <member name="P:CryEngine.Initialization.ScriptCompiler.CompilationParameters.Folders">
             <summary>
             The folders from which scripts should be compiled from.
             </summary>
         </member>
-        <member name="P:CryEngine.ScriptCompiler.CompilationParameters.ScriptTypes">
+        <member name="P:CryEngine.Initialization.ScriptCompiler.CompilationParameters.ScriptTypes">
             <summary>
             Determines what types of scripts should be compiled.
             Accepts all scripts by default.
             </summary>
         </member>
-        <member name="P:CryEngine.ScriptCompiler.CompilationParameters.ForceDebugInformation">
+        <member name="P:CryEngine.Initialization.ScriptCompiler.CompilationParameters.ForceDebugInformation">
             <summary>
             Forces generation of debug information, even in release mode.
             </summary>
         </member>
-        <member name="F:CryEngine.ScriptType.Unknown">
+        <member name="F:CryEngine.Initialization.ScriptType.Unknown">
             <summary>
             Scripts will be linked to this type if they inherit from CryScriptInstance, but not any other script base.
             </summary>
         </member>
-        <member name="F:CryEngine.ScriptType.GameRules">
+        <member name="F:CryEngine.Initialization.ScriptType.GameRules">
             <summary>
             Scripts directly inheriting from BaseGameRules will utilize this script type.
             </summary>
         </member>
-        <member name="F:CryEngine.ScriptType.FlowNode">
+        <member name="F:CryEngine.Initialization.ScriptType.FlowNode">
             <summary>
             Scripts directly inheriting from FlowNode will utilize this script type.
             </summary>
         </member>
-        <member name="F:CryEngine.ScriptType.Entity">
+        <member name="F:CryEngine.Initialization.ScriptType.Entity">
             <summary>
             Scripts directly inheriting from Entity will utilize this script type.
             </summary>
         </member>
-        <member name="F:CryEngine.ScriptType.Actor">
+        <member name="F:CryEngine.Initialization.ScriptType.Actor">
             <summary>
             Scripts directly inheriting from Actor will utilize this script type.
             </summary>
         </member>
-        <member name="F:CryEngine.ScriptType.UIEvent">
+        <member name="F:CryEngine.Initialization.ScriptType.UIEvent">
             <summary>
             </summary>
         </member>
-        <member name="F:CryEngine.ScriptType.EditorForm">
+        <member name="F:CryEngine.Initialization.ScriptType.EditorForm">
             <summary>
             </summary>
         </member>
-        <member name="T:CryEngine.CryScript">
+        <member name="T:CryEngine.Initialization.CryScript">
             <summary>
             Represents a given class.
             </summary>
         </member>
-        <member name="P:CryEngine.CryScript.ScriptName">
+        <member name="P:CryEngine.Initialization.CryScript.ScriptName">
             <summary>
             The script's name, not always type name!
             </summary>
         </member>
-        <member name="P:CryEngine.CryScript.ScriptInstances">
+        <member name="P:CryEngine.Initialization.CryScript.ScriptInstances">
             <summary>
             Stores all instances of this class.
             </summary>
@@ -1494,7 +1494,7 @@
             <returns>The filepath to the Scripts folder as a string, ex:
             <example>"C:\CryENGINE3\Game\Scripts"</example></returns>
         </member>
-        <member name="M:CryEngine.PathUtils.GetScriptFolder(CryEngine.ScriptType)">
+        <member name="M:CryEngine.PathUtils.GetScriptFolder(CryEngine.Initialization.ScriptType)">
             <summary>
             Gets the folder in which a certain type of scripts are located.
             </summary>

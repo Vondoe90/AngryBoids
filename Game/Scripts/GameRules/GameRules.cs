@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 
+using CryEngine.Initialization;
+
 namespace CryEngine
 {
 	public partial class GameRules
