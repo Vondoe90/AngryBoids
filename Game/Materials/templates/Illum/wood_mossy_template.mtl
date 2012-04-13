@@ -1,0 +1,22 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="wood" MtlFlags="524416" Shader="Illum" GenMask="100082001" StringGenMask="%ALLOW_POM%DETAIL_BUMP_MAPPING%GLOSS_MAP%STAT_BRANCHING" SurfaceType="mat_wood" MatTemplate="" Diffuse="0.48627451,0.46666667,0.41960785" Specular="0.3764706,0.34117648,0.27450982" Emissive="0,0,0" Shininess="6" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/wood_sheets_moosy_diff.tif">
+     <TexMod RotateW="90" TexMod_RotateType="1"/>
+    </Texture>
+    <Texture Map="Specular" File="materials/templates/textures/wood_sheets_moosy_spec.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Detail" File="textures/detail_bumpmaps/wood_b_detailbump_ddn.dds">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams AmbientMultiplier="0" DetailBumpTillingU="1" DetailBumpTillingV="1" DetailBumpScale="1.5" DetailBlendAmount="0"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_rubber" MatTemplate="" Diffuse="0.60784298,0.77254897,0.58823502" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="0.30000001">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

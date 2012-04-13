@@ -1,0 +1,19 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="chain" MtlFlags="524416" Shader="Illum" GenMask="100000001" StringGenMask="%ALLOW_POM%STAT_BRANCHING" SurfaceType="mat_chain" MatTemplate="" Diffuse="0.72156864,0.72156864,0.72156864" Specular="1,1,1" Emissive="0,0,0" Shininess="10" Opacity="1" AlphaTest="0.50199997">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/chainlink_diff.dds">
+     <TexMod />
+    </Texture>
+    <Texture Map="Bumpmap" File="materials/templates/textures/chainlink_ddn.tif">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams AmbientMultiplier="1"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_rubber" MatTemplate="" Diffuse="0.60784298,0.77254897,0.58823502" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="0.30000001">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

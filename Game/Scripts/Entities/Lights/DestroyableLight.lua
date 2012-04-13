@@ -159,7 +159,15 @@ DestroyableLight =
 				bAffectsThisAreaOnly = 1,
 				bUsedInRealTime=1,
 				bFakeLight=0,
-				bDeferredLight = 0,
+				bDeferredClipBounds = 0,
+				bIrradianceVolumes = 0,
+				texture_deferred_cubemap = "",
+				file_deferred_clip_geom = "",
+				nPostEffect=0, -- 0=none, 1= screen space light shaft, 2= flare, 3= volume desaturation ?		
+				fShadowUpdateMinRadius = 10,
+				fShadowUpdateRatio = 1,				
+				
+				bIgnoreGeomCaster = 0,
         nViewDistRatio = 100,
         nGlowSubmatId = 0,
  			},
@@ -664,7 +672,13 @@ function DestroyableLight:UseLight( lightIdx )
 	lt.indoor_only = 0;
 	lt.has_cbuffer = 0;
 	lt.cast_shadow = Options.nCastShadows;
-		
+	lt.shadow_bias = Options.fShadowBias;
+	lt.shadow_slope_bias = Options.fShadowSlopeBias;
+	lt.post_effect = Options.nPostEffect;
+
+	lt.shadowUpdate_MinRadius = Options.fShadowUpdateMinRadius;
+	lt.shadowUpdate_ratio = Options.fShadowUpdateRatio;
+
 	lt.lightmap_linear_attenuation = 1;
 	lt.is_rectangle_light = 0;
 	lt.is_sphere_light = 0;

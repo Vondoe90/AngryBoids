@@ -1,0 +1,50 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="Face" MtlFlags="524416" Shader="Humanskin" GenMask="100010020" StringGenMask="%BUMP_DIFFUSE%ENVIRONMENT_MAP%STAT_BRANCHING" SurfaceType="" MatTemplate="" Diffuse="0.63529414,0.5411765,0.50196081" Specular="0.80000001,0.71764702,0.69999999" Emissive="0,0,0" Shininess="13.4" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/generic_face_diff.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Bumpmap" File="materials/templates/textures/generic_face_ddn.tif" Amount="50">
+     <TexMod />
+    </Texture>
+    <Texture Map="Environment" File="textures/env_maps/env_cm_bright_blured.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="SubSurface" File="materials/templates/textures/generic_face_sss.tif">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams SubsurfaceStrenght="1" RimStrenght="0.75999999" SpecularStrenght="0.51499999" DiffusionAmount="0.667" RimPow="1.5" Melanin="0.32699999"/>
+  </Material>
+  <Material Name="Eye_overlay" MtlFlags="524418" Shader="Eye" GenMask="100020000" StringGenMask="%EYE_OVERLAY%STAT_BRANCHING" SurfaceType="" MatTemplate="" Diffuse="1,1,1" Specular="0.50588202,0.50588202,0.50588202" Emissive="1,1,1" Shininess="3" Opacity="0.94999999">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/generic_eyelash_diff.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Specular" File="materials/templates/textures/generic_eyelash_spec.tif">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams ReflectionAmount="0.25" FresnelBias="0" FresnelScale="1" IrisGlintMul="2" CorneaOpacity="0.5" IrisColor="1,1,1"/>
+  </Material>
+  <Material Name="Mouth" MtlFlags="524416" Shader="Illum" GenMask="100080001" StringGenMask="%ALLOW_POM%GLOSS_MAP%STAT_BRANCHING" SurfaceType="" MatTemplate="" Diffuse="0.35686299,0.35686299,0.35686299" Specular="0.239216,0.239216,0.239216" Emissive="0,0,0" Shininess="2" Opacity="1" AlphaTest="0.72299999">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/teeth_diff.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Specular" File="materials/templates/textures/teeth_spec.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Bumpmap" File="materials/templates/textures/teeth_ddn.tif">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams AmbientMultiplier="1"/>
+  </Material>
+  <Material Name="neck_noDraw" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="" MatTemplate="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

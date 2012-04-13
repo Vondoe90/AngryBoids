@@ -1,25 +1,8 @@
 <GoalPipes>
 
-	<GoalPipe name="Civilian_DoNothing">
-		<FireCmd mode="Off"/>
-		<Timeout interval="0.1"/>
-	</GoalPipe>
-
-	<GoalPipe name="Civilian_GoToPOI">
-		<Speed id="Walk"/>
-		<Group>
-			<Locate name="refpoint"/>
-			<Stick distance="0.3" useLastOp="true"/>
-		</Group>
-		<Timeout intervalMin="2" intervalMax="4"/>
-		<Signal name="OnCivilianPOIDone"/>
-	</GoalPipe>
-
-	<GoalPipe name="Civilian_LookAtPlayer">
-		<Group>
-			<Locate name="atttarget"/>
-			<LookAt blocking="true" useLastOp="true" bodyTurn="true" continuous="true"/>
-		</Group>
+	<GoalPipe name="Civilian_HideFromEnemy">
+		<Speed id="Sprint"/>
+		<TacticalPos name="Civilian_HideFromEnemy"/>
 	</GoalPipe>
 
 </GoalPipes>

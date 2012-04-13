@@ -1,0 +1,7 @@
+<Material MtlFlags="526336" Shader="Lightflares.Flare" GenMask="3C0" StringGenMask="" SurfaceType="" MatTemplate="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+ <Textures>
+  <Texture Map="Diffuse" File="textures/lights/lens_flare1.tif"/>
+  <Texture Map="Custom" File="textures/lights/lens_flare1.tif"/>
+ </Textures>
+ <PublicParams shaftJitterScale="1"/>
+</Material>

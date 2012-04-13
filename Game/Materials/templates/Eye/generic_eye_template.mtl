@@ -1,0 +1,19 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="broken_stones" MtlFlags="524416" Shader="Illum" GenMask="100000001" StringGenMask="%ALLOW_POM%STAT_BRANCHING" SurfaceType="mat_rock" MatTemplate="" Diffuse="0.89411765,0.89411765,0.89411765" Specular="1,1,1" Emissive="0,0,0" Shininess="40" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/generic_eye_diff.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Bumpmap" File="materials/templates/textures/generic_eye_ddn.tif">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams AmbientMultiplier="1"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_rubber" MatTemplate="" Diffuse="0.60784298,0.77254897,0.58823502" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="0.30000001">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

@@ -1,5 +1,5 @@
-<ParticleLibrary Name="Waterfall" SandboxVersion="3.3.9.3341" ParticleVersion="22">
- <Particles Name="CXP_Waterfall.Splash" Id="{7910133F-9B83-478C-8D72-005250627C76}" Library="Waterfall">
+<ParticleLibrary Name="Waterfall" SandboxVersion="3.3.9.3423" ParticleVersion="22">
+ <Particles Name="CXP_Waterfall.Splash" Id="{17F4946F-6947-4ECB-A646-4B12D69DC5AF}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0" ReceiveShadows="true" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed="12,0.713" GravityScale="3"/>
   <Childs>
    <Particles Name="Splash1">
@@ -13,10 +13,10 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="CXP_waterfall.surface_spray" Id="{E062D76D-DD09-4FAC-B65A-A952F7AAA18A}" Library="Waterfall">
+ <Particles Name="CXP_waterfall.surface_spray" Id="{52241DEC-7699-4678-A757-070E3BC86B97}" Library="Waterfall">
   <Params Continuous="true" Count="12" ParticleLifeTime="1.9,0.13" PositionOffset=",,-1" PosRandomOffset="1" EmitAngle="96.8,1" Texture="textures/sprites/waterdust1.tif" OctagonalShape="false" Alpha="0.1,,,(0.5,1;1)" Color="(0.71,0.71,0.718)" SoftParticle="true" DiffuseLighting="0.4" DiffuseBacklighting="1" Size="7,0.188,,(;0.29,1)" Speed="5" GravityScale="0.15" CameraMaxDistance="200"/>
  </Particles>
- <Particles Name="CXP_Waterfall.surface_wake" Id="{8C38F93C-66B0-4E6F-A8E7-C5076A6C2693}" Library="Waterfall">
+ <Particles Name="CXP_Waterfall.surface_wake" Id="{CCC7937E-331D-400B-B8F5-DAC897FC8ED4}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count="10" ParticleLifeTime="1" PositionOffset=",,-0.95" EmitAngle="40.3716,1" Texture="textures/sprites/water_tiled_b.tif" TextureTiling="2,2,,4" Alpha=",,,(0.5,1;1)" Color=",,,(,(0.36,0.396,0.706);1,(1,1,1))" SoftParticle="true" DiffuseBacklighting="1" Size="2.11,0.1869919,,(;1,1)" Speed="4.91" GravityScale="0.465" RandomAngles=",180"/>
   <Childs>
    <Particles Name="foam">
@@ -30,7 +30,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="CXP_Waterfall.surface_wake_splashes" Id="{89939E04-6884-4CC7-9288-2AA2F9696AD0}" Library="Waterfall">
+ <Particles Name="CXP_Waterfall.surface_wake_splashes" Id="{236FFF79-63E0-4CCF-A163-5FEC598A5982}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count="50,0.109" ParticleLifeTime="1.2,0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.004,(0.91,0.906,0.996);0.996,(0.96,0.976,0.98))" DiffuseLighting="0.208" DiffuseBacklighting="0.286" EmissiveLighting="0.465" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed="12,0.713" AirResistance="1.23" GravityScale="3"/>
   <Childs>
    <Particles Name="Drift0">
@@ -41,7 +41,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="CXP_Waterfall.small_wake" Id="{4FB71C27-66E5-48D4-B657-C626F56F7D59}" Library="Waterfall">
+ <Particles Name="CXP_Waterfall.small_wake" Id="{397EEAD2-F4F2-4C1E-8EAA-3E75247A810F}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count="10" ParticleLifeTime="1" PositionOffset=",,-0.95" EmitAngle="40.3716,1" Texture="textures/sprites/water_tiled_b.tif" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha=",,,(0.5,1;1)" Color="(0.32,0.38,0.39),,,(0.004,(0.51,0.51,0.51);1,(1,1,1))" SoftParticle="true" DiffuseLighting="0.052" DiffuseBacklighting="1" EmissiveLighting="0.27" Size="1.46,0.1869919,,(;1,1)" Speed="4.91" GravityScale="0.465" RandomAngles=",180"/>
   <Childs>
    <Particles Name="mist_small">
@@ -52,7 +52,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="Foam.rebound" Id="{E4682114-CD01-4846-81A3-12A192F2304C}" Library="Waterfall">
+ <Particles Name="Foam.rebound" Id="{C25F9298-6071-4E62-AB7A-5ADCCF027B83}" Library="Waterfall">
   <Params Enabled="false" Texture="0" TextureTiling="2,2,,4" Color=",,,(0.086,(0.804,0.804,0.804))" SoftParticle="true" DiffuseLighting="0" Size="0" DrawLast="1"/>
   <Childs>
    <Particles Name="side_bSoft">
@@ -63,7 +63,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="Foam.breakup" Id="{C860FF40-0AF9-4A97-91A8-34684FCC6EA4}" Library="Waterfall">
+ <Particles Name="Foam.breakup" Id="{626F4F25-E1D8-49F2-86C4-738920837989}" Library="Waterfall">
   <Params Enabled="false" RandomOffset="2,,2" Texture="0" TextureTiling="2,2,,4" Color=",,,(0.086,(0.804,0.804,0.804))" SoftParticle="true" DiffuseLighting="0" Size="0" DrawLast="1"/>
   <Childs>
    <Particles Name="side_aHard">
@@ -80,7 +80,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="Foam.middle" Id="{8422CDCA-F9A6-4BF2-A068-1C0DCC946D87}" Library="Waterfall">
+ <Particles Name="Foam.middle" Id="{E3953E24-3F31-4713-838F-8A12F9C60CF5}" Library="Waterfall">
   <Params Enabled="false" Texture="0" TextureTiling="2,2,,4" Color=",,,(0.086,(0.804,0.804,0.804))" SoftParticle="true" DiffuseLighting="0" Size="0" DrawLast="1"/>
   <Childs>
    <Particles Name="side_aHard">
@@ -94,7 +94,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="Foam.rock_edge" Id="{3BA80846-C7D8-4246-BD71-177D87804A7E}" Library="Waterfall">
+ <Particles Name="Foam.rock_edge" Id="{4369D451-D458-43BE-9C2E-C2D2F455CD0C}" Library="Waterfall">
   <Params Enabled="false" Count="1" ParticleLifeTime="1" Size="0" Speed="1"/>
   <Childs>
    <Particles Name="foam_">
@@ -119,7 +119,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="Foam.softBreakUp" Id="{68E15AE1-6C76-4ECC-8678-E44F18521F55}" Library="Waterfall">
+ <Particles Name="Foam.softBreakUp" Id="{EF4E6187-B7A5-4CEC-8C84-6EDFB5312812}" Library="Waterfall">
   <Params Enabled="false" RandomOffset="2,,2" Texture="0" TextureTiling="2,2,,4" Color=",,,(0.086,(0.804,0.804,0.804))" SoftParticle="true" DiffuseLighting="0" Size="0" DrawLast="1"/>
   <Childs>
    <Particles Name="side_aHard">
@@ -136,7 +136,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="Foam.breakup_dark" Id="{C2EA6229-BFCC-44A0-A218-5A572E8C5728}" Library="Waterfall">
+ <Particles Name="Foam.breakup_dark" Id="{55BC3C83-97E9-4EA4-B8FE-84C4D3E9B5CF}" Library="Waterfall">
   <Params Enabled="false" RandomOffset="2,,110.5" Texture="0" TextureTiling="2,2,,4" Color=",,,(0.086,(0.804,0.804,0.804))" SoftParticle="true" DiffuseLighting="0" Size="0" DrawLast="1" VisibleUnderwater="If_True"/>
   <Childs>
    <Particles Name="side_aHard">
@@ -147,7 +147,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="CXP_Waterfall.Running_water_splash" Id="{F3B85CDA-0F56-4836-8348-908581489040}" Library="Waterfall">
+ <Particles Name="CXP_Waterfall.Running_water_splash" Id="{69E3386E-A384-4ECE-8322-B6657F0A97EF}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0.1" DiffuseBacklighting="0.06" EmissiveLighting="0.683" ReceiveShadows="true" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed=",0.713" RotationalDragScale="0"/>
   <Childs>
    <Particles Name="Splash1">
@@ -158,7 +158,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="CXP_Waterfall.Splash_water_surface" Id="{E0BDC1AE-DB2F-41D4-9D37-9759720B56E9}" Library="Waterfall">
+ <Particles Name="CXP_Waterfall.Splash_water_surface" Id="{A13D691B-CBF8-4445-8456-AE8319B43EFE}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count="10" ParticleLifeTime="0.5" PositionOffset=",,-0.95" EmitAngle=",1" Texture="textures/sprites/water_tiled_b.tif" TextureTiling="2,2,,4" SoftParticle="true" DiffuseLighting="0" DiffuseBacklighting="1" Size=",0.1869919,,(;1,1)" Thickness="0"/>
   <Childs>
    <Particles Name="foam">
@@ -175,7 +175,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="CXP_Waterfall.Splash_narrow" Id="{3F9D8F5B-907E-423A-BA93-7EFBF5BED0C0}" Library="Waterfall">
+ <Particles Name="CXP_Waterfall.Splash_narrow" Id="{B82E2936-483E-4E86-8282-4F0DFACBC08A}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0.059" DiffuseBacklighting="1" EmissiveLighting="0.683" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed="12,0.713" AirResistance="1.23" GravityScale="3"/>
   <Childs>
    <Particles Name="Splash1">
@@ -189,7 +189,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="CXP_Waterfall.Splash_Wide" Id="{52D56128-D951-45A4-B336-BBDA2EF1AED6}" Library="Waterfall">
+ <Particles Name="CXP_Waterfall.Splash_Wide" Id="{46CE8EB4-9AD7-49C7-A957-6E028D5FD0DF}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0.059" DiffuseBacklighting="0.06" EmissiveLighting="0.683" ReceiveShadows="true" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed="12,0.713" GravityScale="3"/>
   <Childs>
    <Particles Name="Splash1">
@@ -203,7 +203,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="CXP_Waterfall.Splash_long" Id="{4E7B1C0A-07BC-4836-93B1-220C66DC47DA}" Library="Waterfall">
+ <Particles Name="CXP_Waterfall.Splash_long" Id="{A8F4AA3C-A965-42D7-B9FC-ED65F5D6C8A1}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0.059" DiffuseBacklighting="0.06" EmissiveLighting="0.683" ReceiveShadows="true" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed="12,0.713" GravityScale="3"/>
   <Childs>
    <Particles Name="Splash1">
@@ -217,7 +217,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="CXP_Waterfall.Splash_short" Id="{C9E4218B-AEE3-41F9-9BD6-83188344DEB4}" Library="Waterfall">
+ <Particles Name="CXP_Waterfall.Splash_short" Id="{8D04A144-66E7-40DD-94AB-CE7E543908CD}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0.103" DiffuseBacklighting="0.06" EmissiveLighting="0.349" ReceiveShadows="true" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed="12,0.713" GravityScale="3"/>
   <Childs>
    <Particles Name="Splash1">
@@ -231,7 +231,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="CXP_Waterfall.rapids" Id="{30545E5D-FB88-4FED-B4B5-1466900F291A}" Library="Waterfall">
+ <Particles Name="CXP_Waterfall.rapids" Id="{88B1C7D3-621C-493E-A19D-555071503C4C}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0.103" DiffuseBacklighting="0.06" EmissiveLighting="0.683" ReceiveShadows="true" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed=",0.713" RotationalDragScale="0"/>
   <Childs>
    <Particles Name="Splash1">
@@ -242,7 +242,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="CXP_Waterfall.rapids_short" Id="{128C40C8-EAC1-4E68-8C2A-3C29314A4183}" Library="Waterfall">
+ <Particles Name="CXP_Waterfall.rapids_short" Id="{F3EAD85D-3C72-4A7B-8CE2-985D1B9C4705}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0.1" DiffuseBacklighting="0.06" EmissiveLighting="0.683" ReceiveShadows="true" Size=",0.356,,(,0.5916667,32;1,1,4)" Stretch="0.06" Speed=",0.713" RotationalDragScale="0"/>
   <Childs>
    <Particles Name="Splash1">
@@ -256,7 +256,7 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="CXP_Waterfall.Splash_water_weak" Id="{BC95B761-65B2-4A3E-BB96-E5A6BAB84D9E}" Library="Waterfall">
+ <Particles Name="CXP_Waterfall.Splash_water_weak" Id="{417971BF-F6FD-4D5B-8629-5572E2AF96A8}" Library="Waterfall">
   <Params Enabled="false" Continuous="true" Count="10" ParticleLifeTime="0.5" PositionOffset=",,-0.95" EmitAngle=",1" Texture="textures/sprites/water_tiled_b.tif" TextureTiling="2,2,,4" SoftParticle="true" DiffuseBacklighting="1" Size=",0.1869919,,(;1,1)" Thickness="0"/>
   <Childs>
    <Particles Name="foam">
@@ -273,68 +273,68 @@
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="Forest.Waterfall.bottom_splash" Id="{77F15980-8DAB-4A10-9165-5BD547A74CD4}" Library="Waterfall">
-  <Params Enabled="false" Continuous="true" ParticleLifeTime="0.5" PositionOffset=",,-0.95" EmitAngle=",1" Texture="textures/sprites/water_tiled_b.tif" TextureTiling="2,2,,4" SoftParticle="true" DiffuseLighting="0" DiffuseBacklighting="1" Size=",0.1869919,,(;1,1)" Thickness="0"/>
+ <Particles Name="Forest.Waterfall.bottom_splash" Id="{5DC90126-C19A-487B-9BF2-845233D4FB1B}" Library="Waterfall">
+  <Params Enabled="false" Continuous="true" ParticleLifeTime="0.5" PositionOffset=",,-0.95" EmitAngle=",1" Texture="textures/sprites/water_tiled_b.tif" TextureTiling="2,2,,4" SoftParticle="true" DiffuseLighting="0" Size=",0.1869919,,(;1,1)" Thickness="0"/>
   <Childs>
    <Particles Name="mist">
-    <Params Continuous="true" Count="5,0.109" ParticleLifeTime="4" PositionOffset=",,0.25" RandomOffset="2,,0.25" PosRandomOffset="0.5" EmitAngle=",1" Texture="textures/sprites/waterdust1.dds" OctagonalShape="false" Alpha="0.5,,,(;0.082,1;0.992)" Color=",,,(0.004,(0.91,0.906,0.996);0.992,(0.933,0.957,0.97))" SoftParticle="true" DiffuseLighting="0.1" DiffuseBacklighting="0.5" EmissiveLighting="0.3" ReceiveShadows="true" Size="10,0.228,,(,0.65833336,32;1,1)" Stretch="0.2" Speed="1.5,0.7" AirResistance="0.25" RandomAngles=",180" RandomRotationRate=",15"/>
+    <Params Continuous="true" Count="3,0.109" ParticleLifeTime="4" PositionOffset=",,0.25" RandomOffset="2,,0.25" PosRandomOffset="0.5" EmitAngle=",1" Texture="textures/sprites/waterdust1.dds" OctagonalShape="false" Alpha="0.1,,,(;0.082,1;0.992)" Color=",,,(0.004,(0.91,0.906,0.996);0.992,(0.933,0.957,0.97))" SoftParticle="true" DiffuseBacklighting="0.5" ReceiveShadows="true" Size="10,0.228,,(,0.65833336,32;1,1)" Stretch="0.2" Speed="1.5,0.7" AirResistance="0.25" InitAngles=",180" RandomAngles=",180"/>
    </Particles>
    <Particles Name="refraction">
-    <Params Continuous="true" Count="20" ParticleLifeTime="0.5,0.1" PositionOffset=",,0.1" RandomOffset="2,0.5,0.5" EmitAngle="25,1" Texture="textures/sprites/water_tiled_b.dds" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha=",,,(;0.1,1;1)" Color="(0.32,0.38,0.384)" SoftParticle="true" DiffuseLighting="0.1" DiffuseBacklighting="0.5" EmissiveLighting="0.3" ReceiveShadows="true" Size="2,0.5,,(,0.42916667,32;1,1)" Stretch="0.2,,,(,1,32;1,,4),0.3" Speed="3,0.3" RotationalDragScale="0" GravityScale="0.6" RandomAngles=",180" RandomRotationRate=",25" DrawLast="4" VisibleIndoors="If_False"/>
+    <Params Continuous="true" Count="20" ParticleLifeTime="0.5,0.1" PositionOffset=",,0.1" RandomOffset="2,0.5,0.5" EmitAngle="25,1" Texture="textures/sprites/water_tiled_b.dds" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha="0.3,,,(;0.1,1;1)" Color="(0.32,0.38,0.384)" SoftParticle="true" DiffuseBacklighting="0.5" ReceiveShadows="true" Size="2,0.5,,(,0.42916667,32;1,1)" Stretch="0.2,,,(,1,32;1,,4),0.3" Speed="3,0.3" RotationalDragScale="0" GravityScale="0.6" RandomAngles=",180" RandomRotationRate=",25" DrawLast="4" VisibleIndoors="If_False"/>
    </Particles>
    <Particles Name="ripples">
-    <Params Continuous="true" Count="10" ParticleLifeTime="0.8,0.5" PositionOffset=",-1" RandomOffset="1.5,0.35" FocusAngle="90" FocusAzimuth="180" Facing="Water" Texture="textures/sprites/water_tiled_a.dds" TextureTiling="2,2,,4" Alpha=",,,(;0.09,1,32;1)" Color="(0.53,0.475,0.37)" SoftParticle="true" DiffuseLighting="0.1" DiffuseBacklighting="0.5" EmissiveLighting="0.3" Size="3,,,(,0.36666667,32;1,1)" Speed="0.5,,(,1,32;1,,4)" RandomAngles=",45" RotationRate=",5" Thickness="0" CameraMaxDistance="200" DrawLast="2"/>
+    <Params Continuous="true" Count="10" ParticleLifeTime="0.8,0.5" PositionOffset=",-1" RandomOffset="1.5,0.35" FocusAngle="90" FocusAzimuth="180" Facing="Water" Texture="textures/sprites/water_tiled_a.dds" TextureTiling="2,2,,4" Alpha=",,,(;0.09,1,32;1)" Color="(0.53,0.475,0.37)" SoftParticle="true" DiffuseBacklighting="0.5" Size="3,,,(,0.36666667,32;1,1)" Speed="0.5,,(,1,32;1,,4)" RandomAngles=",45" RotationRate=",5" Thickness="0" CameraMaxDistance="200" DrawLast="2"/>
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="Forest.Waterfall.bottom_ripples" Id="{CE3ECB05-1298-49D9-A40F-8DDE7EDCE0BF}" Library="Waterfall">
-  <Params Continuous="true" Count="10" ParticleLifeTime="10,0.446" RandomOffset="0.5,,1.3" Facing="Water" OrientToVelocity="true" Texture="textures/sprites/ripple_a.tif" Material="materials/particle/water_deformation_a" Alpha="0.2,,,(0.267,1;1)" DiffuseLighting="0.2" DiffuseBacklighting="1" Size="5,,,(,0.112500004;1,1)" Speed="0.01" RandomAngles=",360"/>
+ <Particles Name="Forest.Waterfall.bottom_ripples" Id="{ED0A347A-356C-408D-8575-5EA087B2FD29}" Library="Waterfall">
+  <Params Continuous="true" Count="10" ParticleLifeTime="10,0.446" RandomOffset="0.5,,1.3" Facing="Water" OrientToVelocity="true" Texture="textures/sprites/ripple_a.tif" Material="materials/particle/water_deformation_a" Alpha="0.2,,,(0.267,1;1)" DiffuseBacklighting="0.5" Size="5,,,(,0.112500004;1,1)" Speed="0.01" RandomAngles=",360"/>
  </Particles>
- <Particles Name="Forest.Waterfall.middle_splash" Id="{A4D7D81C-7E29-4341-931D-40C5B6D8BA5A}" Library="Waterfall">
-  <Params Enabled="false" Continuous="true" Count="10" ParticleLifeTime="1" PositionOffset=",,-0.95" EmitAngle="40.3716,1" Texture="textures/sprites/water_tiled_b.tif" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha=",,,(0.5,1;1)" Color="(0.32,0.38,0.39),,,(0.004,(0.51,0.51,0.51);1,(1,1,1))" SoftParticle="true" DiffuseLighting="0.052" DiffuseBacklighting="1" EmissiveLighting="0.27" Size="1.46,0.1869919,,(;1,1)" Speed="4.91" GravityScale="0.465" RandomAngles=",180"/>
+ <Particles Name="Forest.Waterfall.middle_splash" Id="{345692B7-F4AD-4A79-A788-FF3C1B3A9585}" Library="Waterfall">
+  <Params Enabled="false" Continuous="true" Count="10" ParticleLifeTime="1" PositionOffset=",,-0.95" EmitAngle="40.3716,1" Texture="textures/sprites/water_tiled_b.tif" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha=",,,(0.5,1;1)" Color="(0.32,0.38,0.39),,,(0.004,(0.51,0.51,0.51);1,(1,1,1))" SoftParticle="true" DiffuseLighting="0" Size="1.46,0.1869919,,(;1,1)" Speed="4.91" GravityScale="0.465" RandomAngles=",180"/>
   <Childs>
    <Particles Name="flow">
-    <Params Continuous="true" Count="20" ParticleLifeTime="2,,(,0.45416668;1,1)" RandomOffset="0.75,,0.25" EmitAngle="5,1" Texture="textures/sprites/waterfoam_a.tif" TextureTiling="2,2,,4" OctagonalShape="false" Alpha="0.3,,,(;0.1,1;0.443,1;0.98,0.020833334)" Color="(0.32,0.38,0.384)" SoftParticle="true" DiffuseLighting="0.1" DiffuseBacklighting="0.5" EmissiveLighting="0.3" ReceiveShadows="true" Size=",0.2,,(,0.112500004,32;1,1)" Stretch="0.25" Speed="1.5,0.5" GravityScale="0.2" RandomAngles=",180" RandomRotationRate=",35" DrawLast="3" VisibleIndoors="If_False"/>
+    <Params Continuous="true" Count="20" ParticleLifeTime="2,,(,0.45416668;1,1)" RandomOffset="0.75,,0.25" EmitAngle="5,1" Texture="textures/sprites/waterfoam_a.tif" TextureTiling="2,2,,4" OctagonalShape="false" Alpha="0.3,,,(;0.1,1;0.443,1;0.98,0.020833334)" Color="(0.32,0.38,0.384)" SoftParticle="true" DiffuseBacklighting="0.5" ReceiveShadows="true" Size=",0.2,,(,0.112500004,32;1,1)" Stretch="0.25" Speed="1.5,0.5" GravityScale="0.2" RandomAngles=",180" RandomRotationRate=",35" DrawLast="3" VisibleIndoors="If_False"/>
    </Particles>
    <Particles Name="refraction">
-    <Params Continuous="true" Count="20" ParticleLifeTime="2,,(,0.45416668;1,1)" RandomOffset="0.75,,0.25" EmitAngle="5,1" Texture="textures/sprites/waterfoam_a.tif" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha=",,,(;0.1,1;0.443,1;0.98,0.020833334)" Color="(0.32,0.38,0.39)" SoftParticle="true" DiffuseLighting="0.1" DiffuseBacklighting="0.5" EmissiveLighting="0.3" ReceiveShadows="true" Size=",0.5,,(,0.20416668,32;1,1)" Speed="1.5,0.5" GravityScale="0.4" RandomAngles=",180" RandomRotationRate=",35" DrawLast="4" VisibleIndoors="If_False"/>
+    <Params Continuous="true" Count="20" ParticleLifeTime="2,,(,0.45416668;1,1)" RandomOffset="0.75,,0.25" EmitAngle="5,1" Texture="textures/sprites/waterfoam_a.tif" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha="0.3,,,(;0.1,1;0.443,1;0.98,0.020833334)" Color="(0.32,0.38,0.39)" SoftParticle="true" DiffuseBacklighting="0.5" ReceiveShadows="true" Size=",0.5,,(,0.20416668,32;1,1)" Speed="1.5,0.5" GravityScale="0.4" RandomAngles=",180" RandomRotationRate=",35" DrawLast="4" VisibleIndoors="If_False"/>
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="Forest.Waterfall.middle_rapids" Id="{5BDF330D-7CFD-4810-A165-327F9229D3AB}" Library="Waterfall">
-  <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0.103" DiffuseBacklighting="0.06" EmissiveLighting="0.683" ReceiveShadows="true" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed=",0.713" RotationalDragScale="0"/>
+ <Particles Name="Forest.Waterfall.middle_rapids" Id="{761E9D62-EDD7-4519-8044-BAFADA2517ED}" Library="Waterfall">
+  <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0" ReceiveShadows="true" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed=",0.713" RotationalDragScale="0"/>
   <Childs>
    <Particles Name="refraction">
-    <Params Continuous="true" Count="20" ParticleLifeTime="0.7" RandomOffset="2.5,0.1,2" FocusAngle="90" EmitAngle="5" Texture="textures/sprites/water_tiled_a.tif" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha=",,,(;0.082,1;0.25,1;1)" Color="(0.32,0.38,0.384),,,(0.004,(0.91,0.906,0.996);0.992,(0.933,0.957,0.97))" SoftParticle="true" DiffuseLighting="0.1" DiffuseBacklighting="0.5" EmissiveLighting="0.3" ReceiveShadows="true" Size="1.95,0.25,,(,0.20416668,32;1,1)" Stretch="0.2,0.25,,,0.4" Speed="6,0.3" RotationalDragScale="0" GravityScale="0.35" RandomAngles=",180" RandomRotationRate=",35" Thickness="0" DrawLast="-3"/>
+    <Params Continuous="true" Count="20" ParticleLifeTime="0.7" RandomOffset="2.5,0.1" FocusAngle="90" EmitAngle="5" Texture="textures/sprites/water_tiled_a.tif" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha="0.3,,,(;0.082,1;0.25,1;1)" Color="(0.32,0.38,0.384),,,(0.004,(0.91,0.906,0.996);0.992,(0.933,0.957,0.97))" SoftParticle="true" DiffuseBacklighting="0.5" ReceiveShadows="true" Size="1.95,0.25,,(,0.20416668,32;1,1)" Stretch="0.2,0.25,,,0.4" Speed="6,0.3" RotationalDragScale="0" GravityScale="0.35" RandomAngles=",180" RandomRotationRate=",35" Thickness="0" DrawLast="-3"/>
    </Particles>
    <Particles Name="flow">
-    <Params Continuous="true" Count="15" ParticleLifeTime="1.2" RandomOffset="2.5,0.1,2" FocusAngle="90" EmitAngle="5" Texture="textures/sprites/waterfoam_a.tif" TextureTiling="2,2,,4" Alpha="0.3,,,(;0.086,1;0.25,1;1)" Color="(0.475,0.52,0.55)" SoftParticle="true" DiffuseLighting="0.1" DiffuseBacklighting="0.5" EmissiveLighting="0.3" ReceiveShadows="true" Size="1.85,0.25,,(,0.4791667,32;1,1)" Stretch="0.2,0.25,,,0.4" Speed="6,0.3" RotationalDragScale="0" GravityScale="0.22" RandomAngles=",180" RandomRotationRate=",35" Thickness="0" DrawLast="-4"/>
+    <Params Continuous="true" Count="15" ParticleLifeTime="1.2" RandomOffset="2.5,0.1" FocusAngle="90" EmitAngle="5" Texture="textures/sprites/waterfoam_a.tif" TextureTiling="2,2,,4" Alpha="0.3,,,(;0.086,1;0.25,1;1)" Color="(0.32,0.38,0.384)" SoftParticle="true" DiffuseBacklighting="0.5" ReceiveShadows="true" Size="1.85,0.25,,(,0.4791667,32;1,1)" Stretch="0.2,0.25,,,0.4" Speed="6,0.3" RotationalDragScale="0" GravityScale="0.22" RandomAngles=",180" RandomRotationRate=",35" Thickness="0" DrawLast="-4"/>
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="Forest.Waterfall.fall_narrow" Id="{CB93B901-3402-40E8-8670-55EBDD5950D8}" Library="Waterfall">
-  <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0.059" DiffuseBacklighting="1" EmissiveLighting="0.683" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed="12,0.713" AirResistance="1.23" GravityScale="3"/>
+ <Particles Name="Forest.Waterfall.fall_narrow" Id="{BF6B9E27-B9C7-4AF2-8519-9732C77D8F4D}" Library="Waterfall">
+  <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed="12,0.713" AirResistance="1.23" GravityScale="3"/>
   <Childs>
    <Particles Name="flow">
-    <Params Continuous="true" Count="25" ParticleLifeTime="2,0.267" RandomOffset="0.5" EmitAngle=",1" Texture="textures/sprites/waterfoam_a.tif" TextureTiling="2,2,,4" Alpha="0.3,,,(;0.086,1;0.255,1;0.98,0.020833334)" Color="(0.32,0.38,0.39)" SoftParticle="true" DiffuseLighting="0.1" DiffuseBacklighting="0.5" EmissiveLighting="0.3" ReceiveShadows="true" Size="1.5,0.2,,(,0.5,32;1,1)" Stretch="0.5,,,(;0.1;0.816,1;0.996,,4)" Speed="6,0.713" AirResistance="1" RotationalDragScale="0" GravityScale="2" RandomAngles=",180" RandomRotationRate=",32"/>
+    <Params Continuous="true" Count="25" ParticleLifeTime="2,0.267" RandomOffset="0.5" EmitAngle=",1" Texture="textures/sprites/waterfoam_a.tif" TextureTiling="2,2,,4" Alpha="0.3,,,(;0.086,1;0.255,1;0.98,0.020833334)" Color="(0.32,0.38,0.39)" SoftParticle="true" DiffuseBacklighting="0.5" ReceiveShadows="true" Size="1.5,0.2,,(,0.5,32;1,1)" Stretch="0.5,,,(;0.1;0.816,1;0.996,,4)" Speed="6,0.713" AirResistance="1" RotationalDragScale="0" GravityScale="2" RandomAngles=",180" RandomRotationRate=",32"/>
    </Particles>
    <Particles Name="refraction">
-    <Params Continuous="true" Count="50" ParticleLifeTime="2" RandomOffset="0.5" EmitAngle="5" Texture="textures/sprites/water_tiled_a.tif" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha=",,,(;0.082,1;0.255,1;1)" Color="(0.32,0.38,0.39)" SoftParticle="true" DiffuseLighting="0.1" DiffuseBacklighting="0.5" EmissiveLighting="0.3" ReceiveShadows="true" Size="1.5,0.25,,(,0.20416668,32;1,1)" Stretch="0.5,0.25,,(,,32;0.18,0.06666667;0.792,1;1,1)" Speed="6" AirResistance="1,0.25" RotationalDragScale="0" GravityScale="1,0.5" RandomAngles=",180" RandomRotationRate=",35" Thickness="0"/>
+    <Params Continuous="true" Count="50" ParticleLifeTime="2" RandomOffset="0.5" EmitAngle="5" Texture="textures/sprites/water_tiled_a.tif" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha="0.3,,,(;0.082,1;0.255,1;1)" Color="(0.32,0.38,0.39)" SoftParticle="true" DiffuseBacklighting="0.5" ReceiveShadows="true" Size="1.5,0.25,,(,0.20416668,32;1,1)" Stretch="0.5,0.25,,(,,32;0.18,0.06666667;0.792,1;1,1)" Speed="6" AirResistance="1,0.25" RotationalDragScale="0" GravityScale="1,0.5" RandomAngles=",180" RandomRotationRate=",35" Thickness="0"/>
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="Forest.Waterfall.fall_Wide" Id="{5BD39739-9E8E-41E0-B1E6-49A4344B9F46}" Library="Waterfall">
-  <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0.059" DiffuseBacklighting="0.06" EmissiveLighting="0.683" ReceiveShadows="true" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed="12,0.713" GravityScale="3"/>
+ <Particles Name="Forest.Waterfall.fall_Wide" Id="{C48189F0-93DB-4933-8E76-3379C0F90D25}" Library="Waterfall">
+  <Params Enabled="false" Continuous="true" Count=",0.109" ParticleLifeTime=",0.812" PosRandomOffset="1.21" EmitAngle="40,1" OrientToVelocity="true" TextureTiling="2,2,,,4,,true" Alpha="0.9,,,(;0.118,1,4;0.443,1;0.992,,4)" Color="(0.992,0.992,0.992),,,(0.016,(0.635,0.635,0.635);0.996,(0.96,0.976,0.98))" DiffuseLighting="0" ReceiveShadows="true" Size=",0.356,,(;1,1,4)" Stretch="0.06" Speed="12,0.713" GravityScale="3"/>
   <Childs>
    <Particles Name="flow">
-    <Params Continuous="true" Count="25" ParticleLifeTime="2,0.267" RandomOffset="2" EmitAngle=",1" Texture="textures/sprites/waterfoam_a.tif" TextureTiling="2,2,,4" Alpha="0.3,,,(;0.09,1;0.25,1;0.98,0.020833334)" Color="(0.32,0.38,0.39),,,(0.004,(0.91,0.906,0.996);0.992,(0.933,0.957,0.97))" SoftParticle="true" DiffuseLighting="0.1" DiffuseBacklighting="0.5" EmissiveLighting="0.3" ReceiveShadows="true" Size=",0.2,,(,0.5,32;1,1)" Stretch="0.5,,,(;0.1;0.816,1;1,1)" Speed="6" AirResistance="1,0.25" GravityScale="1"/>
+    <Params Continuous="true" Count="25" ParticleLifeTime="2,0.267" RandomOffset="2" EmitAngle=",1" Texture="textures/sprites/waterfoam_a.tif" TextureTiling="2,2,,4" Alpha="0.3,,,(;0.09,1;0.25,1;0.98,0.020833334)" Color="(0.32,0.38,0.39),,,(0.004,(0.91,0.906,0.996);0.992,(0.933,0.957,0.97))" SoftParticle="true" DiffuseBacklighting="0.5" ReceiveShadows="true" Size=",0.2,,(,0.5,32;1,1)" Stretch="0.5,,,(;0.1;0.816,1;1,1)" Speed="6" AirResistance="1,0.25" GravityScale="1"/>
    </Particles>
    <Particles Name="refraction">
-    <Params Continuous="true" Count="60" ParticleLifeTime="2" RandomOffset="2" EmitAngle="5" Texture="textures/sprites/water_tiled_a.tif" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha=",,,(;0.086,1;0.255,1;1)" Color="(0.32,0.38,0.39),,,(0.004,(0.91,0.906,0.996);0.992,(0.933,0.957,0.97))" SoftParticle="true" DiffuseLighting="0.1" DiffuseBacklighting="0.5" EmissiveLighting="0.3" ReceiveShadows="true" Size="1.25,0.25,,(,0.20416668,32;1,1)" Stretch="0.6,0.25,,(,,32;0.18,0.06666667;0.792,1;1,1)" Speed="6" AirResistance="1,0.25" RotationalDragScale="0" GravityScale="1,0.5" Thickness="0"/>
+    <Params Continuous="true" Count="60" ParticleLifeTime="2" RandomOffset="2" EmitAngle="5" Texture="textures/sprites/water_tiled_a.tif" TextureTiling="2,2,,4" Material="materials/particle/water_deformation_a" Alpha="0.3,,,(;0.086,1;0.255,1;1)" Color="(0.32,0.38,0.39),,,(0.004,(0.91,0.906,0.996);0.992,(0.933,0.957,0.97))" SoftParticle="true" DiffuseBacklighting="0.5" ReceiveShadows="true" Size="1.25,0.25,,(,0.20416668,32;1,1)" Stretch="0.6,0.25,,(,,32;0.18,0.06666667;0.792,1;1,1)" Speed="6" AirResistance="1,0.25" RotationalDragScale="0" GravityScale="1,0.5" Thickness="0"/>
    </Particles>
   </Childs>
  </Particles>
- <Particles Name="Forest.Waterfall.spray" Id="{38F0D13A-57D0-4A1F-A836-5B6C941FDDC6}" Library="Waterfall">
-  <Params Continuous="true" Count="10" ParticleLifeTime="2,0.13" PositionOffset=",,-1" PosRandomOffset="1" EmitAngle="90,1" Texture="textures/sprites/waterdust1.tif" OctagonalShape="false" Alpha="0.5,,,(0.5,1;1)" Color="(0.32,0.38,0.384)" SoftParticle="true" DiffuseLighting="0.1" DiffuseBacklighting="0.5" EmissiveLighting="0.3" ReceiveShadows="true" Size="20,0.188,,(,0.4791667;0.506,1)" Speed="5" GravityScale="0.15" CameraMaxDistance="200"/>
+ <Particles Name="Forest.Waterfall.spray" Id="{14730174-311A-411E-85FD-6C3C23846229}" Library="Waterfall">
+  <Params Continuous="true" Count="10" ParticleLifeTime="2,0.13" PositionOffset=",,-1" PosRandomOffset="1" EmitAngle="90,1" Texture="textures/sprites/waterdust1.tif" OctagonalShape="false" Alpha="0.2,,,(0.5,1;1)" Color="(0.32,0.38,0.384)" SoftParticle="true" DiffuseBacklighting="0.5" ReceiveShadows="true" Size="20,0.188,,(,0.4791667;0.506,1)" Speed="5" GravityScale="0.15" CameraMaxDistance="200"/>
  </Particles>
 </ParticleLibrary>

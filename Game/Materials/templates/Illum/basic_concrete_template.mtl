@@ -1,0 +1,20 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="concrete" MtlFlags="524416" Shader="Illum" GenMask="100040001" StringGenMask="%ALLOW_POM%GLOSS_DIFFUSEALPHA%STAT_BRANCHING" SurfaceType="mat_concrete" MatTemplate="" Diffuse="0.50196081,0.50196081,0.50196081" Specular="0.80000001,0.80000001,0.80000001" Emissive="0,0,0" Shininess="20" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/basic_concrete_b_diff.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Bumpmap" File="materials/templates/textures/basic_concrete_b_ddn.dds">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams AmbientMultiplier="1"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="524416" Shader="Illum" GenMask="100000001" StringGenMask="%ALLOW_POM%STAT_BRANCHING" SurfaceType="" MatTemplate="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+   <Textures />
+   <PublicParams AmbientMultiplier="1"/>
+  </Material>
+ </SubMaterials>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

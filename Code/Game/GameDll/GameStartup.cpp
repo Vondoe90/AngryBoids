@@ -24,6 +24,8 @@ History:
 #include <platform_impl.h>
 #include <INetworkService.h>
 
+#include <WindowsX.h>
+
 #include <CryExtension/CryCreateClassInstance.h> 
 
 #include <LoadSeq.h>
@@ -259,32 +261,46 @@ IGameRef CGameStartup::Init(SSystemInitParams &startupParams)
 void CGameStartup::LoadLocalizationData()
 {
 	LOADING_TIME_PROFILE_SECTION
+	// Loads any XML files in Languages directory
+
 	ILocalizationManager *pLocMan = GetISystem()->GetLocalizationManager();
 
-	ICryPak *pCryPak = gEnv->pCryPak;
-	_finddata_t fd;
-	char filename[_MAX_PATH];
-	string sPath = "Languages";
-	string sSearch = sPath + "/*.xml";
-	intptr_t handle = pCryPak->FindFirst( sSearch, &fd, 0);
-
-	if (handle != -1)
+	string sLocaFolderName = "Libs/Localization/";
+	string locaFile = sLocaFolderName + "localization.xml";
+	if (pLocMan->InitLocalizationData(locaFile.c_str()))
 	{
-		// Localization file found.
-		int res = 0;
-		do
+		if (!gEnv->IsEditor())
 		{
-			// Load xml file.
-			strcpy(filename,sPath);
-			strcat(filename,"/");
-			strcat(filename,fd.name);
-			pLocMan->LoadExcelXmlSpreadsheet(filename);
+			// load only the init xml files
+			pLocMan->LoadLocalizationDataByTag("init");
+		}
+	} else {	
+		// fallback to old system if localization.xml can not be found
+		string const sLocalizationFolder(PathUtil::GetLocalizationFolder());
+		string const search(sLocalizationFolder + "*.xml");
 
-			res = pCryPak->FindNext( handle,&fd );
-		} while (res >= 0);
+		ICryPak *pPak = gEnv->pCryPak;
 
-		pCryPak->FindClose(handle);
+		_finddata_t fd;
+		intptr_t handle = pPak->FindFirst(search.c_str(), &fd);
 
+		if (handle > -1)
+		{
+			do
+			{
+				CRY_ASSERT_MESSAGE(stricmp(PathUtil::GetExt(fd.name), "xml") == 0, "expected xml files only");
+
+				string filename = sLocalizationFolder + fd.name;
+				pLocMan->LoadExcelXmlSpreadsheet(filename.c_str());
+			}
+			while (pPak->FindNext(handle, &fd) >= 0);
+
+			pPak->FindClose(handle);
+		}
+		else
+		{
+			CryWarning(VALIDATOR_MODULE_GAME, VALIDATOR_ERROR, "Unable to find any Localization Data!");
+		}
 	}
 }
 
@@ -369,6 +385,12 @@ void CGameStartup::Shutdown()
 
 int CGameStartup::Update(bool haveFocus, unsigned int updateFlags)
 {
+#if defined(JOBMANAGER_SUPPORT_PROFILING)
+	gEnv->GetJobManager()->SetFrameStartTime(gEnv->pTimer->GetAsyncTime());
+#endif
+
+
+
 	int returnCode = 0;
 
 	if (gEnv && gEnv->pSystem && gEnv->pConsole)
@@ -553,7 +575,7 @@ int CGameStartup::Run( const char * autoStartLevelName )
 	{
 		MSG msg;
 
-		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+		if (PeekMessageW(&msg, 0, 0, 0, PM_REMOVE))
 		{
 			if (msg.message != WM_QUIT)
 			{
@@ -571,7 +593,7 @@ int CGameStartup::Run( const char * autoStartLevelName )
 			{
 				// need to clean the message loop (WM_QUIT might cause problems in the case of a restart)
 				// another message loop might have WM_QUIT already so we cannot rely only on this 
-				while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+				while(PeekMessageW(&msg, 0, 0, 0, PM_REMOVE))
 				{
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
@@ -631,7 +653,7 @@ bool CGameStartup::InitFramework(SSystemInitParams &startupParams)
 		return false;
 	}
 
-	if (!startupParams.hWnd)
+	if (!startupParams.hWnd && !startupParams.bEditor)
 	{
 		m_initWindow = true;
 
@@ -643,6 +665,10 @@ bool CGameStartup::InitFramework(SSystemInitParams &startupParams)
 			return false;
 		}
 	}
+#if defined(WIN32) && !defined(XENON)
+	else if (startupParams.bBrowserMode)
+		SubclassWindow((HWND)startupParams.hWnd, (WNDPROC)CGameStartup::WndProc);
+#endif
 
 	// initialize the engine
 	if (!m_pFramework->Init(startupParams))
@@ -804,19 +830,9 @@ LRESULT CALLBACK CGameStartup::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 				if (event.pSymbol)
 					event.keyId = event.pSymbol->keyId;
 
-				wchar_t tmp[2] = { 0 };
-				MultiByteToWideChar(CP_ACP, 0, (char*)&wParam, 1, tmp, 2);
-				event.timestamp = tmp[0];
-
-				char szKeyName[4] = {0};
-				if (wctomb(szKeyName, (WCHAR)wParam) != -1)
-				{
-					if (szKeyName[1]==0 && ((unsigned char)szKeyName[0])>=32)
-					{
-						event.keyName = szKeyName;
-						gEnv->pInput->PostInputEvent(event);
-					}
-				}
+				event.timestamp = GetTickCount();
+				event.inputChar = (wchar_t)wParam;
+				gEnv->pInput->PostInputEvent(event);
 			}
 		}
 		break;
@@ -895,7 +911,7 @@ LRESULT CALLBACK CGameStartup::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 
 		if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
 		{
-			//gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_CHANGE_FOCUS, LOWORD(wParam) != WA_INACTIVE, 0);
+			gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_ACTIVATE, LOWORD(wParam) != WA_INACTIVE, HIWORD(wParam));
 		}
 		break;
 	case WM_SETFOCUS:
@@ -903,7 +919,7 @@ LRESULT CALLBACK CGameStartup::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 			gEnv->pLog->Log("MSG: WM_SETFOCUS (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
 		if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
 		{
-			//gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_CHANGE_FOCUS, 1, 0);
+			gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_CHANGE_FOCUS, 1, 0);
 		}
 		break;
 	case WM_KILLFOCUS:
@@ -911,7 +927,7 @@ LRESULT CALLBACK CGameStartup::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 			gEnv->pLog->Log("MSG: WM_KILLFOCUS (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
 		if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
 		{
-			//gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_CHANGE_FOCUS, 0, 0);
+			gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_CHANGE_FOCUS, 0, 0);
 		}
 		break;
   case WM_WINDOWPOSCHANGED:
@@ -919,7 +935,7 @@ LRESULT CALLBACK CGameStartup::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 			gEnv->pLog->Log("MSG: WM_WINDOWPOSCHANGED (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
 		if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
 		{
-			//gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_CHANGE_FOCUS, 1, 0);
+			gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_POS_CHANGED, 1, 0);
 		}
 		break;
   case WM_STYLECHANGED:
@@ -927,7 +943,7 @@ LRESULT CALLBACK CGameStartup::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 			gEnv->pLog->Log("MSG: WM_STYLECHANGED (%s %s)", (GetFocus()==hWnd)?"focused":"", (GetForegroundWindow()==hWnd)?"foreground":"");
     if(gEnv && gEnv->pSystem && gEnv->pSystem->GetISystemEventDispatcher())
     {
-      gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_CHANGE_FOCUS, 1, 0);
+      gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_STYLE_CHANGED, 1, 0);
     }
 		break;
 	case WM_INPUTLANGCHANGE:

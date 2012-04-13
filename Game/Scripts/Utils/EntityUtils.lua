@@ -845,3 +845,27 @@ function MakeCompareEntitiesByDistanceFromPoint( point )
 	end
 	return CompareEntitiesByDistanceFromPoint
 end
+
+-------------------------------------------------------------------------------
+-- Called by Pool System when an Entity is bookmarked for pool usage
+--  - Gives us its EntityId and PropertiesInstance tables for logic-driven utilities
+-------------------------------------------------------------------------------
+
+function OnEntityBookmarkCreated( entityId, propertiesInstance )
+
+	local waveName = nil;
+	if (propertiesInstance and propertiesInstance.AITerritoryAndWave) then
+		waveName = propertiesInstance.AITerritoryAndWave.aiwave_Wave;
+	end
+	
+	if (waveName and waveName ~= "<None>") then
+		
+		-- Notify territory and wave
+		AddBookmarkedToWave(entityId, waveName);
+		return false;
+		
+	end
+	
+	return true;
+
+end

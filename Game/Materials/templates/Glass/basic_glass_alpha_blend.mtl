@@ -1,0 +1,19 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="glass" MtlFlags="526464" Shader="Glass" GenMask="100010010" StringGenMask="%BILINEAR_FP16%ENVIRONMENT_MAP%STAT_BRANCHING" SurfaceType="mat_glass_unbreakable" MatTemplate="" Diffuse="0.14509805,0.15686275,0.17254902" Specular="0.60392159,0.60392159,0.60392159" Emissive="0,0,0" Shininess="20" Opacity="0.29800001">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/gdc/atrium/white_diff.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Environment" File="textures/env_maps/env_cm_bright_blured.tif">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams TintAmount="1" RefrBumpScale="0.15899999" ReflectionAmount="10" FresnelBias="0.1" FresnelScale="1" BackLightScale="1.05" FilterColor="0.19607843,0.28235295,0.32156864"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_rubber" MatTemplate="" Diffuse="0.60784298,0.77254897,0.58823502" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="0.30000001">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

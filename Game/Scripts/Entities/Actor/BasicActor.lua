@@ -933,7 +933,7 @@ end
 
 -- Call some initial code for actor spawn and respawn
 function BasicActor:InitialSetup(bIsReload)
-	BasicActor.Reset(self, bIsReload);
+	BasicActor.Reset(self, true, bIsReload);
 end
 
 function BasicActor:Reset(bFromInit, bIsReload)
@@ -2360,7 +2360,18 @@ function BasicActor:OnSpawn(bIsReload)
     
   self.prevFrozenAmount = 0;
 
-  self:InitialSetup(bIsReload);
+	-- If AI tables were included, propagate call down the chain
+	-- Note on InitialSetup:
+	-- InitialSetup calls Reset(), which will happen right after for AI, during the OnInit callback
+	-- this way we make sure Reset() is only called once during initialization of the entity (reloaded or not)
+	-- If not we will end up with two calls, which can re-create the inventory twice and what not (expensive!)
+	-- For Players needs to figure out if it is required to call InitialSetup (and Reset) at this point
+	if (self.ai) then
+		BasicAI.OnSpawn(self,bIsReload);
+	else
+		self:InitialSetup(bIsReload);
+	end
+
 end
 
 function BasicActor:OnRevive()
@@ -2962,11 +2973,11 @@ function BasicActor:SetupTerritoryAndWave(territory, wave)
 	
 end
 
-function BasicActor:NotifyHitReaction(hitInfo)
+function BasicActor:NotifyHitReaction(hitInfo, causedDamage)
 	local bRet = false;
 	
 	if (self.hitDeathReactions) then
-		bRet = self.hitDeathReactions.binds:OnHit(hitInfo);
+		bRet = self.hitDeathReactions.binds:OnHit(hitInfo, causedDamage);
 	end
 	
 	return bRet;

@@ -4,7 +4,6 @@
 			<ViewDistance type="Int" value="8000"/>
       <ViewDistanceLowSpec type="Int" value="1000"/>
       <LDRGlobalDensMult type="Float" value="1.0"/>
-			<UseFogColorGradient type="BOOL" value="false"/>			
     </Fog>
 
     <Terrain>

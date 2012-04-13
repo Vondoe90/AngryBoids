@@ -1,0 +1,42 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="Hair" MtlFlags="526464" Shader="Hair" GenMask="4100000000" StringGenMask="%STAT_BRANCHING%WIND_BENDING" SurfaceType="mat_default" MatTemplate="" Diffuse="0.33333334,0.31764707,0.30980393" Specular="0.4784314,0.4784314,0.4784314" Emissive="0,0,0" Shininess="1" Opacity="0.98699999" AlphaTest="0.199">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/hair_2_template_diff.tif" Filter="7">
+     <TexMod />
+    </Texture>
+    <Texture Map="Specular" File="materials/templates/textures/hair_2_template_spec.tif" Filter="7">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams AnimFrequency="0.88" AnimAmplitudeWav0="1.17" AnimAmplitudeWav2="0" AnimPhase="0.99000001" DetailTilling="0" HairColor="0.2392157,0.21960786,0.21960786" PrimarySpecColor="0.37254903,0.27058825,0.27058825" PrimarySpecPow="0.5" PrimarySpecShift="0" SecondarySpecColor="1,1,1" SecondarySpecPow="0.1" SecondarySpecShift="0" BumpScale="0" RimMultiplier="1.885" DiffuseWrap="0.66100001" ViewOpacity="10" FillMultiplier="1.404"/>
+  </Material>
+  <Material Name="Hair_backup" MtlFlags="526464" Shader="Hair" GenMask="100000000" StringGenMask="%STAT_BRANCHING" SurfaceType="mat_default" MatTemplate="" Diffuse="0.33333334,0.31764707,0.30980393" Specular="0.4784314,0.4784314,0.4784314" Emissive="0,0,0" Shininess="1" Opacity="0.99000001" AlphaTest="0.0099999998">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/hair_template_diff.tif" Filter="7">
+     <TexMod />
+    </Texture>
+    <Texture Map="Specular" File="materials/templates/textures/hair_template_spec.tif" Filter="7">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams AnimFrequency="0.69999999" AnimAmplitudeWav0="0.88" AnimAmplitudeWav2="0" AnimPhase="1" DetailTilling="1" HairColor="0.32549021,0.3019608,0.3019608" PrimarySpecColor="0.086274512,0.062745102,0.062745102" PrimarySpecPow="0.5" PrimarySpecShift="-0.53200001" SecondarySpecColor="1,1,1" SecondarySpecPow="0.1" SecondarySpecShift="1" BumpScale="0" RimMultiplier="4" DiffuseWrap="0.75" ViewOpacity="10" FillMultiplier="4"/>
+  </Material>
+  <Material Name="Hair__in_light" MtlFlags="526464" Shader="Hair" GenMask="100000000" StringGenMask="%STAT_BRANCHING" SurfaceType="mat_default" MatTemplate="" Diffuse="0.33333334,0.31764707,0.30980393" Specular="0.4784314,0.4784314,0.4784314" Emissive="0,0,0" Shininess="1" Opacity="0.99000001" AlphaTest="0.0099999998">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/characters/jelena/jelena_hair_diff.tif" Filter="7">
+     <TexMod />
+    </Texture>
+    <Texture Map="Specular" File="objects/characters/jelena/jelena_hair_spec.tif" Filter="7">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams AnimFrequency="0.69999999" AnimAmplitudeWav0="0.88" AnimAmplitudeWav2="0" AnimPhase="1" DetailTilling="1" HairColor="0.2392157,0.21960786,0.21960786" PrimarySpecColor="0.37254903,0.27058825,0.27058825" PrimarySpecPow="0.5" PrimarySpecShift="0" SecondarySpecColor="1,1,1" SecondarySpecPow="0.1" SecondarySpecShift="0" BumpScale="0" RimMultiplier="0.34900001" DiffuseWrap="0.588" ViewOpacity="10" FillMultiplier="0.838"/>
+  </Material>
+  <Material Name="SubMtl4" MtlFlags="524416" Shader="Illum" GenMask="100000001" StringGenMask="%ALLOW_POM%STAT_BRANCHING" SurfaceType="mat_default" MatTemplate="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+   <Textures />
+   <PublicParams AmbientMultiplier="1"/>
+  </Material>
+ </SubMaterials>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

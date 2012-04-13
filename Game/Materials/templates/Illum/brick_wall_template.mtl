@@ -1,0 +1,19 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="bricks" MtlFlags="524416" Shader="Illum" GenMask="2100040001" StringGenMask="%ALLOW_POM%GLOSS_DIFFUSEALPHA%STAT_BRANCHING%VERTCOLORS" SurfaceType="mat_concrete" MatTemplate="" Diffuse="0.60000002,0.60000002,0.60000002" Specular="0.20392157,0.20392157,0.20392157" Emissive="0,0,0" Shininess="2" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/brick_raw_diff.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Bumpmap" File="materials/templates/textures/brick_raw_ddn.tif">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams AmbientMultiplier="1"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_rubber" MatTemplate="" Diffuse="0.60784298,0.77254897,0.58823502" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="0.30000001">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

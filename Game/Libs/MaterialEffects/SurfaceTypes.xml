@@ -50,6 +50,30 @@
   <Physics friction="0.60000002" elasticity="0.30000001"  pierceability="7"  />
   <AI fImpactRadius="5" fImpactSoundRadius="25" fFootStepRadius="20" proneMult="0.2" crouchMult="0.5" movingMult="2.5"/>
  </SurfaceType>
+ <SurfaceType name="mat_glass_breakable_thin_small" type="glass">
+  <Physics friction="0.60000002" elasticity="0.30000001" pierceability="14" break_energy="2000" breakable_2d="1" can_shatter="1" hit_points="1" hit_radius="0.4" hit_maxdmg="1" hit_maxhits="1"/>
+  <breakable_2d rigid_body="0" cell_size="0.35" blast_radius="0.4" max_patch_tris="8" filter_angle="40" vert_size_spread="0.7" shard_density="900" crack_decal_mtl="materials/decals/glass/broken_glass01" max_fracture="0.35" crack_decal_scale="3.5" no_procedural_full_fracture="1" full_fracture_fx="bullet.hit_glass.a" />
+  <AI fImpactRadius="5" fImpactSoundRadius="25" fFootStepRadius="20" proneMult="0.2" crouchMult="0.5" movingMult="2.5"/>
+ </SurfaceType>
+
+ <SurfaceType name="mat_glass_breakable_thin_large" type="glass">
+  <Physics friction="0.60000002" elasticity="0.30000001" pierceability="14" break_energy="2000" breakable_2d="1" can_shatter="1" hit_points="1" hit_radius="0.4" hit_maxdmg="1" hit_maxhits="1"/>
+  <breakable_2d rigid_body="0" cell_size="0.4" blast_radius="0.5" max_patch_tris="8" filter_angle="40" vert_size_spread="0.7" shard_density="900" crack_decal_mtl="materials/decals/glass/broken_glass01" max_fracture="0.17" crack_decal_scale="3.5" no_procedural_full_fracture="1" full_fracture_fx="bullet.hit_glass.a" />
+  <AI fImpactRadius="5" fImpactSoundRadius="25" fFootStepRadius="20" proneMult="0.2" crouchMult="0.5" movingMult="2.5"/>
+ </SurfaceType>
+
+
+ <SurfaceType name="mat_glass_breakable_safetyglass_small" type="glass">
+  <Physics friction="0.60000002" elasticity="0.30000001" pierceability="14" break_energy="2000" breakable_2d="1" can_shatter="1" hit_points="1" hit_points_secondary="2" hit_radius="0.4" hit_maxdmg="1" hit_maxhits="1" />
+  <breakable_2d rigid_body="0" cell_size="0.1" blast_radius_first="0" blast_radius="1" max_patch_tris="8" filter_angle="75" vert_size_spread="0.7" shard_density="900" broken_mtl="materials/glass/broken_glass02" no_procedural_full_fracture="1" max_fracture="0.19" fracture_fx="bullet.hit_glass.a" full_fracture_fx="bullet.hit_glass.a" />
+  <AI fImpactRadius="5" fImpactSoundRadius="25" fFootStepRadius="20" proneMult="0.2" crouchMult="0.5" movingMult="2.5"/>
+ </SurfaceType>
+ 
+ <SurfaceType name="mat_glass_breakable_safetyglass_large" type="glass">
+  <Physics friction="0.60000002" elasticity="0.30000001" pierceability="14" break_energy="2000" breakable_2d="1" can_shatter="1" hit_points="1" hit_points_secondary="3" hit_radius="0.4" hit_maxdmg="1" hit_maxhits="1" />
+  <breakable_2d rigid_body="0" cell_size="1" blast_radius_first="0" blast_radius="1" max_patch_tris="8" filter_angle="75" vert_size_spread="0.7" shard_density="900"  no_procedural_full_fracture="1" max_fracture="0.20" fracture_fx="bullet.hit_glass.a" full_fracture_fx="bullet.hit_glass.a"/>
+  <AI fImpactRadius="5" fImpactSoundRadius="25" fFootStepRadius="20" proneMult="0.2" crouchMult="0.5" movingMult="2.5"/>
+ </SurfaceType>
  <SurfaceType name="mat_grass" type="vegetation">
   <Physics friction="0.60000002" elasticity="-2"  pierceability="14" no_collide="1" can_shatter="1"  />
   <AI fImpactRadius="2.5" fImpactSoundRadius="20" fFootStepRadius="30" proneMult="0.2" crouchMult="0.5" movingMult="2.5"/>

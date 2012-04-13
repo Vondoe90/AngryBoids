@@ -29,10 +29,11 @@
 	<Policy name="stab" impl="StringTable"/>
 
 	<Policy name="wrld" impl="QuantizedVec3">
-		<XParams min="0" max="511.0" nbits="16"/>
-		<YParams min="0" max="511.0" nbits="16"/>
-		<ZParams min="0" max="511.0" nbits="15"/>
+		<XParams min="0" max="4095.0" nbits="24"/>
+		<YParams min="0" max="4095.0" nbits="24"/>
+		<ZParams min="0" max="4095.0" nbits="24"/>
 	</Policy>
+
 	<Policy name="wrl2" impl="AdaptiveVec3">
 		<XParams 
 			min="0" 

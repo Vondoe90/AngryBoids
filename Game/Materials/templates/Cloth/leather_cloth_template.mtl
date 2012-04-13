@@ -1,0 +1,20 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="leather" MtlFlags="524416" Shader="Cloth" GenMask="100000008" StringGenMask="%ANISO_SPECULAR%STAT_BRANCHING" SurfaceType="mat_rubber" MatTemplate="" Diffuse="0.60392159,0.76862746,0.58431375" Specular="0.14509805,0.10196079,0.070588239" Emissive="0,0,0" Shininess="8" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/generic_leather_dif.dds">
+     <TexMod />
+    </Texture>
+    <Texture Map="Bumpmap" File="materials/presets/materialtypes/textures/generic_leatherbump_ddn.dds">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams AnimFrequency="0" AnimAmplitudeWav0="0" AnimAmplitudeWav2="0" AnimPhase="1" AnisotropicShape="0.25" DiffuseExponent="0" FuzzynessSmoothness="0" FuzzynessStrength="1" FuzzynessSpread="0" FuzzynessSaturation="1" SpecularMultiplier="0.40900001"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="524416" Shader="Illum" GenMask="100000001" StringGenMask="%ALLOW_POM%STAT_BRANCHING" SurfaceType="" MatTemplate="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+   <Textures />
+   <PublicParams AmbientMultiplier="1"/>
+  </Material>
+ </SubMaterials>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

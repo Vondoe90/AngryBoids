@@ -23,6 +23,9 @@ Light =
 			nCoronaShaftsMinSpec = 3,  -- 0-low   1-med   2-high   3-v.high
 			nLensGhostsMinSpec = 3,   -- 0-low   1-med   2-high   3-v.high
 			texture_AttenuationMap = "",
+			lightanimation_LightAnimation = "",
+			bTimeScrubbingInTrackView = 0,
+			_fTimeScrubbed = 0,
 		},
 		Projector =
 		{
@@ -40,6 +43,8 @@ Light =
 		Options = {
 			bCastShadow = 0,
 			nCastShadows = 0,
+			fShadowBias = 100,
+			fShadowSlopeBias = 1,
 			bAffectsThisAreaOnly = 1,
 			bIgnoresVisAreas = 0,
 			--bUsedInRealTime = 1,
@@ -51,7 +56,9 @@ Light =
 			bIrradianceVolumes = 0,
 			texture_deferred_cubemap = "",
 			file_deferred_clip_geom = "",
-			nPostEffect=0, -- 0=none, 1= screen space light shaft, 2= flare, 3= volume desaturation ?			
+			nPostEffect=0, -- 0=none, 1= screen space light shaft, 2= flare, 3= volume desaturation ?
+			fShadowUpdateMinRadius = 10,
+			fShadowUpdateRatio = 1,			
 		},
 	},
 
@@ -153,6 +160,9 @@ function Light:LoadLightToSlot( nSlot )
 	lt.anim_speed = Style.fAnimationSpeed;
 	lt.anim_phase = Style.nAnimationPhase;
 	lt.attenuation_map = Style.texture_AttenuationMap;
+	lt.light_animation = Style.lightanimation_LightAnimation;
+	lt.time_scrubbing_in_trackview = Style.bTimeScrubbingInTrackView;
+	lt.time_scrubbed = Style._fTimeScrubbed;
 	
 	lt.radius = props.Radius;
 	lt.diffuse_color = { x=Color.clrDiffuse.x*diffuse_mul, y=Color.clrDiffuse.y*diffuse_mul, z=Color.clrDiffuse.z*diffuse_mul };
@@ -180,8 +190,12 @@ function Light:LoadLightToSlot( nSlot )
 	lt.indoor_only = 0;
 	lt.has_cbuffer = 0;
 	lt.cast_shadow = Options.nCastShadows;
+	lt.shadow_bias = Options.fShadowBias;
+	lt.shadow_slope_bias = Options.fShadowSlopeBias;
 	lt.deferred_cubemap = Options.texture_deferred_cubemap;
 	lt.deferred_geom = Options.file_deferred_clip_geom;
+	lt.shadowUpdate_MinRadius = Options.fShadowUpdateMinRadius;
+	lt.shadowUpdate_ratio = Options.fShadowUpdateRatio;
 		
 	lt.lightmap_linear_attenuation = 1;
 	lt.is_rectangle_light = 0;

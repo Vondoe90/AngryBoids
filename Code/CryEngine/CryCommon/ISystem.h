@@ -469,6 +469,7 @@ struct SSystemInitParams
 	bool bTesting;								// CryUnit
 	bool bNoRandom;								//use fixed generator init/seed
 	bool bShaderCacheGen;					// When running in shadercache gen mode
+	bool bBrowserMode;								// When running in Browser
 
 	ISystem *pSystem;											// Pointer to existing ISystem interface, it will be reused if not NULL.
 //	char szLocalIP[256];									// local IP address (needed if we have several servers on one machine)
@@ -517,6 +518,7 @@ struct SSystemInitParams
 		bTesting = false;
 		bNoRandom = false;
 		bShaderCacheGen = false;
+		bBrowserMode = false;
 
 		pSystem = NULL;
 		pCheckFunc = NULL;
@@ -957,6 +959,9 @@ UNIQUE_IFACE struct ISystem
 	//	 Compare specified verbosity level to the one currently set.
 	virtual bool CheckLogVerbosity( int verbosity ) = 0;
 
+	//	 Returns true if is running in a browser.
+	virtual bool IsBrowserMode() { return false; }
+
 	virtual bool IsUIFrameworkMode() { return false; }
 
 	// return the related subsystem interface
@@ -1300,8 +1305,6 @@ UNIQUE_IFACE struct ISystem
 
 
 
-
-
 	// Summary: 
 	//		Clear all currently logged and drawn on screen error messages
 	virtual void ClearErrorMessages() = 0;
@@ -1533,6 +1536,9 @@ inline void CryWarning( EValidatorModule module,EValidatorSeverity severity,cons
 // Summary:
 //	 Preferred way to register a CVar
 #define REGISTER_CVAR(_var,_def_val,_flags,_comment)	(gEnv->pConsole == 0 ? 0 : gEnv->pConsole->Register((#_var), &(_var), (_def_val), (_flags), CVARHELP(_comment)))
+// Summary:
+//	 Preferred way to register a CVar with a callback
+#define REGISTER_CVAR_CB(_var,_def_val,_flags,_comment,_onchangefunction)	(gEnv->pConsole == 0 ? 0 : gEnv->pConsole->Register((#_var), &(_var), (_def_val), (_flags), CVARHELP(_comment), _onchangefunction))
 // Summary:
 //	 Preferred way to register a string CVar
 #define REGISTER_STRING(_name,_def_val,_flags,_comment)	(gEnv->pConsole == 0 ? 0 : gEnv->pConsole->RegisterString(_name,(_def_val), (_flags), CVARHELP(_comment)))

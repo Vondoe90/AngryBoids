@@ -66,9 +66,10 @@ BasicAI = {
 function BasicAI:OnPropertyChange()
 	--do not rephysicalize at each property change
 
-	self:RegisterAI();
+	local forceResetAI = System.IsEditor();
+	self:RegisterAI(forceResetAI);
 	self:OnReset();
-	
+
 end
 
 
@@ -152,7 +153,15 @@ end
 
 
 -----------------------------------------------------------------------------------------------------
-function BasicAI:RegisterAI()
+function BasicAI:RegisterAI(bForce)
+
+	-- (KEVIN) Don't re-register if already has an AI and not forced
+	-- This is so an entity container reused doesn't create a new AI object
+	if (not bForce or bForce == false) then
+		if (CryAction.HasAI(self.id)) then
+			return;
+		end
+	end
 
 	if ((self ~= g_localActor) and AI) then
 		if ( self.AIType == nil ) then
@@ -298,13 +307,34 @@ function BasicAI:OnReset(bFromInit, bIsReload)
 end
 
 
+---------------------------------------------------------------------
+function BasicAI:OnSpawn(bIsReload)
+	-- System.Log("BasicAI.Server:OnSpawn()"..self:GetName());
+
+	-- Register with AI
+	self:RegisterAI(not bIsReload);
+end
+
 
 --------------------------------------------------------------------------------------------------------
-function BasicAI.Server:OnInit()
-	--Log("$8%s.Server:OnInit()", self:GetName());
-	
-	self:RegisterAI();
-	self:OnReset();
+function BasicAI.Server:OnInit(bIsReload)
+	--Log("%s.Server:OnInit(%s)", self:GetName(), tostring(bIsReload));
+
+	if (not self.AI) then
+		self.AI = {};
+	end
+
+	self:OnReset(true, bIsReload);
+
+	-- Go back to wave if being reloaded
+	if (bIsReload and self.SetupTerritoryAndWave) then
+		self:SetupTerritoryAndWave();
+	end
+
+	-- Output via FG node that I'm enabled if I was reloaded and not in a wave
+	if (bIsReload and not self.AI.Wave) then
+		self:Event_Enabled(self);
+	end
 end
 
 

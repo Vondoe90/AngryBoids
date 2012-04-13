@@ -1,0 +1,22 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="metal" MtlFlags="524416" Shader="Illum" GenMask="100050001" StringGenMask="%ALLOW_POM%ENVIRONMENT_MAP%GLOSS_DIFFUSEALPHA%STAT_BRANCHING" SurfaceType="mat_metal_thick" MatTemplate="" Diffuse="0.27843139,0.27843139,0.27843139" Specular="1,0.89411765,0.80000001" Emissive="0,0,0" Shininess="4.5" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/gdc/sculptures/textures/rustymetal.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Bumpmap" File="objects/gdc/sculptures/textures/rustymetal_ddn.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Environment" File="objects/gdc/atrium/textures/atrium_reflections3_cm_bright_blured.tif">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams EnvMapAmount="11.23" FresnelScale="0.56" FresnelBias="0.02" AmbientMultiplier="1"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_rubber" MatTemplate="" Diffuse="0.60784298,0.77254897,0.58823502" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="0.30000001">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

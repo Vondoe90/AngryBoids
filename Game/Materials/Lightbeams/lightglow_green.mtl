@@ -1,0 +1,6 @@
+<Material MtlFlags="526336" Shader="Lightflares.Flare" GenMask="3A0" StringGenMask="" SurfaceType="" MatTemplate="" Diffuse="0.0,0.6,0.0" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+ <Textures>
+  <Texture Map="Diffuse" File="textures/lights/sun_big_sparkle2.dds"/>
+ </Textures>
+ <PublicParams shaftJitterScale="1"/>
+</Material>

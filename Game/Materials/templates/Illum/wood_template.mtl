@@ -1,0 +1,32 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="wood" MtlFlags="524416" Shader="Illum" GenMask="2100082001" StringGenMask="%ALLOW_POM%DETAIL_BUMP_MAPPING%GLOSS_MAP%STAT_BRANCHING%VERTCOLORS" SurfaceType="mat_wood" MatTemplate="" Diffuse="0.49803922,0.49803922,0.49803922" Specular="0.58039218,0.58039218,0.58039218" Emissive="0,0,0" Shininess="2" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/wood_a.tif">
+     <TexMod RotateW="90" TexMod_RotateType="1"/>
+    </Texture>
+    <Texture Map="Specular" File="materials/templates/textures/wood_a_spec.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Bumpmap" File="materials/templates/textures/wood_a_ddn.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Detail" File="textures/terrain/bump_detail/detail_bump_wood_005_ddn.dds">
+     <TexMod TileU="3" TileV="3"/>
+    </Texture>
+   </Textures>
+   <PublicParams AmbientMultiplier="1" DetailBumpTillingU="7" DetailBumpTillingV="7" DetailBumpScale="1.1" DetailBlendAmount="0"/>
+   <MaterialLayers>
+    <Layer Name="FrozenLayerWip" NoDraw="0">
+     <PublicParams VariationTilling="1" TillingU="1" TillingV="1" ReflectionAmount="0.23999999" TopSnowAmount="1" TintColor="1,1,1"/>
+    </Layer>
+    <Layer />
+    <Layer />
+   </MaterialLayers>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_rubber" MatTemplate="" Diffuse="0.60784298,0.77254897,0.58823502" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="0.30000001">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

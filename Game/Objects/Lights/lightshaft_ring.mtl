@@ -1,0 +1,8 @@
+<Material MtlFlags="524288" Shader="Templbeamproc" GenMask="1" StringGenMask="" SurfaceType="" MatTemplate="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+ <Textures>
+  <Texture Map="Diffuse" File="textures/defaults/white.dds">
+   <TexMod />
+  </Texture>
+ </Textures>
+ <PublicParams BeamLength="15.31" OrigLength="10" OrigWidth="1" StartRadius="0.72000003" EndRadius="5.6599998" FinalMultiplier="0.30000001" viewDependencyFactor="0.5" StartColor="1,1,1" EndColor="0,0,0" SoftIntersectionFactor="1"/>
+</Material>

@@ -7,6 +7,7 @@ AI.TacticalPositionManager = AI.TacticalPositionManager or {};
 
 Script.ReloadScript("Scripts/AI/TPS/FogOfWarQueries.lua");
 Script.ReloadScript("Scripts/AI/TPS/QueriesTest.lua");
+Script.ReloadScript("Scripts/AI/TPS/CivilianQueries.lua");
 
 function AI.TacticalPositionManager:OnInit() 
 	

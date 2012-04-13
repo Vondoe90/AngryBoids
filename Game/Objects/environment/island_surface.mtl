@@ -1,7 +1,0 @@
-<Material MtlFlags="524288" Shader="Terrain.Layer" GenMask="200000000" StringGenMask="%TEMP_TERRAIN" SurfaceType="" MatTemplate="" Diffuse="0.98282623,0.49950528,0.23489527" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
- <Textures>
-  <Texture Map="Diffuse" File="textures/defaults/white.dds"/>
-  <Texture Map="Bumpmap" File="textures/defaults/oceanwaves_ddn.dds"/>
- </Textures>
- <PublicParams FresnelPower="4" DetailTextureStrength="1" FresnelScale="1" FresnelBias="1" IndirectColor="0.25,0.25,0.25"/>
-</Material>

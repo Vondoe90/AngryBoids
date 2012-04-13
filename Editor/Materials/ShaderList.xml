@@ -14,23 +14,15 @@
 	<Shader name="Water" />
 	<Shader name="Waterfall" />
 
-	<Shader name="Cloak" />
-	<Shader name="Cloaklayer" />
 	<Shader name="Common.Cloud" />
-	<Shader name="Custom" />
 	<Shader name="Distanceclouds" />
-	<Shader name="Fireparticles" />
-	<Shader name="Fireparticles_vs2" />
 	<Shader name="Frozenlayerwip" />
-	<Shader name="Fx_energyfield" />
-	<Shader name="Fx_outersphere" />
 	<Shader name="Hologram" />
 	<Shader name="Ice" />
 	<Shader name="Light.Flare" />
 	<Shader name="Lightbeam.LightBeam" />
 	<Shader name="Lightflares.Flare" />
 	<Shader name="Liquid" />
-	<Shader name="Metal" />
 	<Shader name="Methagen" />
 	<Shader name="Ping" />
 	<Shader name="Referenceimage" />
@@ -38,10 +30,7 @@
 	<Shader name="Sky" />
 	<Shader name="Skyhdr" />
 	<Shader name="Specialeffects" />
+	<Shader name="GeometryBeam" />
 	<Shader name="Templbeamproc" />
-	<Shader name="Volumeobject" />
-	<Shader name="Watersurface" />
-	<Shader name="Watervols" />
-	<Shader name="Watervortex" />
-	
-	</ShaderList>
+	<Shader name="Volumeobject" />	
+</ShaderList>

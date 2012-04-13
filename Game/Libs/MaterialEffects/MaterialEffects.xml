@@ -3117,21 +3117,21 @@
     <Cell><Data ss:Type="String">footstep_grunt:vegetation</Data></Cell>
     <Cell><Data ss:Type="String">footstep_grunt:vegetation</Data></Cell>
     <Cell><Data ss:Type="String">footstep_grunt:fabric</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:plastic</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:plastic</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:plastic</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:mud</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:mud</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:mud</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:mud</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:mud</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:mud</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:mud</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:mud</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:mud</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:mud</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:mud</Data></Cell>
-    <Cell><Data ss:Type="String">footstep_player:mud</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:plastic</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:plastic</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:plastic</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:mud</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:mud</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:mud</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:mud</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:mud</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:mud</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:mud</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:mud</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:mud</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:mud</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:mud</Data></Cell>
+    <Cell><Data ss:Type="String">footstep_grunt:mud</Data></Cell>
     <Cell><Data ss:Type="String">bulletimpacts:blank_event</Data></Cell>
     <Cell ss:Index="42"><Data ss:Type="String">bulletimpacts:hit_mat_default</Data></Cell>
     <Cell><Data ss:Type="String">bulletimpacts:blank_event</Data></Cell>
@@ -3484,10 +3484,10 @@
    <Zoom>85</Zoom>
    <Selected/>
    <SplitHorizontal>480</SplitHorizontal>
-   <TopRowBottomPane>29</TopRowBottomPane>
+   <TopRowBottomPane>33</TopRowBottomPane>
    <SplitVertical>3795</SplitVertical>
-   <LeftColumnRightPane>36</LeftColumnRightPane>
-   <ActivePane>0</ActivePane>
+   <LeftColumnRightPane>0</LeftColumnRightPane>
+   <ActivePane>2</ActivePane>
    <Panes>
     <Pane>
      <Number>3</Number>
@@ -3499,7 +3499,7 @@
     </Pane>
     <Pane>
      <Number>2</Number>
-     <ActiveRow>50</ActiveRow>
+     <ActiveRow>55</ActiveRow>
     </Pane>
     <Pane>
      <Number>0</Number>

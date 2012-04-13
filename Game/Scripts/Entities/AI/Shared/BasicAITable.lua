@@ -47,6 +47,8 @@ BasicAITable = {
 		nVoiceID = 0,
 		aicharacter_character = "",
 		esBehaviorSelectionTree = "Cover2ST",
+		esNavigationType = "",
+		
 		esCommConfig = "",
 		esVoice = "",
 		fileModel = "Objects/Characters/neutral_male/sdk_character_male_v2.cdf",

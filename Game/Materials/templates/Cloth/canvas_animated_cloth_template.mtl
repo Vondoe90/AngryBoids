@@ -1,0 +1,22 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="canvas" MtlFlags="524418" Shader="Cloth" GenMask="4100002008" StringGenMask="%ANISO_SPECULAR%DETAIL_BUMP_MAPPING%STAT_BRANCHING%WIND_BENDING" SurfaceType="mat_rubber" MatTemplate="" Diffuse="0.29411766,0.32156864,0.10196079" Specular="0.29411766,0.34117648,0.26274511" Emissive="0,0,0" Shininess="8.8999996" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="materials/templates/textures/plastic_tarp_dif.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Bumpmap" File="materials/templates/textures/plastic_tarp_ddn.tif">
+     <TexMod />
+    </Texture>
+    <Texture Map="Detail" File="materials/templates/textures/fabric_ddn.tif">
+     <TexMod />
+    </Texture>
+   </Textures>
+   <PublicParams AnimFrequency="0.18000001" AnimAmplitudeWav0="10" AnimAmplitudeWav2="10" AnimPhase="10" AnisotropicShape="0.47999999" DiffuseExponent="0" FuzzynessSmoothness="0.63999999" FuzzynessStrength="1.42" FuzzynessSpread="0.47999999" FuzzynessSaturation="1.521" SpecularMultiplier="0.037999999" DetailBumpTillingU="5" DetailBumpTillingV="5" DetailBumpScale="2.7809999" DetailBlendAmount="0"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_rubber" MatTemplate="" Diffuse="0.60784298,0.77254897,0.58823502" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="0.30000001">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams AmbientMultiplier="1"/>
+</Material>

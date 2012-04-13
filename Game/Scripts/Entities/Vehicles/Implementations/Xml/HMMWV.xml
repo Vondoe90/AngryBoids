@@ -226,6 +226,9 @@
 		<Part name="headLightRight" class="Light" component="headLightRight" helper="headLightRight">
 			<Light type="HeadLightFlare"/>
 		</Part>
+		<Part name="headLightCenter" class="Light" component="" helper="headLightCenter">
+			<Light type="HeadLightDynamic"/>
+		</Part>
 		<Part name="brakeLightLeft" class="Light" component="brakeLightLeft" helper="brakeLightLeft">
 			<Light type="Brake"/>
 		</Part>
@@ -245,6 +248,7 @@
 		<Helper name="vehicleFuelTankBurnPos" position="0.0,-1.0,1.0" part="hull"/>
 		<Helper name="headLightLeft" position="-0.495,2.38,0.97" direction="0,1.0,0.0" part="hull"/>
 		<Helper name="headLightRight" position="0.495,2.38,0.97" direction="0,1.0,0.0" part="hull"/>
+		<Helper name="headLightCenter" position="0,2.38,0.97" direction="0,1.0,0.0" part="hull"/>
 		<Helper name="brakeLightLeft" position="-0.87,-2.4,1.05" direction="0,-1,0" part="hull"/>
 		<Helper name="brakeLightRight" position="0.87,-2.4,1.05" direction="0,-1,0" part="hull"/>
 		<Helper name="reverseLightRight" position="0.87,-2.4,1.0" direction="0,-1,0" part="hull"/>
@@ -317,6 +321,7 @@
 						<LightParts>
 							<LightPart value="headLightLeft"/>
 							<LightPart value="headLightRight"/>
+							<LightPart value="headLightCenter"/>
 						</LightParts>
 					</Lights>
 				</SeatAction>

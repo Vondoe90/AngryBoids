@@ -23,7 +23,6 @@ enum ECryModule
   eCryM_Render,
   eCryM_Launcher,
 	eCryM_Editor,
-	eCryM_Mono,
 
   eCryM_Num,
 };

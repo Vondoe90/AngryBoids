@@ -78,7 +78,7 @@ local Behavior = CreateAIBehavior("TestIdle",
  	end,
  	 	
  	OnNoPathFound = function(self,entity)
- 		AI.LogEvent("TotallyDumbG4:NoPathFound:"..entity:GetName());
+ 		AI.LogEvent("TestIdle:NoPathFound:"..entity:GetName());
  	end,
  	
 	START_VEHICLE = function(self,entity,sender)
@@ -688,7 +688,7 @@ local Behavior = CreateAIBehavior("TestIdle",
 
 	
 	-------------------------------------------------------
-	-- G4 approach signals
+	-- TestIdle approach signals
 	-------------------------------------------------------
 	
 	

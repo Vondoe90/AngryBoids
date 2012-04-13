@@ -293,7 +293,7 @@
         <Limit value="-10"/>
         <Limit value="35"/>
         <Limit value="0"/>
-			 </Limits>
+       </Limits>
       </Pitch>
       <Yaw part="turret" speed="160" accel="0" worldSpace="0" id="idTurretYawDriver"/>
 	  <RotationTest helper1="cannon_base" helper2="cannonOut" radius="0.25"/>
@@ -356,15 +356,15 @@
    </SeatActions>
    <Sounds inout="0" mood="1"/>
   </Seat>
-  <Seat name="gunner" part="" enterHelper="gunnerEnterPos" exitHelper="gunnerEnterPos" sitHelper="gunnerSitPos" isDriver="0" AimPart="tank" seatGroupIndex="2" actionMap="vehicle_driver" id="idGunnerSeat">
+  <Seat name="gunner" part="" enterHelper="gunnerEnterPos" exitHelper="gunnerEnterPos" sitHelper="gunnerSitPos" isDriver="0" isPassengerShielded="1" AimPart="tank" seatGroupIndex="2" actionMap="vehicle_driver" id="idGunnerSeat">
    <Views>
     <View class="FirstPerson" canRotate="1" rotationMin="-10,0,-180" rotationMax="50,0,180" id="idGunnerSeatFPView">
      <SteerThirdPerson />
      <FirstPerson helper="cannonViewPos" frameObject=""/>
     </View>
-		 <View class="ThirdPerson" canRotate="1" id="idGunnerSeatTPView">
-			 <ThirdPerson distance="10" heightoffset="0.5" speed="50"/>
-		 </View>
+	<View class="ThirdPerson" canRotate="1" id="idGunnerSeatTPView">
+	 <ThirdPerson distance="10" heightoffset="0.5" speed="50"/>
+	</View>
    </Views>
    <SeatActions>
     <SeatAction class="RotateTurret">
@@ -421,8 +421,53 @@
   </SeatGroup>
  </SeatGroups>
  <MovementParams>
-  <Tank pedalSpeed="7" pedalThreshold="0" steerSpeed="8" steerSpeedRelax="5" steerLimit="1" latFricMin="0.40000001" latFricMinSteer="0.1" latFricMax="1.2" latSlipMin="0.89999998" latSlipMax="2.5999999" rpmInterpSpeed="2" rpmRelaxSpeed="2" rpmGearShiftSpeed="2" steeringImpulseMin="1" steeringImpulseMax="2" steeringImpulseRelaxMin="4" steeringImpulseRelaxMax="6">
-   <Wheeled axleFriction="600" axleFrictionMax="6000" brakeTorque="6000" clutchSpeed="8" damping="0.02" engineIdleRPM="700" engineMaxRPM="2650" engineMinRPM="200" enginePower="800" engineShiftDownRPM="1200" engineShiftUpRPM="2000" engineStartRPM="700" stabilizer="0.1" stabiMin="0" stabiMax="0.25" minBrakingFriction="1.2" maxSteer="0.78500003" maxSpeed="16" maxTimeStep="0.02" minEnergy="0.0099999998" slipThreshold="0.050000001" gearDirSwitchRPM="2500" dynFriction="1" steerTrackNeutralTurn="0.78500003" pullTilt="7" latFriction="0.5" maxGear="0" id="idWheeledProps">
+  <Tank 
+  pedalSpeed="7" 
+  pedalThreshold="0" 
+  steerSpeed="8" 
+  steerSpeedRelax="5" 
+  steerLimit="1" 
+  latFricMin="0.40000001" 
+  latFricMinSteer="0.1" 
+  latFricMax="1.2" 
+  latSlipMin="0.89999998" 
+  latSlipMax="2.5999999" 
+  rpmInterpSpeed="2" 
+  rpmRelaxSpeed="2" 
+  rpmGearShiftSpeed="2" 
+  steeringImpulseMin="1" 
+  steeringImpulseMax="2" 
+  steeringImpulseRelaxMin="4" 
+  steeringImpulseRelaxMax="6">
+   <Wheeled 
+   axleFriction="600" 
+   axleFrictionMax="6000" 
+   brakeTorque="6000" 
+   clutchSpeed="8" 
+   damping="0.02" 
+   engineIdleRPM="700" 
+   engineMaxRPM="2650" 
+   engineMinRPM="200" 
+   enginePower="800" 
+   engineShiftDownRPM="1200" 
+   engineShiftUpRPM="2000" 
+   engineStartRPM="700" 
+   stabilizer="0.1" 
+   stabiMin="0" 
+   stabiMax="0.25" 
+   minBrakingFriction="1.2" 
+   maxSteer="0.78500003" 
+   maxSpeed="16" 
+   maxTimeStep="0.02" 
+   minEnergy="0.0099999998" 
+   slipThreshold="0.050000001" 
+   gearDirSwitchRPM="2500" 
+   dynFriction="1" 
+   steerTrackNeutralTurn="0.78500003" 
+   pullTilt="7" 
+   latFriction="0.5" 
+   maxGear="0" 
+   id="idWheeledProps">
     <gearRatios>
      <gearRatio value="-16"/>
      <gearRatio value="0"/>
@@ -510,9 +555,9 @@
     <Elem idRef="idDriverMouseLookTP" name="canRotate" value="1"/>
     <Elem idRef="idDriverSeat" name="AimPart" value="tank"/>
     <Elem idRef="idGunnerSeat" name="AimPart" value="cannon"/>
-		<Elem idRef="idGunnerSeatFPView" name="canRotate" value="0"/>
+	<Elem idRef="idGunnerSeatFPView" name="canRotate" value="0"/>
     <Elem idRef="idGunnerSeatTPView" name="canRotate" value="0"/>
-	 </Elems>
+   </Elems>
   </Modification>
  </Modifications>
 </Vehicle>

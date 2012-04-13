@@ -15,6 +15,7 @@
     </Global>
     <Level name="forest">
       <File name="sounds/environment/environment_forest.fsb" />
+	  <File name="sounds/environment/environment_boids.fsb" />
     </Level>
   </Platform>
   <Platform PC="0" Xbox360="1" PS3="1">
@@ -53,10 +54,20 @@
     <abrams>
       <File name="sounds/vehicles/vehicles_abrams.fsb" />
       <File name="sounds/vehicles/vehicles_accesories.fsb" />
-    </abrams>
-    <hummwv>
-      <File name="sounds/vehicles/vehicles_hummwv.fsb" />
+	  <File name="sounds/weapons/weapons_tank_main_cannon.fsb" />
+	  <File name="sounds/weapons/weapons_hmg.fsb" />
+	</abrams>
+    <hmmwv>
+      <File name="sounds/vehicles/vehicles_hmmwv.fsb" />
       <File name="sounds/vehicles/vehicles_accesories.fsb" />
-    </hummwv>
+    </hmmwv>
+	<mh60_blackhawk>
+      <File name="sounds/vehicles/vehicles_blackhawk.fsb" />
+      <File name="sounds/vehicles/vehicles_accesories.fsb" />
+    </mh60_blackhawk>	
+	<speedboat>
+	<File name="sounds/vehicles/vehicles_speedboat.fsb" />
+    <File name="sounds/vehicles/vehicles_accesories.fsb" />
+	</speedboat>
   </GameHints>
 </PreloadData>

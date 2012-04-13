@@ -8,7 +8,7 @@ Cloth =
 		mass = 5,
 		density = 200,
 
-		fileModel="Objects/Test_Cases/Art_Authoring/CGF/cloth/cloth.cgf",
+		fileModel="Objects/props/misc/cloth/cloth.cgf",
 		gravity={x=0,y=0,z=-9.8},
 		damping = 0.3,
 		max_time_step = 0.02,

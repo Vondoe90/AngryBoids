@@ -31,6 +31,15 @@
 
   <Node OldClass="UI:Events:System:OnLevelStart" NewClass="UI:Events:System:OnGameplayStarted" />
   <Node OldClass="UI:Events:System:OnLevelEnd" NewClass="UI:Events:System:OnUnloadComplete" />
+
+  <Node OldClass="UI:Functions:System:LoadLevel" NewClass="UI:Functions:Game:LoadLevel" />
+  <Node OldClass="UI:Functions:System:ReloadLevel" NewClass="UI:Functions:Game:ReloadLevel" />
+  <Node OldClass="UI:Functions:System:SaveGame" NewClass="UI:Functions:Game:SaveGame" />
+  <Node OldClass="UI:Functions:System:LoadGame" NewClass="UI:Functions:Game:LoadGame" />
+  <Node OldClass="UI:Functions:System:PauseGame" NewClass="UI:Functions:Game:PauseGame" />
+  <Node OldClass="UI:Functions:System:ResumeGame" NewClass="UI:Functions:Game:ResumeGame" />
+  <Node OldClass="UI:Functions:System:ExitGame" NewClass="UI:Functions:Game:ExitGame" />
+  <Node OldClass="UI:Functions:System:StartGame" NewClass="UI:Functions:Game:StartGame" />
 <!--  <Node OldClass="" NewClass="" /> -->
 
 

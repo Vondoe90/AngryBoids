@@ -3,7 +3,7 @@
   <Buoyancy waterDensity="150" waterResistance="2500"/>
   <Simulation maxTimeStep="0.02" minEnergy="0.16" maxLoggedCollisions="2"/>
  </Physics>
- <Damages submergedRatioMax="0.40000001" submergedDamageMult="20" collDamageThreshold="10" groundCollisionMinMult="2" groundCollisionMaxMult="5" groundCollisionMinSpeed="3" groundCollisionMaxSpeed="60" vehicleCollisionDestructionSpeed="4">
+ <Damages submergedRatioMax="0.40000001" submergedDamageMult="20" collDamageThreshold="10" groundCollisionMinMult="2" groundCollisionMaxMult="5" groundCollisionMinSpeed="3" groundCollisionMaxSpeed="60" >
   <DamageMultipliers>
    <DamageMultiplier damageType="bullet" multiplier="0.02" id="idbulletmult"/>
    <DamageMultiplier damageType="melee" multiplier="0"/>

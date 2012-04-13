@@ -1,8 +1,0 @@
-<Material MtlFlags="524544">
- <SubMaterials>
-  <Material Name="nodraw" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="" MatTemplate="" Diffuse="0,0,0" Emissive="0,0,0" Opacity="1">
-   <Textures />
-  </Material>
- </SubMaterials>
- <PublicParams AmbientMultiplier="1"/>
-</Material>

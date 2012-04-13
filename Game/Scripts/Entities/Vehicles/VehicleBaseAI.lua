@@ -33,6 +33,8 @@ VehicleBaseAI =
 	--AI related	properties
 	Properties = 
 	{	
+		esNavigationType = "VehicleMedium",
+
 		soclasses_SmartObjectClass = "",
 		bAutoGenAIHidePts = 0,
 

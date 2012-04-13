@@ -51,6 +51,7 @@ public:
 	virtual void ClearAllMigratingPlayers(void) {}
 	virtual EntityId SetChannelForMigratingPlayer(const char* name, uint16 channelID) { return 0; }
 	virtual void StoreMigratingPlayer(IActor* pActor) {}
+	virtual bool IsClientFriendlyProjectile(const EntityId projectileId, const EntityId targetEntityId) { return false; }
 	// ~IGameRules
 
 	// IGameObjectExtension
