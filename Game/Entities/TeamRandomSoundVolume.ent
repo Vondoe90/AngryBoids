@@ -1,4 +1,0 @@
-<Entity
- Name="TeamRandomSoundVolume" 
- Script="Scripts/Entities/Multiplayer/TeamRandomSoundVolume.lua"
-/>
