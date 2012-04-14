@@ -3,6 +3,7 @@ using CryGameCode.Entities;
 
 namespace CryGameCode.AngryBoids
 {
+	[Entity(Category = "AngryBoids")]
 	public class Enemy : Rigidbody
 	{
 		[EditorProperty(Min = 0, Max = 10)]

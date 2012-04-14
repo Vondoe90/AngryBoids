@@ -2,6 +2,7 @@
 
 namespace CryGameCode.Entities
 {
+	[Entity(Category = "Physics")]
 	public class Rigidbody : Entity
 	{
 		[EditorProperty(Type = EntityPropertyType.Object)]

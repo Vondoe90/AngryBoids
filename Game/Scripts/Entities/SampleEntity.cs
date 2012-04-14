@@ -2,7 +2,7 @@ using CryEngine;
 
 namespace CryGameCode.Entities
 {
-	[Entity(Category="TestCategory", EditorHelper="Editor/Objects/anchor.cgf", Icon="", Flags=EntityClassFlags.Default)]
+	[Entity(Category="Samples", EditorHelper="Editor/Objects/anchor.cgf", Icon="", Flags=EntityClassFlags.Default)]
     public class SampleEntity : Entity
     {
         public override void OnSpawn()

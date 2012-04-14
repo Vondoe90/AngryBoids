@@ -9,6 +9,7 @@ namespace CryGameCode.AngryBoids
 	/// The launcher is the entity that is responsible for firing the boids.
 	/// It also handles calculations that determine the direction and force of the slingshot, using player input.
 	/// </summary>
+	[Entity(Category = "AngryBoids")]
 	public class Launcher : Entity
 	{
 		public static Launcher Instance { get; private set; }

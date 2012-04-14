@@ -5,6 +5,7 @@ namespace CryGameCode.Entities
 	/// <summary>
 	/// Quite possibly the cutest sphere in town.
 	/// </summary>
+	[Entity(Category = "Physics")]
 	public class Bouncy : Entity
 	{
 		[EditorProperty(Min = 0, Max = 10000)]
