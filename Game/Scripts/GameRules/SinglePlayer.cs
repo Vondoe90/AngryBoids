@@ -1,6 +1,9 @@
 using CryEngine;
 using CryGameCode.AngryBoids;
 
+using System.Collections.Generic;
+using System.Linq;
+
 /// <summary>
 /// The campaign game mode is the base game mode
 /// </summary>
@@ -12,7 +15,7 @@ namespace CryGameCode
 		//This is called, contrary to what you'd expect, just once, as the player persists between test sessions in the editor (ctrl+g)
 		public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
 		{
-			GameRules.SpawnPlayer<CameraProxy>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
+			GameRules.SpawnPlayer<PlayerCamera>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
 		}
 
 		public override void OnClientDisconnect(int channelId)
@@ -22,7 +25,7 @@ namespace CryGameCode
 
 		public override void OnRevive(EntityId actorId, Vec3 pos, Vec3 rot, int teamId)
 		{
-			var cameraProxy = Actor.Get(actorId) as CameraProxy;
+			var cameraProxy = Actor.Get(actorId) as PlayerCamera;
 
 			if(cameraProxy == null)
 			{

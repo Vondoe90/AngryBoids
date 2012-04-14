@@ -37,6 +37,9 @@ namespace CryGameCode.AngryBoids
 
 				CurrentBoid.Position = Position;
 				CurrentBoid.Physics.Resting = true;
+
+				var playerCamera = Actor.LocalPlayer as PlayerCamera;
+				playerCamera.TargetEntity = this;
 			}
 		}
 
@@ -54,12 +57,13 @@ namespace CryGameCode.AngryBoids
 				// If the event was the user left-clicking, then set the launcher into the Held state, which means we're getting ready to fire
 				case MouseEvent.LeftButtonDown:
 					{
-						if(remainingBoids.Any())
+						Vec3 relativePos = CurrentBoid.Position - Renderer.ScreenToWorld(e.X, e.Y);
+						// Check if the player clicked on the active boid.
+						if(CurrentBoid.BoundingBox.Contains(ref relativePos) && remainingBoids.Any())
 						{
 							CurrentBoid.Position = Position;
 							CurrentBoid.Physics.Resting = true;
 							state = LauncherState.Held;
-							heldPos = Renderer.ScreenToWorld(e.X, e.Y);
 						}
 					}
 					break;
@@ -69,7 +73,24 @@ namespace CryGameCode.AngryBoids
 				case MouseEvent.LeftButtonUp:
 					{
 						if(state == LauncherState.Held)
+						{
+							var playerCamera = Actor.LocalPlayer as PlayerCamera;
+							playerCamera.TargetEntity = CurrentBoid;
+
 							Fire(Renderer.ScreenToWorld(e.X, e.Y));
+						}
+					}
+					break;
+
+				case MouseEvent.Move:
+					{
+						var screenWorldPos = Renderer.ScreenToWorld(e.X, e.Y);
+						Debug.DrawSphere(screenWorldPos, 0.5f, Color.Red, 0.05f);
+
+						if(state == LauncherState.Held && (Math.Pow(screenWorldPos.Y - Position.Y, 2) + Math.Pow(screenWorldPos.Z - Position.Z, 2) - Math.Pow(MaxPullDistance, 2)) <= 0)
+						{
+							CurrentBoid.Position = Position - new Vec3(0, Position.Y - screenWorldPos.Y, Position.Z - screenWorldPos.Z);
+						}
 					}
 					break;
 			}
@@ -77,9 +98,12 @@ namespace CryGameCode.AngryBoids
 
 		private void Fire(Vec3 mousePosWorld)
 		{
+			var playerCamera = Actor.LocalPlayer as PlayerCamera;
+			playerCamera.TargetEntity = CurrentBoid;
+
 			state = LauncherState.Firing;
 
-			var targetDir = heldPos - mousePosWorld;
+			var targetDir = Position - mousePosWorld;
 			targetDir.X = 0;
 
 			CurrentBoid.Physics.Resting = false;
@@ -135,8 +159,6 @@ namespace CryGameCode.AngryBoids
 		private LauncherState state = LauncherState.Ready;
 
 		private IList<TheBoringOne> remainingBoids;
-
-		private Vec3 heldPos;
 
 		private enum LauncherState
 		{

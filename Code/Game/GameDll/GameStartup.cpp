@@ -24,8 +24,6 @@ History:
 #include <platform_impl.h>
 #include <INetworkService.h>
 
-#include <WindowsX.h>
-
 #include <CryExtension/CryCreateClassInstance.h> 
 
 #include <LoadSeq.h>
@@ -35,6 +33,10 @@ History:
 #include <ILocalizationManager.h>
 
 #include "Editor/GameRealtimeRemoteUpdate.h"
+
+#if defined(WIN32) && !defined(XENON)
+#include <WindowsX.h> // for SubclassWindow()
+#endif
 
 #if defined(ENABLE_STATS_AGENT)
 #include "StatsAgent.h"
