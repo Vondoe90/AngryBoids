@@ -1,0 +1,101 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="ground / snow" MtlFlags="524456" Shader="Illum" GenMask="80000" StringGenMask="%GLOSS_MAP" SurfaceType="mat_grass" MatTemplate="" Diffuse="0.14902,0.223529,0.133333" Specular="0.227451,0.227451,0.227451" Emissive="0,0,0" Shininess="3" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="textures/terrain/detail/plains_ferns_wet.dds" Filter="4"/>
+    <Texture Map="Specular" File="textures/terrain/detail/plains_ferns_wet_frozen_spec.dds"/>
+   </Textures>
+   <DetailDecal Opacity="128" SSAOAmount="0" topTileU="1" topTileV="1" topOffsV="0" topOffsU="0" topRotation="0" topDeformation="0" topSortOffset="0" bottomTileU="0.5" bottomTileV="0.5" bottomOffsV="0.5" bottomOffsU="0.5" bottomRotation="0" bottomDeformation="0" bottomSortOffset="0"/>
+   <PublicParams SpecMapChannelB="0" SpecMapChannelR="0" FresnelPower="4" GlossMapChannelB="0" SpecMapChannelG="0" FresnelScale="1" FresnelBias="1" IndirectColor="0.25,0.25,0.25"/>
+   <MaterialLayers>
+    <Layer Name="FrozenLayerWip" NoDraw="0">
+     <PublicParams VariationTilling="1" TillingV="1" TintColor="1,1,1" ReflectionAmount="0.23999999" TillingU="1" TopSnowAmount="1" IndirectColor="0.25,0.25,0.25"/>
+    </Layer>
+    <Layer />
+    <Layer />
+   </MaterialLayers>
+  </Material>
+  <Material Name="open earth" MtlFlags="524416" Shader="Illum" GenMask="82000" StringGenMask="%DETAIL_BUMP_MAPPING%GLOSS_MAP" SurfaceType="mat_soil" MatTemplate="" Diffuse="0.25490198,0.25882354,0.30588236" Specular="0.184314,0.21176501,0.239216" Emissive="0,0,0" Shininess="5" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/natural/rocks/precipice/soil.tif"/>
+    <Texture Map="Specular" File="objects/natural/rocks/precipice/soil_spec.tif"/>
+    <Texture Map="Detail" File="textures/terrain/bump_detail/detail_bump_concr_005_ddn.tif"/>
+   </Textures>
+   <PublicParams SpecMapChannelB="0" SpecMapChannelR="0" FresnelPower="4" DetailBumpTillingU="6" DetailBlendAmount="0" GlossMapChannelB="0" SpecMapChannelG="0" FresnelScale="1" FresnelBias="1" DetailBumpScale="3" DetailBumpTillingV="12" IndirectColor="0.25,0.25,0.25"/>
+   <MaterialLayers>
+    <Layer Name="Frozenlayerwip" NoDraw="0">
+     <PublicParams VariationTilling="1" TillingV="1" TintColor="1,1,1" ReflectionAmount="0.23999999" TillingU="1" TopSnowAmount="1" IndirectColor="0.25,0.25,0.25"/>
+    </Layer>
+    <Layer />
+    <Layer />
+   </MaterialLayers>
+  </Material>
+  <Material Name="rocks" MtlFlags="524416" Shader="Illum" GenMask="82000" StringGenMask="%DETAIL_BUMP_MAPPING%GLOSS_MAP" SurfaceType="mat_rock" MatTemplate="" Diffuse="0.31764707,0.32156864,0.29411766" Specular="0.16470589,0.16470589,0.16470589" Emissive="0,0,0" Shininess="5" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/natural/rocks/precipice/rock.tif"/>
+    <Texture Map="Specular" File="objects/natural/rocks/precipice/rock_spec.tif"/>
+    <Texture Map="Detail" File="textures/terrain/bump_detail/detail_bump_concr_003_ddn.dds">
+     <TexMod TileU="2" TileV="2"/>
+    </Texture>
+   </Textures>
+   <PublicParams SpecMapChannelB="0" SpecMapChannelR="0" FresnelPower="4" DetailBumpTillingU="3" DetailBlendAmount="0" GlossMapChannelB="0" SpecMapChannelG="0" FresnelScale="1" FresnelBias="1" DetailBumpScale="1.5" DetailBumpTillingV="3" IndirectColor="0.25,0.25,0.25"/>
+   <MaterialLayers>
+    <Layer Name="Frozenlayerwip" NoDraw="0">
+     <PublicParams VariationTilling="1" TillingV="1" TintColor="1,1,1" ReflectionAmount="0.23999999" TillingU="1" TopSnowAmount="1" IndirectColor="0.25,0.25,0.25"/>
+    </Layer>
+    <Layer />
+    <Layer />
+   </MaterialLayers>
+  </Material>
+  <Material Name="roots" MtlFlags="524418" Shader="Illum" GenMask="2000000000" StringGenMask="%VERTCOLORS" SurfaceType="mat_soil" MatTemplate="" Diffuse="0.36470601,0.34902,0.31372601" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1" AlphaTest="0.5">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/natural/trees/jungle_tree_large/roots.tif"/>
+   </Textures>
+   <PublicParams FresnelPower="4" GlossFromDiffuseContrast="1" FresnelScale="1" GlossFromDiffuseOffset="0" FresnelBias="1" GlossFromDiffuseAmount="0" GlossFromDiffuseBrightness="0.333" IndirectColor="0.25,0.25,0.25"/>
+   <MaterialLayers>
+    <Layer Name="Frozenlayerwip" NoDraw="0">
+     <PublicParams VariationTilling="1" TillingV="1" TintColor="1,1,1" ReflectionAmount="0.23999999" TillingU="1" TopSnowAmount="1" IndirectColor="0.25,0.25,0.25"/>
+    </Layer>
+    <Layer />
+    <Layer />
+   </MaterialLayers>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_soil" MatTemplate="" Diffuse="0.152941,0.019607799,0.82745099" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="0.40000001">
+   <Textures />
+  </Material>
+  <Material Name="decals" MtlFlags="524448" Shader="Illum" GenMask="80800" StringGenMask="%DECAL%GLOSS_MAP" SurfaceType="mat_soil" MatTemplate="" Diffuse="0.60000002,0.60000002,0.60000002" Specular="0.13725491,0.13725491,0.13725491" Emissive="0,0,0" Shininess="6" Opacity="0.99000001" AlphaTest="0.0099999998">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/natural/rocks/precipice/soil.tif"/>
+    <Texture Map="Specular" File="objects/natural/rocks/precipice/soil.tif"/>
+   </Textures>
+   <PublicParams SpecMapChannelB="0" SpecMapChannelR="0" FresnelPower="4" GlossMapChannelB="0" SpecMapChannelG="0" FresnelScale="1" FresnelBias="1" IndirectColor="0.25,0.25,0.25"/>
+   <MaterialLayers>
+    <Layer Name="Frozenlayerwip" NoDraw="0">
+     <PublicParams VariationTilling="1" TillingV="1" TintColor="1,1,1" ReflectionAmount="0.23999999" TillingU="1" TopSnowAmount="1" IndirectColor="0.25,0.25,0.25"/>
+    </Layer>
+    <Layer />
+    <Layer />
+   </MaterialLayers>
+  </Material>
+  <Material Name="trunk" MtlFlags="524416" Shader="Illum" GenMask="2000000000" StringGenMask="%VERTCOLORS" SurfaceType="mat_wood" MatTemplate="" Diffuse="0.32941177,0.32941177,0.32156864" Specular="0.047058828,0.047058828,0.047058828" Emissive="0,0,0" Shininess="10" Opacity="1">
+   <Textures>
+    <Texture Map="Diffuse" File="objects/natural/trees/thin_leave_tree/trunk_pino_old1.tif"/>
+   </Textures>
+   <PublicParams FresnelPower="4" GlossFromDiffuseContrast="1" FresnelScale="1" GlossFromDiffuseOffset="0" FresnelBias="1" GlossFromDiffuseAmount="0" GlossFromDiffuseBrightness="0.333" IndirectColor="0.25,0.25,0.25"/>
+   <MaterialLayers>
+    <Layer Name="Frozenlayerwip" NoDraw="0">
+     <PublicParams VariationTilling="1" TillingV="1" TintColor="1,1,1" ReflectionAmount="0.23999999" TillingU="1" TopSnowAmount="1" IndirectColor="0.25,0.25,0.25"/>
+    </Layer>
+    <Layer />
+    <Layer />
+   </MaterialLayers>
+  </Material>
+  <Material Name="proxy_wood" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_wood" MatTemplate="" Diffuse="1,1,1" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="1">
+   <Textures />
+  </Material>
+  <Material Name="proxy_particle" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_rock_landslide" MatTemplate="" Diffuse="0.14901961,0.015686275,0.82745105" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="0.40000001">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams FresnelPower="4" GlossFromDiffuseContrast="1" FresnelScale="1" GlossFromDiffuseOffset="0" FresnelBias="1" GlossFromDiffuseAmount="0" GlossFromDiffuseBrightness="0.333" IndirectColor="0.25,0.25,0.25"/>
+</Material>

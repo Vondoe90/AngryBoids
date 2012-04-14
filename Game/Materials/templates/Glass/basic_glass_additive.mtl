@@ -1,0 +1,17 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="glass" MtlFlags="526500" Shader="Glass" GenMask="10" StringGenMask="%BILINEAR_FP16" SurfaceType="mat_glass" MatTemplate="" Diffuse="0.49803922,0.49803922,0.49803922" Specular="1,1,1" Emissive="0,0,0" Shininess="150" Opacity="0.98699999">
+   <Textures>
+    <Texture Map="Diffuse" File="textures/defaults/white.dds"/>
+    <Texture Map="Environment" File="textures/cubemaps/camera_river_cubemap_bright.dds" TexType="3">
+     <TexMod TexMod_TexGenType="1"/>
+    </Texture>
+   </Textures>
+   <PublicParams BumpMapTile="1" TintColor="1,1,1" FresnelPower="4" FresnelScale="3" FresnelBias="0.2" TintCloudiness="0" BackLightScale="1.52" BumpScale="0.1" IndirectColor="0.25,0.25,0.25"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_rubber" MatTemplate="" Diffuse="0.60784298,0.77254897,0.58823502" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="0.30000001">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams FresnelPower="4" GlossFromDiffuseContrast="1" FresnelScale="1" GlossFromDiffuseOffset="0" FresnelBias="1" GlossFromDiffuseAmount="0" GlossFromDiffuseBrightness="0.333" IndirectColor="0.25,0.25,0.25"/>
+</Material>

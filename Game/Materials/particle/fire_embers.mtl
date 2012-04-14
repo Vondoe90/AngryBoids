@@ -1,0 +1,6 @@
+<Material MtlFlags="526336" Shader="Fireparticles_vs2" GenMask="0" StringGenMask="" SurfaceType="" MatTemplate="" Diffuse="1,1,1" Specular="0,0,0" Emissive="1,1,1" Shininess="10" Opacity="1">
+ <Textures>
+  <Texture Map="Diffuse" File="textures/sprites/glow_tiled_a.tif"/>
+ </Textures>
+ <PublicParams AnimSpeed="47.400002" BurnOffset="0.88099998" VariationTileU="2" VariationTileV="2" VariationTileW="2" BaseDarkening="0.5" Saturation="0.5" Contrast="2"/>
+</Material>

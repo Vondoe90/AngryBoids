@@ -1,0 +1,17 @@
+<Material MtlFlags="524544">
+ <SubMaterials>
+  <Material Name="glass" MtlFlags="526500" Shader="Glass" GenMask="10010" StringGenMask="%BILINEAR_FP16%ENVIRONMENT_MAP" SurfaceType="mat_glass_unbreakable" MatTemplate="" Diffuse="0.49803922,0.49803922,0.49803922" Specular="1,1,1" Emissive="0,0,0" Shininess="150" Opacity="0.12">
+   <Textures>
+    <Texture Map="Diffuse" File="textures/defaults/white.dds"/>
+    <Texture Map="Environment" File="textures/cubemaps/cxpcube.dds" TexType="3">
+     <TexMod TexMod_TexGenType="1"/>
+    </Texture>
+   </Textures>
+   <PublicParams FilterColor="0.17254902,0.72941178,0.67450982" FresnelPower="4" TintAmount="0.205" RefrDepthScale="0" FresnelScale="3" RefrBumpScale="1.321" FresnelBias="0.2" BackLightScale="1.52" IndirectColor="0.25,0.25,0.25"/>
+  </Material>
+  <Material Name="proxy" MtlFlags="525440" Shader="Nodraw" GenMask="0" StringGenMask="" SurfaceType="mat_rubber" MatTemplate="" Diffuse="0.60784298,0.77254897,0.58823502" Specular="0,0,0" Emissive="0,0,0" Shininess="10" Opacity="0.30000001">
+   <Textures />
+  </Material>
+ </SubMaterials>
+ <PublicParams FresnelPower="4" GlossFromDiffuseContrast="1" FresnelScale="1" GlossFromDiffuseOffset="0" FresnelBias="1" GlossFromDiffuseAmount="0" GlossFromDiffuseBrightness="0.333" IndirectColor="0.25,0.25,0.25"/>
+</Material>
