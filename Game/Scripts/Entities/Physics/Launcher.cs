@@ -98,18 +98,14 @@ namespace CryGameCode.AngryBoids
 
 		private void Fire(Vec3 mousePosWorld)
 		{
-			var playerCamera = Actor.LocalPlayer as PlayerCamera;
-			playerCamera.TargetEntity = CurrentBoid;
-
 			state = LauncherState.Firing;
 
-			var targetDir = Position - mousePosWorld;
+			var targetDir = Vec3.ClampXYZ(Position - mousePosWorld, -MaxPullDistance, MaxPullDistance);
 			targetDir.X = 0;
 
 			CurrentBoid.Physics.Resting = false;
 			CurrentBoid.Launch(targetDir * LauncherStrength);
 			remainingBoids.Remove(CurrentBoid);
-			PostFire();
 		}
 
 		/// <summary>
@@ -117,6 +113,9 @@ namespace CryGameCode.AngryBoids
 		/// </summary>
 		public void PostFire()
 		{
+			var playerCamera = Actor.LocalPlayer as PlayerCamera;
+			playerCamera.TargetEntity = CurrentBoid;
+
 			// TODO: Add a proper delay between boids
 			state = LauncherState.Ready;
 		}

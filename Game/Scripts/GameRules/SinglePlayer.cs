@@ -10,12 +10,12 @@ using System.Linq;
 namespace CryGameCode
 {
 	[GameRules(Default = true)]
-	public class SinglePlayer : BaseGameRules
+	public class SinglePlayer : GameRules
 	{
 		//This is called, contrary to what you'd expect, just once, as the player persists between test sessions in the editor (ctrl+g)
 		public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
 		{
-			GameRules.SpawnPlayer<PlayerCamera>(channelId, "Player", new Vec3(0, 0, 0), new Vec3(0, 0, 0));
+			GameRules.SpawnPlayer<PlayerCamera>(channelId, "Player");
 		}
 
 		public override void OnClientDisconnect(int channelId)

@@ -26,7 +26,6 @@
     <ClCompile Include="GameDll.cpp" />
     <ClCompile Include="GameRules.cpp" />
     <ClCompile Include="GameStartup.cpp" />
-    <ClCompile Include="ScriptBind_GameRules.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -41,7 +40,6 @@
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="GameStartup.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="ScriptBind_GameRules.h" />
     <ClInclude Include="StartupSettings.h" />
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>

@@ -20,9 +20,6 @@
     <ClCompile Include="GameRules.cpp">
       <Filter>GameRules</Filter>
     </ClCompile>
-    <ClCompile Include="ScriptBind_GameRules.cpp">
-      <Filter>GameRules</Filter>
-    </ClCompile>
     <ClCompile Include="Editor\GameRealtimeRemoteUpdate.cpp">
       <Filter>Game\EditorGame</Filter>
     </ClCompile>
@@ -51,9 +48,6 @@
       <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="GameRules.h">
-      <Filter>GameRules</Filter>
-    </ClInclude>
-    <ClInclude Include="ScriptBind_GameRules.h">
       <Filter>GameRules</Filter>
     </ClInclude>
     <ClInclude Include="Editor\GameRealtimeRemoteUpdate.h">

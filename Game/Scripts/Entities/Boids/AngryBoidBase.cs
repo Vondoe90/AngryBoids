@@ -5,6 +5,11 @@ namespace CryGameCode.AngryBoids
 {
 	public abstract class AngryBoid : Rigidbody
 	{
+		public AngryBoid()
+		{
+			ReceiveUpdates = true;
+		}
+
 		protected BoidState state = BoidState.Ready;
 
 		public void Launch(Vec3 velocity)
@@ -18,18 +23,20 @@ namespace CryGameCode.AngryBoids
 
 		public override void OnUpdate()
 		{
+			Debug.DrawText("sup.", 3.0f, Color.Red, 3.0f);
 			if (Launcher.Instance != null && Math.IsInRange(Velocity.Length, -0.2, 0.2) && (Time.FrameStartTime - lastEvent) > 4000)
 			{
 				ReceiveUpdates = false;
 				state = BoidState.Dead;
-				//Launcher.Instance.PostFire();
+
+				Launcher.Instance.PostFire();
 			}
 		}
 
 		protected override void OnCollision(EntityId targetEntityId, Vec3 hitPos, Vec3 dir, short materialId, Vec3 contactNormal)
 		{
 			// Hit something, reset last event time.
-			if(Launcher.Instance != null && state == BoidState.Launched)
+			if(state == BoidState.Launched)
 				lastEvent = Time.FrameStartTime;
 		}
 

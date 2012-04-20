@@ -136,21 +136,6 @@ void CGameRules::OnVehicleSubmerged(EntityId id, float ratio)
 }
 
 //------------------------------------------------------------------------
-IActor *CGameRules::SpawnPlayer(int channelId, const char *name, const char *className, const Vec3 &pos, const Ang3 &angles)
-{ 
-	if (!gEnv->bServer)
-		return NULL;
-
-	return gEnv->pGameFramework->GetIActorSystem()->CreateActor(channelId, VerifyName(name).c_str(), className, pos, Quat(angles), Vec3(1,1,1));
-}
-
-//------------------------------------------------------------------------
-void CGameRules::RevivePlayer(IActor *pIActor, const Vec3 &pos, const Ang3 &angles, int teamId, bool clearInventory)
-{
-	// TODO
-}
-
-//------------------------------------------------------------------------
 string CGameRules::VerifyName(const char *name, IEntity *pEntity)
 {
 	string nameFormatter(name);

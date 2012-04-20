@@ -15,7 +15,6 @@
 #include "Game.h"
 
 #include "GameRules.h"
-#include "ScriptBind_GameRules.h"
 #include "Actor.h"
 
 #include <ICryPak.h>
@@ -78,9 +77,7 @@ CGame::CGame()
 }
 
 CGame::~CGame()
-{
-	SAFE_DELETE(m_pScriptBindGameRules);
-	
+{	
 	if(m_pFramework)
 	{
 		if(m_pFramework->StartedGameContext())
@@ -152,8 +149,6 @@ bool CGame::Init(IGameFramework *pFramework)
 	RegisterGameObjectEvents();
 
 	LoadActionMaps( ACTIONMAP_DEFAULT_PROFILE );
-
-	m_pScriptBindGameRules = new CScriptBind_GameRules();
 
 	//load user levelnames for ingame text and savegames
 	XmlNodeRef lnames = GetISystem()->LoadXmlFromFile(PathUtil::GetGameFolder() + "/Scripts/GameRules/LevelNames.xml");

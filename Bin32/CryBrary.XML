@@ -259,6 +259,15 @@
             <param name="autoInit"></param>
             <returns></returns>
         </member>
+        <member name="M:CryEngine.Entity.Get``1(CryEngine.EntityId)">
+            <summary>
+            Get an entity by its unique ID.
+            </summary>
+            <param name="entityId">The ID as an unsigned integer.</param>
+            <returns>A reference to the entity.</returns>
+            <remarks>If the entity does not exist in the managed space, this function will attempt to find
+            a C++ entity with the specified ID></remarks>
+        </member>
         <member name="M:CryEngine.Entity.Get(CryEngine.EntityId)">
             <summary>
             Get an entity by its unique ID.
@@ -290,12 +299,6 @@
             </summary>
             <typeparam name="T">The entity class to search for.</typeparam>
             <returns>An array of entities of type T.</returns>
-        </member>
-        <member name="F:CryEngine.Entity.SpawnedEntities">
-            <summary>
-            Contains entities spawned using EntitySystem.SpawnEntity.
-            Necessary to update scripts.
-            </summary>
         </member>
         <member name="M:CryEngine.Entity._LoadCharacter(System.UInt32,System.String,System.Int32)">
             <summary>
@@ -511,7 +514,7 @@
         </member>
         <member name="T:CryEngine.Actor">
             <summary>
-            WIP Player class.
+            WIP Player class. TODO: Redo, currently very limited in terms of callbacks + interoperability with C++ backend
             </summary>
         </member>
         <member name="M:CryEngine.Actor.InternalSpawn(CryEngine.EntityId,System.Int32)">
@@ -578,20 +581,6 @@
             <summary>
             The main port used for serial communication.
             </summary>
-        </member>
-        <member name="M:CryEngine.PhysicalWorld.RayWorldIntersection(CryEngine.Vec3,CryEngine.Vec3,CryEngine.RaycastHit@,CryEngine.EntityQueryFlags,CryEngine.RayWorldIntersectionFlags,System.Int32,CryEngine.EntityId[])">
-            <summary>
-            Steps through the entity grid and raytraces entities
-            traces a finite ray from org along dir
-            </summary>
-            <param name="origin"></param>
-            <param name="dir"></param>
-            <param name="objectTypes"></param>
-            <param name="flags"></param>
-            <param name="hits"></param>
-            <param name="maxHits"></param>
-            <param name="skipEntities"></param>
-            <returns>The total amount of hits detected (solid and pierceable)</returns>
         </member>
         <member name="P:CryEngine.RaycastHit.ColliderId">
             <summary>
@@ -673,6 +662,11 @@
             queues procedural breakage requests; can only be used in SimulateExplosion
             </summary>
         </member>
+        <member name="T:CryEngine.NativeEntity">
+            <summary>
+            Used for non-CryMono entities, i.e. Lua / C++ such.
+            </summary>
+        </member>
         <member name="T:CryEngine.Time">
             <summary>
             Contains useful functions related to game timing.
@@ -710,6 +704,18 @@
             </summary>
             <param name="position">The position in three dimensional space of the origin of the ray.</param>
             <param name="direction">The normalized direction of the ray.</param>
+        </member>
+        <member name="M:CryEngine.Ray.Cast(CryEngine.RaycastHit@,CryEngine.EntityQueryFlags,CryEngine.RayWorldIntersectionFlags,System.Int32,CryEngine.EntityId[])">
+            <summary>
+            Steps through the entity grid and raytraces entities
+            traces a finite ray from org along dir
+            </summary>
+            <param name="hits"></param>
+            <param name="objectTypes"></param>
+            <param name="flags"></param>
+            <param name="maxHits"></param>
+            <param name="skipEntities"></param>
+            <returns>The total amount of hits detected (solid and pierceable)</returns>
         </member>
         <member name="M:CryEngine.Ray.Intersects(CryEngine.Vec3@)">
             <summary>
@@ -1327,13 +1333,6 @@
             </summary>
             <param name="instance"></param>
         </member>
-        <member name="M:CryEngine.Initialization.ScriptCompiler.AddScriptInstance(CryEngine.CryScriptInstance,System.Int32)">
-            <summary>
-            Adds an script instance to the script collection and returns its new id.
-            </summary>
-            <param name="instance"></param>
-            <param name="scriptIndex">Index of the CryScript object residing in ScriptCompiler.CompiledScripts</param>
-        </member>
         <member name="M:CryEngine.Initialization.ScriptCompiler.RemoveInstance(System.Int32,System.Type)">
             <summary>
             Locates and destructs the script with the assigned scriptId.
@@ -1358,14 +1357,14 @@
             <returns></returns>
             <exception cref="T:System.IO.DirectoryNotFoundException">Thrown when one or more script folders could not be located.</exception>
             <exception cref="T:System.ArgumentNullException">Thrown if the compiled assembly could not be loaded.</exception>
-            <exception cref="!:CryEngine.ScriptCompilationException">Thrown if one or more compilation errors occur.</exception>
+            <exception cref="T:CryEngine.Initialization.ScriptCompilationException">Thrown if one or more compilation errors occur.</exception>
         </member>
         <member name="M:CryEngine.Initialization.ScriptCompiler.LoadAssembly(System.Reflection.Assembly,CryEngine.Initialization.ScriptType[])">
             <summary>
             Loads an C# assembly and adds all found types to ScriptCompiler.CompiledScripts
             </summary>
         </member>
-        <member name="M:CryEngine.Initialization.ScriptCompiler.ProcessType(System.Type)">
+        <member name="M:CryEngine.Initialization.ScriptCompiler.ProcessTypes(System.Collections.Generic.IEnumerable{System.Type})">
             <summary>
             Processes a type and adds all found types to ScriptCompiler.CompiledScripts
             </summary>
@@ -1530,237 +1529,6 @@
         <member name="P:CryEngine.Utilities.CryStats.MemoryUsage">
             <summary>
             The current approximate memory usage in bytes.
-            </summary>
-        </member>
-        <member name="T:CryEngine.BaseGameRules">
-            <summary>
-            This is the base GameRules interface. All game rules must implement this.
-            </summary>
-            <remarks>For most use cases, deriving from CryGameCode's BaseGameRules is a more efficient solution.</remarks>
-        </member>
-        <member name="P:CryEngine.GameRulesAttribute.Name">
-            <summary>
-            Sets the game mode's name. Uses the class name if not set.
-            </summary>
-        </member>
-        <member name="P:CryEngine.GameRulesAttribute.Default">
-            <summary>
-            If set to true, the game mode will be set as default.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.Timeout">
-            <summary>
-            This cause must be first! - timeout occurred.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.ProtocolError">
-            <summary>
-            Incompatible protocols.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.ResolveFailed">
-            <summary>
-            Failed to resolve an address.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.VersionMismatch">
-            <summary>
-            Versions mismatch.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.ServerFull">
-            <summary>
-            Server is full.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.Kicked">
-            <summary>
-            User initiated kick.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.Banned">
-            <summary>
-            Teamkill ban/ admin ban.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.ContextCorruption">
-            <summary>
-            Context database mismatch.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.AuthenticationFailed">
-            <summary>
-            Password mismatch, cdkey bad, etc.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.GameError">
-            <summary>
-            Misc. game error.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.NotDX11Capable">
-            <summary>
-            DX11 not found.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.NubDestroyed">
-            <summary>
-            The nub has been destroyed.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.ICMPError">
-            <summary>
-            Icmp reported error.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.NatNegError">
-            <summary>
-            NAT negotiation error.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.PunkDetected">
-            <summary>
-            Punk buster detected something bad.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.DemoPlaybackFinished">
-            <summary>
-            Demo playback finished.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.DemoPlaybackFileNotFound">
-            <summary>
-            Demo playback file not found.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.UserRequested">
-            <summary>
-            User decided to stop playing.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.NoController">
-            <summary>
-            User should have controller connected.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.CantConnect">
-            <summary>
-            Unable to connect to server.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.ArbitrationFailed">
-            <summary>
-            Arbitration failed in a live arbitrated session.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.FailedToMigrateToNewHost">
-            <summary>
-            Failed to successfully join migrated game
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.SessionDeleted">
-            <summary>
-            The session has just been deleted
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.Unknown">
-            <summary>
-            Unknown cause
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.ShooterId">
-            <summary>
-            EntityId of the shooter
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.TargetId">
-            <summary>
-            EntityId of the target which got shot
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.WeaponId">
-            <summary>
-            EntityId of the weapon
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.ProjectileId">
-            <summary>
-            0 if hit was not caused by a projectile
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Damage">
-            <summary>
-            damage count of the hit
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Radius">
-            <summary>
-            radius of the hit
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.MaterialId">
-            <summary>
-            material id of the surface which got hit
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.TypeId">
-            <summary>
-            type id of the hit, see IGameRules::GetHitTypeId for more information
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.BulletType">
-            <summary>
-            type of bullet, if hit was of type bullet
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Pierceability">
-            <summary>
-            bullet pierceability
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Position">
-            <summary>
-            position of the hit
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Direction">
-            <summary>
-            direction of the hit
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Aimed">
-            <summary>
-            set to true if shot was aimed - i.e. first bullet, zoomed in etc.
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.KnocksDown">
-            <summary>
-            true if the hit should knockdown
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.KnocksDownLeg">
-            <summary>
-            true if the hit should knockdown when hit in a leg
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.HitViaProxy">
-            <summary>
-            true if the 'shooter' didn't actually shoot, ie. a weapon acting on their behalf did (team perks)
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Explosion">
-            <summary>
-            true if this hit directly results from an explosion
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.ArmorHeating">
-            <summary>
-            dynamic pierceability reduction
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.PenetrationCount">
-            <summary>
-            number of surfaces the bullet has penetrated
             </summary>
         </member>
         <member name="T:CryEngine.ItemSystem">
@@ -3537,6 +3305,31 @@
             <param name="max">The maximum value.</param>
             <returns>The clamped value.</returns>
         </member>
+        <member name="M:CryEngine.Vec3.ClampXYZ(CryEngine.Vec3,System.Single,System.Single)">
+            <summary>
+            Restricts entire vector to be within a specified range.
+            </summary>
+            <param name="value">The value to clamp.</param>
+            <param name="min">The minimum value.</param>
+            <param name="max">The maximum value.</param>
+            <returns>The clamped value.</returns>
+        </member>
+        <member name="M:CryEngine.Vec3.MinXYZ(CryEngine.Vec3,System.Single)">
+            <summary>
+            Sets all values within vector to a specific minimum value
+            </summary>
+            <param name="value">The vector to restrict</param>
+            <param name="min">The minimum value</param>
+            <returns>Restricted vector</returns>
+        </member>
+        <member name="M:CryEngine.Vec3.MaxXYZ(CryEngine.Vec3,System.Single)">
+            <summary>
+            Sets all values within vector to a specific maximum value
+            </summary>
+            <param name="value">The vector to restrict</param>
+            <param name="max">The maximum value</param>
+            <returns>Restricted vector</returns>
+        </member>
         <member name="M:CryEngine.Vec3.Cross(CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
             <summary>
             Calculates the cross product of two vectors.
@@ -4268,6 +4061,599 @@
             <returns>
             <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
             </returns>
+        </member>
+        <member name="T:CryEngine.Collision">
+            <summary>
+            Contains static methods to help in determining intersections, containment, etc.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Collision.ClosestPointPointTriangle(CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
+            <summary>
+            Determines the closest point between a point and a triangle.
+            </summary>
+            <param name="point">The point to test.</param>
+            <param name="vertex1">The first vertex to test.</param>
+            <param name="vertex2">The second vertex to test.</param>
+            <param name="vertex3">The third vertex to test.</param>
+            <param name="result">When the method completes, contains the closest point between the two objects.</param>
+        </member>
+        <member name="M:CryEngine.Collision.ClosestPointPlanePoint(CryEngine.Plane@,CryEngine.Vec3@,CryEngine.Vec3@)">
+            <summary>
+            Determines the closest point between a <see cref="T:CryEngine.Plane"/> and a point.
+            </summary>
+            <param name="plane">The plane to test.</param>
+            <param name="point">The point to test.</param>
+            <param name="result">When the method completes, contains the closest point between the two objects.</param>
+        </member>
+        <member name="M:CryEngine.Collision.ClosestPointBoxPoint(CryEngine.BoundingBox@,CryEngine.Vec3@,CryEngine.Vec3@)">
+            <summary>
+            Determines the closest point between a <see cref="T:CryEngine.BoundingBox"/> and a point.
+            </summary>
+            <param name="box">The box to test.</param>
+            <param name="point">The point to test.</param>
+            <param name="result">When the method completes, contains the closest point between the two objects.</param>
+        </member>
+        <member name="M:CryEngine.Collision.ClosestPointSpherePoint(CryEngine.BoundingSphere@,CryEngine.Vec3@,CryEngine.Vec3@)">
+            <summary>
+            Determines the closest point between a <see cref="T:CryEngine.BoundingSphere"/> and a point.
+            </summary>
+            <param name="sphere"></param>
+            <param name="point">The point to test.</param>
+            <param name="result">When the method completes, contains the closest point between the two objects;
+            or, if the point is directly in the center of the sphere, contains <see cref="T:CryEngine.Vec3"/>.</param>
+        </member>
+        <member name="M:CryEngine.Collision.ClosestPointSphereSphere(CryEngine.BoundingSphere@,CryEngine.BoundingSphere@,CryEngine.Vec3@)">
+            <summary>
+            Determines the closest point between a <see cref="T:CryEngine.BoundingSphere"/> and a <see cref="T:CryEngine.BoundingSphere"/>.
+            </summary>
+            <param name="sphere1">The first sphere to test.</param>
+            <param name="sphere2">The second sphere to test.</param>
+            <param name="result">When the method completes, contains the closest point between the two objects;
+            or, if the point is directly in the center of the sphere, contains <see cref="T:CryEngine.Vec3"/>.</param>
+            <remarks>
+            If the two spheres are overlapping, but not directly ontop of each other, the closest point
+            is the 'closest' point of intersection. This can also be considered is the deepest point of
+            intersection.
+            </remarks>
+        </member>
+        <member name="M:CryEngine.Collision.DistancePlanePoint(CryEngine.Plane@,CryEngine.Vec3@)">
+            <summary>
+            Determines the distance between a <see cref="T:CryEngine.Plane"/> and a point.
+            </summary>
+            <param name="plane">The plane to test.</param>
+            <param name="point">The point to test.</param>
+            <returns>The distance between the two objects.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.DistanceBoxPoint(CryEngine.BoundingBox@,CryEngine.Vec3@)">
+            <summary>
+            Determines the distance between a <see cref="T:CryEngine.BoundingBox"/> and a point.
+            </summary>
+            <param name="box">The box to test.</param>
+            <param name="point">The point to test.</param>
+            <returns>The distance between the two objects.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.DistanceBoxBox(CryEngine.BoundingBox@,CryEngine.BoundingBox@)">
+            <summary>
+            Determines the distance between a <see cref="T:CryEngine.BoundingBox"/> and a <see cref="T:CryEngine.BoundingBox"/>.
+            </summary>
+            <param name="box1">The first box to test.</param>
+            <param name="box2">The second box to test.</param>
+            <returns>The distance between the two objects.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.DistanceSpherePoint(CryEngine.BoundingSphere@,CryEngine.Vec3@)">
+            <summary>
+            Determines the distance between a <see cref="T:CryEngine.BoundingSphere"/> and a point.
+            </summary>
+            <param name="sphere">The sphere to test.</param>
+            <param name="point">The point to test.</param>
+            <returns>The distance between the two objects.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.DistanceSphereSphere(CryEngine.BoundingSphere@,CryEngine.BoundingSphere@)">
+            <summary>
+            Determines the distance between a <see cref="T:CryEngine.BoundingSphere"/> and a <see cref="T:CryEngine.BoundingSphere"/>.
+            </summary>
+            <param name="sphere1">The first sphere to test.</param>
+            <param name="sphere2">The second sphere to test.</param>
+            <returns>The distance between the two objects.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.RayIntersectsPoint(CryEngine.Ray@,CryEngine.Vec3@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a point.
+            </summary>
+            <param name="ray">The ray to test.</param>
+            <param name="point">The point to test.</param>
+            <returns>Whether the two objects intersect.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.RayIntersectsRay(CryEngine.Ray@,CryEngine.Ray@,CryEngine.Vec3@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.Ray"/>.
+            </summary>
+            <param name="ray1">The first ray to test.</param>
+            <param name="ray2">The second ray to test.</param>
+            <param name="point">When the method completes, contains the point of intersection,
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
+            <returns>Whether the two objects intersect.</returns>
+            <remarks>
+            This method performs a ray vs ray intersection test based on the following formula
+            from Goldman.
+            <code>s = det([o_2 - o_1, d_2, d_1 x d_2]) / ||d_1 x d_2||^2</code>
+            <code>t = det([o_2 - o_1, d_1, d_1 x d_2]) / ||d_1 x d_2||^2</code>
+            Where o_1 is the position of the first ray, o_2 is the position of the second ray,
+            d_1 is the normalized direction of the first ray, d_2 is the normalized direction
+            of the second ray, det denotes the determinant of a matrix, x denotes the cross
+            product, [ ] denotes a matrix, and || || denotes the length or magnitude of a vector.
+            </remarks>
+        </member>
+        <member name="M:CryEngine.Collision.RayIntersectsPlane(CryEngine.Ray@,CryEngine.Plane@,System.Single@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.Plane"/>.
+            </summary>
+            <param name="ray">The ray to test.</param>
+            <param name="plane">The plane to test.</param>
+            <param name="distance">When the method completes, contains the distance of the intersection,
+            or 0 if there was no intersection.</param>
+            <returns>Whether the two objects intersect.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.RayIntersectsPlane(CryEngine.Ray@,CryEngine.Plane@,CryEngine.Vec3@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.Plane"/>.
+            </summary>
+            <param name="ray">The ray to test.</param>
+            <param name="plane">The plane to test</param>
+            <param name="point">When the method completes, contains the point of intersection,
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.RayIntersectsTriangle(CryEngine.Ray@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@,System.Single@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a triangle.
+            </summary>
+            <param name="ray">The ray to test.</param>
+            <param name="vertex1">The first vertex of the triangle to test.</param>
+            <param name="vertex2">The second vertex of the triagnle to test.</param>
+            <param name="vertex3">The third vertex of the triangle to test.</param>
+            <param name="distance">When the method completes, contains the distance of the intersection,
+            or 0 if there was no intersection.</param>
+            <returns>Whether the two objects intersected.</returns>
+            <remarks>
+            This method tests if the ray intersects either the front or back of the triangle.
+            If the ray is parallel to the triangle's plane, no intersection is assumed to have
+            happened. If the intersection of the ray and the triangle is behind the origin of
+            the ray, no intersection is assumed to have happened. In both cases of assumptions,
+            this method returns false.
+            </remarks>
+        </member>
+        <member name="M:CryEngine.Collision.RayIntersectsTriangle(CryEngine.Ray@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a triangle.
+            </summary>
+            <param name="ray">The ray to test.</param>
+            <param name="vertex1">The first vertex of the triangle to test.</param>
+            <param name="vertex2">The second vertex of the triagnle to test.</param>
+            <param name="vertex3">The third vertex of the triangle to test.</param>
+            <param name="point">When the method completes, contains the point of intersection,
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.RayIntersectsBox(CryEngine.Ray@,CryEngine.BoundingBox@,System.Single@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.BoundingBox"/>.
+            </summary>
+            <param name="ray">The ray to test.</param>
+            <param name="box">The box to test.</param>
+            <param name="distance">When the method completes, contains the distance of the intersection,
+            or 0 if there was no intersection.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.RayIntersectsBox(CryEngine.Ray@,CryEngine.BoundingBox@,CryEngine.Vec3@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.Plane"/>.
+            </summary>
+            <param name="ray">The ray to test.</param>
+            <param name="box">The box to test.</param>
+            <param name="point">When the method completes, contains the point of intersection,
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.RayIntersectsSphere(CryEngine.Ray@,CryEngine.BoundingSphere@,System.Single@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.BoundingSphere"/>.
+            </summary>
+            <param name="ray">The ray to test.</param>
+            <param name="sphere">The sphere to test.</param>
+            <param name="distance">When the method completes, contains the distance of the intersection,
+            or 0 if there was no intersection.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.RayIntersectsSphere(CryEngine.Ray@,CryEngine.BoundingSphere@,CryEngine.Vec3@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.BoundingSphere"/>. 
+            </summary>
+            <param name="ray">The ray to test.</param>
+            <param name="sphere">The sphere to test.</param>
+            <param name="point">When the method completes, contains the point of intersection,
+            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.PlaneIntersectsPoint(CryEngine.Plane@,CryEngine.Vec3@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Plane"/> and a point.
+            </summary>
+            <param name="plane">The plane to test.</param>
+            <param name="point">The point to test.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.PlaneIntersectsPlane(CryEngine.Plane@,CryEngine.Plane@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Plane"/> and a <see cref="T:CryEngine.Plane"/>.
+            </summary>
+            <param name="plane1">The first plane to test.</param>
+            <param name="plane2">The second plane to test.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.PlaneIntersectsPlane(CryEngine.Plane@,CryEngine.Plane@,CryEngine.Ray@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Plane"/> and a <see cref="T:CryEngine.Plane"/>.
+            </summary>
+            <param name="plane1">The first plane to test.</param>
+            <param name="plane2">The second plane to test.</param>
+            <param name="line">When the method completes, contains the line of intersection
+            as a <see cref="T:CryEngine.Ray"/>, or a zero ray if there was no intersection.</param>
+            <returns>Whether the two objects intersected.</returns>
+            <remarks>
+            Although a ray is set to have an origin, the ray returned by this method is really
+            a line in three dimensions which has no real origin. The ray is considered valid when
+            both the positive direction is used and when the negative direction is used.
+            </remarks>
+        </member>
+        <member name="M:CryEngine.Collision.PlaneIntersectsTriangle(CryEngine.Plane@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Plane"/> and a triangle.
+            </summary>
+            <param name="plane">The plane to test.</param>
+            <param name="vertex1">The first vertex of the triangle to test.</param>
+            <param name="vertex2">The second vertex of the triagnle to test.</param>
+            <param name="vertex3">The third vertex of the triangle to test.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.PlaneIntersectsBox(CryEngine.Plane@,CryEngine.BoundingBox@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Plane"/> and a <see cref="T:CryEngine.BoundingBox"/>.
+            </summary>
+            <param name="plane">The plane to test.</param>
+            <param name="box">The box to test.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.PlaneIntersectsSphere(CryEngine.Plane@,CryEngine.BoundingSphere@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.Plane"/> and a <see cref="T:CryEngine.BoundingSphere"/>.
+            </summary>
+            <param name="plane">The plane to test.</param>
+            <param name="sphere">The sphere to test.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.BoxIntersectsBox(CryEngine.BoundingBox@,CryEngine.BoundingBox@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.BoundingBox"/> and a <see cref="T:CryEngine.BoundingBox"/>.
+            </summary>
+            <param name="box1">The first box to test.</param>
+            <param name="box2">The second box to test.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.BoxIntersectsSphere(CryEngine.BoundingBox@,CryEngine.BoundingSphere@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.BoundingBox"/> and a <see cref="T:CryEngine.BoundingSphere"/>.
+            </summary>
+            <param name="box">The box to test.</param>
+            <param name="sphere">The sphere to test.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.SphereIntersectsTriangle(CryEngine.BoundingSphere@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.BoundingSphere"/> and a triangle.
+            </summary>
+            <param name="sphere">The sphere to test.</param>
+            <param name="vertex1">The first vertex of the triangle to test.</param>
+            <param name="vertex2">The second vertex of the triagnle to test.</param>
+            <param name="vertex3">The third vertex of the triangle to test.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.SphereIntersectsSphere(CryEngine.BoundingSphere@,CryEngine.BoundingSphere@)">
+            <summary>
+            Determines whether there is an intersection between a <see cref="T:CryEngine.BoundingSphere"/> and a <see cref="T:CryEngine.BoundingSphere"/>.
+            </summary>
+            <param name="sphere1">First sphere to test.</param>
+            <param name="sphere2">Second sphere to test.</param>
+            <returns>Whether the two objects intersected.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.BoxContainsPoint(CryEngine.BoundingBox@,CryEngine.Vec3@)">
+            <summary>
+            Determines whether a <see cref="T:CryEngine.BoundingBox"/> contains a point.
+            </summary>
+            <param name="box">The box to test.</param>
+            <param name="point">The point to test.</param>
+            <returns>The type of containment the two objects have.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.BoxContainsBox(CryEngine.BoundingBox@,CryEngine.BoundingBox@)">
+            <summary>
+            Determines whether a <see cref="T:CryEngine.BoundingBox"/> contains a <see cref="T:CryEngine.BoundingBox"/>.
+            </summary>
+            <param name="box1">The first box to test.</param>
+            <param name="box2">The second box to test.</param>
+            <returns>The type of containment the two objects have.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.BoxContainsSphere(CryEngine.BoundingBox@,CryEngine.BoundingSphere@)">
+            <summary>
+            Determines whether a <see cref="T:CryEngine.BoundingBox"/> contains a <see cref="T:CryEngine.BoundingSphere"/>.
+            </summary>
+            <param name="box">The box to test.</param>
+            <param name="sphere">The sphere to test.</param>
+            <returns>The type of containment the two objects have.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.SphereContainsPoint(CryEngine.BoundingSphere@,CryEngine.Vec3@)">
+            <summary>
+            Determines whether a <see cref="T:CryEngine.BoundingSphere"/> contains a point.
+            </summary>
+            <param name="sphere">The sphere to test.</param>
+            <param name="point">The point to test.</param>
+            <returns>The type of containment the two objects have.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.SphereContainsTriangle(CryEngine.BoundingSphere@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
+            <summary>
+            Determines whether a <see cref="T:CryEngine.BoundingSphere"/> contains a triangle.
+            </summary>
+            <param name="sphere">The sphere to test.</param>
+            <param name="vertex1">The first vertex of the triangle to test.</param>
+            <param name="vertex2">The second vertex of the triagnle to test.</param>
+            <param name="vertex3">The third vertex of the triangle to test.</param>
+            <returns>The type of containment the two objects have.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.SphereContainsBox(CryEngine.BoundingSphere@,CryEngine.BoundingBox@)">
+            <summary>
+            Determines whether a <see cref="T:CryEngine.BoundingSphere"/> contains a <see cref="T:CryEngine.BoundingBox"/>.
+            </summary>
+            <param name="sphere">The sphere to test.</param>
+            <param name="box">The box to test.</param>
+            <returns>The type of containment the two objects have.</returns>
+        </member>
+        <member name="M:CryEngine.Collision.SphereContainsSphere(CryEngine.BoundingSphere@,CryEngine.BoundingSphere@)">
+            <summary>
+            Determines whether a <see cref="T:CryEngine.BoundingSphere"/> contains a <see cref="T:CryEngine.BoundingSphere"/>.
+            </summary>
+            <param name="sphere1">The first sphere to test.</param>
+            <param name="sphere2">The second sphere to test.</param>
+            <returns>The type of containment the two objects have.</returns>
+        </member>
+        <member name="T:CryEngine.GameRules">
+            <summary>
+            This is the base GameRules interface. All game rules must implement this.
+            </summary>
+            <remarks>For most use cases, deriving from CryGameCode's BaseGameRules is a more efficient solution.</remarks>
+        </member>
+        <member name="P:CryEngine.GameRulesAttribute.Name">
+            <summary>
+            Sets the game mode's name. Uses the class name if not set.
+            </summary>
+        </member>
+        <member name="P:CryEngine.GameRulesAttribute.Default">
+            <summary>
+            If set to true, the game mode will be set as default.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.Timeout">
+            <summary>
+            This cause must be first! - timeout occurred.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.ProtocolError">
+            <summary>
+            Incompatible protocols.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.ResolveFailed">
+            <summary>
+            Failed to resolve an address.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.VersionMismatch">
+            <summary>
+            Versions mismatch.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.ServerFull">
+            <summary>
+            Server is full.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.Kicked">
+            <summary>
+            User initiated kick.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.Banned">
+            <summary>
+            Teamkill ban/ admin ban.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.ContextCorruption">
+            <summary>
+            Context database mismatch.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.AuthenticationFailed">
+            <summary>
+            Password mismatch, cdkey bad, etc.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.GameError">
+            <summary>
+            Misc. game error.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.NotDX11Capable">
+            <summary>
+            DX11 not found.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.NubDestroyed">
+            <summary>
+            The nub has been destroyed.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.ICMPError">
+            <summary>
+            Icmp reported error.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.NatNegError">
+            <summary>
+            NAT negotiation error.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.PunkDetected">
+            <summary>
+            Punk buster detected something bad.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.DemoPlaybackFinished">
+            <summary>
+            Demo playback finished.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.DemoPlaybackFileNotFound">
+            <summary>
+            Demo playback file not found.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.UserRequested">
+            <summary>
+            User decided to stop playing.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.NoController">
+            <summary>
+            User should have controller connected.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.CantConnect">
+            <summary>
+            Unable to connect to server.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.ArbitrationFailed">
+            <summary>
+            Arbitration failed in a live arbitrated session.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.FailedToMigrateToNewHost">
+            <summary>
+            Failed to successfully join migrated game
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.SessionDeleted">
+            <summary>
+            The session has just been deleted
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.Unknown">
+            <summary>
+            Unknown cause
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.ShooterId">
+            <summary>
+            EntityId of the shooter
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.TargetId">
+            <summary>
+            EntityId of the target which got shot
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.WeaponId">
+            <summary>
+            EntityId of the weapon
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.ProjectileId">
+            <summary>
+            0 if hit was not caused by a projectile
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.Damage">
+            <summary>
+            damage count of the hit
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.Radius">
+            <summary>
+            radius of the hit
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.MaterialId">
+            <summary>
+            material id of the surface which got hit
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.TypeId">
+            <summary>
+            type id of the hit, see IGameRules::GetHitTypeId for more information
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.BulletType">
+            <summary>
+            type of bullet, if hit was of type bullet
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.Pierceability">
+            <summary>
+            bullet pierceability
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.Position">
+            <summary>
+            position of the hit
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.Direction">
+            <summary>
+            direction of the hit
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.Aimed">
+            <summary>
+            set to true if shot was aimed - i.e. first bullet, zoomed in etc.
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.KnocksDown">
+            <summary>
+            true if the hit should knockdown
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.KnocksDownLeg">
+            <summary>
+            true if the hit should knockdown when hit in a leg
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.HitViaProxy">
+            <summary>
+            true if the 'shooter' didn't actually shoot, ie. a weapon acting on their behalf did (team perks)
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.Explosion">
+            <summary>
+            true if this hit directly results from an explosion
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.ArmorHeating">
+            <summary>
+            dynamic pierceability reduction
+            </summary>
+        </member>
+        <member name="P:CryEngine.HitInfo.PenetrationCount">
+            <summary>
+            number of surfaces the bullet has penetrated
+            </summary>
         </member>
         <member name="T:CryEngine.Vec2">
             <summary>
@@ -5356,11 +5742,6 @@
             The object is intersecting the plane.
             </summary>
         </member>
-        <member name="T:CryEngine.GameRulesSystem">
-            <summary>
-            GameRules contains scriptbinds used in relation to the game rules system.
-            </summary>
-        </member>
         <member name="T:CryEngine.EntityAttribute">
             <summary>
             Defines additional information used by the entity registration system.
@@ -5450,368 +5831,6 @@
             <summary>
             Used when analog compare op succeeds
             </summary>
-        </member>
-        <member name="T:CryEngine.Collision">
-            <summary>
-            Contains static methods to help in determining intersections, containment, etc.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Collision.ClosestPointPointTriangle(CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
-            <summary>
-            Determines the closest point between a point and a triangle.
-            </summary>
-            <param name="point">The point to test.</param>
-            <param name="vertex1">The first vertex to test.</param>
-            <param name="vertex2">The second vertex to test.</param>
-            <param name="vertex3">The third vertex to test.</param>
-            <param name="result">When the method completes, contains the closest point between the two objects.</param>
-        </member>
-        <member name="M:CryEngine.Collision.ClosestPointPlanePoint(CryEngine.Plane@,CryEngine.Vec3@,CryEngine.Vec3@)">
-            <summary>
-            Determines the closest point between a <see cref="T:CryEngine.Plane"/> and a point.
-            </summary>
-            <param name="plane">The plane to test.</param>
-            <param name="point">The point to test.</param>
-            <param name="result">When the method completes, contains the closest point between the two objects.</param>
-        </member>
-        <member name="M:CryEngine.Collision.ClosestPointBoxPoint(CryEngine.BoundingBox@,CryEngine.Vec3@,CryEngine.Vec3@)">
-            <summary>
-            Determines the closest point between a <see cref="T:CryEngine.BoundingBox"/> and a point.
-            </summary>
-            <param name="box">The box to test.</param>
-            <param name="point">The point to test.</param>
-            <param name="result">When the method completes, contains the closest point between the two objects.</param>
-        </member>
-        <member name="M:CryEngine.Collision.ClosestPointSpherePoint(CryEngine.BoundingSphere@,CryEngine.Vec3@,CryEngine.Vec3@)">
-            <summary>
-            Determines the closest point between a <see cref="T:CryEngine.BoundingSphere"/> and a point.
-            </summary>
-            <param name="sphere"></param>
-            <param name="point">The point to test.</param>
-            <param name="result">When the method completes, contains the closest point between the two objects;
-            or, if the point is directly in the center of the sphere, contains <see cref="T:CryEngine.Vec3"/>.</param>
-        </member>
-        <member name="M:CryEngine.Collision.ClosestPointSphereSphere(CryEngine.BoundingSphere@,CryEngine.BoundingSphere@,CryEngine.Vec3@)">
-            <summary>
-            Determines the closest point between a <see cref="T:CryEngine.BoundingSphere"/> and a <see cref="T:CryEngine.BoundingSphere"/>.
-            </summary>
-            <param name="sphere1">The first sphere to test.</param>
-            <param name="sphere2">The second sphere to test.</param>
-            <param name="result">When the method completes, contains the closest point between the two objects;
-            or, if the point is directly in the center of the sphere, contains <see cref="T:CryEngine.Vec3"/>.</param>
-            <remarks>
-            If the two spheres are overlapping, but not directly ontop of each other, the closest point
-            is the 'closest' point of intersection. This can also be considered is the deepest point of
-            intersection.
-            </remarks>
-        </member>
-        <member name="M:CryEngine.Collision.DistancePlanePoint(CryEngine.Plane@,CryEngine.Vec3@)">
-            <summary>
-            Determines the distance between a <see cref="T:CryEngine.Plane"/> and a point.
-            </summary>
-            <param name="plane">The plane to test.</param>
-            <param name="point">The point to test.</param>
-            <returns>The distance between the two objects.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.DistanceBoxPoint(CryEngine.BoundingBox@,CryEngine.Vec3@)">
-            <summary>
-            Determines the distance between a <see cref="T:CryEngine.BoundingBox"/> and a point.
-            </summary>
-            <param name="box">The box to test.</param>
-            <param name="point">The point to test.</param>
-            <returns>The distance between the two objects.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.DistanceBoxBox(CryEngine.BoundingBox@,CryEngine.BoundingBox@)">
-            <summary>
-            Determines the distance between a <see cref="T:CryEngine.BoundingBox"/> and a <see cref="T:CryEngine.BoundingBox"/>.
-            </summary>
-            <param name="box1">The first box to test.</param>
-            <param name="box2">The second box to test.</param>
-            <returns>The distance between the two objects.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.DistanceSpherePoint(CryEngine.BoundingSphere@,CryEngine.Vec3@)">
-            <summary>
-            Determines the distance between a <see cref="T:CryEngine.BoundingSphere"/> and a point.
-            </summary>
-            <param name="sphere">The sphere to test.</param>
-            <param name="point">The point to test.</param>
-            <returns>The distance between the two objects.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.DistanceSphereSphere(CryEngine.BoundingSphere@,CryEngine.BoundingSphere@)">
-            <summary>
-            Determines the distance between a <see cref="T:CryEngine.BoundingSphere"/> and a <see cref="T:CryEngine.BoundingSphere"/>.
-            </summary>
-            <param name="sphere1">The first sphere to test.</param>
-            <param name="sphere2">The second sphere to test.</param>
-            <returns>The distance between the two objects.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.RayIntersectsPoint(CryEngine.Ray@,CryEngine.Vec3@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a point.
-            </summary>
-            <param name="ray">The ray to test.</param>
-            <param name="point">The point to test.</param>
-            <returns>Whether the two objects intersect.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.RayIntersectsRay(CryEngine.Ray@,CryEngine.Ray@,CryEngine.Vec3@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.Ray"/>.
-            </summary>
-            <param name="ray1">The first ray to test.</param>
-            <param name="ray2">The second ray to test.</param>
-            <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
-            <returns>Whether the two objects intersect.</returns>
-            <remarks>
-            This method performs a ray vs ray intersection test based on the following formula
-            from Goldman.
-            <code>s = det([o_2 - o_1, d_2, d_1 x d_2]) / ||d_1 x d_2||^2</code>
-            <code>t = det([o_2 - o_1, d_1, d_1 x d_2]) / ||d_1 x d_2||^2</code>
-            Where o_1 is the position of the first ray, o_2 is the position of the second ray,
-            d_1 is the normalized direction of the first ray, d_2 is the normalized direction
-            of the second ray, det denotes the determinant of a matrix, x denotes the cross
-            product, [ ] denotes a matrix, and || || denotes the length or magnitude of a vector.
-            </remarks>
-        </member>
-        <member name="M:CryEngine.Collision.RayIntersectsPlane(CryEngine.Ray@,CryEngine.Plane@,System.Single@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.Plane"/>.
-            </summary>
-            <param name="ray">The ray to test.</param>
-            <param name="plane">The plane to test.</param>
-            <param name="distance">When the method completes, contains the distance of the intersection,
-            or 0 if there was no intersection.</param>
-            <returns>Whether the two objects intersect.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.RayIntersectsPlane(CryEngine.Ray@,CryEngine.Plane@,CryEngine.Vec3@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.Plane"/>.
-            </summary>
-            <param name="ray">The ray to test.</param>
-            <param name="plane">The plane to test</param>
-            <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.RayIntersectsTriangle(CryEngine.Ray@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@,System.Single@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a triangle.
-            </summary>
-            <param name="ray">The ray to test.</param>
-            <param name="vertex1">The first vertex of the triangle to test.</param>
-            <param name="vertex2">The second vertex of the triagnle to test.</param>
-            <param name="vertex3">The third vertex of the triangle to test.</param>
-            <param name="distance">When the method completes, contains the distance of the intersection,
-            or 0 if there was no intersection.</param>
-            <returns>Whether the two objects intersected.</returns>
-            <remarks>
-            This method tests if the ray intersects either the front or back of the triangle.
-            If the ray is parallel to the triangle's plane, no intersection is assumed to have
-            happened. If the intersection of the ray and the triangle is behind the origin of
-            the ray, no intersection is assumed to have happened. In both cases of assumptions,
-            this method returns false.
-            </remarks>
-        </member>
-        <member name="M:CryEngine.Collision.RayIntersectsTriangle(CryEngine.Ray@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a triangle.
-            </summary>
-            <param name="ray">The ray to test.</param>
-            <param name="vertex1">The first vertex of the triangle to test.</param>
-            <param name="vertex2">The second vertex of the triagnle to test.</param>
-            <param name="vertex3">The third vertex of the triangle to test.</param>
-            <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.RayIntersectsBox(CryEngine.Ray@,CryEngine.BoundingBox@,System.Single@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.BoundingBox"/>.
-            </summary>
-            <param name="ray">The ray to test.</param>
-            <param name="box">The box to test.</param>
-            <param name="distance">When the method completes, contains the distance of the intersection,
-            or 0 if there was no intersection.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.RayIntersectsBox(CryEngine.Ray@,CryEngine.BoundingBox@,CryEngine.Vec3@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.Plane"/>.
-            </summary>
-            <param name="ray">The ray to test.</param>
-            <param name="box">The box to test.</param>
-            <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.RayIntersectsSphere(CryEngine.Ray@,CryEngine.BoundingSphere@,System.Single@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.BoundingSphere"/>.
-            </summary>
-            <param name="ray">The ray to test.</param>
-            <param name="sphere">The sphere to test.</param>
-            <param name="distance">When the method completes, contains the distance of the intersection,
-            or 0 if there was no intersection.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.RayIntersectsSphere(CryEngine.Ray@,CryEngine.BoundingSphere@,CryEngine.Vec3@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Ray"/> and a <see cref="T:CryEngine.BoundingSphere"/>. 
-            </summary>
-            <param name="ray">The ray to test.</param>
-            <param name="sphere">The sphere to test.</param>
-            <param name="point">When the method completes, contains the point of intersection,
-            or <see cref="T:CryEngine.Vec3"/> if there was no intersection.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.PlaneIntersectsPoint(CryEngine.Plane@,CryEngine.Vec3@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Plane"/> and a point.
-            </summary>
-            <param name="plane">The plane to test.</param>
-            <param name="point">The point to test.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.PlaneIntersectsPlane(CryEngine.Plane@,CryEngine.Plane@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Plane"/> and a <see cref="T:CryEngine.Plane"/>.
-            </summary>
-            <param name="plane1">The first plane to test.</param>
-            <param name="plane2">The second plane to test.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.PlaneIntersectsPlane(CryEngine.Plane@,CryEngine.Plane@,CryEngine.Ray@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Plane"/> and a <see cref="T:CryEngine.Plane"/>.
-            </summary>
-            <param name="plane1">The first plane to test.</param>
-            <param name="plane2">The second plane to test.</param>
-            <param name="line">When the method completes, contains the line of intersection
-            as a <see cref="T:CryEngine.Ray"/>, or a zero ray if there was no intersection.</param>
-            <returns>Whether the two objects intersected.</returns>
-            <remarks>
-            Although a ray is set to have an origin, the ray returned by this method is really
-            a line in three dimensions which has no real origin. The ray is considered valid when
-            both the positive direction is used and when the negative direction is used.
-            </remarks>
-        </member>
-        <member name="M:CryEngine.Collision.PlaneIntersectsTriangle(CryEngine.Plane@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Plane"/> and a triangle.
-            </summary>
-            <param name="plane">The plane to test.</param>
-            <param name="vertex1">The first vertex of the triangle to test.</param>
-            <param name="vertex2">The second vertex of the triagnle to test.</param>
-            <param name="vertex3">The third vertex of the triangle to test.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.PlaneIntersectsBox(CryEngine.Plane@,CryEngine.BoundingBox@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Plane"/> and a <see cref="T:CryEngine.BoundingBox"/>.
-            </summary>
-            <param name="plane">The plane to test.</param>
-            <param name="box">The box to test.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.PlaneIntersectsSphere(CryEngine.Plane@,CryEngine.BoundingSphere@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.Plane"/> and a <see cref="T:CryEngine.BoundingSphere"/>.
-            </summary>
-            <param name="plane">The plane to test.</param>
-            <param name="sphere">The sphere to test.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.BoxIntersectsBox(CryEngine.BoundingBox@,CryEngine.BoundingBox@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.BoundingBox"/> and a <see cref="T:CryEngine.BoundingBox"/>.
-            </summary>
-            <param name="box1">The first box to test.</param>
-            <param name="box2">The second box to test.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.BoxIntersectsSphere(CryEngine.BoundingBox@,CryEngine.BoundingSphere@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.BoundingBox"/> and a <see cref="T:CryEngine.BoundingSphere"/>.
-            </summary>
-            <param name="box">The box to test.</param>
-            <param name="sphere">The sphere to test.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.SphereIntersectsTriangle(CryEngine.BoundingSphere@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.BoundingSphere"/> and a triangle.
-            </summary>
-            <param name="sphere">The sphere to test.</param>
-            <param name="vertex1">The first vertex of the triangle to test.</param>
-            <param name="vertex2">The second vertex of the triagnle to test.</param>
-            <param name="vertex3">The third vertex of the triangle to test.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.SphereIntersectsSphere(CryEngine.BoundingSphere@,CryEngine.BoundingSphere@)">
-            <summary>
-            Determines whether there is an intersection between a <see cref="T:CryEngine.BoundingSphere"/> and a <see cref="T:CryEngine.BoundingSphere"/>.
-            </summary>
-            <param name="sphere1">First sphere to test.</param>
-            <param name="sphere2">Second sphere to test.</param>
-            <returns>Whether the two objects intersected.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.BoxContainsPoint(CryEngine.BoundingBox@,CryEngine.Vec3@)">
-            <summary>
-            Determines whether a <see cref="T:CryEngine.BoundingBox"/> contains a point.
-            </summary>
-            <param name="box">The box to test.</param>
-            <param name="point">The point to test.</param>
-            <returns>The type of containment the two objects have.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.BoxContainsBox(CryEngine.BoundingBox@,CryEngine.BoundingBox@)">
-            <summary>
-            Determines whether a <see cref="T:CryEngine.BoundingBox"/> contains a <see cref="T:CryEngine.BoundingBox"/>.
-            </summary>
-            <param name="box1">The first box to test.</param>
-            <param name="box2">The second box to test.</param>
-            <returns>The type of containment the two objects have.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.BoxContainsSphere(CryEngine.BoundingBox@,CryEngine.BoundingSphere@)">
-            <summary>
-            Determines whether a <see cref="T:CryEngine.BoundingBox"/> contains a <see cref="T:CryEngine.BoundingSphere"/>.
-            </summary>
-            <param name="box">The box to test.</param>
-            <param name="sphere">The sphere to test.</param>
-            <returns>The type of containment the two objects have.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.SphereContainsPoint(CryEngine.BoundingSphere@,CryEngine.Vec3@)">
-            <summary>
-            Determines whether a <see cref="T:CryEngine.BoundingSphere"/> contains a point.
-            </summary>
-            <param name="sphere">The sphere to test.</param>
-            <param name="point">The point to test.</param>
-            <returns>The type of containment the two objects have.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.SphereContainsTriangle(CryEngine.BoundingSphere@,CryEngine.Vec3@,CryEngine.Vec3@,CryEngine.Vec3@)">
-            <summary>
-            Determines whether a <see cref="T:CryEngine.BoundingSphere"/> contains a triangle.
-            </summary>
-            <param name="sphere">The sphere to test.</param>
-            <param name="vertex1">The first vertex of the triangle to test.</param>
-            <param name="vertex2">The second vertex of the triagnle to test.</param>
-            <param name="vertex3">The third vertex of the triangle to test.</param>
-            <returns>The type of containment the two objects have.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.SphereContainsBox(CryEngine.BoundingSphere@,CryEngine.BoundingBox@)">
-            <summary>
-            Determines whether a <see cref="T:CryEngine.BoundingSphere"/> contains a <see cref="T:CryEngine.BoundingBox"/>.
-            </summary>
-            <param name="sphere">The sphere to test.</param>
-            <param name="box">The box to test.</param>
-            <returns>The type of containment the two objects have.</returns>
-        </member>
-        <member name="M:CryEngine.Collision.SphereContainsSphere(CryEngine.BoundingSphere@,CryEngine.BoundingSphere@)">
-            <summary>
-            Determines whether a <see cref="T:CryEngine.BoundingSphere"/> contains a <see cref="T:CryEngine.BoundingSphere"/>.
-            </summary>
-            <param name="sphere1">The first sphere to test.</param>
-            <param name="sphere2">The second sphere to test.</param>
-            <returns>The type of containment the two objects have.</returns>
         </member>
         <member name="P:CryEngine.Terrain.Elevation">
             <summary>

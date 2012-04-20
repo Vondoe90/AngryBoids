@@ -13,6 +13,9 @@
 	</actionmap>
 	
 	<actionmap name="default" version="22">
+		<action name="zoom_in" onPress="1" keyboard="mwheel_up"/>
+		<action name="zoom_out" onPress="1" keyboard="mwheel_down"/>
+
 	<!-- default keys -->
 		<action name="screenshot" onPress="1" keyboard="f12" />
 		<action name="skip_cutscene" onPress="1" noModifiers="1" keyboard="space" />

@@ -81,9 +81,6 @@ public:
 
 	void OnGamemodeChanged(const char *newMode);
 
-	virtual IActor *SpawnPlayer(int channelId, const char *name, const char *className, const Vec3 &pos, const Ang3 &angles);
-	virtual void RevivePlayer(IActor *pActor, const Vec3 &pos, const Ang3 &angles, int teamId=0, bool clearInventory=true);
-
 	virtual void OnRevive(IActor *pActor, const Vec3 &pos, const Quat &rot, int teamId = 0);
 
 	virtual string VerifyName(const char *name, IEntity *pEntity=0);

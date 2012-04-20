@@ -36,8 +36,6 @@ struct IActionMap;
 struct IActionFilter;
 class CCameraManager;
 
-class CScriptBind_GameRules;
-
 // when you add stuff here, also update in CGame::RegisterGameObjectEvents
 enum ECryGameEvent
 {
@@ -186,8 +184,6 @@ protected:
 
 	IGameFramework			*m_pFramework;
 	IConsole						*m_pConsole;
-
-	CScriptBind_GameRules		*m_pScriptBindGameRules;
 
 	bool								m_bReload;
 
