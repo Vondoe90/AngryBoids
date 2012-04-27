@@ -40,5 +40,6 @@ userSpecificData.xml
 EditorEventLog.xml
 
 USER
-
-# Excludes
+Editor/UI/WipFeatures.xml
+Editor/EditorLayout.xml
+error.bmp
