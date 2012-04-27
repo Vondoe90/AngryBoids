@@ -1,0 +1,12 @@
+AdvancedEntity
+has the following properties in Sandbox:
+
+- A number called AwesomeLevel. Ranges from 0 to 9001.
+
+- A decimal called DecimalSlider. Ranges from 0 to 10.
+
+- A mesh called Model.
+
+and should do the following things:
+
+- When the entity is spawned, log 'we spawned!'.
