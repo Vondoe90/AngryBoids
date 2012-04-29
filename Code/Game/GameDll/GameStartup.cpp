@@ -38,10 +38,6 @@ History:
 #include <WindowsX.h> // for SubclassWindow()
 #endif
 
-#if defined(ENABLE_STATS_AGENT)
-#include "StatsAgent.h"
-#endif
-
 #ifdef __LINK_GCOV__
 extern "C" void __gcov_flush(void);
 #define GCOV_FLUSH __gcov_flush()
@@ -194,11 +190,6 @@ IGameRef CGameStartup::Init(SSystemInitParams &startupParams)
 	ISystem* pSystem = m_pFramework->GetISystem();
 	IConsole* pConsole = gEnv->pConsole;
 	startupParams.pSystem = pSystem;
-
-#if defined(ENABLE_STATS_AGENT)
-	const ICmdLineArg *pPipeArg = pSystem->GetICmdLine()->FindArg(eCLAT_Pre,"lt_pipename");
-	CStatsAgent::CreatePipe( pPipeArg );
-#endif
 
 	InitCryMono();
 
@@ -375,10 +366,6 @@ void CGameStartup::Shutdown()
 	AllowAccessibilityShortcutKeys(true);
 #endif
 
-#if defined(ENABLE_STATS_AGENT)
-	CStatsAgent::ClosePipe();
-#endif
-
 	// we are not dynamically allocated (see GameDll.cpp)... therefore
 	// we must not call delete here (it will cause big problems)...
 	// call the destructor manually instead
@@ -417,10 +404,6 @@ int CGameStartup::Update(bool haveFocus, unsigned int updateFlags)
 	// update the game
 	if (m_pMod)
 		returnCode = m_pMod->Update(haveFocus, updateFlags);
-
-#if defined(ENABLE_STATS_AGENT)
-	CStatsAgent::Update();
-#endif
 
 	// ghetto fullscreen detection, because renderer does not provide any kind of listener
 	if (gEnv && gEnv->pSystem && gEnv->pConsole)
