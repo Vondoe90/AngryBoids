@@ -6,15 +6,15 @@ namespace CryGameCode.AngryBoids
 	{
 		public void Init()
 		{
-			View.ActiveView.FieldOfView = Math.DegreesToRadians(60);
+			View.Active.FoV = Math.DegreesToRadians(60);
 
 			CurrentZoomLevel = MaxZoomLevel;
 			ReceiveUpdates = true;
 
-			InputSystem.RegisterAction("zoom_in", OnActionZoomIn);
-			InputSystem.RegisterAction("zoom_out", OnActionZoomOut);
+			Input.RegisterAction("zoom_in", OnActionZoomIn);
+			Input.RegisterAction("zoom_out", OnActionZoomOut);
 
-			InputSystem.MouseEvents += ProcessMouseEvents;
+			Input.MouseEvents += ProcessMouseEvents;
 		}
 
 		public override void OnUpdate()

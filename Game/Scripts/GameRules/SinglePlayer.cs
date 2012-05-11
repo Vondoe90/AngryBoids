@@ -15,7 +15,7 @@ namespace CryGameCode
 		//This is called, contrary to what you'd expect, just once, as the player persists between test sessions in the editor (ctrl+g)
 		public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
 		{
-			GameRules.SpawnPlayer<PlayerCamera>(channelId, "Player");
+			Actor.Create<PlayerCamera>(channelId, "Player");
 		}
 
 		public override void OnClientDisconnect(int channelId)

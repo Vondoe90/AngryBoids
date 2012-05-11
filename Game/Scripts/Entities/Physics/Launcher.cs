@@ -31,7 +31,7 @@ namespace CryGameCode.AngryBoids
 				}
 
 				remainingBoids = boids.ToList();
-				InputSystem.MouseEvents += ProcessMouseEvents;
+				Input.MouseEvents += ProcessMouseEvents;
 				state = LauncherState.Ready;
 				Instance = this;
 
