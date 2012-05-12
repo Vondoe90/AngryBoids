@@ -1,5 +1,6 @@
 using CryEngine;
 using CryGameCode.AngryBoids;
+using CryGameCode.Entities;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,18 @@ namespace CryGameCode
 		//This is called, contrary to what you'd expect, just once, as the player persists between test sessions in the editor (ctrl+g)
 		public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
 		{
-			GameRules.SpawnPlayer<PlayerCamera>(channelId, "Player");
+			var player = Actor.Create<PlayerCamera>(channelId, "Player");
+
+			var spawnPoints = Entity.GetEntities("SpawnPoint");
+			if(spawnPoints != null && spawnPoints.Count() > 0)
+			{
+				var spawnPoint = spawnPoints.First();
+				if(spawnPoint != null)
+				{
+					player.Position = spawnPoint.Position;
+					player.Rotation = spawnPoint.Rotation;
+				}
+			}
 		}
 
 		public override void OnClientDisconnect(int channelId)

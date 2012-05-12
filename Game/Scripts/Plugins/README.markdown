@@ -1,3 +1,3 @@
-Any dll placed in here will be automatically loaded and searched for Mono entities, flownodes and game rules.
+Any dll placed in here will be automatically loaded and searched for CryMono types.
 
-Upon finding a mono compatible class, it will be automatically registered.
+For more information see the <a href="http://docs.inkdev.net/display/CryMono/Plug-ins">CryMono plug-ins</a> article at docs.inkdev.net.

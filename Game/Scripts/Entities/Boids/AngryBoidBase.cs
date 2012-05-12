@@ -1,7 +1,7 @@
 ﻿using CryEngine;
 using CryGameCode.Entities;
 
-namespace CryGameCode.AngryBoids
+namespace CryGameCode.Entities.AngryBoids
 {
 	public abstract class AngryBoid : Rigidbody
 	{

@@ -1,9 +1,12 @@
 ﻿using CryEngine;
 using CryEngine.Utilities;
+
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CryGameCode.AngryBoids
+using CryGameCode.Entities;
+
+namespace CryGameCode.Entities.AngryBoids
 {
 	/// <summary>
 	/// The launcher is the entity that is responsible for firing the boids.
@@ -31,7 +34,7 @@ namespace CryGameCode.AngryBoids
 				}
 
 				remainingBoids = boids.ToList();
-				InputSystem.MouseEvents += ProcessMouseEvents;
+				Input.MouseEvents += ProcessMouseEvents;
 				state = LauncherState.Ready;
 				Instance = this;
 
@@ -59,7 +62,7 @@ namespace CryGameCode.AngryBoids
 					{
 						Vec3 relativePos = CurrentBoid.Position - Renderer.ScreenToWorld(e.X, e.Y);
 						// Check if the player clicked on the active boid.
-						if(CurrentBoid.BoundingBox.Contains(ref relativePos) && remainingBoids.Any())
+						if(CurrentBoid.LocalBoundingBox.Contains(ref relativePos) && remainingBoids.Any())
 						{
 							CurrentBoid.Position = Position;
 							CurrentBoid.Physics.Resting = true;
