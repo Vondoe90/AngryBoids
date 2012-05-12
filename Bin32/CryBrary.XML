@@ -774,6 +774,7 @@
             <remarks>If the entity does not exist in the managed space, this function will attempt to find
             a C++ entity with the specified ID></remarks>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:CryEngine.Entity.Get(System.Predicate{CryEngine.Entity})" -->
         <member name="M:CryEngine.Entity.Find(System.String)">
             <summary>
             Get an entity by name.
@@ -1373,6 +1374,7 @@
             WIP Player class. TODO: Redo, currently very limited in terms of callbacks + interoperability with C++ backend
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:CryEngine.Actor.Get(System.Predicate{CryEngine.Actor})" -->
         <member name="M:CryEngine.Actor.InternalSpawn(CryEngine.EntityId,System.Int32)">
             <summary>
             Initializes the player.
