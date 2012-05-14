@@ -642,19 +642,69 @@
             <param name="autoInit">Should the entity automatically be initialised?</param>
             <returns></returns>
         </member>
-        <member name="M:CryEngine.EntityBase._LoadCharacter(System.UInt32,System.String,System.Int32)">
+        <member name="M:CryEngine.EntityBase._LoadCharacter(System.IntPtr,System.String,System.Int32)">
             <summary>
             Loads an non-static model on the object (.chr, .cdf, .cga)
             </summary>
-            <param name="entityId"></param>
+            <param name="ptr"></param>
             <param name="fileName"></param>
             <param name="slot"></param>
         </member>
-        <member name="M:CryEngine.Entity.InternalSpawn(CryEngine.EntityId)">
+        <member name="P:CryEngine.EntityBase.Position">
+            <summary>
+            Sets / gets the world space entity position.
+            </summary>
+        </member>
+        <member name="P:CryEngine.EntityBase.Rotation">
+            <summary>
+            Sets / gets the world space entity orientation quaternion.
+            </summary>
+        </member>
+        <member name="P:CryEngine.EntityBase.LocalPosition">
+            <summary>
+            Sets / gets the local space entity position.
+            </summary>
+        </member>
+        <member name="P:CryEngine.EntityBase.LocalRotation">
+            <summary>
+            Sets / gets the local space entity orientation quaternion.
+            </summary>
+        </member>
+        <member name="P:CryEngine.EntityBase.Transform">
+            <summary>
+            Sets / gets the world space entity transformation matrix.
+            </summary>
+        </member>
+        <member name="P:CryEngine.EntityBase.LocalTransform">
+            <summary>
+            Sets / gets the local space entity transformation matrix.
+            </summary>
+        </member>
+        <member name="P:CryEngine.EntityBase.BoundingBox">
+            <summary>
+            Gets the entity axis aligned bounding box in the world space.
+            </summary>
+        </member>
+        <member name="P:CryEngine.EntityBase.LocalBoundingBox">
+            <summary>
+            Gets the entity axis aligned bounding box in the world space.
+            </summary>
+        </member>
+        <member name="P:CryEngine.EntityBase.Name">
+            <summary>
+            Gets / sets the entity name.
+            </summary>
+        </member>
+        <member name="P:CryEngine.EntityBase.Flags">
+            <summary>
+            Gets / sets the entity flags.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Entity.InternalSpawn(CryEngine.EntityInfo)">
             <summary>
             Initializes the entity, not recommended to set manually.
             </summary>
-            <param name="entityId"></param>
+            <param name="entInfo">Struct containing the IEntity pointer and EntityId.</param>
             <returns>IsEntityFlowNode</returns>
         </member>
         <member name="M:CryEngine.Entity.IsEntityFlowNode">
@@ -774,7 +824,6 @@
             <remarks>If the entity does not exist in the managed space, this function will attempt to find
             a C++ entity with the specified ID></remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:CryEngine.Entity.Get(System.Predicate{CryEngine.Entity})" -->
         <member name="M:CryEngine.Entity.Find(System.String)">
             <summary>
             Get an entity by name.
@@ -1374,12 +1423,11 @@
             WIP Player class. TODO: Redo, currently very limited in terms of callbacks + interoperability with C++ backend
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:CryEngine.Actor.Get(System.Predicate{CryEngine.Actor})" -->
-        <member name="M:CryEngine.Actor.InternalSpawn(CryEngine.EntityId,System.Int32)">
+        <member name="M:CryEngine.Actor.InternalSpawn(CryEngine.ActorInfo,System.Int32)">
             <summary>
             Initializes the player.
             </summary>
-            <param name="entityId"></param>
+            <param name="actorInfo"></param>
             <param name="channelId"></param>
         </member>
         <member name="T:CryEngine.Quat">
@@ -4734,7 +4782,7 @@
             Gets the required assemblies for the source file passed to the method.
             Note: Does NOT exclude assemblies already loaded by CryMono.
             </summary>
-            <param name="scriptFilePaths"></param>
+            <param name="sources"></param>
             <returns></returns>
         </member>
         <member name="M:CryEngine.Utilities.AssemblyReferenceHandler.GetNamespacesFromScriptFile(System.String)">
@@ -5869,7 +5917,12 @@
             Processes a C# assembly and adds all found types to ScriptCompiler.CompiledScripts
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:CryEngine.Initialization.ScriptManager.LoadAssembly(System.String)" -->
+        <member name="M:CryEngine.Initialization.ScriptManager.LoadAssembly(System.String)">
+            <summary>
+            Loads a C# assembly by location, creates a shadow-copy and generates debug database (mdb).
+            </summary>
+            <param name="assemblyPath"></param>
+        </member>
         <member name="M:CryEngine.Initialization.ScriptManager.ProcessTypes(System.Collections.Generic.IEnumerable{System.Type})">
             <summary>
             Processes a type and adds all found types to ScriptCompiler.CompiledScripts
