@@ -1,6 +1,6 @@
 ﻿using CryEngine;
 
-namespace CryGameCode.AngryBoids
+namespace CryGameCode.Entities
 {
 	public class PlayerCamera : Actor
 	{
