@@ -3,6 +3,7 @@
 #include <IGameRulesSystem.h>
 
 struct IActor;
+struct IMonoClass;
 
 class CGameRules : public CGameObjectExtensionHelper<CGameRules, IGameRules, 64 /* max RMI's */>
 {
@@ -91,5 +92,5 @@ protected:
 
 	std::vector<int>		m_channelIds;
 
-	int m_scriptId;
+	IMonoClass *m_pScriptClass;
 };
