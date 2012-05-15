@@ -53,7 +53,7 @@ namespace CryGameCode.Entities.AngryBoids
 		/// <param name="y">The y position of the mouse on the screen.</param>
 		/// <param name="mouseEvent">The event that occurred. Provides information on whether it was just a move, or whether something was clicked, etc.</param>
 		/// <param name="wheelDelta"></param>
-		private void ProcessMouseEvents(object sender, MouseEventArgs e)
+		private void ProcessMouseEvents(MouseEventArgs e)
 		{
 			switch(e.MouseEvent)
 			{

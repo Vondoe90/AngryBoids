@@ -42,19 +42,19 @@ namespace CryGameCode.Entities
 			Position = TargetEntity.Position - new Vec3(MaxDistanceFromTarget * ((float)CurrentZoomLevel / MaxZoomLevel), 0, 0);
 		}
 
-		public void OnActionZoomIn(object sender, ActionMapEventArgs e)
+		public void OnActionZoomIn(ActionMapEventArgs e)
 		{
 			if(e.KeyEvent == KeyEvent.OnPress && CurrentZoomLevel > 1)
 				CurrentZoomLevel--;
 		}
 
-		public void OnActionZoomOut(object sender, ActionMapEventArgs e)
+		public void OnActionZoomOut(ActionMapEventArgs e)
 		{
 			if(e.KeyEvent == KeyEvent.OnPress && CurrentZoomLevel < MaxZoomLevel)
 				CurrentZoomLevel++;
 		}
 
-		private void ProcessMouseEvents(object sender, MouseEventArgs e)
+		private void ProcessMouseEvents(MouseEventArgs e)
 		{
 			switch(e.MouseEvent)
 			{
