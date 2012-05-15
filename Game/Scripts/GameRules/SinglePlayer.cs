@@ -17,22 +17,18 @@ namespace CryGameCode
 		public override void OnClientConnect(int channelId, bool isReset = false, string playerName = "")
 		{
 			var player = Actor.Create<PlayerCamera>(channelId, "Player");
-
-			var spawnPoints = Entity.GetEntities("SpawnPoint");
-			if(spawnPoints != null && spawnPoints.Count() > 0)
-			{
-				var spawnPoint = spawnPoints.First();
-				if(spawnPoint != null)
-				{
-					player.Position = spawnPoint.Position;
-					player.Rotation = spawnPoint.Rotation;
-				}
-			}
 		}
 
 		public override void OnClientDisconnect(int channelId)
 		{
 			Actor.Remove(channelId);
+		}
+
+		public override void OnClientEnteredGame(int channelId, EntityId playerId, bool reset, bool loadingSaveGame)
+		{
+			var actor = Actor.Get(playerId);
+
+			OnRevive(playerId, actor.Position, (Vec3)actor.Rotation, 0);
 		}
 
 		public override void OnRevive(EntityId actorId, Vec3 pos, Vec3 rot, int teamId)

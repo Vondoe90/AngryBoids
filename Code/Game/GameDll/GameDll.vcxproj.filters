@@ -14,9 +14,6 @@
     <ClCompile Include="Editor\EditorGame.cpp">
       <Filter>Game\EditorGame</Filter>
     </ClCompile>
-    <ClCompile Include="Actor.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="GameRules.cpp">
       <Filter>GameRules</Filter>
     </ClCompile>
@@ -44,9 +41,6 @@
     <ClInclude Include="Editor\EditorGame.h">
       <Filter>Game\EditorGame</Filter>
     </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
     <ClInclude Include="GameRules.h">
       <Filter>GameRules</Filter>
     </ClInclude>
@@ -66,9 +60,6 @@
     </Filter>
     <Filter Include="Game\EditorGame">
       <UniqueIdentifier>{48812254-7808-41d7-a00a-ffc91229c206}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor">
-      <UniqueIdentifier>{1afe0bdb-febd-4c4e-832f-5abf1cb15c53}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameRules">
       <UniqueIdentifier>{e6d934c5-215d-41c7-ad6a-4f7fa3aaaa46}</UniqueIdentifier>

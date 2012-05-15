@@ -15,7 +15,6 @@
 #include "Game.h"
 
 #include "GameRules.h"
-#include "Actor.h"
 
 #include <ICryPak.h>
 #include <CryPath.h>
@@ -163,7 +162,6 @@ bool CGame::Init(IGameFramework *pFramework)
 		}
 	}
 
-	REGISTER_FACTORY(m_pFramework, "Player", CActor, false);
 	REGISTER_FACTORY(m_pFramework, "GameRules", CGameRules, false);
 
 	gEnv->pConsole->CreateKeyBind("f12", "r_getscreenshot 2");

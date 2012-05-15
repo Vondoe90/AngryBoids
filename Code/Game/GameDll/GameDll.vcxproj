@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Editor\EditorGame.cpp" />
     <ClCompile Include="Editor\GameRealtimeRemoteUpdate.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -32,7 +31,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Actor.h" />
     <ClInclude Include="Editor\EditorGame.h" />
     <ClInclude Include="Editor\GameRealtimeRemoteUpdate.h" />
     <ClInclude Include="Game.h" />

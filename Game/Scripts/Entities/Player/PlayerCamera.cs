@@ -1,12 +1,29 @@
 ﻿using CryEngine;
 
+using System.Linq;
+
 namespace CryGameCode.Entities
 {
 	public class PlayerCamera : Actor
 	{
 		public void Init()
 		{
-			View.Active.FoV = Math.DegreesToRadians(60);
+			var spawnpoints = Entity.GetEntities<SpawnPoint>();
+			if(spawnpoints.Count() > 0)
+			{
+				var spawn = spawnpoints.First();
+				Position = spawn.Position;
+				Rotation = spawn.Rotation;
+			}
+
+			var newView = View.Get(Id, true);
+
+			newView.FoV = Math.DegreesToRadians(60);
+			newView.TargetId = Id;
+			newView.Position = Position;
+			newView.Rotation = Rotation;
+
+			View.Active = newView;
 
 			CurrentZoomLevel = MaxZoomLevel;
 			ReceiveUpdates = true;

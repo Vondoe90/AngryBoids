@@ -9,7 +9,6 @@
 #include "ILevelSystem.h"
 #include "IMovementController.h"
 #include "IItemSystem.h"
-#include "Actor.h"
 #include "GameRules.h"
 
 #define EDITOR_SERVER_PORT 0xed17
@@ -190,8 +189,7 @@ bool CEditorGame::SetGameMode(bool bGameMode)
 
 		pGameFramework->OnEditorSetGameMode(bGameMode);
 
-		CActor *pActor = static_cast<CActor*>(m_pGame->GetIGameFramework()->GetClientActor());
-		if (pActor)
+		if (IActor *pActor = m_pGame->GetIGameFramework()->GetClientActor())
 		{
 			if (bGameMode)
 			{

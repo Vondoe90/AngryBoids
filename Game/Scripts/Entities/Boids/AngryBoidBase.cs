@@ -23,7 +23,6 @@ namespace CryGameCode.Entities.AngryBoids
 
 		public override void OnUpdate()
 		{
-			Debug.DrawText("sup.", 3.0f, Color.Red, 3.0f);
 			if (Launcher.Instance != null && Math.IsInRange(Velocity.Length, -0.2, 0.2) && (Time.FrameStartTime - lastEvent) > 4000)
 			{
 				ReceiveUpdates = false;

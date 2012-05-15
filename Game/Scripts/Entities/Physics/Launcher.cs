@@ -41,7 +41,7 @@ namespace CryGameCode.Entities.AngryBoids
 				CurrentBoid.Position = Position;
 				CurrentBoid.Physics.Resting = true;
 
-				var playerCamera = Actor.LocalPlayer as PlayerCamera;
+				var playerCamera = Actor.Client as PlayerCamera;
 				playerCamera.TargetEntity = this;
 			}
 		}
@@ -77,7 +77,7 @@ namespace CryGameCode.Entities.AngryBoids
 					{
 						if(state == LauncherState.Held)
 						{
-							var playerCamera = Actor.LocalPlayer as PlayerCamera;
+							var playerCamera = Actor.Client as PlayerCamera;
 							playerCamera.TargetEntity = CurrentBoid;
 
 							Fire(Renderer.ScreenToWorld(e.X, e.Y));
@@ -116,7 +116,7 @@ namespace CryGameCode.Entities.AngryBoids
 		/// </summary>
 		public void PostFire()
 		{
-			var playerCamera = Actor.LocalPlayer as PlayerCamera;
+			var playerCamera = Actor.Client as PlayerCamera;
 			playerCamera.TargetEntity = CurrentBoid;
 
 			// TODO: Add a proper delay between boids
