@@ -1258,13 +1258,13 @@
             <param name="actorInfo"></param>
             <param name="channelId"></param>
         </member>
-        <member name="P:CryEngine.ActorAttribute.useMonoActor">
+        <member name="F:CryEngine.ActorAttribute.useMonoActor">
             <summary>
             Utilize the C++ Actor class contained within CryMono.dll
             Otherwise the engine will require one created in the game dll. 
             </summary>
         </member>
-        <member name="P:CryEngine.ActorAttribute.isAI">
+        <member name="F:CryEngine.ActorAttribute.isAI">
             <summary>
             Determines if this is an AI actor class.
             Only applied when UseMonoActor is set to true.
@@ -2420,6 +2420,77 @@
         <member name="F:CryEngine.UI.toUIEventSystems">
             <summary>
             Event systems handling System -> UI communication.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Level.Load(System.String)">
+            <summary>
+            Loads a new level and returns its level info
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.Level.Unload">
+            <summary>
+            Unloads the currently loaded level.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Level.GetSupportedGameRules(System.Int32)">
+            <summary>
+            Gets the supported game rules at the index; see SupportedGamerules.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.Level.SupportsGameRules(System.String)">
+            <summary>
+            Returns true if this level supports the specific game rules.
+            </summary>
+            <param name="gamemodeName"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CryEngine.Level.Current">
+            <summary>
+            Gets the currently loaded level
+            </summary>
+        </member>
+        <member name="P:CryEngine.Level.Loaded">
+            <summary>
+            Returns true if any level is currently loaded
+            </summary>
+        </member>
+        <member name="P:CryEngine.Level.Name">
+            <summary>
+            Gets the level name.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Level.DisplayName">
+            <summary>
+            Gets the level display name.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Level.Path">
+            <summary>
+            Gets the full path to the directory this level resides in.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Level.HeightmapSize">
+            <summary>
+            Gets the heightmap size for this level.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Level.SupportedGamerules">
+            <summary>
+            Gets the number of supported game rules for this level.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Level.DefaultGameRules">
+            <summary>
+            Gets the default gamemode for this level.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Level.HasGameRules">
+            <summary>
+            Returns true if this level is configured to support any gamemodes.
             </summary>
         </member>
         <member name="T:CryEngine.Vec4">
