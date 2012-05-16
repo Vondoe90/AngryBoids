@@ -139,14 +139,6 @@
             <param name="info">The member on which the search is performed.</param>
             <returns>True if the member is decorated with at least one instance of attribute T.</returns>
         </member>
-        <member name="M:CryEngine.Extensions.ReflectionExtensions.ContainsAttribute``1(System.Reflection.MethodInfo)">
-            <summary>
-            Determines whether this method is decorated with at least one instance of a given attribute.
-            </summary>
-            <typeparam name="T">The attribute to search for.</typeparam>
-            <param name="info">The method on which the search is performed.</param>
-            <returns>True if the method is decorated with at least one instance of attribute T.</returns>
-        </member>
         <member name="M:CryEngine.Extensions.ReflectionExtensions.Implements(System.Type,System.Type)">
             <summary>
             Determines whether a given type is the child of another.
@@ -163,29 +155,12 @@
             <param name="memberInfo">The member on which the search is performed.</param>
             <returns>The first instance of attribute T, or null if none is found.</returns>
         </member>
-        <member name="M:CryEngine.Extensions.ReflectionExtensions.GetAttribute``1(System.Reflection.MethodInfo)">
-            <summary>
-            Gets the first instance of a given attribute on the selected method.
-            </summary>
-            <typeparam name="T">The attribute to search for.</typeparam>
-            <param name="methodInfo">The method on which the search is performed.</param>
-            <returns>The first instance of attribute T, or null if none is found.</returns>
-        </member>
-        <member name="M:CryEngine.Extensions.ReflectionExtensions.TryGetAttribute``1(System.Reflection.MethodInfo,``0@)">
+        <member name="M:CryEngine.Extensions.ReflectionExtensions.TryGetAttribute``1(System.Reflection.MemberInfo,``0@)">
             <summary>
             Tests whether the method is decorated with a given attribute, and if so, assigns it via the out variable.
             </summary>
             <typeparam name="T">The attribute to search for.</typeparam>
-            <param name="method">The method on which the search is performed.</param>
-            <param name="attribute">The out parameter to which the attribute will be assigned.</param>
-            <returns>True if the attribute exists.</returns>
-        </member>
-        <member name="M:CryEngine.Extensions.ReflectionExtensions.TryGetAttribute``1(System.Reflection.MemberInfo,``0@)">
-            <summary>
-            Tests whether the member is decorated with a given attribute, and if so, assigns it via the out variable.
-            </summary>
-            <typeparam name="T">The attribute to search for.</typeparam>
-            <param name="member">The member on which the search is performed.</param>
+            <param name="memberInfo">The member on which the search is performed.</param>
             <param name="attribute">The out parameter to which the attribute will be assigned.</param>
             <returns>True if the attribute exists.</returns>
         </member>
@@ -259,67 +234,67 @@
             The height of the screen in pixels.
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.Position">
+        <member name="F:CryEngine.ViewParams.Position">
             <summary>
             view position
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.Rotation">
+        <member name="F:CryEngine.ViewParams.Rotation">
             <summary>
             view orientation
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.Nearplane">
+        <member name="F:CryEngine.ViewParams.Nearplane">
             <summary>
             custom near clipping plane, 0 means use engine defaults
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.GroundOnly">
+        <member name="F:CryEngine.ViewParams.GroundOnly">
             <summary>
             view shake status
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.ShakingRatio">
+        <member name="F:CryEngine.ViewParams.ShakingRatio">
             <summary>
             whats the amount of shake, from 0.0 to 1.0
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.CurrentShakeQuat">
+        <member name="F:CryEngine.ViewParams.CurrentShakeQuat">
             <summary>
             what the current angular shake
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.CurrentShakeShift">
+        <member name="F:CryEngine.ViewParams.CurrentShakeShift">
             <summary>
             what is the current translational shake
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.TargetId">
+        <member name="F:CryEngine.ViewParams.TargetId">
             <summary>
             Who we're watching. 0 == nobody.
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.TargetPosition">
+        <member name="F:CryEngine.ViewParams.TargetPosition">
             <summary>
             Where the target was.
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.FrameTime">
+        <member name="F:CryEngine.ViewParams.FrameTime">
             <summary>
             current dt.
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.AngleVelocity">
+        <member name="F:CryEngine.ViewParams.AngleVelocity">
             <summary>
             previous rate of change of angle.
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.Velocity">
+        <member name="F:CryEngine.ViewParams.Velocity">
             <summary>
             previous rate of change of dist between target and camera.
             </summary>
         </member>
-        <member name="P:CryEngine.ViewParams.Distance">
+        <member name="F:CryEngine.ViewParams.Distance">
             <summary>
             previous dist of cam from target
             </summary>
@@ -1123,7 +1098,7 @@
             </summary>
             <param name="name"></param>
         </member>
-        <member name="F:CryEngine.CVarFlags.Null">
+        <member name="F:CryEngine.CVarFlags.None">
             <summary>
             just to have one recognizable spot where the flags are located in the Register call
             </summary>
@@ -1283,13 +1258,13 @@
             <param name="actorInfo"></param>
             <param name="channelId"></param>
         </member>
-        <member name="P:CryEngine.ActorAttribute.UseMonoActor">
+        <member name="P:CryEngine.ActorAttribute.useMonoActor">
             <summary>
             Utilize the C++ Actor class contained within CryMono.dll
             Otherwise the engine will require one created in the game dll. 
             </summary>
         </member>
-        <member name="P:CryEngine.ActorAttribute.IsAI">
+        <member name="P:CryEngine.ActorAttribute.isAI">
             <summary>
             Determines if this is an AI actor class.
             Only applied when UseMonoActor is set to true.
@@ -1539,50 +1514,6 @@
             Provides a clean method of retrieving commonly used engine filepaths.
             </summary>
         </member>
-        <member name="M:CryEngine.PathUtils.GetRootFolder">
-            <summary>
-            Gets the root engine folder.
-            </summary>
-            <returns>The filepath to the root folder as a string, ex:</returns>
-            <example>"C:\CryENGINE3"</example>
-        </member>
-        <member name="M:CryEngine.PathUtils.GetScriptDumpFolder">
-            <summary>
-            Gets the folder in which script dumps are stored.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.PathUtils.GetBinaryFolder">
-            <summary>
-            Gets the current folder containing binaries relevant to current build type (Bin32 / Bin64).
-            </summary>
-            <returns>The filepath to the Binary folder as a string, ex:
-            <example>"C:\CryENGINE3\Bin32"</example></returns>
-        </member>
-        <member name="M:CryEngine.PathUtils.GetEngineFolder">
-            <summary>
-            Gets the engine folder.
-            CryENGINE uses this store engine content which is not specific to the game being developed, i.e. shaders and configuration files.
-            </summary>
-            <returns>The filepath to the Engine folder as a string, ex:
-            <example>"C:\CryENGINE3\Engine"</example></returns>
-        </member>
-        <member name="M:CryEngine.PathUtils.GetGameFolder">
-            <summary>
-            Gets the current game folder.
-            CryENGINE uses this as the root for all game-related content.
-            </summary>
-            <returns>The filepath to the Game folder as a string, ex:
-            <example>"C:\CryENGINE3\Game"</example></returns>
-        </member>
-        <member name="M:CryEngine.PathUtils.GetScriptsFolder">
-            <summary>
-            Gets the folder in which the engine stores scripts.
-            We use this as the root for our .cs files and .dll plugins.
-            </summary>
-            <returns>The filepath to the Scripts folder as a string, ex:
-            <example>"C:\CryENGINE3\Game\Scripts"</example></returns>
-        </member>
         <member name="M:CryEngine.PathUtils.GetScriptFolder(CryEngine.Initialization.ScriptType)">
             <summary>
             Gets the folder in which a certain type of scripts are located.
@@ -1590,6 +1521,50 @@
             <param name="scriptType"></param>
             <returns>The folder in which scripts of this type are located; i.e. Game\Scripts\Entities</returns>
             <example>GetScriptFolder(MonoScriptType.Entity)</example>
+        </member>
+        <member name="P:CryEngine.PathUtils.RootFolder">
+            <summary>
+            Gets the root engine folder.
+            </summary>
+            <returns>The filepath to the root folder as a string, ex:</returns>
+            <example>"C:\CryENGINE3"</example>
+        </member>
+        <member name="P:CryEngine.PathUtils.ScriptDumpFolder">
+            <summary>
+            Gets the folder in which script dumps are stored.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:CryEngine.PathUtils.BinaryFolder">
+            <summary>
+            Gets the current folder containing binaries relevant to current build type (Bin32 / Bin64).
+            </summary>
+            <returns>The filepath to the Binary folder as a string, ex:
+            <example>"C:\CryENGINE3\Bin32"</example></returns>
+        </member>
+        <member name="P:CryEngine.PathUtils.EngineFolder">
+            <summary>
+            Gets the engine folder.
+            CryENGINE uses this store engine content which is not specific to the game being developed, i.e. shaders and configuration files.
+            </summary>
+            <returns>The filepath to the Engine folder as a string, ex:
+            <example>"C:\CryENGINE3\Engine"</example></returns>
+        </member>
+        <member name="P:CryEngine.PathUtils.GameFolder">
+            <summary>
+            Gets the current game folder.
+            CryENGINE uses this as the root for all game-related content.
+            </summary>
+            <returns>The filepath to the Game folder as a string, ex:
+            <example>"C:\CryENGINE3\Game"</example></returns>
+        </member>
+        <member name="P:CryEngine.PathUtils.ScriptsFolder">
+            <summary>
+            Gets the folder in which the engine stores scripts.
+            We use this as the root for our .cs files and .dll plugins.
+            </summary>
+            <returns>The filepath to the Scripts folder as a string, ex:
+            <example>"C:\CryENGINE3\Game\Scripts"</example></returns>
         </member>
         <member name="T:CryEngine.Engine">
             <summary>
@@ -1883,35 +1858,6 @@
             <summary>
             switches between capsule and cylinder collider geometry
             </summary>
-        </member>
-        <member name="T:CryEngine.Utilities.AssemblyReferenceHandler">
-            <summary>
-            Handles retrieval of required assemblies for compiled scripts etc.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Utilities.AssemblyReferenceHandler.GetRequiredAssembliesFromFiles(System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Gets the required assemblies for the scripts passed to the method.
-            Note: Does NOT exclude assemblies already loaded by CryMono.
-            </summary>
-            <param name="scriptFilePaths"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.Utilities.AssemblyReferenceHandler.GetRequiredAssembliesFromSource(System.String[])">
-            <summary>
-            Gets the required assemblies for the source file passed to the method.
-            Note: Does NOT exclude assemblies already loaded by CryMono.
-            </summary>
-            <param name="sources"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.Utilities.AssemblyReferenceHandler.GetNamespacesFromScriptFile(System.String)">
-            <summary>
-            Gets the required assemblies for the script passed to the method.
-            Note: Does NOT exclude assemblies already loaded by CryMono.
-            </summary>
-            <param name="scriptFilePath"></param>
-            <returns></returns>
         </member>
         <member name="T:CryEngine.Lua.ScriptTable">
             <summary>
@@ -3246,11 +3192,6 @@
             </summary>
             <param name="scriptId"></param>
         </member>
-        <member name="M:CryEngine.Initialization.ScriptManager.OnUpdate(System.Single)">
-            <summary>
-            Called once per frame.
-            </summary>
-        </member>
         <member name="M:CryEngine.Initialization.ScriptManager.LoadLibrariesInFolder(System.String)">
             <summary>
             This function will automatically scan for C# dll (*.dll) files and load the types contained within them.
@@ -3272,6 +3213,11 @@
             Processes a type and adds all found types to ScriptCompiler.CompiledScripts
             </summary>
             <param name="types"></param>
+        </member>
+        <member name="M:CryEngine.Initialization.ScriptManager.OnUpdate(System.Single)">
+            <summary>
+            Called once per frame.
+            </summary>
         </member>
         <member name="M:CryEngine.Initialization.ScriptManager.AddScriptInstance(CryEngine.CryScriptInstance)">
             <summary>
@@ -5930,7 +5876,7 @@
             The object is intersecting the plane.
             </summary>
         </member>
-        <member name="M:CryEngine.Input.RegisterAction(System.String,CryEngine.Input.ActionMapEventDelegate)">
+        <member name="M:CryEngine.Input.RegisterAction(System.String,CryEngine.ActionMapEventDelegate)">
             <summary>
             Registers an event declared in the players actionmap. Without invoking this, Your KeyEventDelegate will never be invoked with the new action.
             </summary>
