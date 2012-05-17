@@ -1215,7 +1215,12 @@
         </member>
         <member name="F:CryEngine.Initialization.ScriptType.Unknown">
             <summary>
-            Scripts will be linked to this type if they inherit from CryScriptInstance, but not any other script base.
+            Scripts not inheriting from CryScriptInstance will utilize this script type.
+            </summary>
+        </member>
+        <member name="F:CryEngine.Initialization.ScriptType.CryScriptInstance">
+            <summary>
+            Scripts inheriting from CryScriptInstance, but no other CryMono base script will be linked to this script type.
             </summary>
         </member>
         <member name="F:CryEngine.Initialization.ScriptType.GameRules">
@@ -3249,20 +3254,6 @@
             Used for non-CryMono actors.
             </summary>
         </member>
-        <member name="M:CryEngine.Initialization.ScriptManager.InstantiateScript(System.String,System.Object[])">
-            <summary>
-            Instantiates a script using its name and interface.
-            </summary>
-            <param name="scriptName"></param>
-            <param name="constructorParams"></param>
-            <returns>New instance scriptId or -1 if instantiation failed.</returns>
-        </member>
-        <member name="M:CryEngine.Initialization.ScriptManager.RemoveInstance(System.Int32,System.Type)">
-            <summary>
-            Locates and destructs the script with the assigned scriptId.
-            </summary>
-            <param name="scriptId"></param>
-        </member>
         <member name="M:CryEngine.Initialization.ScriptManager.LoadLibrariesInFolder(System.String)">
             <summary>
             This function will automatically scan for C# dll (*.dll) files and load the types contained within them.
@@ -3281,7 +3272,7 @@
         </member>
         <member name="M:CryEngine.Initialization.ScriptManager.ProcessTypes(System.Collections.Generic.IEnumerable{System.Type})">
             <summary>
-            Processes a type and adds all found types to ScriptCompiler.CompiledScripts
+            Adds all provided types to ScriptCompiler.CompiledScripts
             </summary>
             <param name="types"></param>
         </member>
@@ -3290,16 +3281,25 @@
             Called once per frame.
             </summary>
         </member>
-        <member name="M:CryEngine.Initialization.ScriptManager.AddScriptInstance(CryEngine.CryScriptInstance)">
+        <member name="M:CryEngine.Initialization.ScriptManager.InstantiateScript(System.String,CryEngine.Initialization.ScriptType,System.Object[])">
+            <summary>
+            Instantiates a script using its name and interface.
+            </summary>
+            <param name="scriptName"></param>
+            <param name="constructorParams"></param>
+            <returns>New instance scriptId or -1 if instantiation failed.</returns>
+        </member>
+        <member name="M:CryEngine.Initialization.ScriptManager.RemoveInstance(System.Int32,CryEngine.Initialization.ScriptType,System.Type)">
+            <summary>
+            Locates and destructs the script with the assigned scriptId.
+            </summary>
+            <param name="scriptId"></param>
+        </member>
+        <member name="M:CryEngine.Initialization.ScriptManager.AddScriptInstance(CryEngine.CryScriptInstance,CryEngine.Initialization.CryScript)">
             <summary>
             Adds an script instance to the script collection and returns its new id.
             </summary>
             <param name="instance"></param>
-        </member>
-        <member name="F:CryEngine.Initialization.ScriptManager.InvalidScriptInstance">
-            <summary>
-            Avoid creating a new empty CryScriptInstance each time we need to check
-            </summary>
         </member>
         <member name="F:CryEngine.Initialization.ScriptManager.LastScriptId">
             <summary>
