@@ -843,7 +843,7 @@
             Gets / sets the entity flags.
             </summary>
         </member>
-        <member name="M:CryEngine.Entity.RegisterClass(CryEngine.EntityConfig)">
+        <member name="M:CryEngine.EntityBase.EntityMethods.RegisterClass(CryEngine.EntityConfig)">
             <summary>
             Register a new entity type.
             </summary>
@@ -1533,12 +1533,6 @@
             </summary>
             <returns>The filepath to the root folder as a string, ex:</returns>
             <example>"C:\CryENGINE3"</example>
-        </member>
-        <member name="P:CryEngine.PathUtils.ScriptDumpFolder">
-            <summary>
-            Gets the folder in which script dumps are stored.
-            </summary>
-            <returns></returns>
         </member>
         <member name="P:CryEngine.PathUtils.BinaryFolder">
             <summary>
@@ -3270,11 +3264,11 @@
             </summary>
             <param name="assemblyPath"></param>
         </member>
-        <member name="M:CryEngine.Initialization.ScriptManager.ProcessTypes(System.Collections.Generic.IEnumerable{System.Type})">
+        <member name="M:CryEngine.Initialization.ScriptManager.ProcessType(System.Type)">
             <summary>
-            Adds all provided types to ScriptCompiler.CompiledScripts
+            Adds the type to CompiledScripts
             </summary>
-            <param name="types"></param>
+            <param name="type"></param>
         </member>
         <member name="M:CryEngine.Initialization.ScriptManager.OnUpdate(System.Single)">
             <summary>

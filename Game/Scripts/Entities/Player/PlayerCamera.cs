@@ -8,7 +8,18 @@ namespace CryGameCode.Entities
 	{
 		public void Init()
 		{
-			View.Active.FoV = Math.DegreesToRadians(70);
+			var spawns = Entity.GetEntities<SpawnPoint>();
+			if(spawns.Count() > 0)
+			{
+				Position = spawns.First().Position;
+				Rotation = spawns.First().Rotation;
+			}
+
+			var newView = View.Get(Id);
+
+			newView.Position = Position;
+			newView.Rotation = Rotation;
+			newView.FoV = Math.DegreesToRadians(60);
 
 			CurrentZoomLevel = MaxZoomLevel;
 			ReceiveUpdates = true;
