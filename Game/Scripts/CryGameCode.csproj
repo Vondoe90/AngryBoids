@@ -110,6 +110,7 @@
     <Compile Include="FlowNodes\SampleNode.cs" />
     <Compile Include="FlowNodes\Testing\TestALLThePortTypes.cs" />
     <Compile Include="GameRules\SinglePlayer.cs" />
+    <Compile Include="UI\Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\Libs\Config\defaultProfile.xml">

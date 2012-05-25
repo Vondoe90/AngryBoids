@@ -71,61 +71,6 @@
             <param name="port"></param>
             <returns></returns>
         </member>
-        <member name="P:CryEngine.FlowNodeAttribute.Name">
-            <summary>
-            Name of the node, if not set will use the node class name.
-            </summary>
-        </member>
-        <member name="P:CryEngine.FlowNodeAttribute.UICategory">
-            <summary>
-            Category in which the node will appear when right-clicking in the Flowgraph Editor.
-            </summary>
-        </member>
-        <member name="P:CryEngine.FlowNodeAttribute.Category">
-            <summary>
-            The Sandbox filtering category
-            </summary>
-        </member>
-        <member name="F:CryEngine.FlowNodeFlags.TargetEntity">
-            <summary>
-            This node targets an entity, entity id must be provided.
-            </summary>
-        </member>
-        <member name="F:CryEngine.FlowNodeFlags.HideUI">
-            <summary>
-            This node cannot be selected by user for placement in flow graph UI.
-            </summary>
-        </member>
-        <member name="F:CryEngine.FlowNodeFlags.DynamicOutput">
-            <summary>
-            This node is setup for dynamic output port growth in runtime.
-            </summary>
-        </member>
-        <member name="F:CryEngine.FlowNodeFlags.Unremovable">
-            <summary>
-            This node cannot be deleted by the user.
-            </summary>
-        </member>
-        <member name="F:CryEngine.FlowNodeCategory.Approved">
-            <summary>
-            This node is approved for designers
-            </summary>
-        </member>
-        <member name="F:CryEngine.FlowNodeCategory.Advanced">
-            <summary>
-            This node is slightly advanced and approved.
-            </summary>
-        </member>
-        <member name="F:CryEngine.FlowNodeCategory.Debug">
-            <summary>
-            This node is for debug purpose only.
-            </summary>
-        </member>
-        <member name="F:CryEngine.FlowNodeCategory.Obsolete">
-            <summary>
-            This node is obsolete and is not available in the editor.
-            </summary>
-        </member>
         <member name="T:CryEngine.Extensions.ReflectionExtensions">
             <summary>
             Useful extensions when working with reflection.
@@ -972,11 +917,6 @@
             Called after level has been loaded, is not called on serialization.
             </summary>
         </member>
-        <member name="F:CryEngine.Entity.storedProperties">
-            <summary>
-            Temporarily stored so we can set them properly on spawn.
-            </summary>
-        </member>
         <member name="M:CryEngine.Entity.LoadObject(System.String,System.Int32)">
             <summary>
             Loads a mesh for this entity. Can optionally load multiple meshes using entity slots.
@@ -1061,6 +1001,55 @@
         <member name="T:CryEngine.NativeEntity">
             <summary>
             Used for non-CryMono entities, i.e. Lua / C++ such.
+            </summary>
+        </member>
+        <member name="M:CryEngine.TimeOfDay.GetMinutes(System.Single)">
+            <summary>
+            Gets the minute value from a CE-style time float
+            </summary>
+            <param name="ceTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.TimeOfDay.GetHours(System.Single)">
+            <summary>
+            Gets the hour value from a CE-style time float
+            </summary>
+            <param name="ceTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.TimeOfDay.CreateEngineTime(System.Int32,System.Int32)">
+            <summary>
+            Creates a CE-style time from a given number of hours and minutes
+            </summary>
+            <param name="hours"></param>
+            <param name="mins"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CryEngine.TimeOfDay.ForceUpdates">
+            <summary>
+            Controls whether Time of Day updates take effect immediately.
+            </summary>
+        </member>
+        <member name="P:CryEngine.TimeOfDay.Hour">
+            <summary>
+            The hour value for the Time of Day system.
+            The value is wrapped, so setting the value to 24 will reset the hour to zero.
+            </summary>
+        </member>
+        <member name="P:CryEngine.TimeOfDay.Minute">
+            <summary>
+            The minute value for the Time of Day system.
+            The value is wrapped, so setting the value to 60 will increment the hour and reset the minutes to zero.
+            </summary>
+        </member>
+        <member name="P:CryEngine.TimeOfDay.Speed">
+            <summary>
+            Controls the speed at which the Time of Day passes.
+            </summary>
+        </member>
+        <member name="P:CryEngine.TimeOfDay.RawEngineTime">
+            <summary>
+            Convenient accessor for the raw time value
             </summary>
         </member>
         <member name="M:CryEngine.CVar.Register``1(System.String,``0,System.String,CryEngine.CVarFlags)">
@@ -1243,7 +1232,7 @@
             Scripts directly inheriting from Actor will utilize this script type.
             </summary>
         </member>
-        <member name="F:CryEngine.Initialization.ScriptType.UIEvent">
+        <member name="F:CryEngine.Initialization.ScriptType.UIEventSystem">
             <summary>
             </summary>
         </member>
@@ -1884,7 +1873,7 @@
             <summary>
             Gets a table within this table.
             </summary>
-            <param name="?"></param>
+            <param name="name"></param>
             <returns></returns>
         </member>
         <member name="P:CryEngine.Lua.ScriptTable.IsSubtable">
@@ -2401,25 +2390,6 @@
             <param name="index">The index of the component to access. Use 0 for the X component, 1 for the Y component, 2 for the Z component, and 3 for the W component.</param>
             <returns>The value of the component at the specified index.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">Thrown when the <paramref name="index"/> is out of the range [0, 3].</exception>
-        </member>
-        <member name="M:CryEngine.UI._RegisterEvent(System.String,CryEngine.UIEventDirection,CryEngine.UIEventDescription)">
-            <summary>
-            Registers an event to the system
-            </summary>
-            <param name="eventsystem">The name of the eventsystem this is registered to</param>
-            <param name="direction">Event direction (system -> UI or UI -> system)</param>
-            <param name="desc">Descriptor of the event</param>
-            <returns>-1 if registration failed, event ID otherwise</returns>
-        </member>
-        <member name="F:CryEngine.UI.toSystemEventSystems">
-            <summary>
-            Event systems handling UI -> System communication.
-            </summary>
-        </member>
-        <member name="F:CryEngine.UI.toUIEventSystems">
-            <summary>
-            Event systems handling System -> UI communication.
-            </summary>
         </member>
         <member name="M:CryEngine.Level.Load(System.String)">
             <summary>
@@ -3241,6 +3211,61 @@
         <member name="T:CryEngine.EntityId">
             <summary>
             Entity ID's store references to game entities as unsigned integers. This class wraps that functionality for CLS compliance.
+            </summary>
+        </member>
+        <member name="P:CryEngine.FlowNodeAttribute.Name">
+            <summary>
+            Name of the node, if not set will use the node class name.
+            </summary>
+        </member>
+        <member name="P:CryEngine.FlowNodeAttribute.UICategory">
+            <summary>
+            Category in which the node will appear when right-clicking in the Flowgraph Editor.
+            </summary>
+        </member>
+        <member name="P:CryEngine.FlowNodeAttribute.Category">
+            <summary>
+            The Sandbox filtering category
+            </summary>
+        </member>
+        <member name="F:CryEngine.FlowNodeFlags.TargetEntity">
+            <summary>
+            This node targets an entity, entity id must be provided.
+            </summary>
+        </member>
+        <member name="F:CryEngine.FlowNodeFlags.HideUI">
+            <summary>
+            This node cannot be selected by user for placement in flow graph UI.
+            </summary>
+        </member>
+        <member name="F:CryEngine.FlowNodeFlags.DynamicOutput">
+            <summary>
+            This node is setup for dynamic output port growth in runtime.
+            </summary>
+        </member>
+        <member name="F:CryEngine.FlowNodeFlags.Unremovable">
+            <summary>
+            This node cannot be deleted by the user.
+            </summary>
+        </member>
+        <member name="F:CryEngine.FlowNodeCategory.Approved">
+            <summary>
+            This node is approved for designers
+            </summary>
+        </member>
+        <member name="F:CryEngine.FlowNodeCategory.Advanced">
+            <summary>
+            This node is slightly advanced and approved.
+            </summary>
+        </member>
+        <member name="F:CryEngine.FlowNodeCategory.Debug">
+            <summary>
+            This node is for debug purpose only.
+            </summary>
+        </member>
+        <member name="F:CryEngine.FlowNodeCategory.Obsolete">
+            <summary>
+            This node is obsolete and is not available in the editor.
             </summary>
         </member>
         <member name="T:CryEngine.NativeActor">
@@ -4622,6 +4647,13 @@
             <param name="sphere1">The first sphere to test.</param>
             <param name="sphere2">The second sphere to test.</param>
             <returns>The type of containment the two objects have.</returns>
+        </member>
+        <member name="M:CryEngine.Material.Clone(System.Int32)">
+            <summary>
+            Clones a material
+            </summary>
+            <param name="subMaterial">If negative, all sub materials are cloned, otherwise only the specified slot is</param>
+            <returns></returns>
         </member>
         <member name="T:CryEngine.GameRules">
             <summary>

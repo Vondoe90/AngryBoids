@@ -17,33 +17,31 @@ namespace CryGameCode.Entities.AngryBoids
 	{
 		public static Launcher Instance { get; private set; }
 
-		/// <summary>
-		/// Here, we override an entity callback to register our mouse listener and grab all the boids in the level.
-		/// </summary>
-		/// <param name="enteringGame"></param>
 		protected override void OnReset(bool enteringGame)
 		{
-			if(enteringGame)
+			var boids = Entity.GetEntities<TheBoringOne>();
+
+			if(boids == null || boids.Count() < 1)
 			{
-				var boids = Entity.GetEntities<TheBoringOne>();
-
-				if(boids == null || boids.Count() < 1)
-				{
-					Debug.Log("[Warning] No boids found in the level");
-					return;
-				}
-
-				remainingBoids = boids.ToList();
-				Input.MouseEvents += ProcessMouseEvents;
-				state = LauncherState.Ready;
-				Instance = this;
-
-				CurrentBoid.Position = Position;
-				CurrentBoid.Physics.Resting = true;
-
-				var playerCamera = Actor.Client as PlayerCamera;
-				playerCamera.TargetEntity = this;
+				Debug.Log("[Warning] No boids found in the level");
+				return;
 			}
+
+			remainingBoids = boids.ToList();
+
+			Input.MouseEvents += ProcessMouseEvents;
+
+			state = LauncherState.Ready;
+
+			Instance = this;
+
+			CurrentBoid.Position = Position;
+
+			CurrentBoid.Physics.Resting = true;
+
+			var playerCamera = Actor.Client as PlayerCamera;
+
+			playerCamera.TargetEntity = this;
 		}
 
 		/// <summary>
