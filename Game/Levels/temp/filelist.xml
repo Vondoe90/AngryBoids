@@ -1,6 +1,0 @@
-<download name="temp" type="Map">
- <index src="filelist.xml" dest="filelist.xml"/>
- <files>
-  <file src="level.pak" dest="level.pak" size="2759396" md5="e7eb5f68a4dd6cc25bd6092410b19546"/>
- </files>
-</download>

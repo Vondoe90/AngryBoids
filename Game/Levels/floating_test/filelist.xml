@@ -1,6 +1,0 @@
-<download name="floating_test" type="Map">
- <index src="filelist.xml" dest="filelist.xml"/>
- <files>
-  <file src="level.pak" dest="level.pak" size="663073" md5="f66075d4da7987456e4261aeb97d8348"/>
- </files>
-</download>
