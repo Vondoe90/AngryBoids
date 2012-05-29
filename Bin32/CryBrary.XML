@@ -981,7 +981,7 @@
             The currently active view.
             </summary>
         </member>
-        <member name="P:CryEngine.View.FoV">
+        <member name="P:CryEngine.View.FieldOfView">
             <summary>
             The current field of view.
             </summary>

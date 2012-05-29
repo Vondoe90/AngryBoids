@@ -19,7 +19,7 @@ namespace CryGameCode.Entities
 
 			newView.Position = Position;
 			newView.Rotation = Rotation;
-			newView.FoV = Math.DegreesToRadians(60);
+			newView.FieldOfView = Math.DegreesToRadians(60);
 
 			CurrentZoomLevel = MaxZoomLevel;
 			ReceiveUpdates = true;
