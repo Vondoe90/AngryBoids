@@ -1,0 +1,9 @@
+prefix=C:/PROGRA~2/MONO-2~1.2
+exec_prefix=${prefix}
+libdir=/tmp/install/lib
+sourcesdir=${libdir}/monodoc/sources
+
+Name: Monodoc
+Description: Monodoc - Mono Documentation Tools
+Version: 2.11.2
+Libs: /r:${prefix}/lib/mono/monodoc/monodoc.dll 
