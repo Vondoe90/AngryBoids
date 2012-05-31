@@ -40,7 +40,6 @@ namespace CryGameCode.Entities.AngryBoids
 			CurrentBoid.Physics.Resting = true;
 
 			var playerCamera = Actor.Client as PlayerCamera;
-
 			playerCamera.TargetEntity = this;
 		}
 
@@ -117,7 +116,9 @@ namespace CryGameCode.Entities.AngryBoids
 			var playerCamera = Actor.Client as PlayerCamera;
 			playerCamera.TargetEntity = CurrentBoid;
 
-			// TODO: Add a proper delay between boids
+			CurrentBoid.Position = Position;
+			CurrentBoid.Physics.Resting = true;
+
 			state = LauncherState.Ready;
 		}
 
@@ -138,9 +139,6 @@ namespace CryGameCode.Entities.AngryBoids
 		/// </summary>
 		[EditorProperty(Min = 0, Max = 10000)]
 		public float MaxPullDistance { get; set; }
-
-		[EditorProperty(DefaultValue = 3)]
-		public int BoidCount { get; set; }
 
 		/// <summary>
 		/// Quick shortcut for accessing the current boid

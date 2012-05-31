@@ -15,11 +15,11 @@ namespace CryGameCode.Entities
 				Rotation = spawns.First().Rotation;
 			}
 
-			var newView = View.Get(Id);
+			View = View.Get(Id);
 
-			newView.Position = Position;
-			newView.Rotation = Rotation;
-			newView.FieldOfView = Math.DegreesToRadians(60);
+			View.Position = Position;
+			View.Rotation = Rotation;
+			View.FieldOfView = Math.DegreesToRadians(60);
 
 			CurrentZoomLevel = MaxZoomLevel;
 			ReceiveUpdates = true;
@@ -35,7 +35,7 @@ namespace CryGameCode.Entities
 			if(TargetEntity == null)
 				return;
 
-			Position = TargetEntity.Position - new Vec3(MaxDistanceFromTarget * ((float)CurrentZoomLevel / MaxZoomLevel), 0, 0);
+			View.Position = TargetEntity.Position + new Vec3(MaxDistanceFromTarget * ((float)CurrentZoomLevel / MaxZoomLevel), 0, 0);
 		}
 
 		public void OnActionZoomIn(ActionMapEventArgs e)
@@ -64,6 +64,8 @@ namespace CryGameCode.Entities
 		/// Follow this entity
 		/// </summary>
 		public Entity TargetEntity { get; set; }
+
+		public View View { get; set; }
 
 		/// <summary>
 		/// 

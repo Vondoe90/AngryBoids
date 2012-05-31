@@ -5,16 +5,13 @@ namespace CryGameCode.Entities.AngryBoids
 {
 	public abstract class AngryBoid : Rigidbody
 	{
-		public AngryBoid()
-		{
-			ReceiveUpdates = true;
-		}
-
 		protected BoidState state = BoidState.Ready;
 
 		public void Launch(Vec3 velocity)
 		{
+			ReceiveUpdates = true;
 			state = BoidState.Launched;
+
 			Physics.AddImpulse(velocity);
 			OnLaunched(velocity);
 		}
@@ -23,7 +20,13 @@ namespace CryGameCode.Entities.AngryBoids
 
 		public override void OnUpdate()
 		{
-			if (Launcher.Instance != null && Math.IsInRange(Velocity.Length, -0.2, 0.2) && (Time.FrameStartTime - lastEvent) > 4000)
+			if(postFire != null && !Math.IsInRange(Velocity.Length, -0.2, 0.2))
+				postFire.Reset();
+		}
+
+		void OnStoppedMoving()
+		{
+			if(Launcher.Instance != null)
 			{
 				ReceiveUpdates = false;
 				state = BoidState.Dead;
@@ -36,7 +39,12 @@ namespace CryGameCode.Entities.AngryBoids
 		{
 			// Hit something, reset last event time.
 			if(state == BoidState.Launched)
-				lastEvent = Time.FrameStartTime;
+			{
+				if(postFire == null)
+					postFire = new DelayedFunc(OnStoppedMoving, 4000);
+				else
+					postFire.Reset();
+			}
 		}
 
 		/// <summary>
@@ -60,6 +68,9 @@ namespace CryGameCode.Entities.AngryBoids
 			Dead
 		}
 
-		float lastEvent;
+		/// <summary>
+		/// Called four seconds after the boid has stopped moving. (Following having been launched)
+		/// </summary>
+		DelayedFunc postFire;
 	}
 }
