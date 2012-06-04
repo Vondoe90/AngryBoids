@@ -43,5 +43,3 @@ USER
 Editor/UI/WipFeatures.xml
 Editor/EditorLayout.xml
 error.bmp
-
-!Engine/Mono/lib/mono/gac/Mono.Cecil.Pdb
