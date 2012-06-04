@@ -19,46 +19,53 @@ namespace CryGameCode.FlowNodes.Testing
 			stringOutput.Activate(GetPortString(StringInput));
 			boolOutput.Activate(GetPortBool(BoolInput));
 			vec3Output.Activate(GetPortVec3(Vec3Input));
+			entityIdOutput.Activate(GetPortEntityId(EntityIdInput));
 		}
 
 		#region Data Inputs
 
-		[Port(Name = "Integer Test", Description = "")]
+		[Port(Name = "Integer Test")]
 		public void IntInput(int value) { intOutput.Activate(value); }
 
-		[Port(Name = "Float Test", Description = "")]
+		[Port(Name = "Float Test")]
 		public void FloatInput(float value) { floatOutput.Activate(value); }
 
-		[Port(Name = "Bool Test", Description = "")]
+		[Port(Name = "Bool Test")]
 		public void BoolInput(bool value = true) { boolOutput.Activate(value); }
 
-		[Port(Name = "String Test", Description = "")]
+		[Port(Name = "String Test")]
 		public void StringInput(string value = "woo default value") { stringOutput.Activate(value); }
 
-		[Port(Name = "Vec3 Test", Description = "")]
+		[Port(Name = "Vec3 Test")]
 		public void Vec3Input(Vec3 value) { vec3Output.Activate(value); }
+
+		[Port(Name = "EntityId Test")]
+		public void EntityIdInput(EntityId value) { entityIdOutput.Activate(value); }
 
 		#endregion
 
 		#region Outputs
 
-		[Port(Name = "Activated Output", Description = "")]
+		[Port(Name = "Activated Output")]
 		public OutputPort activatedOutput { get; set; }
 
-		[Port(Name = "Int Output", Description = "")]
+		[Port(Name = "Int Output")]
 		public OutputPort<int> intOutput { get; set; }
 
-		[Port(Name = "Float Output", Description = "")]
+		[Port(Name = "Float Output")]
 		public OutputPort<float> floatOutput { get; set; }
 
-		[Port(Name = "String Output", Description = "")]
+		[Port(Name = "String Output")]
 		public OutputPort<string> stringOutput { get; set; }
 
-		[Port(Name = "Vec3 Output", Description = "")]
+		[Port(Name = "Vec3 Output")]
 		public OutputPort<Vec3> vec3Output { get; set; }
 
-		[Port(Name = "Bool Output", Description = "")]
+		[Port(Name = "Bool Output")]
 		public OutputPort<bool> boolOutput { get; set; }
+
+		[Port(Name = "EntityId Output")]
+		public OutputPort<EntityId> entityIdOutput { get; set; }
 
 		#endregion
 	}

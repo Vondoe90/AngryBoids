@@ -222,8 +222,6 @@ IGameRef CGameStartup::Init(SSystemInitParams &startupParams)
 
 	LOADING_DONE;
 
-	m_pCryMono->PostInit();
-
 	// should be after init game (should be executed even if there is no game)
 	if(startupParams.bExecuteCommandLine)
 		pSystem->ExecuteCommandLine();
