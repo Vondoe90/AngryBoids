@@ -8,7 +8,7 @@ namespace CryGameCode.Entities
 	{
 		public void Init()
 		{
-			var spawns = Entity.GetEntities<SpawnPoint>();
+			var spawns = Entity.GetByClass<SpawnPoint>();
 			if(spawns.Count() > 0)
 			{
 				Position = spawns.First().Position;

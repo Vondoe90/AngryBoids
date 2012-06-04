@@ -19,7 +19,7 @@ namespace CryGameCode.Entities.AngryBoids
 
 		protected override void OnReset(bool enteringGame)
 		{
-			var boids = Entity.GetEntities<TheBoringOne>();
+			var boids = Entity.GetByClass<TheBoringOne>();
 
 			if(boids == null || boids.Count() < 1)
 			{

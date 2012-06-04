@@ -717,7 +717,7 @@
             Contains common entity functionality.
             </summary>
         </member>
-        <member name="M:CryEngine.EntityBase._SpawnEntity(CryEngine.EntitySpawnParams,System.Boolean)">
+        <member name="M:CryEngine.EntityBase._SpawnEntity(CryEngine.EntitySpawnParams,System.Boolean,CryEngine.EntityInfo@)">
             <summary>
             Spawns an entity with the specified parameters.
             </summary>
@@ -834,14 +834,14 @@
             <remarks>If multiple entities have the same name, it will return the first found.
             Consider using IDs where necessary.</remarks>
         </member>
-        <member name="M:CryEngine.Entity.GetEntities(System.String)">
+        <member name="M:CryEngine.Entity.GetByClass(System.String)">
             <summary>
             Gets an array of entities that are of a given class.
             </summary>
             <param name="className">The entity class to search for.</param>
             <returns>An array of entities.</returns>
         </member>
-        <member name="M:CryEngine.Entity.GetEntities``1">
+        <member name="M:CryEngine.Entity.GetByClass``1">
             <summary>
             Gets an array of entities that are of a given class.
             </summary>
@@ -928,6 +928,16 @@
         <member name="T:CryEngine.EntityFlags">
             <summary>
             These flags control entity instance behaviour.
+            </summary>
+        </member>
+        <member name="F:CryEngine.EntityFlags.TriggerAreas">
+            <summary>
+            Entity will trigger areas when it enters them.
+            </summary>
+        </member>
+        <member name="F:CryEngine.EntityFlags.Spawned">
+            <summary>
+            Entity was spawned dynamically without a class.
             </summary>
         </member>
         <member name="T:CryEngine.EntityClassFlags">
