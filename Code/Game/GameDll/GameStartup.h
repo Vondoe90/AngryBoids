@@ -20,7 +20,6 @@ History:
 
 
 #include <IGameFramework.h>
-#include <IMonoScriptSystem.h>
 
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -82,8 +81,6 @@ private:
 
 	static void SetupModSupport();
 
-	static bool InitCryMono();
-
 	static IGame						*m_pMod;
 	static IGameRef				m_modRef;
 	static IGameFramework	*m_pFramework;
@@ -98,8 +95,6 @@ private:
 
 	static HMODULE				m_systemDll;
 	static HWND						m_hWnd;
-
-	static IMonoPtr m_pCryMono;
 };
 
 

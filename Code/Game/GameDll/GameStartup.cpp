@@ -144,8 +144,6 @@ string CGameStartup::m_reqModName;
 
 bool CGameStartup::m_initWindow = false;
 
-IMonoPtr CGameStartup::m_pCryMono;
-
 CGameStartup::CGameStartup()
 {
 	m_modRef = &m_pMod;
@@ -153,9 +151,6 @@ CGameStartup::CGameStartup()
 
 CGameStartup::~CGameStartup()
 {
-	if(m_pCryMono)
-		m_pCryMono->Release();
-
 	if (m_pMod)
 	{
 		m_pMod->Shutdown();
@@ -190,8 +185,6 @@ IGameRef CGameStartup::Init(SSystemInitParams &startupParams)
 	ISystem* pSystem = m_pFramework->GetISystem();
 	IConsole* pConsole = gEnv->pConsole;
 	startupParams.pSystem = pSystem;
-
-	InitCryMono();
 
 	REGISTER_COMMAND("g_loadMod", RequestLoadMod, VF_NULL, "");
 
@@ -676,36 +669,6 @@ void CGameStartup::ShutdownFramework()
 	}
 
 	ShutdownWindow();
-}
-
-bool CGameStartup::InitCryMono()
-{
-//#define EXCLUDE_MONO
-#ifdef EXCLUDE_MONO
-	CryLog("    Mono initialization aborted; the current build is not supported.");
-
-	return true;
-#endif
-
-	bool result = false;
-
-	HINSTANCE cryMonoDll = CryLoadLibrary("CryMono.dll");
-	
-	IMonoScriptSystem::TEntryFunction InitMonoFunc = (IMonoScriptSystem::TEntryFunction)CryGetProcAddress(cryMonoDll, "InitCryMono");
-	if (!InitMonoFunc)
-	{
-		CryFatalError("Specified CryMono DLL is not valid!");
-		return false;
-	}
-
-	InitMonoFunc(gEnv->pSystem);
-	if (!CryCreateClassInstance("CryMono", m_pCryMono))
-	{
-		CryFatalError("Failed to intialize CryMono");
-		return false;
-	}
-
-	return true;
 }
 
 bool CGameStartup::InitWindow(SSystemInitParams &startupParams)

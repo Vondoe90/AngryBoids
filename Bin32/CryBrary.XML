@@ -1264,7 +1264,7 @@
         </member>
         <member name="F:CryEngine.ActorAttribute.useMonoActor">
             <summary>
-            Utilize the C++ Actor class contained within CryMono.dll
+            Utilize the C++ Actor class contained within CryAction.dll
             Otherwise the engine will require one created in the game dll. 
             </summary>
         </member>

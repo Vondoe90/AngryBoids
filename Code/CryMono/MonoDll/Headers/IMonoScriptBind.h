@@ -27,6 +27,11 @@ struct IMonoScriptBind
 	IMonoScriptBind() : m_pClass(NULL) { }
 
 	/// <summary>
+	/// Called when the script system is done initializing.
+	/// </summary>
+	virtual void CompleteInit() {}
+
+	/// <summary>
 	/// The namespace in which the Mono class this scriptbind is tied to resides in; returns "CryEngine" by default if not overridden.
 	/// </summary>
 	virtual const char *GetNamespace() { return "CryEngine"; }
