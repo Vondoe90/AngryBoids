@@ -24,10 +24,18 @@ namespace CryGameCode.Entities
 			CurrentZoomLevel = MaxZoomLevel;
 			ReceiveUpdates = true;
 
+			// Defined in Libs/Config/defaultprofile.xml
 			Input.RegisterAction("zoom_in", OnActionZoomIn);
 			Input.RegisterAction("zoom_out", OnActionZoomOut);
 
 			Input.MouseEvents += ProcessMouseEvents;
+
+			MaxZoomLevel = 5;
+			MaxDistanceFromTarget = 100;
+
+			// The CVar attribute isn't functional at the moment, so we use this workaround.
+			CVar.Register("g_camMaxZoomLevel", ref MaxZoomLevel);
+			CVar.Register("g_camMaxDistanceFromTarget", ref MaxDistanceFromTarget);
 		}
 
 		public override void OnUpdate()
@@ -67,11 +75,8 @@ namespace CryGameCode.Entities
 
 		public View View { get; set; }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public const int MaxZoomLevel = 5;
-		public const float MaxDistanceFromTarget = 100;
+		public static int MaxZoomLevel;
+		public static float MaxDistanceFromTarget;
 
 		public int CurrentZoomLevel { get; set; }
 	}
