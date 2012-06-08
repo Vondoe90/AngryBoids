@@ -153,8 +153,7 @@ CGameStartup::CGameStartup()
 
 CGameStartup::~CGameStartup()
 {
-	if(m_pCryMono)
-		m_pCryMono->Release();
+	m_pCryMono.reset();
 
 	if (m_pMod)
 	{
