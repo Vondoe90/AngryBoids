@@ -92,6 +92,14 @@
             <param name="baseType">The possible parent type.</param>
             <returns>True if thisType is a child of baseType.</returns>
         </member>
+        <member name="M:CryEngine.Extensions.ReflectionExtensions.GetAttributes``1(System.Reflection.MemberInfo)">
+            <summary>
+            Gets all instances of a given attribute on the selected member.
+            </summary>
+            <typeparam name="T">The attribute to search for.</typeparam>
+            <param name="memberInfo">The member on which the search is performed.</param>
+            <returns>The first instance of attribute T, or null if none is found.</returns>
+        </member>
         <member name="M:CryEngine.Extensions.ReflectionExtensions.GetAttribute``1(System.Reflection.MemberInfo)">
             <summary>
             Gets the first instance of a given attribute on the selected member.
@@ -152,6 +160,33 @@
             Outputs a warning message
             </summary>
         </member>
+        <member name="T:CryEngine.Testing.ConsoleTestListener">
+            <summary>
+            Example implementation of IReportListener, used to log the results of a test run to the console.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Testing.IReportListener">
+            <summary>
+            Represents an object that is capable of receiving unit test reports.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Testing.IReportListener.OnTestsRun(CryEngine.Testing.TestReport)">
+            <summary>
+            Called when the unit tester has finished a run.
+            </summary>
+            <param name="report">The test data.</param>
+        </member>
+        <member name="M:CryEngine.Testing.ConsoleTestListener.#ctor">
+            <summary>
+            Constructs a new ConsoleTestListener and subscribes to the TestManager.Run event.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Testing.ConsoleTestListener.OnTestsRun(CryEngine.Testing.TestReport)">
+            <summary>
+            Called when a report is received.
+            </summary>
+            <param name="report">The report, containing all test information.</param>
+        </member>
         <member name="M:CryEngine.Renderer.LoadTexture(System.String)">
             <summary>
             Loads a texture into memory and generates its ID.
@@ -177,71 +212,6 @@
         <member name="P:CryEngine.Renderer.ScreenWidth">
             <summary>
             The height of the screen in pixels.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.Position">
-            <summary>
-            view position
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.Rotation">
-            <summary>
-            view orientation
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.Nearplane">
-            <summary>
-            custom near clipping plane, 0 means use engine defaults
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.GroundOnly">
-            <summary>
-            view shake status
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.ShakingRatio">
-            <summary>
-            whats the amount of shake, from 0.0 to 1.0
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.CurrentShakeQuat">
-            <summary>
-            what the current angular shake
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.CurrentShakeShift">
-            <summary>
-            what is the current translational shake
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.TargetId">
-            <summary>
-            Who we're watching. 0 == nobody.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.TargetPosition">
-            <summary>
-            Where the target was.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.FrameTime">
-            <summary>
-            current dt.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.AngleVelocity">
-            <summary>
-            previous rate of change of angle.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.Velocity">
-            <summary>
-            previous rate of change of dist between target and camera.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.Distance">
-            <summary>
-            previous dist of cam from target
             </summary>
         </member>
         <member name="T:CryEngine.ItemSystem">
@@ -368,6 +338,23 @@
             <summary>
             Defines the list of supported editor types.
             Bool is not currently functioning.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Testing.TestCollectionAttribute">
+            <summary>
+            Indicates that a class should be loaded by the unit tester.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Testing.TestAttribute">
+            <summary>
+            Indicates that a method should be run as a test.
+            Requires that the method belong to a class decorated with a TestCollectionAttribute.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Testing.IgnoreTestAttribute">
+            <summary>
+            Indicates that a test should be ignored.
+            Ignored tests will not be reported as a success; they will be reported as ignored.
             </summary>
         </member>
         <member name="T:CryEngine.Time">
@@ -1020,18 +1007,26 @@
             Called when the level is started.
             </summary>
         </member>
-        <member name="M:CryEngine.Entity.OnEnterArea(CryEngine.EntityId,CryEngine.EntityId)">
+        <member name="M:CryEngine.Entity.OnEnterArea(CryEngine.EntityId,System.Int32)">
             <summary>
-            Sent when triggering entity enters to the area proximity.
+            Sent when entity enters to the area proximity.
             </summary>
-            <param name="triggerEntityId"></param>
+            <param name="entityId"></param>
             <param name="areaEntityId"></param>
         </member>
-        <member name="M:CryEngine.Entity.OnLeaveArea(CryEngine.EntityId,CryEngine.EntityId)">
+        <member name="M:CryEngine.Entity.OnMoveInsideArea(CryEngine.EntityId,System.Int32,System.Single)">
             <summary>
-            Sent when triggering entity leaves the area proximity.
+            Sent when entity moves inside the area proximity.
             </summary>
-            <param name="triggerEntityId"></param>
+            <param name="entityId"></param>
+            <param name="areaId"></param>
+            <param name="fade"></param>
+        </member>
+        <member name="M:CryEngine.Entity.OnLeaveArea(CryEngine.EntityId,System.Int32)">
+            <summary>
+            Sent when entity leaves the area proximity.
+            </summary>
+            <param name="entityId"></param>
             <param name="areaEntityId"></param>
         </member>
         <member name="M:CryEngine.Entity.OnCollision(CryEngine.EntityId,CryEngine.Vec3,CryEngine.Vec3,System.Int16,CryEngine.Vec3)">
@@ -1053,6 +1048,29 @@
             <summary>
             Called after level has been loaded, is not called on serialization.
             </summary>
+        </member>
+        <member name="M:CryEngine.Entity.OnMove">
+            <summary>
+            Called when the entities local or world transformation matrix changes. (Position / Rotation / Scale)
+            </summary>
+        </member>
+        <member name="M:CryEngine.Entity.OnAttach(CryEngine.EntityId)">
+            <summary>
+            Called whenever another entity has been linked to this entity.
+            </summary>
+            <param name="child"></param>
+        </member>
+        <member name="M:CryEngine.Entity.OnDetach(CryEngine.EntityId)">
+            <summary>
+            Called whenever another entity has been unlinked from this entity.
+            </summary>
+            <param name="child"></param>
+        </member>
+        <member name="M:CryEngine.Entity.OnDetachThis(CryEngine.EntityId)">
+            <summary>
+            Called whenever this entity is unliked from another entity.
+            </summary>
+            <param name="parent"></param>
         </member>
         <member name="M:CryEngine.Entity.LoadObject(System.String,System.Int32)">
             <summary>
@@ -1131,6 +1149,71 @@
         <member name="P:CryEngine.View.FieldOfView">
             <summary>
             The current field of view.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.Position">
+            <summary>
+            view position
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.Rotation">
+            <summary>
+            view orientation
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.Nearplane">
+            <summary>
+            custom near clipping plane, 0 means use engine defaults
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.GroundOnly">
+            <summary>
+            view shake status
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.ShakingRatio">
+            <summary>
+            whats the amount of shake, from 0.0 to 1.0
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.CurrentShakeQuat">
+            <summary>
+            what the current angular shake
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.CurrentShakeShift">
+            <summary>
+            what is the current translational shake
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.TargetId">
+            <summary>
+            Who we're watching. 0 == nobody.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.TargetPosition">
+            <summary>
+            Where the target was.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.FrameTime">
+            <summary>
+            current dt.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.AngleVelocity">
+            <summary>
+            previous rate of change of angle.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.Velocity">
+            <summary>
+            previous rate of change of dist between target and camera.
+            </summary>
+        </member>
+        <member name="F:CryEngine.ViewParams.Distance">
+            <summary>
+            previous dist of cam from target
             </summary>
         </member>
         <member name="T:CryEngine.Initialization.ScriptCompiler">
@@ -1743,6 +1826,23 @@
         <member name="T:CryEngine.Engine">
             <summary>
             Provides an direct interface to the 3DEngine.
+            </summary>
+        </member>
+        <member name="F:CryEngine.Testing.Internals.ReportForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Testing.Internals.ReportForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:CryEngine.Testing.Internals.ReportForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
             </summary>
         </member>
         <member name="T:CryEngine.Utilities.CryStats">
@@ -2461,6 +2561,87 @@
             <returns>The value of the component at the specified index.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">Thrown when the <paramref name="index"/> is out of the range [0, 3].</exception>
         </member>
+        <member name="T:CryEngine.Testing.TestReport">
+            <summary>
+            Contains all the test data for a single run.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Testing.TestReport.Collections">
+            <summary>
+            The test collections which were run.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Testing.TestReport.TimeTaken">
+            <summary>
+            The time the entire unit test set took to execute.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Testing.TestResult">
+            <summary>
+            Indicates the actual result of a given single test.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Testing.TestResultInfo">
+            <summary>
+            Contains detailed information on the result of a test.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Testing.TestResultInfo.Name">
+            <summary>
+            The name of the test.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Testing.TestResultInfo.Description">
+            <summary>
+            The optional test description.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Testing.TestResultInfo.Result">
+            <summary>
+            The result of the test.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Testing.TestResultInfo.Stack">
+            <summary>
+            The full stracktrace for this test, if it failed.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Testing.TestResultInfo.FirstFrame">
+            <summary>
+            For convenience, the first desired frame from the stack.
+            If the frame is inside CryBrary due to an assertion, we drop down one frame.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Testing.TestResultInfo.Exception">
+            <summary>
+            The exception that caused this test to fail, if it did.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Testing.TestCollectionResult">
+            <summary>
+            Contains the results for a set of tests.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Testing.TestCollectionResult.Name">
+            <summary>
+            The name of this collection.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Testing.TestCollectionResult.Description">
+            <summary>
+            The optional collection description.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Testing.TestCollectionResult.Results">
+            <summary>
+            The individual results for the tests in this collection.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Testing.AssertionFailedException">
+            <summary>
+            The exception that is thrown when a false assertion is made.
+            </summary>
+        </member>
         <member name="M:CryEngine.Level.Load(System.String)">
             <summary>
             Loads a new level and returns its level info
@@ -2531,6 +2712,28 @@
             <summary>
             Returns true if this level is configured to support any gamemodes.
             </summary>
+        </member>
+        <member name="T:CryEngine.Testing.Assert">
+            <summary>
+            Contains methods used to make assertions for testing purposes.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Testing.Assert.IsTrue(System.Boolean)">
+            <summary>
+            Asserts that a given statement is true.
+            </summary>
+            <param name="value">The value to be asserted as true.</param>
+            <exception cref="T:CryEngine.Testing.AssertionFailedException">Thrown if the value is false.</exception>
+        </member>
+        <member name="M:CryEngine.Testing.Assert.Throws``1(System.Action,System.Boolean)">
+            <summary>
+            Asserts that a given expression throws an exception of type T.
+            </summary>
+            <typeparam name="T">The expression that should be thrown within the supplied method.</typeparam>
+            <param name="method">The method in which the expression should be thrown.</param>
+            <param name="includeChildren">Specifies whether subclassed exceptions should be counted as valid.</param>
+            <returns>The exception that was thrown as expected.</returns>
+            <exception cref="T:CryEngine.Testing.AssertionFailedException">Thrown if an exception of type T is not thrown.</exception>
         </member>
         <member name="T:CryEngine.Vec4">
             <summary>
