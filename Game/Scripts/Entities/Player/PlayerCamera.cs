@@ -1,5 +1,7 @@
 ﻿using CryEngine;
 
+using CryGameCode.Entities.AngryBoids;
+
 using System.Linq;
 
 namespace CryGameCode.Entities
@@ -21,7 +23,6 @@ namespace CryGameCode.Entities
 			View.Rotation = Rotation;
 			View.FieldOfView = Math.DegreesToRadians(60);
 
-			CurrentZoomLevel = MaxZoomLevel;
 			ReceiveUpdates = true;
 
 			// Defined in Libs/Config/defaultprofile.xml
@@ -33,9 +34,13 @@ namespace CryGameCode.Entities
 			MaxZoomLevel = 5;
 			MaxDistanceFromTarget = 100;
 
+			CurrentZoomLevel = MaxZoomLevel;
+
 			// The CVar attribute isn't functional at the moment, so we use this workaround.
 			CVar.RegisterInt("g_camMaxZoomLevel", ref MaxZoomLevel);
 			CVar.RegisterFloat("g_camMaxDistanceFromTarget", ref MaxDistanceFromTarget);
+
+			TargetEntity = Launcher.Instance;
 		}
 
 		public override void OnUpdate()
@@ -54,7 +59,7 @@ namespace CryGameCode.Entities
 
 		public void OnActionZoomOut(ActionMapEventArgs e)
 		{
-			if(e.KeyEvent == KeyEvent.OnPress && CurrentZoomLevel < MaxZoomLevel)
+			if(e.KeyEvent == KeyEvent.OnPress && CurrentZoomLevel <= MaxZoomLevel)
 				CurrentZoomLevel++;
 		}
 
