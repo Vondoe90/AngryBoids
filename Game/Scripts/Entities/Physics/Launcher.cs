@@ -17,7 +17,12 @@ namespace CryGameCode.Entities.AngryBoids
 	{
 		public static Launcher Instance { get; private set; }
 
-		public override void OnSpawn()
+		protected override void OnInit()
+		{
+			OnReset(true);
+		}
+
+		protected override void OnReset(bool enterGame)
 		{
 			var boids = Entity.GetByClass<TheBoringOne>();
 
