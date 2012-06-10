@@ -42,9 +42,6 @@
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="CryGame.rc" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="CryGame.ico" />
     <None Include="Cursor.cur" />
   </ItemGroup>

@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CryCommon", "..\CryEngine\CryCommon\CryCommon.vcxproj", "{AEB958D4-45CA-478B-BA8E-D0E897CE974B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CryMiniGame", "..\Game\GameDll\GameDll.vcxproj", "{0A626603-18B8-41F4-ACFB-0ABE9C4569F5}"
@@ -13,9 +13,6 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AEB958D4-45CA-478B-BA8E-D0E897CE974B}.Debug|Win32.ActiveCfg = Release|Win32
-		{AEB958D4-45CA-478B-BA8E-D0E897CE974B}.Profile|Win32.ActiveCfg = Release|Win32
-		{AEB958D4-45CA-478B-BA8E-D0E897CE974B}.Release|Win32.ActiveCfg = Release|Win32
 		{0A626603-18B8-41F4-ACFB-0ABE9C4569F5}.Debug|Win32.ActiveCfg = Debug|Win32
 		{0A626603-18B8-41F4-ACFB-0ABE9C4569F5}.Debug|Win32.Build.0 = Debug|Win32
 		{0A626603-18B8-41F4-ACFB-0ABE9C4569F5}.Profile|Win32.ActiveCfg = Release|Win32
@@ -25,6 +22,9 @@ Global
 		{498187B3-E46F-45FA-A202-992AE9FDA01A}.Debug|Win32.ActiveCfg = Release|Win32
 		{498187B3-E46F-45FA-A202-992AE9FDA01A}.Profile|Win32.ActiveCfg = Release|Win32
 		{498187B3-E46F-45FA-A202-992AE9FDA01A}.Release|Win32.ActiveCfg = Release|Win32
+		{AEB958D4-45CA-478B-BA8E-D0E897CE974B}.Debug|Win32.ActiveCfg = Release|Win32
+		{AEB958D4-45CA-478B-BA8E-D0E897CE974B}.Profile|Win32.ActiveCfg = Release|Win32
+		{AEB958D4-45CA-478B-BA8E-D0E897CE974B}.Release|Win32.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

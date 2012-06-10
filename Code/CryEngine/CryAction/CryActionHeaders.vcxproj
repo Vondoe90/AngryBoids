@@ -30,7 +30,7 @@
     <ProjectName>CryAction</ProjectName>
     <ProjectGuid>{498187B3-E46F-45FA-A202-992AE9FDA01A}</ProjectGuid>
     <RootNamespace>CryAction</RootNamespace>
-<Keyword>Win32Proj</Keyword>
+    <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">

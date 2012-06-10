@@ -34,8 +34,8 @@ namespace CryGameCode.Entities
 			MaxDistanceFromTarget = 100;
 
 			// The CVar attribute isn't functional at the moment, so we use this workaround.
-			CVar.Register("g_camMaxZoomLevel", ref MaxZoomLevel);
-			CVar.Register("g_camMaxDistanceFromTarget", ref MaxDistanceFromTarget);
+			CVar.RegisterInt("g_camMaxZoomLevel", ref MaxZoomLevel);
+			CVar.RegisterFloat("g_camMaxDistanceFromTarget", ref MaxDistanceFromTarget);
 		}
 
 		public override void OnUpdate()

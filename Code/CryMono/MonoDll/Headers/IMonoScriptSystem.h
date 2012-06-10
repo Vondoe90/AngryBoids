@@ -105,8 +105,6 @@ struct IMonoScriptSystem : ICryUnknown
 	/// </summary>
 	virtual void Release() = 0;
 
-	virtual IMonoEntityManager *GetEntityManager() const = 0;
-	
 	/// <summary>
 	/// Registers a method binding, called from IMonoScriptBind.
 	/// </summary>
@@ -127,6 +125,16 @@ struct IMonoScriptSystem : ICryUnknown
 	/// Gets a pointer to the CryBrary assembly containing all default CryMono types.
 	/// </summary>
 	virtual IMonoAssembly *GetCryBraryAssembly() = 0;
+
+	/// <summary>
+	/// Gets the core assembly, containing the System namespace etc.
+	/// </summary>
+	virtual IMonoAssembly *GetCorlibAssembly() = 0;
+
+	/// <summary>
+	/// Loads an .NET assembly at a specific location and returns it.
+	/// </summary>
+	virtual IMonoAssembly *GetAssembly(const char *file, bool shadowCopy = false) = 0;
 
 	/// <summary>
 	/// Gets the root domain created on script system initialization.
