@@ -160,33 +160,6 @@
             Outputs a warning message
             </summary>
         </member>
-        <member name="T:CryEngine.Testing.ConsoleTestListener">
-            <summary>
-            Example implementation of IReportListener, used to log the results of a test run to the console.
-            </summary>
-        </member>
-        <member name="T:CryEngine.Testing.IReportListener">
-            <summary>
-            Represents an object that is capable of receiving unit test reports.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Testing.IReportListener.OnTestsRun(CryEngine.Testing.TestReport)">
-            <summary>
-            Called when the unit tester has finished a run.
-            </summary>
-            <param name="report">The test data.</param>
-        </member>
-        <member name="M:CryEngine.Testing.ConsoleTestListener.#ctor">
-            <summary>
-            Constructs a new ConsoleTestListener and subscribes to the TestManager.Run event.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Testing.ConsoleTestListener.OnTestsRun(CryEngine.Testing.TestReport)">
-            <summary>
-            Called when a report is received.
-            </summary>
-            <param name="report">The report, containing all test information.</param>
-        </member>
         <member name="M:CryEngine.Renderer.LoadTexture(System.String)">
             <summary>
             Loads a texture into memory and generates its ID.
@@ -212,6 +185,34 @@
         <member name="P:CryEngine.Renderer.ScreenWidth">
             <summary>
             The height of the screen in pixels.
+            </summary>
+        </member>
+        <member name="T:CryEngine.Testing.IReportListener">
+            <summary>
+            Represents an object that is capable of receiving unit test reports.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Testing.IReportListener.OnTestsRun(CryEngine.Testing.TestReport)">
+            <summary>
+            Called when the unit tester has finished a run.
+            </summary>
+            <param name="report">The test data.</param>
+        </member>
+        <member name="F:CryEngine.Testing.Internals.ReportForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Testing.Internals.ReportForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:CryEngine.Testing.Internals.ReportForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
             </summary>
         </member>
         <member name="T:CryEngine.ItemSystem">
@@ -372,6 +373,22 @@
             The time used to render the current frame. Useful for creating framerate independent operations.
             </summary>
             <example>public override void OnUpdate() { this.Position.X += 10 * CryTime.DeltaTime; }</example>
+        </member>
+        <member name="T:CryEngine.Testing.ConsoleTestListener">
+            <summary>
+            Example implementation of IReportListener, used to log the results of a test run to the console.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Testing.ConsoleTestListener.#ctor">
+            <summary>
+            Constructs a new ConsoleTestListener and subscribes to the TestManager.Run event.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Testing.ConsoleTestListener.OnTestsRun(CryEngine.Testing.TestReport)">
+            <summary>
+            Called when a report is received.
+            </summary>
+            <param name="report">The report, containing all test information.</param>
         </member>
         <member name="T:CryEngine.Ray">
             <summary>
@@ -1047,6 +1064,7 @@
         <member name="M:CryEngine.Entity.OnInit">
             <summary>
             Called after level has been loaded, is not called on serialization.
+            Note that this is called prior to GameRules.OnClientConnect and OnClientEnteredGame!
             </summary>
         </member>
         <member name="M:CryEngine.Entity.OnMove">
@@ -1826,23 +1844,6 @@
         <member name="T:CryEngine.Engine">
             <summary>
             Provides an direct interface to the 3DEngine.
-            </summary>
-        </member>
-        <member name="F:CryEngine.Testing.Internals.ReportForm.components">
-            <summary>
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:CryEngine.Testing.Internals.ReportForm.Dispose(System.Boolean)">
-            <summary>
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:CryEngine.Testing.Internals.ReportForm.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
             </summary>
         </member>
         <member name="T:CryEngine.Utilities.CryStats">

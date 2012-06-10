@@ -17,13 +17,13 @@ namespace CryGameCode.Entities.AngryBoids
 	{
 		public static Launcher Instance { get; private set; }
 
-		protected override void OnReset(bool enteringGame)
+		public override void OnSpawn()
 		{
 			var boids = Entity.GetByClass<TheBoringOne>();
 
 			if(boids == null || boids.Count() < 1)
 			{
-				Debug.Log("[Warning] No boids found in the level");
+				Debug.Warning("No boids found in the level");
 				return;
 			}
 
@@ -38,9 +38,6 @@ namespace CryGameCode.Entities.AngryBoids
 			CurrentBoid.Position = Position;
 
 			CurrentBoid.Physics.Resting = true;
-
-			var playerCamera = Actor.Client as PlayerCamera;
-			playerCamera.TargetEntity = this;
 		}
 
 		/// <summary>

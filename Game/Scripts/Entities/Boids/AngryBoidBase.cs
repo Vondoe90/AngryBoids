@@ -28,6 +28,8 @@ namespace CryGameCode.Entities.AngryBoids
 		{
 			if(Launcher.Instance != null)
 			{
+				postFire = null;
+
 				ReceiveUpdates = false;
 				state = BoidState.Dead;
 
