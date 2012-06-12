@@ -33,8 +33,7 @@ namespace CryGameCode
 
 		public override void OnRevive(EntityId actorId, Vec3 pos, Vec3 rot, int teamId)
 		{
-			var cameraProxy = Actor.Get(actorId) as PlayerCamera;
-
+			var cameraProxy = Actor.Get<PlayerCamera>(actorId);
 			if(cameraProxy == null)
 			{
 				Debug.Log("[SinglePlayer.OnRevive] Failed to get the player proxy. Check the log for errors.");

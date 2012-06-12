@@ -87,7 +87,7 @@ namespace CryGameCode.Entities.AngryBoids
 				case MouseEvent.Move:
 					{
 						var screenWorldPos = Renderer.ScreenToWorld(e.X, e.Y);
-						Debug.DrawSphere(screenWorldPos, 0.5f, Color.Red, 0.05f);
+						Debug.DrawSphere(screenWorldPos, .3f, Color.Red, .1f);
 
 						if(state == LauncherState.Held && (Math.Pow(screenWorldPos.Y - Position.Y, 2) + Math.Pow(screenWorldPos.Z - Position.Z, 2) - Math.Pow(MaxPullDistance, 2)) <= 0)
 						{

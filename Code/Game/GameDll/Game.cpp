@@ -28,6 +28,8 @@
 #include <IScaleformGFx.h>
 #include <IPlatformOS.h>
 
+#include <IMonoScriptSystem.h>
+
 #include "ISaveGame.h"
 #include "ILoadGame.h"
 #include "CryPath.h"
@@ -309,6 +311,8 @@ bool CGame::CompleteInit()
 		gEnv->pSystem->GetPlatformOS()->PostBootCheckProcessing();
 	}
 	// Initialize Game02 flow nodes
+
+	gEnv->pMonoScriptSystem->RegisterFlownodes();
 
 #ifdef GAME_DEBUG_MEM
 	DumpMemInfo("CGame::CompleteInit");

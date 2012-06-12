@@ -24,7 +24,7 @@ void CGameRules::OnGamemodeChanged(const char *newMode)
 	if(IMonoScriptSystem *pScriptSystem = gEnv->pMonoScriptSystem)
 	{
 		SAFE_RELEASE(m_pScriptClass);
-		m_pScriptClass = pScriptSystem->InstantiateScript(newMode, eScriptType_GameRules);
+		m_pScriptClass = pScriptSystem->InstantiateScript(newMode, eScriptFlag_GameRules);
 	}
 }
 
