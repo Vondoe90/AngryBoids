@@ -1,0 +1,6 @@
+<Modules>
+  <Module PersistentId="11564500-9662-485F-889A-089D34FDB32E" ModuleId="CryGameCode" />
+  <Module PersistentId="CryBrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" ModuleId="CryBrary" />
+  <Module PersistentId="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="mscorlib" />
+  <Module PersistentId="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="mscorlib_1" />
+</Modules>
