@@ -131,6 +131,143 @@
             Used for non-CryMono actors.
             </summary>
         </member>
+        <member name="T:CryEngine.Async.Jobs.AsyncJob`1">
+            <summary>
+            Base class for any async job
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:CryEngine.Async.Jobs.IAsyncJob">
+            <summary>
+            An asynchronous job
+            </summary>
+        </member>
+        <member name="M:CryEngine.Async.Jobs.IAsyncJob.Update(System.Single)">
+            <summary>
+            Updates the job
+            </summary>
+            <param name="frameTime"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CryEngine.Async.Jobs.IAsyncJob.IsFinished">
+            <summary>
+            Indicates if the job has finished processing
+            </summary>
+        </member>
+        <member name="P:CryEngine.Async.Jobs.IAsyncJob.Task">
+            <summary>
+            Gets the internal Task object associated with the job
+            </summary>
+        </member>
+        <member name="M:CryEngine.Async.Jobs.AsyncJob`1.Update(System.Single)">
+            <summary>
+            Updates the job
+            </summary>
+            <param name="frameTime"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CryEngine.Async.Jobs.AsyncJob`1.Task">
+            <summary>
+            The underlying System.Threading.Tasks.Task object
+            </summary>
+        </member>
+        <member name="P:CryEngine.Async.Jobs.AsyncJob`1.IsFinished">
+            <summary>
+            Indicates if the job has finished executing
+            </summary>
+        </member>
+        <member name="T:CryEngine.Async.Awaiter">
+            <summary>
+            Class that manages all jobs (updating, removing)
+            </summary>
+        </member>
+        <member name="M:CryEngine.Async.Awaiter.OnUpdate(System.Single)">
+            <summary>
+            Updates all scheduled jobs
+            </summary>
+            <param name="frameTime"></param>
+        </member>
+        <member name="P:CryEngine.Async.Awaiter.Instance">
+            <summary>
+            Singleton instance of the awaiter
+            </summary>
+        </member>
+        <member name="P:CryEngine.Async.Awaiter.Jobs">
+            <summary>
+            A list of all jobs scheduled to be executed on the next OnUpdate call
+            </summary>
+        </member>
+        <member name="T:CryEngine.Delay">
+            <summary>
+            Utility class that provides async methods for common operations
+            </summary>
+        </member>
+        <member name="M:CryEngine.Delay.CreateTaskFromJob(CryEngine.Async.Jobs.IAsyncJob)">
+            <summary>
+            Creates a Task object from an IAsyncJob instance
+            </summary>
+            <param name="job"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.Delay.FrameDelay(System.Int32)">
+            <summary>
+            Delays execution for a number of frames
+            </summary>
+            <param name="numFrames"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.Delay.TimeDelay(System.TimeSpan)">
+            <summary>
+            Delays execution for a supplied time amount
+            </summary>
+            <param name="delay"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CryEngine.Delay.TimeDelay(System.Single)">
+            <summary>
+            Delays execution for a supplied time amount (in milliseconds)
+            </summary>
+            <param name="delayInMilliseconds"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CryEngine.Async.Jobs.FrameDelayJob">
+            <summary>
+            Delays execution for a number of frames
+            </summary>
+        </member>
+        <member name="M:CryEngine.Async.Jobs.FrameDelayJob.#ctor(System.Int32)">
+            <summary>
+            Creates an instance of the job
+            </summary>
+            <param name="numberOfFramesToWait"></param>
+        </member>
+        <member name="P:CryEngine.Async.Jobs.FrameDelayJob.FramesToWait">
+            <summary>
+            Number of frames to wait
+            </summary>
+        </member>
+        <member name="T:CryEngine.Async.Jobs.TimeDelayJob">
+            <summary>
+            Delays for a time period
+            </summary>
+        </member>
+        <member name="M:CryEngine.Async.Jobs.TimeDelayJob.#ctor(System.Single)">
+            <summary>
+            Creates an instance of the TimeDelayJob
+            </summary>
+            <param name="milliseconds"></param>
+        </member>
+        <member name="M:CryEngine.Async.Jobs.TimeDelayJob.#ctor(System.TimeSpan)">
+            <summary>
+            Creates an instance of the TimeDelayJob
+            </summary>
+            <param name="delay"></param>
+        </member>
+        <member name="P:CryEngine.Async.Jobs.TimeDelayJob.DelayInMilliseconds">
+            <summary>
+            Delay in milliseconds
+            </summary>
+        </member>
         <member name="M:CryEngine.Level.Load(System.String)">
             <summary>
             Loads a new level and returns its level info
@@ -250,21 +387,6 @@
             <summary>
             Convenient accessor for the raw time value
             </summary>
-        </member>
-        <member name="M:CryEngine.Extensions.WinFormsExtensions.Append(System.Windows.Forms.TextBoxBase,System.String,System.Object[])">
-            <summary>
-            Appends text to the current text of a text box, with formatted arguments.
-            </summary>
-            <param name="textBox"></param>
-            <param name="format"></param>
-            <param name="args"></param>
-        </member>
-        <member name="M:CryEngine.Extensions.WinFormsExtensions.NewLine(System.Windows.Forms.TextBoxBase,System.Int32)">
-            <summary>
-            Appends a number of Environment.NewLine strings to the current text of a text box.
-            </summary>
-            <param name="textBox"></param>
-            <param name="count"></param>
         </member>
         <member name="P:CryEngine.FlowNodeAttribute.Name">
             <summary>
@@ -390,6 +512,21 @@
             <summary>
             </summary>
             <param name="delay">The desired delay, in milliseconds.</param>
+        </member>
+        <member name="M:CryEngine.Extensions.WinFormsExtensions.Append(System.Windows.Forms.TextBoxBase,System.String,System.Object[])">
+            <summary>
+            Appends text to the current text of a text box, with formatted arguments.
+            </summary>
+            <param name="textBox"></param>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:CryEngine.Extensions.WinFormsExtensions.NewLine(System.Windows.Forms.TextBoxBase,System.Int32)">
+            <summary>
+            Appends a number of Environment.NewLine strings to the current text of a text box.
+            </summary>
+            <param name="textBox"></param>
+            <param name="count"></param>
         </member>
         <member name="T:CryEngine.Sandbox.SandboxExtensionAttribute">
             <summary>
