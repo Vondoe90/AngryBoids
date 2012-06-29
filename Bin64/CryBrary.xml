@@ -933,11 +933,6 @@
             <param name="materialId"></param>
             <param name="contactNormal"></param>
         </member>
-        <member name="M:CryEngine.Entity.OnHit(CryEngine.HitInfo)">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="M:CryEngine.Entity.OnInit">
             <summary>
             Called after level has been loaded, is not called on serialization.
@@ -5288,11 +5283,27 @@
             Returns the absolute time of the last frame start in milliseconds.
             </summary>
         </member>
+        <member name="P:CryEngine.Time.AsyncTime">
+            <summary>
+            Returns the absolute current time.
+            Note: The value continuously changes, slower than GetFrameStartTime().
+            </summary>
+        </member>
         <member name="P:CryEngine.Time.DeltaTime">
             <summary>
             The time used to render the current frame. Useful for creating framerate independent operations.
             </summary>
-            <example>public override void OnUpdate() { this.Position.X += 10 * CryTime.DeltaTime; }</example>
+            <example>public override void OnUpdate() { this.Position.X += 10 * Time.DeltaTime; }</example>
+        </member>
+        <member name="P:CryEngine.Time.TimeScale">
+            <summary>
+            Sets / gets the time scale applied to time values.
+            </summary>
+        </member>
+        <member name="P:CryEngine.Time.Framerate">
+            <summary>
+            Returns the current framerate in frames/second.
+            </summary>
         </member>
         <member name="T:CryEngine.Arduino.ArduinoHelper">
             <summary>
@@ -5622,101 +5633,6 @@
         <member name="F:CryEngine.DisconnectionCause.Unknown">
             <summary>
             Unknown cause
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.ShooterId">
-            <summary>
-            EntityId of the shooter
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.TargetId">
-            <summary>
-            EntityId of the target which got shot
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.WeaponId">
-            <summary>
-            EntityId of the weapon
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.ProjectileId">
-            <summary>
-            0 if hit was not caused by a projectile
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Damage">
-            <summary>
-            damage count of the hit
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Radius">
-            <summary>
-            radius of the hit
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.MaterialId">
-            <summary>
-            material id of the surface which got hit
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.TypeId">
-            <summary>
-            type id of the hit, see IGameRules::GetHitTypeId for more information
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.BulletType">
-            <summary>
-            type of bullet, if hit was of type bullet
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Pierceability">
-            <summary>
-            bullet pierceability
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Position">
-            <summary>
-            position of the hit
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Direction">
-            <summary>
-            direction of the hit
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Aimed">
-            <summary>
-            set to true if shot was aimed - i.e. first bullet, zoomed in etc.
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.KnocksDown">
-            <summary>
-            true if the hit should knockdown
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.KnocksDownLeg">
-            <summary>
-            true if the hit should knockdown when hit in a leg
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.HitViaProxy">
-            <summary>
-            true if the 'shooter' didn't actually shoot, ie. a weapon acting on their behalf did (team perks)
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.Explosion">
-            <summary>
-            true if this hit directly results from an explosion
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.ArmorHeating">
-            <summary>
-            dynamic pierceability reduction
-            </summary>
-        </member>
-        <member name="P:CryEngine.HitInfo.PenetrationCount">
-            <summary>
-            number of surfaces the bullet has penetrated
             </summary>
         </member>
         <member name="T:CryEngine.Utilities.CryStats">
@@ -6534,7 +6450,7 @@
             </summary>
             <param name="type"></param>
         </member>
-        <member name="M:CryEngine.Initialization.ScriptManager.OnUpdate(System.Single)">
+        <member name="M:CryEngine.Initialization.ScriptManager.OnUpdate(System.Single,System.Single,System.Single,System.Single,System.Single)">
             <summary>
             Called once per frame.
             </summary>
