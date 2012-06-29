@@ -28,7 +28,7 @@ namespace CryGameCode.Entities.AngryBoids
 
 			if(boids == null || boids.Count() < 1)
 			{
-				Debug.Warning("No boids found in the level");
+				Debug.LogWarning("No boids found in the level");
 				return;
 			}
 

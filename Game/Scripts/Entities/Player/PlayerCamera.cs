@@ -21,7 +21,7 @@ namespace CryGameCode.Entities
 
 			View.Position = Position;
 			View.Rotation = Rotation;
-			View.FieldOfView = Math.DegreesToRadians(60);
+			View.FieldOfView = Math.DegreesToRadians(100);
 
 			ReceiveUpdates = true;
 
@@ -84,5 +84,11 @@ namespace CryGameCode.Entities
 		public static float MaxDistanceFromTarget;
 
 		public int CurrentZoomLevel { get; set; }
+
+        [ConsoleCommand]
+        public static void MyCommand(string[] args, string fullCommandLine)
+        {
+
+        }
 	}
 }

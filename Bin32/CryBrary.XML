@@ -5346,14 +5346,14 @@
             <remarks>Useful when exceptions are caught and data is still needed from them</remarks>
             <param name="ex"></param>
         </member>
-        <member name="M:CryEngine.Debug.Warning(System.String,System.Object[])">
+        <member name="M:CryEngine.Debug.LogWarning(System.String,System.Object[])">
             <summary>
             Outputs a warning message
             </summary>
             <param name="format"></param>
             <param name="args"></param>
         </member>
-        <member name="M:CryEngine.Debug.Warning(System.String)">
+        <member name="M:CryEngine.Debug.LogWarning(System.String)">
             <summary>
             Outputs a warning message
             </summary>
