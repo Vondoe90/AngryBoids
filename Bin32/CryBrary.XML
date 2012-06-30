@@ -29,22 +29,6 @@
             Controls whether the entity receives an update per frame.
             </summary>
         </member>
-        <member name="M:CryEngine.EntityBase._SpawnEntity(CryEngine.EntitySpawnParams,System.Boolean,CryEngine.EntityInfo@)">
-            <summary>
-            Spawns an entity with the specified parameters.
-            </summary>
-            <param name="spawnParams">The <see cref="T:CryEngine.EntitySpawnParams"/></param>
-            <param name="autoInit">Should the entity automatically be initialized?</param>
-            <returns></returns>
-        </member>
-        <member name="M:CryEngine.EntityBase._LoadCharacter(System.IntPtr,System.String,System.Int32)">
-            <summary>
-            Loads an non-static model on the object (.chr, .cdf, .cga)
-            </summary>
-            <param name="ptr"></param>
-            <param name="fileName"></param>
-            <param name="slot"></param>
-        </member>
         <member name="M:CryEngine.EntityBase.OnSpawn">
             <summary>
             This callback is called when this entity has finished spawning. The entity has been created and added to the list of entities.
@@ -99,13 +83,6 @@
             <summary>
             Gets / sets the entity flags.
             </summary>
-        </member>
-        <member name="M:CryEngine.EntityBase.EntityMethods.RegisterClass(CryEngine.Initialization.EntityRegistrationParams)">
-            <summary>
-            Register a new entity type.
-            </summary>
-            <param name="config">The Entity configuration.</param>
-            <returns>True if registration succeeded, otherwise false.</returns>
         </member>
         <member name="M:CryEngine.Actor.InternalSpawn(CryEngine.ActorInfo,System.Int32)">
             <summary>
@@ -343,14 +320,14 @@
             <summary>
             Gets the minute value from a CE-style time float
             </summary>
-            <param name="ceTime"></param>
+            <param name="cryTime"></param>
             <returns></returns>
         </member>
         <member name="M:CryEngine.TimeOfDay.GetHours(System.Single)">
             <summary>
             Gets the hour value from a CE-style time float
             </summary>
-            <param name="ceTime"></param>
+            <param name="cryTime"></param>
             <returns></returns>
         </member>
         <member name="M:CryEngine.TimeOfDay.CreateEngineTime(System.Int32,System.Int32)">
