@@ -6444,12 +6444,6 @@
             </summary>
             <param name="assemblyPath"></param>
         </member>
-        <member name="M:CryEngine.Initialization.ScriptManager.ProcessMembers(System.Type)">
-            <summary>
-            Processes all members of a type for CryMono features such as CCommands.
-            </summary>
-            <param name="type"></param>
-        </member>
         <member name="M:CryEngine.Initialization.ScriptManager.OnUpdate(System.Single,System.Single,System.Single,System.Single,System.Single)">
             <summary>
             Called once per frame.
