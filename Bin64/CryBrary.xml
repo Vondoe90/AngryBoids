@@ -505,6 +505,126 @@
             <param name="textBox"></param>
             <param name="count"></param>
         </member>
+        <member name="F:CryEngine.DisconnectionCause.Timeout">
+            <summary>
+            This cause must be first! - timeout occurred.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.ProtocolError">
+            <summary>
+            Incompatible protocols.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.ResolveFailed">
+            <summary>
+            Failed to resolve an address.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.VersionMismatch">
+            <summary>
+            Versions mismatch.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.ServerFull">
+            <summary>
+            Server is full.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.Kicked">
+            <summary>
+            User initiated kick.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.Banned">
+            <summary>
+            Teamkill ban/ admin ban.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.ContextCorruption">
+            <summary>
+            Context database mismatch.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.AuthenticationFailed">
+            <summary>
+            Password mismatch, cdkey bad, etc.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.GameError">
+            <summary>
+            Misc. game error.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.NotDX11Capable">
+            <summary>
+            DX11 not found.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.NubDestroyed">
+            <summary>
+            The nub has been destroyed.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.ICMPError">
+            <summary>
+            Icmp reported error.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.NatNegError">
+            <summary>
+            NAT negotiation error.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.PunkDetected">
+            <summary>
+            Punk buster detected something bad.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.DemoPlaybackFinished">
+            <summary>
+            Demo playback finished.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.DemoPlaybackFileNotFound">
+            <summary>
+            Demo playback file not found.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.UserRequested">
+            <summary>
+            User decided to stop playing.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.NoController">
+            <summary>
+            User should have controller connected.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.CantConnect">
+            <summary>
+            Unable to connect to server.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.ArbitrationFailed">
+            <summary>
+            Arbitration failed in a live arbitrated session.
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.FailedToMigrateToNewHost">
+            <summary>
+            Failed to successfully join migrated game
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.SessionDeleted">
+            <summary>
+            The session has just been deleted
+            </summary>
+        </member>
+        <member name="F:CryEngine.DisconnectionCause.Unknown">
+            <summary>
+            Unknown cause
+            </summary>
+        </member>
         <member name="T:CryEngine.Sandbox.SandboxExtensionAttribute">
             <summary>
             Defines a Sandbox extension.
@@ -5490,126 +5610,6 @@
         <member name="P:CryEngine.GameRulesAttribute.Default">
             <summary>
             If set to true, the game mode will be set as default.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.Timeout">
-            <summary>
-            This cause must be first! - timeout occurred.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.ProtocolError">
-            <summary>
-            Incompatible protocols.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.ResolveFailed">
-            <summary>
-            Failed to resolve an address.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.VersionMismatch">
-            <summary>
-            Versions mismatch.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.ServerFull">
-            <summary>
-            Server is full.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.Kicked">
-            <summary>
-            User initiated kick.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.Banned">
-            <summary>
-            Teamkill ban/ admin ban.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.ContextCorruption">
-            <summary>
-            Context database mismatch.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.AuthenticationFailed">
-            <summary>
-            Password mismatch, cdkey bad, etc.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.GameError">
-            <summary>
-            Misc. game error.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.NotDX11Capable">
-            <summary>
-            DX11 not found.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.NubDestroyed">
-            <summary>
-            The nub has been destroyed.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.ICMPError">
-            <summary>
-            Icmp reported error.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.NatNegError">
-            <summary>
-            NAT negotiation error.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.PunkDetected">
-            <summary>
-            Punk buster detected something bad.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.DemoPlaybackFinished">
-            <summary>
-            Demo playback finished.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.DemoPlaybackFileNotFound">
-            <summary>
-            Demo playback file not found.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.UserRequested">
-            <summary>
-            User decided to stop playing.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.NoController">
-            <summary>
-            User should have controller connected.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.CantConnect">
-            <summary>
-            Unable to connect to server.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.ArbitrationFailed">
-            <summary>
-            Arbitration failed in a live arbitrated session.
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.FailedToMigrateToNewHost">
-            <summary>
-            Failed to successfully join migrated game
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.SessionDeleted">
-            <summary>
-            The session has just been deleted
-            </summary>
-        </member>
-        <member name="F:CryEngine.DisconnectionCause.Unknown">
-            <summary>
-            Unknown cause
             </summary>
         </member>
         <member name="T:CryEngine.Utilities.CryStats">
