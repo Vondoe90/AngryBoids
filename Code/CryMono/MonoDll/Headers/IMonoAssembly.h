@@ -9,14 +9,25 @@
 #ifndef __I_MONO_ASSEMBLY__
 #define __I_MONO_ASSEMBLY__
 
+#include <IMonoObject.h>
+
 struct IMonoClass;
+
+namespace mono { class _object; typedef _object* object; }
 
 /// <summary>
 /// Reference to a Mono assembly; used to for example instantiate classes contained within a C# dll.
 /// </summary>
 struct IMonoAssembly
+	: public IMonoObject
 {
 public:
+	// IMonoObject
+	virtual IMonoClass *GetClass() = 0;
+	// ~IMonoObject
+
+	virtual void AddRef() = 0;
+
 	/// <summary>
 	/// Gets a custom C# class from within the assembly.
 	/// Note: This does not construct an new instance of the class, only returns an uninitialized IMonoScript. To instantiate a class, see IMonoAssembly::InstantiateClass
@@ -27,9 +38,19 @@ public:
 	virtual IMonoClass *GetClass(const char *className, const char *nameSpace = "CryEngine") = 0;
 
 	/// <summary>
+	/// Gets the name of this assembly.
+	/// </summary>
+	virtual const char *GetName() = 0;
+
+	/// <summary>
 	/// Gets the full path to this assembly on disk.
 	/// </summary>
 	virtual const char *GetPath() = 0;
+
+	/// <summary>
+	/// Determines if this assembly was loaded from C++.
+	/// </summary>
+	virtual bool IsNative() = 0;
 };
 
 #endif //__I_MONO_ASSEMBLY__`	

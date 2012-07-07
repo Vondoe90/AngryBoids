@@ -108,6 +108,71 @@
             Used for non-CryMono actors.
             </summary>
         </member>
+        <member name="F:CryEngine.Native.ViewParams.Position">
+            <summary>
+            view position
+            </summary>
+        </member>
+        <member name="F:CryEngine.Native.ViewParams.Rotation">
+            <summary>
+            view orientation
+            </summary>
+        </member>
+        <member name="F:CryEngine.Native.ViewParams.Nearplane">
+            <summary>
+            custom near clipping plane, 0 means use engine defaults
+            </summary>
+        </member>
+        <member name="F:CryEngine.Native.ViewParams.GroundOnly">
+            <summary>
+            view shake status
+            </summary>
+        </member>
+        <member name="F:CryEngine.Native.ViewParams.ShakingRatio">
+            <summary>
+            whats the amount of shake, from 0.0 to 1.0
+            </summary>
+        </member>
+        <member name="F:CryEngine.Native.ViewParams.CurrentShakeQuat">
+            <summary>
+            what the current angular shake
+            </summary>
+        </member>
+        <member name="F:CryEngine.Native.ViewParams.CurrentShakeShift">
+            <summary>
+            what is the current translational shake
+            </summary>
+        </member>
+        <member name="F:CryEngine.Native.ViewParams.TargetId">
+            <summary>
+            Who we're watching. 0 == nobody.
+            </summary>
+        </member>
+        <member name="F:CryEngine.Native.ViewParams.TargetPosition">
+            <summary>
+            Where the target was.
+            </summary>
+        </member>
+        <member name="F:CryEngine.Native.ViewParams.FrameTime">
+            <summary>
+            current dt.
+            </summary>
+        </member>
+        <member name="F:CryEngine.Native.ViewParams.AngleVelocity">
+            <summary>
+            previous rate of change of angle.
+            </summary>
+        </member>
+        <member name="F:CryEngine.Native.ViewParams.Velocity">
+            <summary>
+            previous rate of change of dist between target and camera.
+            </summary>
+        </member>
+        <member name="F:CryEngine.Native.ViewParams.Distance">
+            <summary>
+            previous dist of cam from target
+            </summary>
+        </member>
         <member name="T:CryEngine.Async.Jobs.AsyncJob`1">
             <summary>
             Base class for any async job
@@ -505,6 +570,14 @@
             <param name="textBox"></param>
             <param name="count"></param>
         </member>
+        <member name="M:CryEngine.Extensions.WinFormsExtensions.ScrollTo(System.Windows.Forms.TextBoxBase,System.Int32)">
+            <summary>
+            Scrolls the contents of the text box to the given position.
+            The value is clamped to the length of the text.
+            </summary>
+            <param name="textBox"></param>
+            <param name="position"></param>
+        </member>
         <member name="T:CryEngine.Sandbox.SandboxExtensionAttribute">
             <summary>
             Defines a Sandbox extension.
@@ -616,6 +689,23 @@
             <summary>
             </summary>
         </member>
+        <member name="F:CryEngine.ExceptionMessage.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:CryEngine.ExceptionMessage.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:CryEngine.ExceptionMessage.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="T:CryEngine.Initialization.ScriptCompiler">
             <summary>
             Represents a custom script compiler.
@@ -714,71 +804,6 @@
         <member name="P:CryEngine.View.FieldOfView">
             <summary>
             The current field of view.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.Position">
-            <summary>
-            view position
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.Rotation">
-            <summary>
-            view orientation
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.Nearplane">
-            <summary>
-            custom near clipping plane, 0 means use engine defaults
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.GroundOnly">
-            <summary>
-            view shake status
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.ShakingRatio">
-            <summary>
-            whats the amount of shake, from 0.0 to 1.0
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.CurrentShakeQuat">
-            <summary>
-            what the current angular shake
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.CurrentShakeShift">
-            <summary>
-            what is the current translational shake
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.TargetId">
-            <summary>
-            Who we're watching. 0 == nobody.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.TargetPosition">
-            <summary>
-            Where the target was.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.FrameTime">
-            <summary>
-            current dt.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.AngleVelocity">
-            <summary>
-            previous rate of change of angle.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.Velocity">
-            <summary>
-            previous rate of change of dist between target and camera.
-            </summary>
-        </member>
-        <member name="F:CryEngine.ViewParams.Distance">
-            <summary>
-            previous dist of cam from target
             </summary>
         </member>
         <member name="T:CryEngine.EntityId">
@@ -1559,6 +1584,23 @@
             <param name="sphere1">The first sphere to test.</param>
             <param name="sphere2">The second sphere to test.</param>
             <returns>The type of containment the two objects have.</returns>
+        </member>
+        <member name="F:CryEngine.Initialization.ScriptReloadMessage.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:CryEngine.Initialization.ScriptReloadMessage.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:CryEngine.Initialization.ScriptReloadMessage.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
         </member>
         <member name="M:CryEngine.Serialization.CrySerializer.TryWriteReference(CryEngine.Serialization.ObjectReference)">
             <summary>
@@ -4303,11 +4345,6 @@
             The individual results for the tests in this collection.
             </summary>
         </member>
-        <member name="T:CryEngine.Serialization.AppDomainSerializer">
-            <summary>
-            Handles serializing script instances for an app domain reload.
-            </summary>
-        </member>
         <member name="F:CryEngine.Math.ZeroTolerance">
             <summary>
             The value for which all absolute numbers smaller than are considered equal to zero.
@@ -5321,6 +5358,12 @@
             Logs an exception message to the console
             </summary>
             <remarks>Useful when exceptions are caught and data is still needed from them</remarks>
+            <param name="ex"></param>
+        </member>
+        <member name="M:CryEngine.Debug.DisplayException(System.Exception)">
+            <summary>
+            Displays an exception via the CryMono exception form.
+            </summary>
             <param name="ex"></param>
         </member>
         <member name="M:CryEngine.Debug.LogWarning(System.String,System.Object[])">

@@ -61,46 +61,11 @@ enum EMonoScriptFlags
 };
 
 /// <summary>
-/// Implementations in need of finding out when scripts are about to be recompiled / reloaded can implement this listener, and register it using IMonoScriptSystem::RegisterListener
-/// </summary>
-struct IMonoScriptSystemListener
-{
-	/// <summary>
-	/// Called just prior to scripts are compiled.
-	/// </summary>
-	virtual void OnPreScriptCompilation(bool isReload) = 0;
-	/// <summary>
-	/// Called just after scripts have been compiled.
-	/// </summary>
-	virtual void OnPostScriptCompilation(bool isReload, bool compilationSuccess) = 0;
-
-	/// <summary>
-	/// Called just prior to a script reload.
-	/// </summary>
-	virtual void OnPreScriptReload(bool initialLoad) = 0;
-	/// <summary>
-	/// Called after scripts have been reloaded. All script pointers are now invalid and should be recollected.
-	/// </summary>
-	virtual void OnPostScriptReload(bool initialLoad) = 0;
-};
-
-/// <summary>
 /// The main module in CryMono; initializes mono domain and handles calls to C# scripts.
 /// </summary>
 struct IMonoScriptSystem : ICryUnknown
 {
 	CRYINTERFACE_DECLARE(IMonoScriptSystem, 0x86169744ce38420f, 0x9768a98386be991f)
-
-	/// <summary>
-	/// Reloads CryBrary.dll and initializes script complilation.
-	/// Automatically called when a script, plugin or CryBrary itself is modified.
-	/// </summary>
-	virtual bool Reload(bool initialLoad = false) = 0;
-
-	/// <summary>
-	/// Used to check whether the script domain is currently being reloaded.
-	/// </summary>
-	virtual bool IsReloading() = 0;
 
 	/// <summary>
 	/// Deletes script system instance; cleans up mono objects etc.
@@ -123,6 +88,8 @@ struct IMonoScriptSystem : ICryUnknown
 	/// Removes and destructs an instantiated script with the supplied id if found.
 	/// </summary>
 	virtual void RemoveScriptInstance(int id, EMonoScriptFlags scriptType = eScriptFlag_Any) = 0;
+
+	virtual IMonoObject *GetScriptManager() = 0;
 
 	/// <summary>
 	/// Gets a pointer to the CryBrary assembly containing all default managed CryMono types.
@@ -148,15 +115,6 @@ struct IMonoScriptSystem : ICryUnknown
 	/// Retrieves an instance of the IMonoConverter; a class used to easily convert C# types to C++ and the other way around.
 	/// </summary>
 	virtual IMonoConverter *GetConverter() = 0;
-
-	/// <summary>
-	/// Registers a listener to receive compilation events.
-	/// </summary>
-	virtual void RegisterListener(IMonoScriptSystemListener *pListener) = 0;
-	/// <summary>
-	/// Unregisters a script compilation event listener.
-	/// </summary>
-	virtual void UnregisterListener(IMonoScriptSystemListener *pListener) = 0;
 
 	/// <summary>
 	/// If called prior to default CryMono flownode registration time (IGameFramework PostInit); flownodes are immediately registered.

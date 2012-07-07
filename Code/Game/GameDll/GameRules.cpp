@@ -59,19 +59,19 @@ void CGameRules::Update(SEntityUpdateContext& ctx, int updateSlot)
 //------------------------------------------------------------------------
 void CGameRules::PrecacheLevel()
 {
-	CallMonoScript<void>(m_pScript, "PrecacheLevel");
+	m_pScript->CallMethod("PrecacheLevel");
 }
 
 //------------------------------------------------------------------------
 void CGameRules::OnConnect(struct INetChannel *pNetChannel)
 {
-	CallMonoScript<void>(m_pScript, "OnConnect");
+	m_pScript->CallMethod("OnConnect");
 }
 
 //------------------------------------------------------------------------
 void CGameRules::OnDisconnect(EDisconnectionCause cause, const char *desc)
 {
-	CallMonoScript<void>(m_pScript, "OnDisconnect", cause, desc);
+	m_pScript->CallMethod("OnDisconnect", cause, desc);
 }
 
 //------------------------------------------------------------------------
@@ -80,7 +80,7 @@ bool CGameRules::OnClientConnect(int channelId, bool isReset)
 	if(!isReset)
 		m_channelIds.push_back(channelId);
 
-	CallMonoScript<void>(m_pScript, "OnClientConnect", channelId, isReset, GetPlayerName(channelId, true));
+	m_pScript->CallMethod("OnClientConnect", channelId, isReset, GetPlayerName(channelId, true));
 
 	return true;
 }
@@ -92,7 +92,7 @@ void CGameRules::OnClientDisconnect(int channelId, EDisconnectionCause cause, co
 	if (channelit!=m_channelIds.end())
 		m_channelIds.erase(channelit);
 
-	CallMonoScript<void>(m_pScript, "OnClientDisconnect", channelId);
+	m_pScript->CallMethod("OnClientDisconnect", channelId);
 }
 
 //------------------------------------------------------------------------
@@ -102,7 +102,7 @@ bool CGameRules::OnClientEnteredGame(int channelId, bool isReset)
 	if(!pActor)
 		return false;
 
-	CallMonoScript<void>(m_pScript, "OnClientEnteredGame", channelId, pActor->GetEntityId(), isReset, gEnv->pGameFramework->IsLoadingSaveGame());
+	m_pScript->CallMethod("OnClientEnteredGame", channelId, pActor->GetEntityId(), isReset, gEnv->pGameFramework->IsLoadingSaveGame());
 
 	return true;
 }
@@ -110,27 +110,27 @@ bool CGameRules::OnClientEnteredGame(int channelId, bool isReset)
 //------------------------------------------------------------------------
 void CGameRules::OnRevive(IActor *pActor, const Vec3 &pos, const Quat &rot, int teamId)
 {
-	CallMonoScript<void>(m_pScript, "OnRevive", pActor->GetEntityId(), pos, Ang3(rot), teamId);
+	m_pScript->CallMethod("OnRevive", pActor->GetEntityId(), pos, Ang3(rot), teamId);
 }
 
 //------------------------------------------------------------------------
 void CGameRules::OnVehicleDestroyed(EntityId id)
 {
 	if (gEnv->bServer)
-		CallMonoScript<void>(m_pScript, "SvOnVehicleDestroyed", id);
+		m_pScript->CallMethod("SvOnVehicleDestroyed", id);
 
 	if (gEnv->IsClient())
-		CallMonoScript<void>(m_pScript, "OnVehicleDestroyed", id);
+		m_pScript->CallMethod("OnVehicleDestroyed", id);
 }
 
 //------------------------------------------------------------------------
 void CGameRules::OnVehicleSubmerged(EntityId id, float ratio)
 {
 	if (gEnv->bServer)
-		CallMonoScript<void>(m_pScript, "SvOnVehicleSubmerged", id, ratio);
+		m_pScript->CallMethod("SvOnVehicleSubmerged", id, ratio);
 
 	if (gEnv->IsClient())
-		CallMonoScript<void>(m_pScript, "OnVehicleSubmerged", id, ratio);
+		m_pScript->CallMethod("OnVehicleSubmerged", id, ratio);
 }
 
 //------------------------------------------------------------------------

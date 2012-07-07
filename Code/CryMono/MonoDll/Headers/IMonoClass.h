@@ -25,6 +25,8 @@ struct IMonoClass
 	: public IMonoObject
 {
 public:
+	virtual void AddRef() = 0;
+
 	/// <summary>
 	/// Gets the class name.
 	/// </summary>
@@ -34,6 +36,11 @@ public:
 	/// Gets the namespace the class resides in.
 	/// </summary>
 	virtual const char *GetNamespace() = 0;
+
+	/// <summary>
+	/// Gets the assembly that declares this type.
+	/// </summary>
+	virtual IMonoAssembly *GetAssembly() = 0;
 
 	/// <summary>
 	/// Instantiates the class, if not already instantiated.
